@@ -20,9 +20,11 @@ function createWindow () {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 663,
+    width: 1100,
+    minHeight: 560,
+    minWidth: 1030,
     useContentSize: true,
-    width: 1000,
     titleBarStyle: 'hiddenInset'
   })
 
