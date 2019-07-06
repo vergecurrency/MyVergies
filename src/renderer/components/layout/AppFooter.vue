@@ -6,9 +6,9 @@
           Tor connected
         </div>
         <div class="column has-text-right">
-          <a href="#">Donate</a>
+          <a v-on:click="openURL('https://vergecurrency.com/donate/')">Donate</a>
           |
-          <a href="https://github.com/vergecurrency">GitHub</a>
+          <a v-on:click="openURL('https://github.com/vergecurrency')">GitHub</a>
           |
           Verge Electron v1.0.0
         </div>
@@ -18,7 +18,11 @@
 </template>
 
 <script>
+  const { shell } = require('electron')
   export default {
-    name: 'AppFooter'
+    name: 'AppFooter',
+    methods: {
+      openURL: (url) => shell.openExternal(url)
+    }
   }
 </script>
