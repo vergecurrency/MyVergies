@@ -5,10 +5,10 @@
       <p>Create a new or restore an existing wallet to Verge Electron.</p>
       <div class="section">
         <div class="buttons is-centered">
-          <a class="button is-primary">
+          <a class="button is-primary" @click="addWallet">
             Create a new wallet
           </a>
-          <a class="button">
+          <a class="button" @click="addWallet">
             Restore a wallet
           </a>
         </div>
@@ -19,7 +19,15 @@
 
 <script>
   export default {
-    name: 'AddWallet'
+    name: 'AddWallet',
+    methods: {
+      addWallet () {
+        this.$emit('wallet', {
+          name: 'Second Account',
+          color: 'orange'
+        })
+      }
+    }
   }
 </script>
 

@@ -3,6 +3,7 @@
     <div class="wallet-background-logo"></div>
     <div class="wallet-content">
       <b-tabs
+        v-if="tabsTurnedOn"
         v-model="activeTab"
         class="wallet-tabs"
         :animated="false"
@@ -41,8 +42,9 @@
             <Transactions/>
           </div>
         </b-tab-item>
+
         <b-tab-item label="Add wallet">
-          <AddWallet/>
+          <AddWallet @wallet="walletAdded"/>
         </b-tab-item>
       </b-tabs>
     </div>
@@ -64,6 +66,7 @@
 
     data () {
       return {
+        tabsTurnedOn: true,
         wallets: [
           {
             name: 'Main Account',
@@ -94,6 +97,16 @@
     methods: {
       walletSelected (walletIndex) {
         this.selectedWallet = this.wallets[walletIndex]
+      },
+
+      walletAdded (wallet) {
+        this.tabsTurnedOn = false
+        this.wallets.push(wallet)
+
+        this.$nextTick(() => {
+          this.tabsTurnedOn = true
+          this.walletSelected(this.wallets.length - 1)
+        })
       }
     }
   }
