@@ -47,6 +47,8 @@ $menu-item-radius: 0;
 
 $box-shadow: 0px 0px 15px 0px rgba(0,0,0,0.1);
 
+$modal-background-background-color: rgba($black, 0.1);
+
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";

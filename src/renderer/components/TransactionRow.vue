@@ -1,5 +1,5 @@
 <template>
-  <div class="transaction-container">
+  <div class="transaction-container" @click.capture="$emit('click')">
     <div class="transaction-icon">
       <img src="~@/assets/icons/received.svg"/>
     </div>
@@ -19,7 +19,7 @@
 
 <script>
   export default {
-    name: 'Transaction'
+    name: 'TransactionRow'
   }
 </script>
 

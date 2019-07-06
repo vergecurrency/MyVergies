@@ -14,33 +14,8 @@
           :key="wallet.name"
           :label="wallet.name"
         >
-          <div class="columns wallet-summary-container">
-            <div class="column">
-              <div class="container has-text-light">
-                <div class="columns is-vcentered">
-                  <div class="column has-text-weight-semibold">
-                    <p class="is-size-3 balance-label">1.223.434,44 XVG</p>
-                    <small class="balance-description-label">XVG BALANCE</small>
-                  </div>
-                  <div class="column has-text-weight-semibold">
-                    <p class="is-size-5 balance-label">43.544,65 XVG</p>
-                    <small class="balance-description-label">EURO BALANCE</small>
-                  </div>
-                  <div class="column is-narrow">
-                    <a class="button">Send</a>
-                    <a class="button">Receive</a>
-                    <a class="button">
-                      <img src="~@/assets/icons/settings.svg" width="20" height="20"/>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <Wallet wallet="wallet"/>
 
-          <div class="box is-shadowless is-paddingless wallet-details">
-            <Transactions/>
-          </div>
         </b-tab-item>
 
         <b-tab-item label="Add wallet">
@@ -53,12 +28,12 @@
 
 <script>
   import BTabItem from 'buefy/src/components/tabs/TabItem'
-  import Transactions from './Transactions'
   import AddWallet from './AddWallet'
+  import Wallet from './Wallet'
 
   export default {
     name: 'wallets',
-    components: {AddWallet, Transactions, BTabItem},
+    components: {Wallet, AddWallet, BTabItem},
 
     mounted () {
       this.selectedWallet = this.wallets[0]
@@ -159,10 +134,6 @@
     left: 0;
   }
 
-  .wallet-summary-container {
-    padding: 1em;
-  }
-
   .wallet-tabs {
     height: 100%;
   }
@@ -203,22 +174,4 @@
     background-color: rgba(255, 255, 255, 0.08);
   }
 
-  .wallet-details {
-    height: 100%;
-    overflow: scroll;
-    flex-grow: 1;
-    margin-left: -1em;
-    margin-right: -1em;
-    margin-bottom: -1em;
-    border-bottom-right-radius: 0!important;
-  }
-
-  .balance-description-label {
-    font-size: 0.6rem;
-    line-height: 0.6rem;
-  }
-
-  .balance-label {
-    line-height: 80%;
-  }
 </style>
