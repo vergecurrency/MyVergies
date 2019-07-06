@@ -18,27 +18,31 @@
               <div class="container has-text-light">
                 <div class="columns is-vcentered">
                   <div class="column has-text-weight-semibold">
-                    <small class="is-size-7">XVG BALANCE</small>
-                    <p class="is-size-4 ">1.223.434,44 XVG</p>
+                    <p class="is-size-3 balance-label">1.223.434,44 XVG</p>
+                    <small class="balance-description-label">XVG BALANCE</small>
                   </div>
                   <div class="column has-text-weight-semibold">
-                    <small class="is-size-7">EURO BALANCE</small>
-                    <p class="is-size-4 ">43.544,65 XVG</p>
+                    <p class="is-size-5 balance-label">43.544,65 XVG</p>
+                    <small class="balance-description-label">EURO BALANCE</small>
                   </div>
                   <div class="column is-narrow">
                     <a class="button">Send</a>
                     <a class="button">Receive</a>
+                    <a class="button">
+                      <img src="~@/assets/icons/settings.svg" width="20" height="20"/>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="box wallet-details">
-            Transactions
+
+          <div class="box is-shadowless is-paddingless wallet-details">
+            <Transactions/>
           </div>
         </b-tab-item>
         <b-tab-item label="Add wallet">
-          Add :D
+          <AddWallet/>
         </b-tab-item>
       </b-tabs>
     </div>
@@ -47,9 +51,12 @@
 
 <script>
   import BTabItem from 'buefy/src/components/tabs/TabItem'
+  import Transactions from './Transactions'
+  import AddWallet from './AddWallet'
+
   export default {
     name: 'wallets',
-    components: {BTabItem},
+    components: {AddWallet, Transactions, BTabItem},
 
     mounted () {
       this.selectedWallet = this.wallets[0]
@@ -65,6 +72,10 @@
           {
             name: 'Savings Account',
             color: 'purple'
+          },
+          {
+            name: 'Business Account',
+            color: 'green'
           }
         ],
         activeTab: 0,
@@ -97,12 +108,27 @@
 
   .wallet-background-blue {
     background: rgb(27,154,220);
-    background: linear-gradient(145deg, rgba(27,154,220,1) 0%, rgba(71,221,240,1) 100%);
+    background: linear-gradient(145deg, rgb(0, 30, 220) 0%, rgb(14, 149, 202) 20%, rgb(117, 240, 236) 70%);
   }
 
   .wallet-background-purple {
     background: rgb(90,0,188);
     background: linear-gradient(145deg, rgba(90,0,188,1) 0%, rgba(228,62,120,1) 100%);
+  }
+
+  .wallet-background-green {
+    background: rgb(27,138,117);
+    background: linear-gradient(145deg, rgb(0, 155, 94) 0%, rgba(217,255,51,1) 100%);
+  }
+
+  .wallet-background-orange {
+    background: rgb(188,76,0);
+    background: linear-gradient(145deg, rgba(188,76,0,1) 0%, rgba(254,255,29,1) 100%);
+  }
+
+  .wallet-background-red {
+    background: rgb(188,0,89);
+    background: linear-gradient(145deg, rgba(188,0,89,1) 0%, rgba(228,181,62,1) 100%);
   }
 
   .wallet-background-logo {
@@ -165,6 +191,21 @@
   }
 
   .wallet-details {
+    height: 100%;
+    overflow: scroll;
     flex-grow: 1;
+    margin-left: -1em;
+    margin-right: -1em;
+    margin-bottom: -1em;
+    border-bottom-right-radius: 0!important;
+  }
+
+  .balance-description-label {
+    font-size: 0.6rem;
+    line-height: 0.6rem;
+  }
+
+  .balance-label {
+    line-height: 80%;
   }
 </style>

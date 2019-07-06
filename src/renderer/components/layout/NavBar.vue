@@ -5,12 +5,14 @@
     aria-label="main navigation"
     style="-webkit-app-region: drag; background: transparent;"
   >
-    <div class="navbar-end">
-      <div class="navbar-item">
-        <div class="buttons">
-          <a class="button is-light">
-            <strong>Lock</strong>
-          </a>
+    <div class="navbar-menu">
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <div class="buttons">
+            <a class="button is-primary">
+              <strong>Lock</strong>
+            </a>
+          </div>
         </div>
       </div>
     </div>

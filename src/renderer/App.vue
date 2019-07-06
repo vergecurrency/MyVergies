@@ -1,5 +1,5 @@
 <template>
-  <div id="app" style="height: 100%">
+  <div id="app" class="app-container">
     <NavBar/>
     <div class="columns is-gapless fill-height small-margin-bottom">
       <SideMenu class="column is-one-quarter"/>
@@ -23,7 +23,15 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  @import '~@/assets/scss/overrides';
+
+  .app-container {
+    height: 100%;
+    /*background-color: #f8f7f7;*/
+    background: linear-gradient(145deg, rgb(255, 255, 255) 0%, rgb(248, 247, 247) 100%);
+  }
+
   .fill-height {
     height: calc(100% - 100px);
   }
