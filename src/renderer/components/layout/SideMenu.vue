@@ -1,20 +1,80 @@
 <template>
-  <div style="max-width: 180px;">
-    <div class="has-text-centered">
-      <img src="~@/assets/logo.svg" style="height: 40px;"/>
-    </div>
+  <div class="side-menu" style="max-width: 280px;">
     <aside class="menu">
-      <ul class="menu-list">
-        <li><a>Dashboard</a></li>
-        <li><a class="is-active">Wallets</a></li>
-        <li><a>Settings</a></li>
+      <ul class="menu-list menu-list-wallet">
+        <li>
+          <a class="is-size-2 has-text-weight-semibold">
+            Wallets
+          </a>
+          <ul class="menu-wallets">
+            <li v-for="wallet in wallets">
+              <a :class="{ 'is-active': wallet === selectedWallet }">
+                <wallet-menu-card :wallet="wallet"></wallet-menu-card>
+              </a>
+            </li>
+            <li><a>Add new wallet</a></li>
+          </ul>
+        </li>
+        <li>
+          <a class="is-size-4 has-text-weight-semibold">
+            Explorer
+          </a>
+        </li>
+        <li>
+          <a class="is-size-4 has-text-weight-semibold">
+            Contacts
+          </a>
+        </li>
       </ul>
     </aside>
   </div>
 </template>
 
 <script>
+  import WalletMenuCard from '../WalletMenuCard'
   export default {
-    name: 'side-menu'
+    name: 'side-menu',
+    components: {WalletMenuCard},
+    data () {
+      return {
+        selectedWallet: null,
+        wallets: [
+          {
+            name: 'Main Account',
+            amount: '1.434.534,53 XVG',
+            color: 'blue'
+          },
+          {
+            name: 'Business Account',
+            amount: '546.455,62 XVG',
+            color: 'purple'
+          }
+        ]
+      }
+    },
+    mounted () {
+      this.selectedWallet = this.wallets[0]
+    }
   }
 </script>
+
+<style lang="scss">
+  .side-menu {
+    background: #e0e0e0;
+    overflow-y: scroll;
+  }
+
+  .menu-list.menu-list-wallet a {
+    padding: 10px 30px;
+  }
+
+  .menu-list.menu-list-wallet a.is-active {
+    background-color: transparent;
+  }
+
+  .menu-list.menu-list-wallet li ul {
+    border-left: none;
+    margin: 0;
+    padding-left: 0;
+  }
+</style>

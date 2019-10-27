@@ -8,7 +8,7 @@ export default new Router({
     {
       path: '/',
       name: 'wallets',
-      component: require('@/components/Wallets').default
+      component: require('@/components/WalletView').default
     },
     {
       path: '*',
