@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="app-container">
+  <div id="app" class="app-container is-unselectable">
     <NavBar/>
     <div class="columns is-gapless fill-height is-marginless">
       <SideMenu class="column is-one-quarter"/>
@@ -29,6 +29,7 @@
   .app-container {
     height: 100%;
     background: #ebebeb;
+    cursor: default;
   }
 
   .fill-height {

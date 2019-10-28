@@ -1,6 +1,6 @@
 <template>
   <div class="column">
-    <div class="is-paddingless is-clipped app-content-box">
+    <div class="app-content-box">
       <slot/>
     </div>
   </div>
@@ -15,5 +15,7 @@
 <style>
   .app-content-box {
     height: 100%;
+    padding: 30px;
+    overflow-y: scroll;
   }
 </style>

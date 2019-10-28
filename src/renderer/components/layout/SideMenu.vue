@@ -3,7 +3,7 @@
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
-          <a class="is-size-2 has-text-weight-semibold">
+          <a class="is-size-2 has-text-weight-semibold is-active">
             Wallets
           </a>
           <ul class="menu-wallets">
