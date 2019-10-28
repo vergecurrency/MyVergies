@@ -1,9 +1,9 @@
 {
-  "name": "when-wallet",
+  "name": "vallet",
   "version": "0.0.1",
   "author": "Swen van Zanten <info@hdsign.nl>",
-  "description": "An electron-vue project",
-  "license": null,
+  "description": "An electron-vue Verge Currency desktop wallet",
+  "license": "MIT",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",
@@ -22,8 +22,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "when-wallet",
-    "appId": "org.verge.wallet",
+    "productName": "Vallet",
+    "appId": "org.verge.vallet",
     "directories": {
       "output": "build"
     },
@@ -83,7 +83,7 @@
     "electron": "^2.0.4",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
-    "electron-builder": "^20.19.2",
+    "electron-builder": "^21.2.0",
     "babel-eslint": "^8.2.3",
     "eslint": "^4.19.1",
     "eslint-friendly-formatter": "^4.0.1",
