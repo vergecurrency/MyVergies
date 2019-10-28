@@ -5,11 +5,14 @@ import App from './App'
 import router from './router'
 import store from './store'
 import Buefy from 'buefy'
+import './icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.use(Buefy)
+Vue.component('FaIcon', FontAwesomeIcon)
 
 /* eslint-disable no-new */
 new Vue({

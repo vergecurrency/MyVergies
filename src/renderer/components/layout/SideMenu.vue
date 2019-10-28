@@ -32,6 +32,9 @@
 
 <script>
   import WalletMenuCard from '../WalletMenuCard'
+
+  let colors = ['green', 'purple', 'orange', 'red']
+
   export default {
     name: 'side-menu',
     components: {WalletMenuCard},
@@ -47,7 +50,7 @@
           {
             name: 'Business Account',
             amount: '546.455,62 XVG',
-            color: 'purple'
+            color: colors[Math.floor(Math.random() * colors.length)]
           }
         ]
       }

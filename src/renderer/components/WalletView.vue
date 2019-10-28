@@ -11,13 +11,33 @@
           <div class="is-pulled-right">
             <div class="columns">
               <div class="column">
-                <a class="button">Settings</a>
+                <div class="buttons is-right">
+                  <a class="button is-light is-rounded">
+                    <span class="icon has-text-grey-dark">
+                      <FaIcon icon="edit" />
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
             <div class="columns">
               <div class="column">
-                <a class="button">Send</a>
-                <a class="button">Receive</a>
+                <a class="button is-primary">
+                  <span class="icon">
+                      <FaIcon icon="credit-card" />
+                  </span>
+                  <span>
+                    Send
+                  </span>
+                </a>
+                <a class="button is-primary">
+                  <span class="icon">
+                      <FaIcon icon="hand-holding-usd" />
+                  </span>
+                  <span>
+                    Receive
+                  </span>
+                </a>
               </div>
             </div>
           </div>
