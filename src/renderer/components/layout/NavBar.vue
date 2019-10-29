@@ -1,9 +1,8 @@
 <template>
   <nav
-    class="navbar is-white"
+    class="navbar is-white is-draggable"
     role="navigation"
     aria-label="main navigation"
-    style="-webkit-app-region: drag;"
   >
     <div class="navbar-menu">
       <div class="navbar-start">
@@ -22,15 +21,15 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-white">
+            <a class="button is-white is-not-draggable">
               <img src="~@/assets/icons/tor-connected.svg"/>
             </a>
-            <a class="button is-white">
+            <a class="button is-white is-not-draggable">
               <span class="icon has-text-grey-dark">
                 <FaIcon icon="lock" />
               </span>
             </a>
-            <a class="button is-white">
+            <a class="button is-white is-not-draggable">
               <span class="icon has-text-grey-dark">
                 <FaIcon icon="cog" />
               </span>
@@ -49,11 +48,15 @@
 </script>
 
 <style scoped lang="scss">
-  .navbar-window-controls {
-    width: 75px;
+  .is-draggable {
+    -webkit-app-region: drag;
   }
 
-  .hoooo > path {
-    fill: green;
+  .is-not-draggable {
+    -webkit-app-region: no-drag;
+  }
+
+  .navbar-window-controls {
+    width: 75px;
   }
 </style>

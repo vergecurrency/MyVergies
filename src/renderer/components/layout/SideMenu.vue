@@ -1,5 +1,5 @@
 <template>
-  <div class="side-menu" style="max-width: 280px;">
+  <div class="side-menu">
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
@@ -65,6 +65,7 @@
   .side-menu {
     background: #e0e0e0;
     overflow-y: scroll;
+    max-width: 280px;
   }
 
   .menu-list.menu-list-wallet a {
