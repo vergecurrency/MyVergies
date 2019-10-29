@@ -8,14 +8,14 @@
       <div class="navbar-start">
         <div class="navbar-brand">
           <div class="navbar-item navbar-window-controls"></div>
-          <a class="navbar-item is-size-5">
+          <div class="navbar-item has-text-grey-dark">
             <span class="icon">
               <fa-icon icon="wallet" />
             </span>
-            <span>
-              <strong>V</strong>allet
+            <span class="is-size-5">
+              <strong>My</strong>Vergies
             </span>
-          </a>
+          </div>
         </div>
       </div>
       <div class="navbar-end">

@@ -1,5 +1,5 @@
 {
-  "name": "vallet",
+  "name": "my-vergies",
   "version": "0.0.1",
   "author": "Swen van Zanten <info@hdsign.nl>",
   "description": "An electron-vue Verge Currency desktop wallet",
@@ -22,8 +22,8 @@
     "postinstall": "npm run lint:fix"
   },
   "build": {
-    "productName": "Vallet",
-    "appId": "org.verge.vallet",
+    "productName": "MyVergies",
+    "appId": "org.verge.my-vergies",
     "directories": {
       "output": "build"
     },
@@ -61,6 +61,7 @@
     "@fortawesome/vue-fontawesome": "^0.1.7",
     "axios": "^0.18.0",
     "buefy": "^0.7.8",
+    "electron-updater": "^4.1.2",
     "vue": "^2.5.16",
     "vue-electron": "^1.0.6",
     "vue-router": "^3.0.1",

@@ -18,7 +18,7 @@
   import ContentContainer from './components/layout/ContentContainer'
 
   export default {
-    name: 'vallet',
+    name: 'my-vergies',
     components: {ContentContainer, AppFooter, SideMenu, NavBar}
   }
 </script>

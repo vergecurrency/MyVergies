@@ -1,6 +1,7 @@
 'use strict'
 
 import { app, BrowserWindow } from 'electron'
+import './systemPreferences'
 
 /**
  * Set `__static` path to static files in production
@@ -33,6 +34,8 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null
   })
+
+  require('./menu')
 }
 
 app.on('ready', createWindow)
