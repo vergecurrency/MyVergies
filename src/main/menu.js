@@ -32,7 +32,19 @@ let actions = {
   label: 'Actions',
   submenu: [
     {
+      label: 'Unlock'
+    },
+    {
+      type: 'separator'
+    },
+    {
       label: 'Send',
+      click () {
+        console.log('Send')
+      }
+    },
+    {
+      label: 'Receive',
       click () {
         console.log('Send')
       }
@@ -97,7 +109,22 @@ let help = {
   role: 'help',
   submenu: [
     {
-      label: 'Help out on GitHub',
+      label: 'Learn how to create a new wallet'
+    },
+    {
+      label: 'Learn how to restore an existing wallet'
+    },
+    {
+      label: 'Learn how to send XVG'
+    },
+    {
+      label: 'Learn how to receive XVG'
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: 'Visit our GitHub',
       click () {
         require('electron').shell.openExternal('https://github.com/vergecurrency')
       }
@@ -155,23 +182,7 @@ if (process.platform === 'darwin') {
       }
     ]
   })
-  // Edit menu.
-  template[1].submenu.push(
-    {
-      type: 'separator'
-    },
-    {
-      label: 'Speech',
-      submenu: [
-        {
-          role: 'startspeaking'
-        },
-        {
-          role: 'stopspeaking'
-        }
-      ]
-    }
-  )
+
   // Window menu.
   template[3].submenu = [
     {

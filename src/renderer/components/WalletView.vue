@@ -49,6 +49,7 @@
         v-for="transaction in transactions"
         :key="transaction.txid"
         transaction="transaction"
+        @click="openTransaction(transaction)"
       />
     </div>
   </div>
@@ -56,6 +57,7 @@
 
 <script>
   import TransactionRow from './TransactionRow'
+  import TransactionDetailsModal from './modals/TransactionDetailsModal'
 
   export default {
     name: 'WalletView',
@@ -184,6 +186,16 @@
             amount: 23443.443455
           }
         ]
+      }
+    },
+    methods: {
+      openTransaction (transaction) {
+        this.$modal.open({
+          parent: this,
+          component: TransactionDetailsModal,
+          hasModalCard: true,
+          canCancel: ['escape', 'outside']
+        })
       }
     }
   }
