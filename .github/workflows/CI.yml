@@ -42,7 +42,7 @@ jobs:
         npm run build
     - name: Cleanup artifacts
       run: |
-        npx rimraf "build/!(*.exe|*.deb|*.AppImage|*.dmg)"
+        npm cleanDist
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
