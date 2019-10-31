@@ -1,8 +1,23 @@
-name: Tests
+name: CI
 
 on: [push]
 
 jobs:
+  test:
+    runs-on: macOS-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 10.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run lint
+          npm test
+
   build:
 
     runs-on: ${{ matrix.os }}
@@ -22,7 +37,5 @@ jobs:
       run: |
         npm install
         npm run build
-        npm test
       env:
-        CI: true
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
