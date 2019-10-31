@@ -1,11 +1,14 @@
-name: Node CI
+name: Tests
 
 on: [push]
 
 jobs:
   build:
 
-    runs-on: macOS-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macOS-latest, ubuntu-latest]
 
     strategy:
       matrix:
