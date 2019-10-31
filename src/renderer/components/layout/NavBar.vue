@@ -9,21 +9,13 @@
         <div class="navbar-brand">
           <div class="navbar-item navbar-window-controls"></div>
           <div class="navbar-item has-text-grey-dark">
-            <span class="icon">
-              <fa-icon icon="wallet" />
-            </span>
-            <span class="is-size-5">
-              <strong>My</strong>Vergies
-            </span>
+            <img src="~@/assets/logo.svg" width="120px"/>
           </div>
         </div>
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-white is-not-draggable">
-              <img src="~@/assets/icons/tor-connected.svg"/>
-            </a>
             <a class="button is-white is-not-draggable">
               <span class="icon has-text-grey-dark">
                 <FaIcon icon="lock" />

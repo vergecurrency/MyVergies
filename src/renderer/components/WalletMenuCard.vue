@@ -34,6 +34,8 @@
     color: white;
     height: 120px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.5s ease-in-out;
+    cursor: pointer;
   }
 
   .wallet-menu-card-background {
@@ -49,10 +51,18 @@
     box-shadow: 0 4px 20px rgba(14, 149, 202, 0.5);
   }
 
+  .wallet-menu-card-background-blue:hover {
+    box-shadow: 0 4px 40px rgb(11, 140, 202);
+  }
+
   .wallet-menu-card-background-purple {
     background: rgb(90,0,188);
     background: linear-gradient(145deg, rgb(90, 0, 188) 0%, rgb(228, 62, 120) 100%);
     box-shadow: 0 4px 20px rgba(228, 62, 120, 0.5);
+  }
+
+  .wallet-menu-card-background-purple:hover {
+    box-shadow: 0 4px 40px rgb(209, 57, 228);
   }
 
   .wallet-menu-card-background-green {
@@ -61,16 +71,28 @@
     box-shadow: 0 4px 20px rgba(44, 214, 2, 0.5);
   }
 
+  .wallet-menu-card-background-green:hover {
+    box-shadow: 0 4px 40px rgb(1, 214, 133);
+  }
+
   .wallet-menu-card-background-orange {
     background: rgb(188,76,0);
     background: linear-gradient(145deg, rgb(188, 76, 0) 0%, rgb(254, 255, 29) 100%);
     box-shadow: 0 4px 20px rgba(255, 133, 29, 0.5);
   }
 
+  .wallet-menu-card-background-orange:hover {
+    box-shadow: 0 4px 40px rgb(255, 154, 120);
+  }
+
   .wallet-menu-card-background-red {
     background: rgb(188,0,89);
     background: linear-gradient(145deg, rgb(188, 0, 89) 0%, rgb(228, 181, 62) 100%);
     box-shadow: 0 4px 20px rgba(228, 181, 62, 0.5);
+  }
+
+  .wallet-menu-card-background-red:hover {
+    box-shadow: 0 4px 40px rgb(228, 76, 53);
   }
 
   .wallet-menu-card-content {

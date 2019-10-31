@@ -1,25 +1,75 @@
 <template>
   <div class="transaction-container" @click.capture="$emit('click')">
     <div class="transaction-icon">
-      <img src="~@/assets/icons/received.svg"/>
+      <img :src="`static/icons/${transaction.action}.svg`"/>
     </div>
     <div class="transaction-content">
       <div class="transaction-label">
-        Received
+        {{ label }}
       </div>
       <div class="transaction-timestamp">
-        Jun 15, 2019 at 2:09 PM
+        {{ timestamp }}
       </div>
     </div>
-    <div class="transaction-amount">
-      + 5.454,2354 XVG
+    <div :class="['transaction-amount', amountColor]">
+      {{ amount }}
     </div>
   </div>
 </template>
 
 <script>
+  let moment = require('moment')
+
   export default {
-    name: 'TransactionRow'
+    name: 'TransactionRow',
+    props: {
+      transaction: {
+        type: Object,
+        required: true
+      }
+    },
+    computed: {
+      label () {
+        let fallback = this.transaction.action
+        let outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
+
+        if (this.transaction.action === 'sent') {
+          return outputsWithAddress.shift().address || fallback
+        }
+
+        return fallback
+      },
+
+      timestamp () {
+        return moment(this.transaction.time).format('lll')
+      },
+
+      amount () {
+        let amount = `${(this.transaction.amount / 1000000).toFixed(6)} XVG`
+
+        switch (this.transaction.action) {
+          case 'sent':
+            return `- ${amount}`
+          case 'received':
+            return `+ ${amount}`
+          case 'moved':
+          default:
+            return amount
+        }
+      },
+
+      amountColor () {
+        switch (this.transaction.action) {
+          case 'sent':
+            return 'has-text-danger'
+          case 'received':
+            return 'has-text-success'
+          case 'moved':
+          default:
+            return 'has-text-grey-light'
+        }
+      }
+    }
   }
 </script>
 
@@ -39,8 +89,6 @@
   }
 
   .transaction-icon > img {
-    /*background-color: green;*/
-    /*border-radius: 50%;*/
     width: 15px;
     height: 15px;
   }
@@ -63,6 +111,5 @@
 
   .transaction-amount {
     font-weight: 500;
-    color: #008570;
   }
 </style>

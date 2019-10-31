@@ -8,7 +8,7 @@
           </a>
           <ul class="menu-wallets">
             <li v-for="wallet in wallets">
-              <a :class="{ 'is-active': wallet === selectedWallet }">
+              <a :class="{ 'is-active': wallet === selectedWallet, 'menu-wallets-card': true }">
                 <wallet-menu-card :wallet="wallet"></wallet-menu-card>
               </a>
             </li>
@@ -61,7 +61,7 @@
   }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .side-menu {
     background: #e0e0e0;
     overflow-y: scroll;
@@ -80,5 +80,9 @@
     border-left: none;
     margin: 0;
     padding-left: 0;
+  }
+
+  .menu-wallets a.menu-wallets-card:hover {
+    background-color: transparent;
   }
 </style>
