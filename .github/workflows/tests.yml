@@ -6,12 +6,10 @@ jobs:
   build:
 
     runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macOS-latest, ubuntu-latest]
 
     strategy:
       matrix:
+        os: [macOS-latest, ubuntu-latest]
         node-version: [8.x, 10.x]
 
     steps:
