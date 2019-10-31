@@ -7,19 +7,17 @@
         <RouterView/>
       </ContentContainer>
     </div>
-    <AppFooter/>
   </div>
 </template>
 
 <script>
   import NavBar from './components/layout/NavBar'
   import SideMenu from './components/layout/SideMenu'
-  import AppFooter from './components/layout/AppFooter'
   import ContentContainer from './components/layout/ContentContainer'
 
   export default {
     name: 'my-vergies',
-    components: {ContentContainer, AppFooter, SideMenu, NavBar}
+    components: {ContentContainer, SideMenu, NavBar}
   }
 </script>
 

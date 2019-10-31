@@ -121,7 +121,8 @@ let webConfig = {
     },
     extensions: ['.js', '.vue', '.json', '.css']
   },
-  target: 'web'
+  target: 'web',
+  mode: process.env.NODE_ENV
 }
 
 /**
