@@ -42,7 +42,7 @@ jobs:
         npm run build
     - name: Cleanup artifacts
       run: |
-        npm cleanDist
+        npm run cleanDist
     - name: Upload artifacts
       uses: actions/upload-artifact@v1
       with:
