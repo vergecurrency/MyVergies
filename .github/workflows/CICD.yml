@@ -63,3 +63,5 @@ jobs:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+        CSC_LINK: build/certs/DeveloperIDApplication.p12
+        DEBUG: electron-builder,electron-osx-sign*
