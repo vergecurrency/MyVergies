@@ -33,6 +33,7 @@
     ],
     "dmg": {
       "sign": false,
+      "icon": "build/icons/dmg.icns",
       "contents": [
         {
           "x": 410,

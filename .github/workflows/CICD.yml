@@ -43,7 +43,6 @@ jobs:
         security list-keychains -d user -s buildagent.keychain
         security default-keychain -s buildagent.keychain
         security import ./build/certs/DeveloperIDApplication.p12 -k buildagent.keychain -P ${{ secrets.CSC_KEY_PASSWORD }} -T /usr/bin/codesign
-        security find-identity -v
         security set-key-partition-list -S apple-tool:,apple: -s -k ${{ secrets.CSC_KEY_PASSWORD }} buildagent.keychain
     - name: npm install and build
       run: |
