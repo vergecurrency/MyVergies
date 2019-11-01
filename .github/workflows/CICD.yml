@@ -58,4 +58,4 @@ jobs:
         GH_TOKEN: ${{ secrets.GH_TOKEN }}
         GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
-        CSC_LINK: ${{ secrets.CSC_LINK }}
+        CSC_LINK: ./build/certs/DeveloperIDApplication.p12
