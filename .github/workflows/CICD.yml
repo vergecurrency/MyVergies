@@ -36,7 +36,7 @@ jobs:
       with:
         node-version: 10.x
     - name: add macOS signing certificate
-      if: ${{ matrix.os }} == macOS-latest
+      if: contains(matrix.os, 'macOS')
       run: |
         security import ./build/certs/DeveloperIDApplication.p12 -A -P ${{ secrets.CSC_KEY_PASSWORD }}
         security find-identity -v
