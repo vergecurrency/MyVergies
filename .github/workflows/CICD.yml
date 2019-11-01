@@ -69,3 +69,5 @@ jobs:
       with:
         files: "build/**"
         prerelease: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
