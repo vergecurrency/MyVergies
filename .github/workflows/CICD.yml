@@ -52,7 +52,7 @@ jobs:
         APPLE_ID: ${{ secrets.APPLE_ID }}
         APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
         APPLE_ASC_PROVIDER: ${{ secrets.APPLE_ASC_PROVIDER }}
-        NOTARIZE: ${{ false }}
+        NOTARIZE: 0
     - name: Cleanup artifacts
       run: |
         npm run cleanDist
