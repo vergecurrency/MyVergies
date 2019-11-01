@@ -9,7 +9,7 @@ exports.default = async function notarizing (context) {
 
   const appName = context.packager.appInfo.productFilename
 
-  if (process.env.NOTARIZE === 1) {
+  if (process.env.NOTARIZE === 'true') {
     return await notarize({
       appBundleId: 'org.verge.my-vergies',
       appPath: `${appOutDir}/${appName}.app`,
