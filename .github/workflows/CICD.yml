@@ -35,11 +35,6 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: 10.x
-    - name: add macOS signing certificate
-      if: contains(matrix.os, 'macOS')
-      run: |
-        security import ./build/certs/DeveloperIDApplication.p12 -P ${{ secrets.CSC_KEY_PASSWORD }}
-        security find-identity -v
     - name: npm install and build
       run: |
         npm install
