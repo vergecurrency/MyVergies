@@ -20,7 +20,7 @@
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
-    "cleanDist": "rimraf \"build/!(*.exe|*.exe.blockmap|*.deb|*.deb.blockmap|*.dmg|*.dmg.blockmap|*.zip)\""
+    "cleanDist": "rimraf \"build/!(*.exe|*.exe.blockmap|*.deb|*.deb.blockmap|*.appImage|*.appImage.blockmap|*.dmg|*.dmg.blockmap|*.zip)\""
   },
   "build": {
     "productName": "MyVergies",
