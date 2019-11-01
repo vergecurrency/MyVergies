@@ -52,6 +52,7 @@ jobs:
         APPLE_ID: ${{ secrets.APPLE_ID }}
         APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
         APPLE_ASC_PROVIDER: ${{ secrets.APPLE_ASC_PROVIDER }}
+        NOTARIZE: startsWith(github.ref, 'refs/tags/')
     - name: Cleanup artifacts
       run: |
         npm run cleanDist
