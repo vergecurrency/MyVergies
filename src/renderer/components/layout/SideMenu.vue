@@ -64,7 +64,7 @@
 <style scoped lang="scss">
   .side-menu {
     background: #e0e0e0;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-width: 280px;
   }
 

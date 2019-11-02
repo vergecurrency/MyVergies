@@ -52,3 +52,7 @@ $modal-background-background-color: rgba($black, 0.1);
 // Import Bulma and Buefy styles
 @import "~bulma";
 @import "~buefy/src/scss/buefy";
+
+html {
+  overflow-y: auto;
+}

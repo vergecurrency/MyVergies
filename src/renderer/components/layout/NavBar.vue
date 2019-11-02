@@ -7,7 +7,7 @@
     <div class="navbar-menu">
       <div class="navbar-start">
         <div class="navbar-brand">
-          <div class="navbar-item navbar-window-controls"></div>
+          <div v-if="isDarwin" class="navbar-item navbar-window-controls"></div>
           <div class="navbar-item has-text-grey-dark">
             <img src="~@/assets/logo.svg" width="120px"/>
           </div>
@@ -35,7 +35,12 @@
 
 <script>
   export default {
-    name: 'NavBar'
+    name: 'NavBar',
+    computed: {
+      isDarwin () {
+        return process.platform === 'darwin'
+      }
+    }
   }
 </script>
 

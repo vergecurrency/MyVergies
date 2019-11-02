@@ -16,6 +16,6 @@
   .app-content-box {
     height: 100%;
     padding: 30px;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 </style>

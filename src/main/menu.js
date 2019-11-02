@@ -3,25 +3,27 @@ import {app, Menu} from 'electron'
 /**
  * macOS Dock menu items
  */
-app.dock.setMenu(Menu.buildFromTemplate([
-  {
-    label: 'Send',
-    click () {
-      console.log('Send')
+if (process.platform === 'darwin') {
+  app.dock.setMenu(Menu.buildFromTemplate([
+    {
+      label: 'Send',
+      click () {
+        console.log('Send')
+      }
+    }, {
+      label: 'Receive',
+      click () {
+        console.log('Receive')
+      }
+    },
+    {
+      label: 'Settings',
+      click () {
+        console.log('Settings')
+      }
     }
-  }, {
-    label: 'Receive',
-    click () {
-      console.log('Receive')
-    }
-  },
-  {
-    label: 'Settings',
-    click () {
-      console.log('Settings')
-    }
-  }
-]))
+  ]))
+}
 
 /**
  * Application menu.
