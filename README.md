@@ -1,28 +1,65 @@
-# When Wallet
+<p align="center">
+  <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/workflows/CICD/badge.svg"></a>
+  <img src="https://img.shields.io/badge/status-alpha-red.svg">
+  <img src="https://img.shields.io/badge/macOS-^10.14-blue.svg">
+  <img src="https://img.shields.io/badge/Windows-^10-lightblue.svg">
+  <img src="https://img.shields.io/badge/Ubuntu-^18.04-orange.svg">
+  <img src="https://img.shields.io/badge/license-MIT-blue.svg">
+</p>
 
-> A Verge Light Wallet prototype built with electron-vue.
+#  MyVergies
 
-#### Build Setup
+This desktop wallet provides an easy and secure wallet on your personal computer. With **Tor** integrated you can be sure your http communication is private. Sending and receiving XVG in a secure and easy to use wallet will actually change the way you use Verge Currency. 💪
 
+## Features:
+
+* Sending and receiving XVG
+* Store addresses in an address book
+* Tor integrated
+* Price statistics in different fiat currencies
+* Private keys are yours
+* Possibility to choose your own wallet service
+
+## Local Development
+
+If you want to help us out on development you can use this guide:
+
+1. Fork the project, and clone it to your local machine.
+
+2. Install the npm dependencies.
 ``` bash
 # install dependencies
 npm install
-
-# serve with hot reload at localhost:9080
-npm run dev
-
-# build electron application for production
-npm run build
-
-# run unit & end-to-end tests
-npm test
-
-
-# lint all JS/Vue component files in `src/`
-npm run lint
-
 ```
 
----
+3. Run a local instance with hot reload.
+```bash
+npm run dev
+```
 
-This project was generated with [electron-vue](https://github.com/SimulatedGREG/electron-vue)@[8fae476](https://github.com/SimulatedGREG/electron-vue/tree/8fae4763e9d225d3691b627e83b9e09b56f6c935) using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://simulatedgreg.gitbooks.io/electron-vue/content/index.html).
+4. Run tests locally.
+```bash
+npm test
+```
+
+Please setup your own local VWS instance to test your changes against. You can checkout [the bitcore repository](https://github.com/vergecurrency/bitcore) and setup an instance [using docker](https://github.com/vergecurrency/bitcore/blob/master/Docker.md).
+
+## Build With
+
+* [Vue.js](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web
+* [Electron](https://github.com/github/electron) - Build cross-platform desktop apps with JavaScript, HTML, and CSS
+* [electron-vue](https://github.com/SimulatedGREG/electron-vue) - An Electron Vue.js framework serving as a base template for this application
+* [Tor](https://www.torproject.org) - The intergration of Tor makes sure your transactions are private
+
+### Community
+
+* [Telegram](https://t.me/VERGExvg)
+* [Discord](https://discord.gg/vergecurrency)
+* [Twitter](https://www.twitter.com/vergecurrency)
+* [Facebook](https://www.facebook.com/VERGEcurrency/)
+* [Reddit](https://www.reddit.com/r/vergecurrency/)
+
+## Contributing
+
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+
