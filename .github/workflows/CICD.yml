@@ -20,7 +20,7 @@ jobs:
       uses: actions/cache@preview
       with:
         path: node_modules
-        key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles(format('{0}{1}', github.workspace, '/package.json')) }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
     - name: npm install, lint and test
@@ -44,9 +44,10 @@ jobs:
         node-version: 10.x
     - name: Cache node modules
       uses: actions/cache@preview
+      if: !contains(matrix.os, 'Windows')
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles(format('{0}{1}', github.workspace, '/package.json')) }}
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
     - name: add macOS signing certificate
