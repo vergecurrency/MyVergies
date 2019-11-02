@@ -44,7 +44,7 @@ jobs:
         node-version: 10.x
     - name: Cache node modules
       uses: actions/cache@preview
-      if: !contains(matrix.os, 'Windows')
+      if: contains(matrix.os, 'macOS') || contains(matrix.os, 'Ubuntu')
       with:
         path: node_modules
         key: ${{ runner.os }}-node-${{ hashFiles('**/package.json') }}
