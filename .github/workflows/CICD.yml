@@ -20,7 +20,7 @@ jobs:
       uses: actions/cache@preview
       with:
         path: node_modules
-        key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/package.json') }}
+        key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('$GITHUB_WORKSPACE/package.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
     - name: npm install, lint and test
@@ -46,7 +46,7 @@ jobs:
       uses: actions/cache@preview
       with:
         path: node_modules
-        key: ${{ runner.os }}-node-${{ hashFiles('./package.json') }}
+        key: ${{ runner.os }}-node-${{ hashFiles('$GITHUB_WORKSPACE/package.json') }}
         restore-keys: |
           ${{ runner.os }}-node-
     - name: add macOS signing certificate
