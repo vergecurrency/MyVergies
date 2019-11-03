@@ -11,10 +11,8 @@
 
 <script>
   import { remote } from 'electron'
-  import { getFormattedCurrency, getFromattedCrypto } from './Money'
+  import { getFormattedCurrency, getFromattedCrypto } from '../utils/money'
   import { mapGetters } from 'vuex'
-
-  const getCountryCode = () => remote.app.getLocale()
 
   export default {
     name: 'WalletMenuCard',
@@ -30,11 +28,11 @@
         return 'wallet-menu-card wallet-menu-card-background-' + this.wallet.color
       },
       cryptoAmount () {
-        return getFromattedCrypto(this.wallet.amount, getCountryCode(), 'XVG')
+        return getFromattedCrypto(this.wallet.amount, remote.app.getLocale(), 'XVG')
       },
       convertedPrice () {
         const amount = this.wallet.amount * this.currentRate
-        return getFormattedCurrency(amount, getCountryCode())
+        return getFormattedCurrency(amount, remote.app.getLocale())
       }
     }
   }

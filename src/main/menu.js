@@ -146,7 +146,7 @@ template.push(window)
 template.push(help)
 
 if (process.platform === 'darwin') {
-  const name = app.getName()
+  const name = app.name
   template.unshift({
     label: name,
     submenu: [

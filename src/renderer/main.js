@@ -8,6 +8,7 @@ import Buefy from 'buefy'
 import './icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions } from 'vuex'
+import constants from './utils/constants'
 
 if (!process.env.IS_WEB) Vue.use(require('vue-electron'))
 Vue.http = Vue.prototype.$http = axios
@@ -24,17 +25,16 @@ new Vue({
   methods: {
     ...mapActions(['updatePriceRate']),
     loadData () {
-      fetch('https://api.coinpaprika.com/v1/ticker/xvg-verge')
-        .then((response) => response.json())
-        .then((priceObj) =>
-          this.updatePriceRate(priceObj.price_usd)
-        )
+      axios.get(`${constants.priceApi}/eur`)
+        .then(response => {
+          this.updatePriceRate(response.data.price)
+        })
     }
   },
   mounted () {
     this.loadData()
     setInterval(() => {
       this.loadData()
-    }, 10000)
+    }, 30000)
   }
 }).$mount('#app')

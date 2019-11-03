@@ -20,7 +20,7 @@
 <script>
   import moment from 'moment'
   import { remote } from 'electron'
-  import { formatAmountFromSatoshis } from './Money'
+  import { formatAmountFromSatoshis } from '../utils/money'
 
   export default {
     name: 'TransactionRow',

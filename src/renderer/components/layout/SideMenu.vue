@@ -7,7 +7,7 @@
             Wallets
           </a>
           <ul class="menu-wallets">
-            <li v-for="wallet in wallets">
+            <li v-for="wallet in wallets" :key="wallet.name">
               <a :class="{ 'is-active': wallet === selectedWallet, 'menu-wallets-card': true }">
                 <wallet-menu-card :wallet="wallet"></wallet-menu-card>
               </a>
