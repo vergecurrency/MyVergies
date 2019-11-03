@@ -18,7 +18,9 @@
 </template>
 
 <script>
-  let moment = require('moment')
+  import moment from 'moment'
+  import { remote } from 'electron'
+  import { formatAmountFromSatoshis } from './Money'
 
   export default {
     name: 'TransactionRow',
@@ -41,11 +43,11 @@
       },
 
       timestamp () {
-        return moment(this.transaction.time).format('lll')
+        return moment(this.transaction.time * 1000).lang(remote.app.getLocale()).format('lll')
       },
 
       amount () {
-        let amount = `${(this.transaction.amount / 1000000).toFixed(6)} XVG`
+        let amount = formatAmountFromSatoshis(this.transaction.amount, remote.app.getLocale())
 
         switch (this.transaction.action) {
           case 'sent':
