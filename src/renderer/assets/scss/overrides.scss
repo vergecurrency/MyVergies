@@ -56,3 +56,23 @@ $modal-background-background-color: rgba($black, 0.1);
 html {
   overflow-y: auto;
 }
+
+@media (prefers-color-scheme: dark) {
+  .box {
+    background: #151515;
+    color: white;
+  }
+
+  .button.is-white {
+    background: #0a0a0a;
+    color: white;
+  }
+
+  .menu-list a {
+    color: #9f9f9f;
+  }
+
+  .menu-list a.is-active {
+    color: #a7a7a7;
+  }
+}

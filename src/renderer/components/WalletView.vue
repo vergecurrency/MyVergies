@@ -12,7 +12,7 @@
             <div class="columns">
               <div class="column">
                 <div class="buttons is-right">
-                  <a class="button is-light is-rounded">
+                  <a class="button is-white is-rounded">
                     <span class="icon has-text-grey-dark">
                       <FaIcon icon="edit" />
                     </span>

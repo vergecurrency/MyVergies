@@ -27,7 +27,10 @@ function createWindow () {
     minHeight: 560,
     minWidth: 1030,
     useContentSize: true,
-    titleBarStyle: 'hiddenInset'
+    titleBarStyle: 'hiddenInset',
+    webPreferences: {
+      nodeIntegration: true
+    }
   })
 
   mainWindow.loadURL(winURL)

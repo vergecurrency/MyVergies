@@ -8,9 +8,7 @@
       <div class="navbar-start">
         <div class="navbar-brand">
           <div v-if="isDarwin" class="navbar-item navbar-window-controls"></div>
-          <div class="navbar-item has-text-grey-dark">
-            <img src="~@/assets/logo.svg" width="120px"/>
-          </div>
+          <div class="navbar-item logo"></div>
         </div>
       </div>
       <div class="navbar-end">
@@ -54,6 +52,24 @@
   }
 
   .navbar-window-controls {
-    width: 75px;
+    width: 65px;
+  }
+
+  .logo {
+    margin-left: 10px;
+    background: url("~@/assets/logo.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 120px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .navbar.is-white {
+      background: #2c2e30;
+    }
+
+    .logo {
+      background-image: url("~@/assets/logo-light.svg");
+    }
   }
 </style>

@@ -33,4 +33,11 @@
   .fill-height {
     height: calc(100% - 52px);
   }
+
+  @media (prefers-color-scheme: dark) {
+    .app-container {
+      color: white;
+      background: #1f2123;
+    }
+  }
 </style>

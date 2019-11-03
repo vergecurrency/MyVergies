@@ -84,6 +84,10 @@
     cursor: pointer;
   }
 
+  .transaction-container:last-child {
+    border-bottom: none;
+  }
+
   .transaction-container:hover {
     background-color: #f6f6f6;
   }
@@ -111,5 +115,16 @@
 
   .transaction-amount {
     font-weight: 500;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .transaction-container {
+      background-color: #151515;
+      border-bottom: 1px solid #373737;
+    }
+
+    .transaction-container:hover {
+      background-color: #272727;
+    }
   }
 </style>

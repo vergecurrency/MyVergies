@@ -85,4 +85,11 @@
   .menu-wallets a.menu-wallets-card:hover {
     background-color: transparent;
   }
+
+  @media (prefers-color-scheme: dark) {
+    .side-menu {
+      background: #151515;
+      color: white;
+    }
+  }
 </style>
