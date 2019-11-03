@@ -3,13 +3,19 @@
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
       <p class="is-uppercase is-size-7 has-text-weight-semibold" v-html="wallet.name"/>
-      <p class="is-size-5 has-text-weight-bold" v-html="wallet.amount"></p>
-      <p class="is-size-7">€ 10.323,43</p>
+      <p class="is-size-5 has-text-weight-bold" v-html="cryptoAmount"/>
+      <p class="is-size-7" v-html="convertedPrice"/>
     </div>
   </div>
 </template>
 
 <script>
+  import { remote } from 'electron'
+  import { getFormattedCurrency, getFromattedCrypto } from './Money'
+  import { mapGetters } from 'vuex'
+
+  const getCountryCode = () => remote.app.getLocale()
+
   export default {
     name: 'WalletMenuCard',
     props: {
@@ -19,8 +25,16 @@
       }
     },
     computed: {
+      ...mapGetters(['currentRate']),
       containerClass () {
         return 'wallet-menu-card wallet-menu-card-background-' + this.wallet.color
+      },
+      cryptoAmount () {
+        return getFromattedCrypto(this.wallet.amount, getCountryCode(), 'XVG')
+      },
+      convertedPrice () {
+        const amount = this.wallet.amount * this.currentRate
+        return getFormattedCurrency(amount, getCountryCode())
       }
     }
   }

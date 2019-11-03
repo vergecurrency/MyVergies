@@ -44,12 +44,12 @@
         wallets: [
           {
             name: 'Main Account',
-            amount: '1.434.534,53 XVG',
+            amount: 1434534.53,
             color: 'blue'
           },
           {
             name: 'Business Account',
-            amount: '546.455,62 XVG',
+            amount: 546455.62,
             color: colors[Math.floor(Math.random() * colors.length)]
           }
         ]
