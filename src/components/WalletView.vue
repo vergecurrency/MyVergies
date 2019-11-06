@@ -12,7 +12,7 @@
             <div class="columns">
               <div class="column">
                 <div class="buttons is-right">
-                  <a class="button is-white is-rounded">
+                  <a @click="editWallet" class="button is-white is-rounded">
                     <span class="icon has-text-grey-dark">
                       <FaIcon icon="edit" />
                     </span>
@@ -22,22 +22,24 @@
             </div>
             <div class="columns">
               <div class="column">
-                <a class="button is-primary">
-                  <span class="icon">
-                      <FaIcon icon="credit-card" />
-                  </span>
-                  <span>
-                    Send
-                  </span>
-                </a>
-                <a class="button is-primary">
-                  <span class="icon">
-                      <FaIcon icon="hand-holding-usd" />
-                  </span>
-                  <span>
-                    Receive
-                  </span>
-                </a>
+                <div class="buttons">
+                  <a class="button is-primary">
+                    <span class="icon">
+                        <FaIcon icon="credit-card" />
+                    </span>
+                    <span>
+                      Send
+                    </span>
+                  </a>
+                  <a class="button is-primary">
+                    <span class="icon">
+                        <FaIcon icon="hand-holding-usd" />
+                    </span>
+                    <span>
+                      Receive
+                    </span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -69,8 +71,12 @@ export default {
     }
   },
   methods: {
+    editWallet () {
+      this.$buefy.toast.open('Something happened')
+    },
+
     openTransaction (transaction) {
-      this.$modal.open({
+      this.$buefy.modal.open({
         parent: this,
         component: TransactionDetailsModal,
         hasModalCard: true,
