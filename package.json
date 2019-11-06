@@ -15,7 +15,7 @@
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "cleanDist": "rimraf \"build/!(*.exe|*.exe.blockmap|*.deb|*.deb.blockmap|*.AppImage|*.snap|*.dmg|*.dmg.blockmap|*.zip)\""
+    "cleanDist": "rimraf \"dist_electron/!(*.exe|*.exe.blockmap|*.deb|*.deb.blockmap|*.AppImage|*.snap|*.dmg|*.dmg.blockmap|*.zip)\""
   },
   "main": "background.js",
   "dependencies": {
