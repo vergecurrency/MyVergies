@@ -4,6 +4,10 @@
   "author": "Swen van Zanten <info@hdsign.nl>",
   "description": "An electron-vue Verge Currency desktop wallet with Tor built in",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/vergecurrency/MyVergies.git"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -22,8 +26,8 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/vue-fontawesome": "^0.1.7",
-    "axios": "^0.18.0",
-    "buefy": "^0.7.8",
+    "axios": "^0.19.0",
+    "buefy": "^0.8.6",
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.3.2",
     "electron-updater": "^4.1.2",
@@ -53,14 +57,14 @@
     "cypress": "^3.6.0",
     "electron": "^7.1.0",
     "electron-notarize": "^0.2.0",
-    "eslint": "^5.16.0",
+    "eslint": "^6.6.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
-    "eslint-plugin-vue": "^5.0.0",
+    "eslint-plugin-vue": "^6.0.0",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",
-    "typescript": "~3.5.3",
+    "typescript": "~3.7.2",
     "vue-cli-plugin-electron-builder": "^1.4.0",
     "vue-template-compiler": "^2.6.10"
   }
