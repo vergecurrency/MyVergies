@@ -63,3 +63,6 @@ Please setup your own local VWS instance to test your changes against. You can c
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
+### BEFORE CONTRIBUTING
+
+This repository is in alpha state and so it's not ready for feature pull requests.
