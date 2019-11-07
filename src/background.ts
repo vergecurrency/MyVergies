@@ -1,11 +1,15 @@
 'use strict'
 
 import { app, protocol, BrowserWindow } from 'electron'
+import logger from 'electron-log'
+import { autoUpdater } from 'electron-updater'
 import {
   createProtocol,
   installVueDevtools
 } from 'vue-cli-plugin-electron-builder/lib'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+
+logger.transports.file.level = 'debug'
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -96,3 +100,18 @@ if (isDevelopment) {
     })
   }
 }
+
+/**
+ * Auto Updater
+ */
+
+autoUpdater.logger = logger
+autoUpdater.allowPrerelease = true
+autoUpdater.autoDownload = true
+autoUpdater.autoInstallOnAppQuit = true
+
+app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') {
+    autoUpdater.checkForUpdatesAndNotify()
+  }
+})

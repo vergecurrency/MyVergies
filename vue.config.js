@@ -3,7 +3,14 @@ module.exports = {
     electronBuilder: {
       builderOptions: {
         productName: 'MyVergies',
-        appId: 'org.verge.my-vergies',
+        appId: 'com.github.vergecurrency.myvergies',
+        publish: [
+          {
+            provider: 'github',
+            owner: 'vergecurrency',
+            repo: 'MyVergies'
+          }
+        ],
         dmg: {
           sign: false,
           icon: 'dist_electron/icons/dmg.icns',
@@ -29,10 +36,23 @@ module.exports = {
           icon: 'dist_electron/icons/icon.icns'
         },
         win: {
-          icon: 'dist_electron/icons/icon.ico'
+          icon: 'dist_electron/icons/icon.ico',
+          target: [
+            {
+              target: 'nsis',
+              arch: [
+                'x64',
+                'ia32'
+              ]
+            }
+          ]
         },
         linux: {
           icon: 'dist_electron/icons'
+        },
+        nsis: {
+          oneClick: false,
+          allowToChangeInstallationDirectory: true
         },
         afterSign: 'dist_electron/notarize.js'
       }
