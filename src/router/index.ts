@@ -1,14 +1,21 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import WalletView from '../components/WalletView.vue'
+import WelcomeView from '../views/WelcomeView.vue'
+import WalletView from '../views/WalletView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
+    name: 'welcome',
+    component: WelcomeView
+  },
+  {
+    path: '/wallets/:walletName',
     name: 'wallets',
-    component: WalletView
+    component: WalletView,
+    props: true
   },
   {
     path: '*',

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
-import WalletView from '@/components/WalletView.vue'
+import WalletView from '@/views/WalletView.vue'
 
 describe('WalletView.vue', () => {
   it('should render correct contents', () => {

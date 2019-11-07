@@ -1,5 +1,5 @@
 <template>
-  <div class="side-menu">
+  <div class="main-menu">
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
@@ -8,9 +8,13 @@
           </a>
           <ul class="menu-wallets">
             <li v-for="wallet in wallets" :key="wallet.name">
-              <a :class="{ 'is-active': wallet === selectedWallet, 'menu-wallets-card': true }">
-                <wallet-menu-card :wallet="wallet"></wallet-menu-card>
-              </a>
+              <router-link
+                :to="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+                :class="{ 'is-active': wallet === selectedWallet, 'menu-wallets-card': true }"
+                @click="selectedWallet = wallet"
+              >
+                <wallet-card :wallet="wallet"></wallet-card>
+              </router-link>
             </li>
             <li><a>Add new wallet</a></li>
           </ul>
@@ -31,28 +35,16 @@
 </template>
 
 <script>
-import WalletMenuCard from '../WalletMenuCard'
-
-let colors = ['green', 'purple', 'orange', 'red']
+import WalletCard from '../WalletCard'
+import Wallets from '../../assets/data/example/wallets'
 
 export default {
-  name: 'side-menu',
-  components: { WalletMenuCard },
+  name: 'main-menu',
+  components: { WalletCard },
   data () {
     return {
       selectedWallet: null,
-      wallets: [
-        {
-          name: 'Main Account',
-          amount: 1434534.53,
-          color: 'blue'
-        },
-        {
-          name: 'Business Account',
-          amount: 546455.62,
-          color: colors[Math.floor(Math.random() * colors.length)]
-        }
-      ]
+      wallets: Wallets
     }
   },
   mounted () {
@@ -62,7 +54,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .side-menu {
+  .main-menu {
     background: #e0e0e0;
     overflow-y: auto;
     max-width: 280px;
@@ -87,7 +79,7 @@ export default {
   }
 
   @media (prefers-color-scheme: dark) {
-    .side-menu {
+    .main-menu {
       background: #151515;
       color: white;
     }

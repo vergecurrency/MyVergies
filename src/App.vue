@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="app-container is-unselectable">
     <NavBar/>
-    <div class="columns is-gapless fill-height is-marginless">
-      <SideMenu class="column is-one-quarter"/>
-      <ContentContainer style="height: 100%;">
+    <div class="columns is-gapless app-content-container is-marginless">
+      <MainMenu class="column is-one-quarter"/>
+      <ContentContainer>
         <RouterView/>
       </ContentContainer>
     </div>
@@ -12,12 +12,12 @@
 
 <script>
 import NavBar from './components/layout/NavBar'
-import SideMenu from './components/layout/SideMenu'
+import MainMenu from './components/layout/MainMenu'
 import ContentContainer from './components/layout/ContentContainer'
 
 export default {
   name: 'my-vergies',
-  components: { ContentContainer, SideMenu, NavBar }
+  components: { ContentContainer, MainMenu, NavBar }
 }
 </script>
 
@@ -30,7 +30,7 @@ export default {
     cursor: default;
   }
 
-  .fill-height {
+  .app-content-container {
     height: calc(100% - 52px);
   }
 

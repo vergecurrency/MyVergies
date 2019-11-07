@@ -1,5 +1,5 @@
 <template>
-  <div class="column">
+  <div class="column" style="height: 100%">
     <div class="app-content-box">
       <slot/>
     </div>

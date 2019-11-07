@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Main Account",
+    "amount": 1434534.53,
+    "color": "blue"
+  },
+  {
+    "name": "Business Account",
+    "amount": 46455.62,
+    "color": null
+  }
+]

@@ -5,7 +5,8 @@ import {
   faEdit,
   faCreditCard,
   faHandHoldingUsd,
-  faWallet
+  faWallet,
+  faHandPointer
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -14,3 +15,4 @@ library.add(faEdit)
 library.add(faCreditCard)
 library.add(faHandHoldingUsd)
 library.add(faWallet)
+library.add(faHandPointer)
