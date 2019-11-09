@@ -40,7 +40,7 @@
               <p v-html="address"/>
             </div>
             <div class="column has-text-right">
-              <a class="button is-rounded is-small">
+              <a id="show-address-details" class="button is-rounded is-small" @click="showAddressDetails">
                 <FaIcon icon="info"/>
               </a>
             </div>
@@ -59,7 +59,7 @@
               <p class="has-text-txid" v-html="transaction.txid"/>
             </div>
             <div class="column has-text-right">
-              <a class="button is-rounded is-small">
+              <a id="show-txid-details" class="button is-rounded is-small" @click="showTxidDetails">
                 <FaIcon icon="info"/>
               </a>
             </div>
@@ -74,6 +74,7 @@
 <script>
 import moment from 'moment'
 import TransactionAmount from '@/components/labels/TransactionAmount'
+import constants from '@/utils/constants'
 
 export default {
   name: 'TransactionDetailsModal',
@@ -127,6 +128,15 @@ export default {
         default:
           return 'has-shadow-dark'
       }
+    }
+  },
+  methods: {
+    showAddressDetails () {
+      this.$electron.shell.openExternal(`${constants.explorer}/address/${address}`)
+    },
+
+    showTxidDetails () {
+      this.$electron.shell.openExternal(`${constants.explorer}/tx/${this.transaction.txid}`)
     }
   }
 }
