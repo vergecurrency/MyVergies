@@ -6,8 +6,7 @@
           <p
             class="is-size-5 has-text-weight-semibold is-capitalized has-text-grey has-line-height-small"
             v-html="wallet.name"
-          >
-          </p>
+          />
           <Money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>
           <Money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.amount" convert/>
         </div>
