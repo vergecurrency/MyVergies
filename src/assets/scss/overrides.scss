@@ -73,6 +73,22 @@ html {
   line-height: 200%;
 }
 
+.has-border-radius {
+  border-radius: $box-radius;
+}
+
+.has-shadow-danger {
+  box-shadow: 0 3px 30px rgba(115, 0, 0, 0.5);
+}
+
+.has-shadow-success {
+  box-shadow: 0 3px 30px rgba(0, 123, 101, 0.7);
+}
+
+.has-shadow-dark {
+  box-shadow: 0 3px 30px rgba(0, 68, 111, 0.5);
+}
+
 @media (prefers-color-scheme: dark) {
   .box {
     background: #151515;
@@ -99,5 +115,17 @@ html {
 
   .menu-list a.is-active {
     color: #a7a7a7;
+  }
+
+  .has-shadow-danger {
+    box-shadow: 0 3px 30px rgba(255, 0, 36, 0.12);
+  }
+
+  .has-shadow-success {
+    box-shadow: 0 3px 30px rgba(0, 255, 208, 0.12);
+  }
+
+  .has-shadow-dark {
+    box-shadow: 0 3px 30px rgba(0, 156, 255, 0.12);
   }
 }

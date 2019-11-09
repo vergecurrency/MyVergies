@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card">
+  <div class="modal-card has-border-radius" :class="modalCardShadow">
     <div class="modal-content">
       <div class="box">
         <div class="columns is-vcentered">
@@ -10,7 +10,7 @@
             </div>
           </div>
           <div class="column has-text-right">
-            <a class="button is-rounded">
+            <a v-if="transaction.action === 'sent'" class="button is-rounded">
               <FaIcon icon="redo"/>
             </a>
           </div>
@@ -114,6 +114,18 @@ export default {
         case 'moved':
         default:
           return 'is-dark'
+      }
+    },
+
+    modalCardShadow () {
+      switch (this.transaction.action) {
+        case 'sent':
+          return 'has-shadow-danger'
+        case 'received':
+          return 'has-shadow-success'
+        case 'moved':
+        default:
+          return 'has-shadow-dark'
       }
     }
   }
