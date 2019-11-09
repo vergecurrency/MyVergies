@@ -9,7 +9,9 @@ import {
   faHandPointer,
   faAddressBook,
   faSearch,
-  faPlus
+  faPlus,
+  faRedo,
+  faInfo
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -22,3 +24,5 @@ library.add(faHandPointer)
 library.add(faAddressBook)
 library.add(faSearch)
 library.add(faPlus)
+library.add(faRedo)
+library.add(faInfo)

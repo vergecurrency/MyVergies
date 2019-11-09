@@ -11,9 +11,7 @@
         {{ timestamp }}
       </div>
     </div>
-    <div :class="['transaction-amount', amountColor]">
-      {{ amount }}
-    </div>
+    <TransactionAmount :amount="transaction.amount" :action="transaction.action" :class="['transaction-amount']" />
   </div>
 </template>
 
@@ -24,6 +22,7 @@ import receivedIcon from '@/assets/icons/received.svg'
 import sendingIcon from '@/assets/icons/sending.svg'
 import movedIcon from '@/assets/icons/moved.svg'
 import receivingIcon from '@/assets/icons/receiving.svg'
+import TransactionAmount from '@/components/labels/TransactionAmount'
 
 const icons = {
   sentIcon,
@@ -35,6 +34,7 @@ const icons = {
 
 export default {
   name: 'TransactionRow',
+  components: { TransactionAmount },
   props: {
     transaction: {
       type: Object,
@@ -59,32 +59,6 @@ export default {
 
     timestamp () {
       return moment(this.transaction.time * 1000).locale(this.$electron.remote.app.getLocale()).format('lll')
-    },
-
-    amount () {
-      let amount = this.formatAmountFromSatoshis(this.transaction.amount, this.$electron.remote.app.getLocale())
-
-      switch (this.transaction.action) {
-        case 'sent':
-          return `- ${amount}`
-        case 'received':
-          return `+ ${amount}`
-        case 'moved':
-        default:
-          return amount
-      }
-    },
-
-    amountColor () {
-      switch (this.transaction.action) {
-        case 'sent':
-          return 'has-text-danger'
-        case 'received':
-          return 'has-text-success'
-        case 'moved':
-        default:
-          return 'has-text-grey-light'
-      }
     }
   }
 }

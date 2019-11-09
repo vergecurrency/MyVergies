@@ -5,7 +5,7 @@
 $primary: #16C1E3;
 $primary-invert: findColorInvert($primary);
 $success: #008570;
-$success-invert: #008570;
+$success-invert: findColorInvert(#008570);
 
 // Setup $colors to use as bulma classes (e.g. 'is-twitter')
 $colors: (
@@ -79,9 +79,18 @@ html {
     color: white;
   }
 
+  .button {
+    background: #0a0a0a;
+    color: white;
+  }
+
   .button.is-white {
     background: #0a0a0a;
     color: white;
+  }
+
+  .notification {
+    background: #2c2c2c;
   }
 
   .menu-list a {
