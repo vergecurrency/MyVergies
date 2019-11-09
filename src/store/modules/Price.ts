@@ -1,10 +1,13 @@
-const state = {
+interface Price {
+  rate: number
+}
+
+const state: Price = {
   rate: 0.001
 }
 
 const mutations = {
-  UPDATE_RATE_PRICE_USD (state: object, newRate: number) {
-    // @ts-ignore
+  UPDATE_RATE_PRICE_USD (state: Price, newRate: number) {
     state.rate = newRate
   }
 }
@@ -17,8 +20,7 @@ const actions = {
 }
 
 const getters = {
-  currentRate: (state: object) => {
-    // @ts-ignore
+  currentRate: (state: Price) => {
     return state.rate
   }
 }

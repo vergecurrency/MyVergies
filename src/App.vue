@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import NavBar from './components/layout/NavBar'
-import MainMenu from './components/layout/MainMenu'
-import ContentContainer from './components/layout/ContentContainer'
+import NavBar from '@/components/layout/NavBar'
+import MainMenu from '@/components/layout/MainMenu'
+import ContentContainer from '@/components/layout/ContentContainer'
 
 export default {
   name: 'my-vergies',

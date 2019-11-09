@@ -2,14 +2,15 @@ import Vue from 'vue'
 import axios from 'axios'
 import electron from 'electron'
 
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import App from '@/App.vue'
+import router from '@/router'
+import store from '@/store'
 import Buefy from 'buefy'
-import './icons'
+import '@/mixins'
+import '@/icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions } from 'vuex'
-import constants from './utils/constants'
+import constants from '@/utils/constants'
 
 // @ts-ignore
 Vue.http = Vue.prototype.$http = axios

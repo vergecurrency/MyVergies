@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import WelcomeView from '../views/WelcomeView.vue'
-import WalletView from '../views/WalletView.vue'
+import WelcomeView from '@/views/WelcomeView.vue'
+import WalletView from '@/views/WalletView.vue'
 
 Vue.use(VueRouter)
 

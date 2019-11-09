@@ -3,20 +3,20 @@
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
       <p class="is-size-7 has-text-weight-semibold is-capitalized" v-html="wallet.name"/>
-      <p class="is-size-5 has-text-weight-bold" v-html="cryptoAmount"/>
-      <p class="is-size-7" v-html="convertedPrice"/>
+      <Money class="is-size-5 has-text-weight-bold" :amount="wallet.amount" crypto/>
+      <Money class="is-size-7" :amount="wallet.amount" convert/>
     </div>
   </div>
 </template>
 
 <script>
-import { getFormattedCurrency, getFromattedCrypto } from '../utils/money'
-import { mapGetters } from 'vuex'
+import Money from '@/components/labels/Money'
 
 const colors = ['green', 'purple', 'orange', 'red']
 
 export default {
   name: 'WalletCard',
+  components: { Money },
   props: {
     wallet: {
       type: Object,
@@ -24,16 +24,8 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRate']),
     containerClass () {
       return 'wallet-menu-card wallet-menu-card-background-' + (this.wallet.color || colors[Math.floor(Math.random() * colors.length)])
-    },
-    cryptoAmount () {
-      return getFromattedCrypto(this.wallet.amount, this.$electron.remote.app.getLocale(), 'XVG')
-    },
-    convertedPrice () {
-      const amount = this.wallet.amount * this.currentRate
-      return getFormattedCurrency(amount, this.$electron.remote.app.getLocale())
     }
   }
 }

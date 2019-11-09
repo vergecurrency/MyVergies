@@ -19,12 +19,11 @@
 
 <script>
 import moment from 'moment'
-import { formatAmountFromSatoshis } from '../utils/money'
-import sentIcon from './../assets/icons/sent.svg'
-import receivedIcon from './../assets/icons/received.svg'
-import sendingIcon from './../assets/icons/sending.svg'
-import movedIcon from './../assets/icons/moved.svg'
-import receivingIcon from './../assets/icons/receiving.svg'
+import sentIcon from '@/assets/icons/sent.svg'
+import receivedIcon from '@/assets/icons/received.svg'
+import sendingIcon from '@/assets/icons/sending.svg'
+import movedIcon from '@/assets/icons/moved.svg'
+import receivingIcon from '@/assets/icons/receiving.svg'
 
 const icons = {
   sentIcon,
@@ -63,7 +62,7 @@ export default {
     },
 
     amount () {
-      let amount = formatAmountFromSatoshis(this.transaction.amount, this.$electron.remote.app.getLocale())
+      let amount = this.formatAmountFromSatoshis(this.transaction.amount, this.$electron.remote.app.getLocale())
 
       switch (this.transaction.action) {
         case 'sent':

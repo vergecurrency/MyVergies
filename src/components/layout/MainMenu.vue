@@ -35,8 +35,8 @@
 </template>
 
 <script>
-import WalletCard from '../WalletCard'
-import Wallets from '../../assets/data/example/wallets'
+import WalletCard from '@/components/WalletCard'
+import Wallets from '@/assets/data/example/wallets'
 
 export default {
   name: 'main-menu',

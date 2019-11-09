@@ -8,8 +8,8 @@
             v-html="wallet.name"
           >
           </p>
-          <p class="is-size-3 has-text-weight-dark has-shadow" v-html="cryptoAmount"></p>
-          <p class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" v-html="convertedPrice"></p>
+          <Money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>
+          <Money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.amount" convert/>
         </div>
         <div class="column">
           <div class="is-pulled-right">
@@ -56,15 +56,14 @@
 </template>
 
 <script>
-import TransactionRow from '../components/TransactionRow'
-import TransactionDetailsModal from '../components/modals/TransactionDetailsModal'
-import TxHistory from '../assets/data/example/txHistory'
-import { getFormattedCurrency, getFromattedCrypto } from '../utils/money'
-import { mapGetters } from 'vuex'
+import TransactionRow from '@/components/TransactionRow'
+import TransactionDetailsModal from '@/components/modals/TransactionDetailsModal'
+import TxHistory from '@/assets/data/example/txHistory'
+import Money from '@/components/labels/Money'
 
 export default {
   name: 'WalletView',
-  components: { TransactionRow },
+  components: { TransactionRow, Money },
   data () {
     return {
       transactions: TxHistory
@@ -74,16 +73,6 @@ export default {
     wallet: {
       type: Object,
       required: true
-    }
-  },
-  computed: {
-    ...mapGetters(['currentRate']),
-    cryptoAmount () {
-      return getFromattedCrypto(this.wallet.amount, this.$electron.remote.app.getLocale(), 'XVG')
-    },
-    convertedPrice () {
-      const amount = this.wallet.amount * this.currentRate
-      return getFormattedCurrency(amount, this.$electron.remote.app.getLocale())
     }
   },
   methods: {
