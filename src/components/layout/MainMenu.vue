@@ -16,18 +16,20 @@
                 <wallet-card :wallet="wallet"></wallet-card>
               </router-link>
             </li>
-            <li><a>Add new wallet</a></li>
+            <li>
+              <router-link :to="{ name: 'wallets.create' }">Add new wallet</router-link>
+            </li>
           </ul>
         </li>
         <li>
-          <a class="is-size-4 has-text-weight-semibold">
+          <router-link class="is-size-4 has-text-weight-semibold" :to="{ name: 'explorer' }">
             Explorer
-          </a>
+          </router-link>
         </li>
         <li>
-          <a class="is-size-4 has-text-weight-semibold">
+          <router-link class="is-size-4 has-text-weight-semibold" :to="{ name: 'contacts' }">
             Contacts
-          </a>
+          </router-link>
         </li>
       </ul>
     </aside>
