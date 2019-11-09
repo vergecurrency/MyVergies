@@ -132,7 +132,7 @@ export default {
   },
   methods: {
     showAddressDetails () {
-      this.$electron.shell.openExternal(`${constants.explorer}/address/${address}`)
+      this.$electron.shell.openExternal(`${constants.explorer}/address/${this.address}`)
     },
 
     showTxidDetails () {
