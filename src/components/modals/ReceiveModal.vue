@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card">
+  <div class="modal-card has-shadow-dark">
     <div class="modal-content">
       <div class="box">
         Receive

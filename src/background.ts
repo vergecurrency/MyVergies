@@ -3,6 +3,7 @@
 import { app, protocol, BrowserWindow } from 'electron'
 import logger from 'electron-log'
 import { autoUpdater } from 'electron-updater'
+import ElectronWindowState from 'electron-window-state'
 import {
   createProtocol,
   installVueDevtools
@@ -19,10 +20,17 @@ let win: BrowserWindow | null
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow () {
+  let mainWindowState = ElectronWindowState({
+    defaultWidth: 1100,
+    defaultHeight: 663
+  })
+
   // Create the browser window.
   win = new BrowserWindow({
-    height: 663,
-    width: 1100,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
+    height: mainWindowState.height,
+    width: mainWindowState.width,
     minHeight: 560,
     minWidth: 1030,
     useContentSize: true,
@@ -31,6 +39,8 @@ function createWindow () {
       nodeIntegration: true
     }
   })
+
+  mainWindowState.manage(win)
 
   if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode

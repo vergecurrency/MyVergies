@@ -118,14 +118,18 @@ html {
   }
 
   .has-shadow-danger {
-    box-shadow: 0 3px 30px rgba(255, 0, 36, 0.12);
+    box-shadow: 0 3px 30px rgba(255, 0, 36, 0.3);
   }
 
   .has-shadow-success {
-    box-shadow: 0 3px 30px rgba(0, 255, 208, 0.12);
+    box-shadow: 0 3px 30px rgba(0, 255, 208, 0.3);
   }
 
   .has-shadow-dark {
-    box-shadow: 0 3px 30px rgba(0, 156, 255, 0.12);
+    box-shadow: 0 3px 30px rgba(0, 156, 255, 0.3);
+  }
+
+  .modal-background {
+    background-color: rgba(125, 125, 125, 0.3);
   }
 }

@@ -4,7 +4,7 @@
     <div class="columns is-gapless app-content-container is-marginless">
       <MainMenu class="column is-one-quarter"/>
       <ContentContainer>
-        <RouterView/>
+        <RouterView class="app-content-box-container"/>
       </ContentContainer>
     </div>
   </div>
@@ -32,6 +32,11 @@ export default {
 
   .app-content-container {
     height: calc(100% - 52px);
+  }
+
+  .app-content-box-container {
+    max-width: 1024px;
+    margin: auto;
   }
 
   @media (prefers-color-scheme: dark) {

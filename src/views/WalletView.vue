@@ -20,7 +20,7 @@
                       <FaIcon icon="edit" />
                     </span>
                   </a>
-                  <a class="button is-primary">
+                  <a class="button is-primary" @click="send">
                     <span class="icon">
                         <FaIcon icon="credit-card" />
                     </span>
@@ -28,7 +28,7 @@
                       Send
                     </span>
                   </a>
-                  <a class="button is-primary">
+                  <a class="button is-primary" @click="receive">
                     <span class="icon">
                         <FaIcon icon="hand-holding-usd" />
                     </span>
@@ -59,6 +59,8 @@ import TransactionRow from '@/components/TransactionRow'
 import TransactionDetailsModal from '@/components/modals/TransactionDetailsModal'
 import TxHistory from '@/assets/data/example/txHistory'
 import Money from '@/components/labels/Money'
+import SendModal from '@/components/modals/SendModal'
+import ReceiveModal from '@/components/modals/ReceiveModal'
 
 export default {
   name: 'WalletView',
@@ -77,6 +79,30 @@ export default {
   methods: {
     editWallet () {
       this.$buefy.toast.open('Something happened')
+    },
+
+    send () {
+      this.$buefy.modal.open({
+        parent: this,
+        component: SendModal,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          wallet: this.wallet
+        }
+      })
+    },
+
+    receive () {
+      this.$buefy.modal.open({
+        parent: this,
+        component: ReceiveModal,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          wallet: this.wallet
+        }
+      })
     },
 
     openTransaction (transaction) {
