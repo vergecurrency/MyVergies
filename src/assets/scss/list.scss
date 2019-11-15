@@ -1,0 +1,9 @@
+@media (prefers-color-scheme: dark) {
+  .menu-list a {
+    color: #9f9f9f;
+  }
+
+  .menu-list a.is-active {
+    color: #a7a7a7;
+  }
+}

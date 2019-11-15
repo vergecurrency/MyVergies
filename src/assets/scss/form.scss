@@ -1,0 +1,22 @@
+@media (prefers-color-scheme: dark) {
+  .label {
+    color: #9f9f9f;
+  }
+
+  .select select, .textarea, .input, .taginput, .taginput-container.is-focusable {
+    background-color: #1c1c1c;
+    border-color: #3a3a3a;
+    color: whitesmoke;
+  }
+
+  .select select:hover, .textarea:hover, .input:hover,
+  .taginput:hover, .taginput-container.is-focusable:hover {
+    border-color: #545454;
+  }
+
+  .select select::placeholder, .textarea::placeholder,
+  .input::placeholder, .taginput::placeholder,
+  .taginput-container.is-focusable::placeholder {
+    color: #545454;
+  }
+}

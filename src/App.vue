@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style lang="scss">
-  @import '~@/assets/scss/overrides';
+  @import '~@/assets/scss/main';
 
   .app-container {
     height: 100%;

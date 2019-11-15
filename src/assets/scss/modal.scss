@@ -1,0 +1,35 @@
+.modal-card-head {
+  border-bottom: none;
+}
+
+.modal-card-foot {
+  border-top: none;
+}
+
+.modal-card-head {
+  background-color: #efefef;
+}
+
+.modal-card-body, .modal-card-foot {
+  background-color: #f7f7f7;
+}
+
+@media (prefers-color-scheme: dark) {
+  .modal-background {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .modal-card-head {
+    background-color: #1e1e1e;
+    color: #9f9f9f;
+  }
+
+  .modal-card-body, .modal-card-foot {
+    background-color: #151515;
+    color: whitesmoke;
+  }
+
+  .modal-card-title {
+    color: #b6b6b6;
+  }
+}

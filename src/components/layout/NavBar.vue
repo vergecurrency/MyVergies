@@ -14,7 +14,7 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-white is-not-draggable">
+            <a class="button is-white is-not-draggable" @click="unlock">
               <span class="icon has-text-grey-dark">
                 <FaIcon icon="lock" />
               </span>
@@ -32,11 +32,24 @@
 </template>
 
 <script>
+import AuthenticationModal from '@/components/modals/AuthenticationModal'
+
 export default {
   name: 'NavBar',
   computed: {
     isDarwin () {
       return process.platform === 'darwin'
+    }
+  },
+  methods: {
+    unlock () {
+      this.$buefy.modal.open({
+        parent: this,
+        component: AuthenticationModal,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        fullScreen: true
+      })
     }
   }
 }

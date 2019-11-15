@@ -1,0 +1,21 @@
+.has-text-weight-dark {
+  font-weight: 800 !important;
+}
+
+.has-text-weight-darker {
+  font-weight: 900 !important;
+}
+
+.has-line-height-small {
+  line-height: 60%;
+}
+
+.has-line-height-large {
+  line-height: 200%;
+}
+
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: #9f9f9f;
+  }
+}

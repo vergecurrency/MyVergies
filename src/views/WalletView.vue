@@ -7,8 +7,8 @@
             class="is-size-5 has-text-weight-semibold is-capitalized has-text-grey has-line-height-small"
             v-html="wallet.name"
           />
-          <Money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>
-          <Money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.amount" convert/>
+          <money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>
+          <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.amount" convert/>
         </div>
         <div class="column">
           <div class="is-pulled-right">
@@ -17,25 +17,31 @@
                 <div class="buttons">
                   <a @click="editWallet" class="button is-text">
                     <span class="icon has-text-grey-dark">
-                      <FaIcon icon="edit" />
+                      <fa-icon icon="edit" />
                     </span>
                   </a>
-                  <a class="button is-primary" @click="send">
+                  <router-link
+                    :to="{ name: 'wallets.send', params: { walletName: wallet.name, wallet }}"
+                    class="button is-primary"
+                  >
                     <span class="icon">
-                        <FaIcon icon="credit-card" />
+                        <fa-icon icon="credit-card" />
                     </span>
                     <span>
                       Send
                     </span>
-                  </a>
-                  <a class="button is-primary" @click="receive">
+                  </router-link>
+                  <router-link
+                    :to="{ name: 'wallets.receive', params: { walletName: wallet.name, wallet }}"
+                    class="button is-primary"
+                  >
                     <span class="icon">
-                        <FaIcon icon="hand-holding-usd" />
+                        <fa-icon icon="hand-holding-usd" />
                     </span>
                     <span>
                       Receive
                     </span>
-                  </a>
+                  </router-link>
                 </div>
               </div>
             </div>
@@ -44,11 +50,11 @@
       </div>
     </div>
     <div class="box is-paddingless is-clipped">
-      <TransactionRow
+      <transaction-row
         v-for="transaction in transactions"
         :key="transaction.txid"
         :transaction="transaction"
-        @click="openTransaction(transaction)"
+        :wallet="wallet"
       />
     </div>
   </div>
@@ -56,11 +62,8 @@
 
 <script>
 import TransactionRow from '@/components/TransactionRow'
-import TransactionDetailsModal from '@/components/modals/TransactionDetailsModal'
 import TxHistory from '@/assets/data/example/txHistory'
 import Money from '@/components/labels/Money'
-import SendModal from '@/components/modals/SendModal'
-import ReceiveModal from '@/components/modals/ReceiveModal'
 
 export default {
   name: 'WalletView',
@@ -79,42 +82,6 @@ export default {
   methods: {
     editWallet () {
       this.$buefy.toast.open('Something happened')
-    },
-
-    send () {
-      this.$buefy.modal.open({
-        parent: this,
-        component: SendModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        props: {
-          wallet: this.wallet
-        }
-      })
-    },
-
-    receive () {
-      this.$buefy.modal.open({
-        parent: this,
-        component: ReceiveModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        props: {
-          wallet: this.wallet
-        }
-      })
-    },
-
-    openTransaction (transaction) {
-      this.$buefy.modal.open({
-        parent: this,
-        component: TransactionDetailsModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        props: {
-          transaction
-        }
-      })
     }
   }
 }

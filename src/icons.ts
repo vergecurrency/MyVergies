@@ -11,7 +11,10 @@ import {
   faSearch,
   faPlus,
   faRedo,
-  faInfo
+  faInfo,
+  faCoins,
+  faAngleRight,
+  faAngleLeft
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -26,3 +29,6 @@ library.add(faSearch)
 library.add(faPlus)
 library.add(faRedo)
 library.add(faInfo)
+library.add(faCoins)
+library.add(faAngleLeft)
+library.add(faAngleRight)

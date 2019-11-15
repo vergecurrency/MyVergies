@@ -10,7 +10,7 @@
             <li v-for="wallet in wallets" :key="wallet.name">
               <router-link
                 :to="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
-                :class="{ 'is-active': wallet === selectedWallet, 'menu-wallets-card': true }"
+                class="menu-wallets-card"
                 @click="selectedWallet = wallet"
               >
                 <wallet-card :wallet="wallet"></wallet-card>
@@ -80,10 +80,33 @@ export default {
     background-color: transparent;
   }
 
+  .menu-list-wallet a {
+    position: relative;
+  }
+
+  .menu-list-wallet a.router-link-active::after {
+    position: absolute;
+    content: "•";
+    font-size: 50px;
+    line-height: 0;
+    color: #252525;
+    right: 5px;
+    top: calc(50% - 4px);
+  }
+
   @media (prefers-color-scheme: dark) {
     .main-menu {
-      background: #151515;
+      background: #1b1c1f;
       color: white;
+    }
+
+    .menu-list a:hover {
+      background-color: #1d1d1d;
+      color: whitesmoke;
+    }
+
+    .menu-list-wallet a.router-link-active::after {
+      color: whitesmoke;
     }
   }
 </style>

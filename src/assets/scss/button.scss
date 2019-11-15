@@ -1,0 +1,26 @@
+@media (prefers-color-scheme: dark) {
+  .button {
+    background: #363636;
+    border-color: transparent;
+    color: whitesmoke;
+  }
+
+  .button:hover, .button.is-hovered {
+    background-color: #2f2f2f;
+    border-color: transparent;
+    color: whitesmoke;
+  }
+
+  .button:active, .button.is-active {
+    color: whitesmoke;
+  }
+
+  .button:focus, .button.is-focused {
+    color: whitesmoke;
+  }
+
+  .button.is-white {
+    background: #0a0a0a;
+    color: white;
+  }
+}

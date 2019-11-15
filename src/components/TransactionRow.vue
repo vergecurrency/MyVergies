@@ -1,18 +1,20 @@
 <template>
-  <div class="transaction-container" @click.capture="$emit('click')">
-    <div class="transaction-icon">
-      <img :src="icon"/>
-    </div>
-    <div class="transaction-content">
-      <div class="transaction-label">
-        {{ label }}
+  <router-link :to="{ name: 'wallets.transactions', params: { walletName: wallet.name, txid: transaction.txid, transaction, wallet }}">
+    <div class="transaction-container">
+      <div class="transaction-icon">
+        <img :src="icon"/>
       </div>
-      <div class="transaction-timestamp">
-        {{ timestamp }}
+      <div class="transaction-content">
+        <div class="transaction-label">
+          {{ label }}
+        </div>
+        <div class="transaction-timestamp">
+          {{ timestamp }}
+        </div>
       </div>
+      <transaction-amount :amount="transaction.amount" :action="transaction.action" :class="['transaction-amount']" />
     </div>
-    <TransactionAmount :amount="transaction.amount" :action="transaction.action" :class="['transaction-amount']" />
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -37,6 +39,10 @@ export default {
   components: { TransactionAmount },
   props: {
     transaction: {
+      type: Object,
+      required: true
+    },
+    wallet: {
       type: Object,
       required: true
     }
@@ -75,7 +81,7 @@ export default {
     cursor: pointer;
   }
 
-  .transaction-container:last-child {
+  a:last-child .transaction-container {
     border-bottom: none;
   }
 
@@ -110,12 +116,12 @@ export default {
 
   @media (prefers-color-scheme: dark) {
     .transaction-container {
-      background-color: #151515;
+      background-color: #2c2e30;
       border-bottom: 1px solid #373737;
     }
 
     .transaction-container:hover {
-      background-color: #272727;
+      background-color: #252627;
     }
   }
 </style>
