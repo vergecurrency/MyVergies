@@ -1,9 +1,9 @@
 import { expect } from 'chai'
 import { shallowMount } from '@vue/test-utils'
 import sinon from 'sinon'
-import TransactionDetailsModal from '@/components/modals/TransactionDetailsModal.vue'
+import TransactionView from '@/views/TransactionView.vue'
 
-describe('TransactionDetailsModal.vue', () => {
+describe('TransactionView.vue', () => {
   it('should render correct contents', () => {
     const transaction = {
       txid: 'fb6786d19c94c6766d1caa454b65af849c042c00e379b08cfc5a092f6ba85439',
@@ -19,11 +19,16 @@ describe('TransactionDetailsModal.vue', () => {
         }
       ]
     }
+    const wallet = {
+      name: 'Main Account',
+      amount: 123,
+      color: 'blue'
+    }
 
     const $electron = { remote: { app: { getLocale: () => 'nl' } } }
-    const wrapper = shallowMount(TransactionDetailsModal, {
+    const wrapper = shallowMount(TransactionView, {
       propsData: {
-        transaction
+        transaction, wallet
       },
       mocks: {
         $electron
@@ -50,12 +55,17 @@ describe('TransactionDetailsModal.vue', () => {
         }
       ]
     }
+    const wallet = {
+      name: 'Main Account',
+      amount: 123,
+      color: 'blue'
+    }
 
     const openExternal = sinon.stub()
     const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
-    const wrapper = shallowMount(TransactionDetailsModal, {
+    const wrapper = shallowMount(TransactionView, {
       propsData: {
-        transaction
+        transaction, wallet
       },
       mocks: {
         $electron
@@ -83,12 +93,17 @@ describe('TransactionDetailsModal.vue', () => {
         }
       ]
     }
+    const wallet = {
+      name: 'Main Account',
+      amount: 123,
+      color: 'blue'
+    }
 
     const openExternal = sinon.stub()
     const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
-    const wrapper = shallowMount(TransactionDetailsModal, {
+    const wrapper = shallowMount(TransactionView, {
       propsData: {
-        transaction
+        transaction, wallet
       },
       mocks: {
         $electron
