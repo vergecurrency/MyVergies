@@ -15,7 +15,7 @@
               <div class="field has-addons">
                 <p class="control">
                   <a class="button">
-                    <fa-icon icon="address-book"/>
+                    <b-icon icon="address-book" size="is-small"/>
                   </a>
                 </p>
                 <p class="control is-expanded">

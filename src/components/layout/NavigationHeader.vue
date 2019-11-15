@@ -6,7 +6,7 @@
           class="button"
           :to="back"
         >
-          <fa-icon icon="angle-left"/>
+          <b-icon icon="angle-left" size="is-small"/>
         </router-link>
       </div>
       <div class="column">

@@ -16,12 +16,12 @@
           <div class="buttons">
             <a class="button is-white is-not-draggable" @click="unlock">
               <span class="icon has-text-grey-dark">
-                <FaIcon icon="lock" />
+                <b-icon size="is-small" icon="lock" />
               </span>
             </a>
             <a class="button is-white is-not-draggable">
               <span class="icon has-text-grey-dark">
-                <FaIcon icon="cog" />
+                <b-icon size="is-small" icon="cog" />
               </span>
             </a>
           </div>

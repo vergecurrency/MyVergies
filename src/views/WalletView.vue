@@ -17,7 +17,7 @@
                 <div class="buttons">
                   <a @click="editWallet" class="button is-text">
                     <span class="icon has-text-grey-dark">
-                      <fa-icon icon="edit" />
+                      <b-icon icon="edit" size="is-small"/>
                     </span>
                   </a>
                   <router-link
@@ -25,7 +25,7 @@
                     class="button is-primary"
                   >
                     <span class="icon">
-                        <fa-icon icon="credit-card" />
+                        <b-icon icon="credit-card" size="is-small"/>
                     </span>
                     <span>
                       Send
@@ -36,7 +36,7 @@
                     class="button is-primary"
                   >
                     <span class="icon">
-                        <fa-icon icon="hand-holding-usd" />
+                        <b-icon icon="hand-holding-usd" size="is-small"/>
                     </span>
                     <span>
                       Receive

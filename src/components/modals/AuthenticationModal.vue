@@ -12,12 +12,12 @@
                 <p class="control is-expanded has-icons-left">
                   <input class="input is-large" type="password" placeholder="Password" @keyup.enter="$parent.close()">
                   <span class="icon is-medium is-left">
-                    <fa-icon icon="lock"/>
+                    <b-icon icon="lock" size="is-small"/>
                   </span>
                 </p>
                 <p class="control">
                   <a class="button is-large" @click="$parent.close()">
-                    <fa-icon icon="angle-right"/>
+                    <b-icon icon="angle-right" size="is-small"/>
                   </a>
                 </p>
               </div>

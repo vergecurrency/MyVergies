@@ -2,7 +2,7 @@
   <div>
     <div class="columns has-text-centered">
       <div class="column">
-        <FaIcon icon="address-book" size="6x"/>
+        <b-icon icon="address-book" custom-size="6x"/>
         <h1 class="is-size-1 has-text-weight-bold has-text-grey">Your Awesome Contacts 👨‍👩‍👦‍👦</h1>
       </div>
     </div>

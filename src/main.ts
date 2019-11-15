@@ -15,8 +15,11 @@ import constants from '@/utils/constants'
 // @ts-ignore
 Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
-Vue.use(Buefy)
-Vue.component('FaIcon', FontAwesomeIcon)
+Vue.use(Buefy, {
+  defaultIconComponent: 'fa-icon',
+  defaultIconPack: 'fas'
+})
+Vue.component('fa-icon', FontAwesomeIcon)
 Vue.prototype.$electron = electron
 
 new Vue({

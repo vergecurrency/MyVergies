@@ -11,7 +11,7 @@
       </div>
       <div class="column has-text-right">
         <a v-if="transaction.action === 'sent'" class="button is-rounded">
-          <fa-icon icon="redo"/>
+          <b-icon icon="redo" size="is-small"/>
         </a>
       </div>
     </div>
@@ -41,7 +41,7 @@
         </div>
         <div class="column has-text-right">
           <a id="show-address-details" class="button is-rounded is-small" @click="showAddressDetails">
-            <fa-icon icon="info"/>
+            <b-icon icon="info" size="is-small"/>
           </a>
         </div>
       </div>
@@ -60,7 +60,7 @@
         </div>
         <div class="column has-text-right">
           <a id="show-txid-details" class="button is-rounded is-small" @click="showTxidDetails">
-            <fa-icon icon="info"/>
+            <b-icon icon="info" size="is-small"/>
           </a>
         </div>
       </div>

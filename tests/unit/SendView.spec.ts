@@ -1,6 +1,12 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import SendView from '@/views/SendView.vue'
+import Buefy from 'buefy'
+import VueRouter from 'vue-router'
+
+const localVue = createLocalVue()
+localVue.use(Buefy)
+localVue.use(VueRouter)
 
 describe('SendView.vue', () => {
   it('should render correct contents', () => {
@@ -11,6 +17,7 @@ describe('SendView.vue', () => {
     }
 
     const wrapper = shallowMount(SendView, {
+      localVue,
       propsData: {
         wallet
       }

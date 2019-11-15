@@ -1,7 +1,13 @@
 import { expect } from 'chai'
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, createLocalVue } from '@vue/test-utils'
 import sinon from 'sinon'
 import TransactionView from '@/views/TransactionView.vue'
+import Buefy from 'buefy'
+import VueRouter from 'vue-router'
+
+const localVue = createLocalVue()
+localVue.use(Buefy)
+localVue.use(VueRouter)
 
 describe('TransactionView.vue', () => {
   it('should render correct contents', () => {
@@ -27,6 +33,7 @@ describe('TransactionView.vue', () => {
 
     const $electron = { remote: { app: { getLocale: () => 'nl' } } }
     const wrapper = shallowMount(TransactionView, {
+      localVue,
       propsData: {
         transaction, wallet
       },
@@ -64,6 +71,7 @@ describe('TransactionView.vue', () => {
     const openExternal = sinon.stub()
     const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
     const wrapper = shallowMount(TransactionView, {
+      localVue,
       propsData: {
         transaction, wallet
       },
@@ -102,6 +110,7 @@ describe('TransactionView.vue', () => {
     const openExternal = sinon.stub()
     const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
     const wrapper = shallowMount(TransactionView, {
+      localVue,
       propsData: {
         transaction, wallet
       },
