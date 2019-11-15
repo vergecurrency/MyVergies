@@ -31,10 +31,11 @@
       </div>
     </div>
 
-    <p>Details</p>
+    <p class="is-title-transaction-details">Details</p>
 
-    <div v-if="address" class="box">
-      <div class="columns is-vcentered">
+    <div class="box">
+
+      <div v-if="address" class="columns is-vcentered is-gapless">
         <div class="column">
           <p class="has-text-weight-semibold">Address</p>
           <p v-html="address"/>
@@ -45,15 +46,19 @@
           </a>
         </div>
       </div>
-    </div>
 
-    <div class="box">
-      <p class="has-text-weight-semibold">Confirmations</p>
-      <p v-html="transaction.confirmations"/>
-    </div>
+      <hr v-if="address"/>
 
-    <div class="box">
-      <div class="columns is-vcentered">
+      <div class="columns is-gapless">
+        <div class="column">
+          <p class="has-text-weight-semibold">Confirmations</p>
+          <p v-html="transaction.confirmations"/>
+        </div>
+      </div>
+
+      <hr/>
+
+      <div class="columns is-vcentered is-gapless">
         <div class="column is-10">
           <p class="has-text-weight-semibold">TXID</p>
           <p class="has-text-txid" v-html="transaction.txid"/>
@@ -64,6 +69,7 @@
           </a>
         </div>
       </div>
+
     </div>
 
   </div>
@@ -149,5 +155,9 @@ export default {
   .has-text-txid {
     text-overflow: ellipsis;
     overflow: hidden;
+  }
+
+  .is-title-transaction-details {
+    margin-bottom: 10px;
   }
 </style>
