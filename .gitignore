@@ -29,3 +29,6 @@ yarn-error.log*
 !/dist_electron/certs/*
 !/dist_electron/entitlements.mac.plist
 !/dist_electron/notarize.js
+
+# yarn lock
+yarn.lock
