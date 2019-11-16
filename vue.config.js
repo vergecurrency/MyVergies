@@ -52,7 +52,8 @@ module.exports = {
         },
         nsis: {
           oneClick: false,
-          allowToChangeInstallationDirectory: true
+          allowToChangeInstallationDirectory: true,
+          artifactName: '${productName}-Setup-${version}.${ext}'
         },
         afterSign: 'dist_electron/notarize.js'
       }
