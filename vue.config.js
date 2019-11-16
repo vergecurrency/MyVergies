@@ -53,7 +53,9 @@ module.exports = {
         nsis: {
           oneClick: false,
           allowToChangeInstallationDirectory: true,
+          /*eslint-disable */
           artifactName: '${productName}-Setup-${version}.${ext}'
+          /* eslint-enable */
         },
         afterSign: 'dist_electron/notarize.js'
       }
