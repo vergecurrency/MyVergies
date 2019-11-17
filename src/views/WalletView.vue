@@ -15,11 +15,14 @@
             <div class="columns">
               <div class="column">
                 <div class="buttons">
-                  <a @click="editWallet" class="button is-text">
+                  <router-link
+                    :to="{ name: 'wallets.settings', params: { walletName: wallet.name, wallet }}"
+                    class="button is-text"
+                  >
                     <span class="icon has-text-grey-dark">
                       <b-icon icon="edit" size="is-small"/>
                     </span>
-                  </a>
+                  </router-link>
                   <router-link
                     :to="{ name: 'wallets.send', params: { walletName: wallet.name, wallet }}"
                     class="button is-primary"

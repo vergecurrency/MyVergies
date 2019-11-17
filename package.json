@@ -34,6 +34,7 @@
     "electron-updater": "^4.2.0",
     "electron-window-state": "^5.0.3",
     "moment": "^2.24.0",
+    "qrcode.vue": "^1.7.0",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",
     "vue-property-decorator": "^8.3.0",

@@ -39,7 +39,7 @@ export default {
     color: white;
     height: 120px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
     cursor: pointer;
   }
 

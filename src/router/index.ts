@@ -6,8 +6,10 @@ import SendView from '@/views/SendView.vue'
 import ReceiveView from '@/views/ReceiveView.vue'
 import TransactionView from '@/views/TransactionView.vue'
 import WalletCreateView from '@/views/WalletCreateView.vue'
+import WalletSettingsView from '@/views/WalletSettingsView.vue'
 import ExplorerView from '@/views/ExplorerView.vue'
 import ContactsView from '@/views/ContactsView.vue'
+import SettingsView from '@/views/SettingsView.vue'
 
 Vue.use(VueRouter)
 
@@ -42,6 +44,12 @@ const routes = [
     props: true
   },
   {
+    path: '/wallets/:walletName/settings',
+    name: 'wallets.settings',
+    component: WalletSettingsView,
+    props: true
+  },
+  {
     path: '/wallets/create',
     name: 'wallets.create',
     component: WalletCreateView
@@ -55,6 +63,11 @@ const routes = [
     path: '/contacts',
     name: 'contacts',
     component: ContactsView
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: SettingsView
   },
   {
     path: '*',

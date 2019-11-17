@@ -6,3 +6,9 @@ html {
   width: auto;
   height: auto;
 }
+
+@media (prefers-color-scheme: dark) {
+  hr {
+    background-color: #797979;
+  }
+}

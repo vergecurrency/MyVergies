@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <div class="columns">
-      <div class="column is-narrow">
+      <div v-if="back" class="column is-narrow">
         <router-link
           class="button"
           :to="back"
@@ -22,7 +22,7 @@ export default {
   props: {
     back: {
       type: Object,
-      required: true
+      default: null
     },
     title: {
       type: String,

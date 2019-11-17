@@ -19,11 +19,11 @@
                 <b-icon size="is-small" icon="lock" />
               </span>
             </a>
-            <a class="button is-white is-not-draggable">
+            <router-link to="/settings" class="button is-white is-not-draggable">
               <span class="icon has-text-grey-dark">
                 <b-icon size="is-small" icon="cog" />
               </span>
-            </a>
+            </router-link>
           </div>
         </div>
       </div>
