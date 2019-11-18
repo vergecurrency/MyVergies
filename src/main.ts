@@ -1,3 +1,4 @@
+import messages from './utils/i18n'
 import Vue from 'vue'
 import axios from 'axios'
 import electron from 'electron'
@@ -10,7 +11,8 @@ import '@/mixins'
 import '@/icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions } from 'vuex'
-import constants from '@/utils/constants'
+import constants from './utils/constants'
+import VueI18n from 'vue-i18n'
 
 // @ts-ignore
 Vue.http = Vue.prototype.$http = axios
@@ -21,8 +23,15 @@ Vue.use(Buefy, {
 })
 Vue.component('fa-icon', FontAwesomeIcon)
 Vue.prototype.$electron = electron
+Vue.use(VueI18n)
+
+const i18n = new VueI18n({
+  locale: 'en',
+  messages: messages
+})
 
 new Vue({
+  i18n,
   router,
   store,
   render: h => h(App),
