@@ -17,7 +17,7 @@
               </router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'wallets.create' }">{{ $t('main.menu.add') }}</router-link>
+              <router-link :to="{ name: 'wallets.create' }" v-t="'main.menu.add'"></router-link>
             </li>
           </ul>
         </li>
