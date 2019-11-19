@@ -2,12 +2,12 @@
   <div>
     <navigation-header title="Settings"/>
     <div class="box">
-        <div class="level">
-          <label class="is-size-5 has-text-weight-bold level-left" v-html="'Language'"/>
-          <select class="level-right" id="language-select" v-model="$i18n.locale">
-            <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
-          </select>
-        </div>
+      <div class="level">
+        <label for="language-select" class="is-size-5 has-text-weight-bold level-left" v-html="'Language'"/>
+        <select class="level-right" id="language-select" v-model="$i18n.locale">
+          <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
+        </select>
+      </div>
     </div>
   </div>
 </template>
