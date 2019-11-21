@@ -38,7 +38,7 @@ export default {
     border-radius: 10px;
     color: white;
     height: 120px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 3px 0px #111111;
     transition: all 0.5s ease-in-out;
     cursor: pointer;
   }
@@ -53,51 +53,51 @@ export default {
   .wallet-menu-card-background-blue {
     background: rgb(27,154,220);
     background: linear-gradient(145deg, rgb(0, 30, 220) 0%, rgb(14, 149, 202) 20%, rgb(117, 240, 236) 70%);
-    box-shadow: 0 4px 20px rgba(14, 149, 202, 0.5);
+    box-shadow: 0 4px 20px rgba(14, 149, 202, 0.5), 0 3px 0px #70c4fd;
   }
 
   .wallet-menu-card-background-blue:hover {
-    box-shadow: 0 4px 40px rgb(11, 140, 202);
+    box-shadow: 0 4px 40px rgb(11, 140, 202), 0 2px 0px #0063cc;
   }
 
   .wallet-menu-card-background-purple {
     background: rgb(90,0,188);
     background: linear-gradient(145deg, rgb(90, 0, 188) 0%, rgb(228, 62, 120) 100%);
-    box-shadow: 0 4px 20px rgba(228, 62, 120, 0.5);
+    box-shadow: 0 4px 20px rgba(228, 62, 120, 0.5), 0 3px 0px #940000;
   }
 
   .wallet-menu-card-background-purple:hover {
-    box-shadow: 0 4px 40px rgb(209, 57, 228);
+    box-shadow: 0 4px 40px rgb(209, 57, 228), 0 2px 0px #940000;
   }
 
   .wallet-menu-card-background-green {
     background: rgb(27,138,117);
     background: linear-gradient(145deg, rgb(0, 155, 94) 0%, rgb(217, 255, 51) 100%);
-    box-shadow: 0 4px 20px rgba(44, 214, 2, 0.5);
+    box-shadow: 0 4px 20px rgba(44, 214, 2, 0.5), 0 3px 0px #459e7d;
   }
 
   .wallet-menu-card-background-green:hover {
-    box-shadow: 0 4px 40px rgb(1, 214, 133);
+    box-shadow: 0 4px 40px rgb(1, 214, 133), 0 2px 0px #186649;
   }
 
   .wallet-menu-card-background-orange {
     background: rgb(188,76,0);
     background: linear-gradient(145deg, rgb(188, 76, 0) 0%, rgb(254, 255, 29) 100%);
-    box-shadow: 0 4px 20px rgba(255, 133, 29, 0.5);
+    box-shadow: 0 4px 20px rgba(255, 133, 29, 0.5), 0 3px 0px #d6a46e;
   }
 
   .wallet-menu-card-background-orange:hover {
-    box-shadow: 0 4px 40px rgb(255, 154, 120);
+    box-shadow: 0 4px 40px rgb(255, 154, 120), 0 2px 0px #ff8400;
   }
 
   .wallet-menu-card-background-red {
     background: rgb(188,0,89);
     background: linear-gradient(145deg, rgb(188, 0, 89) 0%, rgb(228, 181, 62) 100%);
-    box-shadow: 0 4px 20px rgba(228, 181, 62, 0.5);
+    box-shadow: 0 4px 20px rgba(228, 181, 62, 0.5), 0 3px 0px #98004d;
   }
 
   .wallet-menu-card-background-red:hover {
-    box-shadow: 0 4px 40px rgb(228, 76, 53);
+    box-shadow: 0 4px 40px rgb(228, 76, 53), 0 2px 0px #98004d;
   }
 
   .wallet-menu-card-content {

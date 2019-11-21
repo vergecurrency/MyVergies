@@ -29,10 +29,10 @@
               <p v-html="address" class="has-text-weight-bold"/>
               <hr/>
               <div class="buttons">
-                <a class="button">
+                <a class="button is-primary">
                   New address
                 </a>
-                <a class="button">
+                <a class="button is-primary">
                   Copy
                 </a>
               </div>

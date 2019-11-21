@@ -1,3 +1,48 @@
+.button.is-primary {
+  box-shadow: 0px 3px 0px #119ab8;
+}
+
+.button.is-primary:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #119ab8;
+}
+
+.button.is-info {
+  box-shadow: 0px 3px 0px #0e70be;
+}
+
+.button.is-info:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #0e70be;
+}
+
+.button.is-success {
+  box-shadow: 0px 3px 0px #18573b;
+}
+
+.button.is-success:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #18573b;
+}
+
+.button.is-danger {
+  box-shadow: 0px 3px 0px #c01f16;
+}
+
+.button.is-danger:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #c01f16;
+}
+
+.button.is-warning {
+  box-shadow: 0px 3px 0px #9e9021;
+}
+
+.button.is-warning:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #9e9021;
+}
+
 @media (prefers-color-scheme: dark) {
   .button {
     background: #363636;
@@ -22,5 +67,45 @@
   .button.is-white {
     background: #0a0a0a;
     color: white;
+  }
+
+  .button.is-primary {
+    box-shadow: 0px 3px 0px #0e7e97;
+  }
+
+  .button.is-primary:hover {
+    box-shadow: 0px 2px 0px #0e7e97;
+  }
+
+  .button.is-info {
+    box-shadow: 0px 3px 0px #0b5997;
+  }
+
+  .button.is-info:hover {
+    box-shadow: 0px 2px 0px #0b5997;
+  }
+
+  .button.is-success {
+    box-shadow: 0px 3px 0px #18573b;
+  }
+
+  .button.is-success:hover {
+    box-shadow: 0px 2px 0px #18573b;
+  }
+
+  .button.is-danger {
+    box-shadow: 0px 3px 0px #921711;
+  }
+
+  .button.is-danger:hover {
+    box-shadow: 0px 2px 0px #921711;
+  }
+
+  .button.is-warning {
+    box-shadow: 0px 3px 0px #6e6417;
+  }
+
+  .button.is-warning:hover {
+    box-shadow: 0px 2px 0px #6e6417;
   }
 }
