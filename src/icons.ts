@@ -10,6 +10,7 @@ import {
   faAddressBook,
   faSearch,
   faPlus,
+  faGlobe,
   faRedo,
   faInfo,
   faCoins,
@@ -32,3 +33,4 @@ library.add(faInfo)
 library.add(faCoins)
 library.add(faAngleLeft)
 library.add(faAngleRight)
+library.add(faGlobe)
