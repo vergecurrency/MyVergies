@@ -13,9 +13,13 @@ import {
   faGlobe,
   faRedo,
   faInfo,
+  faInfoCircle,
   faCoins,
   faAngleRight,
-  faAngleLeft
+  faAngleLeft,
+  faStar,
+  faList,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -30,7 +34,11 @@ library.add(faSearch)
 library.add(faPlus)
 library.add(faRedo)
 library.add(faInfo)
+library.add(faInfoCircle)
 library.add(faCoins)
 library.add(faAngleLeft)
 library.add(faAngleRight)
 library.add(faGlobe)
+library.add(faStar)
+library.add(faList)
+library.add(faCheck)
