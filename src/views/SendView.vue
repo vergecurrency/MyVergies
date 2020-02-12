@@ -4,97 +4,45 @@
 
     <div class="box">
 
-      <div class="notification">
-        <div class="content is-small">
-          <p class="has-text-weight-semibold">
-            Sending XVG is easy! Fill in the form with a recipient address and an amount and confirm the transaction.
-          </p>
-          <p class="is-small">
-            Additionally you can fill the memo field which will only visible by you.<br/>
-            You could use it for example like a reminder what the transaction was about.
-          </p>
-        </div>
-      </div>
+      <info-notification>
+        <template slot="title">
+          Sending XVG is easy!
+        </template>
+        <template slot="subtitle">
+          Fill in the form with a recipient address and an amount and confirm the transaction.
+        </template>
+        <template slot="content">
+          Additionally you can fill the memo field which will only visible by you.<br/>
+          You could use it for example like a reminder what the transaction was about.
+        </template>
+      </info-notification>
 
-      <div class="hero">
-        <div class="hero-body">
+      <section class="section">
 
-          <div class="field">
-            <div class="field-label">
-              <label class="label has-text-left">Recipient</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-expanded">
-                <div class="field has-addons">
-                  <p class="control">
-                    <a class="button">
-                      <b-icon icon="address-book" size="is-small"/>
-                    </a>
-                  </p>
-                  <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Recipient XVG address" v-model="transaction.recipient">
-                  </p>
-                </div>
-                <p class="help">Select a valid XVG address, either stealth or not.</p>
-              </div>
-            </div>
-          </div>
+        <b-steps
+          v-model="activeStep"
+          :has-navigation="false"
+        >
 
-          <div class="field">
-            <div class="field-label">
-              <label class="label has-text-left">Amount</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-expanded">
-                <div class="field has-addons">
-                  <p class="control">
-                  <span class="select">
-                    <select>
-                      <option>XVG</option>
-                      <option>$</option>
-                      <option>£</option>
-                      <option>€</option>
-                    </select>
-                  </span>
-                  </p>
-                  <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Amount you want to send" v-model="transaction.amount">
-                  </p>
-                  <p class="control">
-                    <a class="button">
-                      Send Max
-                    </a>
-                  </p>
-                </div>
-                <p class="help">Fillin the amount you want to send, transaction fee will be calculated automatically.</p>
-              </div>
-            </div>
-          </div>
+          <b-step-item label="Fill Form">
+            <send-form v-model="transaction" @input="validateTransaction"/>
+          </b-step-item>
 
-          <div class="field">
-            <div class="field-label">
-              <label class="label has-text-left">Internal Memo</label>
-            </div>
-            <div class="field-body">
-              <div class="field is-expanded">
-                <input class="input" type="text" placeholder="Gift to Swen" v-model="transaction.memo">
-                <p class="help">An optional internal memo.</p>
-              </div>
-            </div>
-          </div>
+          <b-step-item label="Confirm">
+            <send-confirm @confirmed="sendTransaction"/>
+          </b-step-item>
 
-          <div class="columns">
-            <div class="column"></div>
-            <div class="column is-narrow">
-              <div class="buttons">
-                <a class="button">Reset</a>
-                <a class="button is-primary">Confirm</a>
-              </div>
-            </div>
-          </div>
+          <b-step-item label="Sending">
+            <sending ref="sendingView" @sent="transactionSent"/>
+          </b-step-item>
 
-        </div>
-      </div>
+          <b-step-item label="Sent" type="is-success" icon="check">
+            <transaction-sent @done="reset"/>
+          </b-step-item>
+
+        </b-steps>
+
+      </section>
 
     </div>
 
@@ -103,11 +51,17 @@
 
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
+import InfoNotification from '@/components/InfoNotification'
+import SendForm from '@/views/SendForm'
+import Sending from '@/views/Sending'
+import TransactionSent from '@/views/TransactionSent'
+import SendConfirm from '@/views/SendConfirm'
 export default {
   name: 'send-view',
-  components: { NavigationHeader },
+  components: { SendConfirm, TransactionSent, Sending, SendForm, InfoNotification, NavigationHeader },
   data () {
     return {
+      activeStep: 0,
       transaction: {
         recipient: '',
         amount: 0,
@@ -119,6 +73,24 @@ export default {
     wallet: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    validateTransaction () {
+      this.activeStep = 1
+    },
+
+    sendTransaction () {
+      this.$refs.sendingView.animate()
+      this.activeStep = 2
+    },
+
+    transactionSent () {
+      this.activeStep = 3
+    },
+
+    reset () {
+      this.activeStep = 0
     }
   }
 }

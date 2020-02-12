@@ -12,6 +12,9 @@
       <div class="column">
         <p class="is-size-4 has-text-weight-bold" v-html="title"/>
       </div>
+      <div class="column is-narrow">
+        <slot name="right"/>
+      </div>
     </div>
   </div>
 </template>
