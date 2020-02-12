@@ -29,12 +29,12 @@ If you want to help us out on development you can use this guide:
 2. Install the npm dependencies.
 ``` bash
 # install dependencies
-npm install
+npm ci
 ```
 
 3. Run a local instance with hot reload.
 ```bash
-npm run dev
+npm run electron:serve
 ```
 
 4. Run tests locally.
