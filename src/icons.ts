@@ -19,7 +19,8 @@ import {
   faAngleLeft,
   faStar,
   faList,
-  faCheck
+  faCheck,
+  faUser
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -42,3 +43,4 @@ library.add(faGlobe)
 library.add(faStar)
 library.add(faList)
 library.add(faCheck)
+library.add(faUser)

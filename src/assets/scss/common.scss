@@ -7,6 +7,14 @@ html {
   height: auto;
 }
 
+ .is-selectable {
+   -webkit-touch-callout: default;
+   -webkit-user-select: text;
+   -moz-user-select: text;
+   -ms-user-select: text;
+   user-select: text;
+ }
+
 @media (prefers-color-scheme: dark) {
   hr {
     background-color: #797979;

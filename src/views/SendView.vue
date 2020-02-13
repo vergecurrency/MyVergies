@@ -29,7 +29,7 @@
           </b-step-item>
 
           <b-step-item label="Confirm">
-            <send-confirm @confirmed="sendTransaction"/>
+            <send-confirm v-model="transaction" @confirmed="sendTransaction"/>
           </b-step-item>
 
           <b-step-item label="Sending">
@@ -63,7 +63,7 @@ export default {
     return {
       activeStep: 0,
       transaction: {
-        recipient: '',
+        recipient: 'DBn4ZuRme7bjtN85y3hJ4K2AWC8hhDNcsm',
         amount: 0,
         memo: ''
       }
