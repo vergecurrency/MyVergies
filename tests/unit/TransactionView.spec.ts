@@ -38,7 +38,12 @@ describe('TransactionView.vue', () => {
         transaction, wallet
       },
       mocks: {
-        $electron
+        $electron,
+        $i18n: {
+          t (key: string) {
+            return key
+          }
+        }
       }
     })
 
@@ -76,7 +81,12 @@ describe('TransactionView.vue', () => {
         transaction, wallet
       },
       mocks: {
-        $electron
+        $electron,
+        $i18n: {
+          t (key: string) {
+            return key
+          }
+        }
       }
     })
 
@@ -115,7 +125,12 @@ describe('TransactionView.vue', () => {
         transaction, wallet
       },
       mocks: {
-        $electron
+        $electron,
+        $i18n: {
+          t (key: string) {
+            return key
+          }
+        }
       }
     })
 

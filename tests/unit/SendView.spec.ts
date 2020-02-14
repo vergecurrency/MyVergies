@@ -3,6 +3,8 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import SendView from '@/views/SendView.vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
+import electron from 'electron'
+import Vue from 'vue/types/vue'
 
 const localVue = createLocalVue()
 localVue.use(Buefy)
@@ -20,13 +22,14 @@ describe('SendView.vue', () => {
       localVue,
       propsData: {
         wallet
+      },
+      mocks: {
+        $i18n: {
+          t: (key: string) => key
+        }
       }
     })
 
-    expect(wrapper.text()).to.include('Send')
-    // expect(wrapper.text()).to.include('Recipient')
-    // expect(wrapper.text()).to.include('Amount')
-    // expect(wrapper.text()).to.include('Memo')
-    // expect(wrapper.text()).to.include('Confirm')
+    expect(wrapper.text()).to.include('Sending XVG is easy!')
   })
 })

@@ -20,6 +20,13 @@ describe('WalletView.vue', () => {
       localVue,
       propsData: {
         wallet
+      },
+      mocks: {
+        $i18n: {
+          t (key: string) {
+            return key
+          }
+        }
       }
     })
 
