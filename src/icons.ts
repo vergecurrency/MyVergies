@@ -20,7 +20,8 @@ import {
   faStar,
   faList,
   faCheck,
-  faUser
+  faUser,
+  faMoneyBill
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -44,3 +45,4 @@ library.add(faStar)
 library.add(faList)
 library.add(faCheck)
 library.add(faUser)
+library.add(faMoneyBill)

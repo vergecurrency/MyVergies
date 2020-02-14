@@ -52,10 +52,10 @@
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import InfoNotification from '@/components/InfoNotification'
-import SendForm from '@/views/SendForm'
-import Sending from '@/views/Sending'
-import TransactionSent from '@/views/TransactionSent'
-import SendConfirm from '@/views/SendConfirm'
+import SendForm from '@/components/Sending/SendForm'
+import Sending from '@/components/Sending/Sending'
+import TransactionSent from '@/components/Sending/TransactionSent'
+import SendConfirm from '@/components/Sending/SendConfirm'
 export default {
   name: 'send-view',
   components: { SendConfirm, TransactionSent, Sending, SendForm, InfoNotification, NavigationHeader },

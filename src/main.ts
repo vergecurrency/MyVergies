@@ -10,7 +10,7 @@ import Buefy from 'buefy'
 import '@/mixins'
 import '@/icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import constants from './utils/constants'
 import VueI18n from 'vue-i18n'
 
@@ -35,10 +35,13 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  computed: {
+    ...mapGetters(['currentLanguageCode', 'currentCurrencyCode'])
+  },
   methods: {
     ...mapActions(['updatePriceRate']),
     loadData () {
-      axios.get(`${constants.priceApi}/eur`)
+      axios.get(`${constants.priceApi}/${this.currentCurrencyCode}`)
         .then(response => {
           // @ts-ignore
           this.updatePriceRate(response.data.price)
@@ -50,5 +53,7 @@ new Vue({
     setInterval(() => {
       this.loadData()
     }, 30000)
+
+    this.$i18n.locale = this.currentLanguageCode
   }
 }).$mount('#app')

@@ -3,5 +3,6 @@ export default {
   vwsApi: 'https://api.vergecurrency.network/vws/api',
   bnApi: 'https://api.vergecurrency.network/node/api/XVG',
   explorer: 'https://verge-blockchain.info',
-  decimalPerSatoshi: 6
+  decimalPerSatoshi: 6,
+  defaultCurrencyCode: 'USD'
 }

@@ -3,10 +3,10 @@ import constants from '@/utils/constants'
 
 Vue.mixin({
   methods: {
-    getFormattedCurrency: (amount: number, lang: string) => {
+    getFormattedCurrency: (amount: number, lang: string, currency: string = constants.defaultCurrencyCode) => {
       return new Intl.NumberFormat(lang, {
         style: 'currency',
-        currency: lang.includes('de') ? 'EUR' : 'USD'
+        currency: currency
       }).format(amount)
     },
 

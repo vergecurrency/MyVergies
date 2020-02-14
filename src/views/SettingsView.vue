@@ -1,33 +1,94 @@
 <template>
   <div>
-    <navigation-header title="Settings" />
+    <navigation-header :title="$i18n.t('settings.settings')" />
     <div class="box">
-      <div class="level">
-        <label class="is-size-5 has-text-weight-bold level-left" v-html="'Language'" />
-        <div class="control has-icons-left">
-          <div class="select level-right">
-            <select id="language-select" v-model="$i18n.locale">
-              <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang">{{ lang }}</option>
-            </select>
-          </div>
-          <div class="icon is-small is-left">
-            <b-icon icon="globe"></b-icon>
-          </div>
-        </div>
-      </div>
+
+      <form-section :title="$i18n.t('settings.settings')" no-divider>
+        <b-field
+          horizontal
+          :label="$i18n.t('settings.language')"
+          message="Language, Taal, Idioma, Sprache, Langue, Língua, linguaggio, язык, 語言, 언어, لغة"
+        >
+          <b-select v-model="language" expanded icon="globe">
+            <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" v-html="lang"/>
+          </b-select>
+        </b-field>
+
+        <b-field horizontal :label="$i18n.t('settings.currency')" :message="$i18n.t('settings.currencyDetails')">
+          <b-select v-model="currency" expanded icon="money-bill">
+            <option v-for="(currency, i) in currencies" :key="`Currency${i}`" :value="currency" v-html="currency"/>
+          </b-select>
+        </b-field>
+      </form-section>
+
+      <form-section :title="$i18n.t('settings.security')">
+        <b-field horizontal :label="$i18n.t('settings.password')">
+          <b-button v-html="$i18n.t('settings.changePassword')" type="is-light"/>
+        </b-field>
+
+        <b-field horizontal :label="$i18n.t('settings.lockAfter')" :message="$i18n.t('settings.lockAfterDetails')">
+          <b-select v-model="lockAfter" expanded icon="lock">
+            <option v-for="(lock, i) in locks" :key="`Currency${i}`" :value="i" v-html="lock"/>
+          </b-select>
+        </b-field>
+      </form-section>
+
+      <form-section :title="$i18n.t('settings.connection')">
+        <b-field horizontal :label="$i18n.t('settings.torConnection')">
+          <b-button v-html="$i18n.t('settings.manageTorConnection')" type="is-light"/>
+        </b-field>
+      </form-section>
+
     </div>
   </div>
 </template>
 
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
+import FormSection from '@/components/layout/FormSection'
 import messages from '@/utils/i18n'
+import currencies from '@/utils/currencies'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'settings-view',
-  components: { NavigationHeader },
+  components: { FormSection, NavigationHeader },
   data () {
-    return { langs: Object.keys(messages) }
+    return {
+      langs: Object.keys(messages),
+      currencies: currencies,
+      lockAfter: '5m',
+      locks: {
+        '5m': '5 Minutes',
+        '10m': '10 Minutes',
+        '20m': '20 Minutes',
+        '30m': '30 Minutes'
+      }
+    }
+  },
+  computed: {
+    language: {
+      get () {
+        return this.currentLanguageCode()
+      },
+      set (value) {
+        this.updateLanguage(value)
+        this.$i18n.locale = value
+      }
+    },
+    currency: {
+      get () {
+        return this.currentCurrencyCode()
+      },
+      set (value) {
+        this.updateCurrency(value)
+        this.$root.loadData()
+      }
+    }
+  },
+  methods: {
+    ...mapGetters(['currentCurrencyCode', 'currentLanguageCode']),
+    ...mapActions(['updateCurrency', 'updateLanguage'])
   }
 }
 </script>

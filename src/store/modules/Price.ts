@@ -7,7 +7,7 @@ const state: Price = {
 }
 
 const mutations = {
-  UPDATE_RATE_PRICE_USD (state: Price, newRate: number) {
+  UPDATE_PRICE_RATE (state: Price, newRate: number) {
     state.rate = newRate
   }
 }
@@ -15,7 +15,7 @@ const mutations = {
 const actions = {
   // @ts-ignore
   updatePriceRate ({ commit }, price: number) {
-    commit('UPDATE_RATE_PRICE_USD', price)
+    commit('UPDATE_PRICE_RATE', price)
   }
 }
 

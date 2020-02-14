@@ -26,7 +26,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentRate']),
+    ...mapGetters(['currentRate', 'currentCurrencyCode']),
 
     amountFormatted: function () {
       if (this.crypto) {
@@ -35,7 +35,7 @@ export default {
 
       if (this.convert) {
         const amount = this.amount * this.currentRate
-        return this.getFormattedCurrency(amount, this.$electron.remote.app.getLocale())
+        return this.getFormattedCurrency(amount, this.$electron.remote.app.getLocale(), this.currentCurrencyCode)
       }
 
       return ''
