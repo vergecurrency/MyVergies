@@ -1,6 +1,9 @@
 <template>
   <div>
-    <navigation-header :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}" title="Send"/>
+    <navigation-header
+      :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+      :title="$i18n.t('send.send')"
+    />
 
     <div class="box">
 
@@ -24,19 +27,19 @@
           :has-navigation="false"
         >
 
-          <b-step-item label="Fill Form">
+          <b-step-item :label="$i18n.t('send.fillForm')">
             <send-form v-model="transaction" @input="validateTransaction"/>
           </b-step-item>
 
-          <b-step-item label="Confirm">
+          <b-step-item :label="$i18n.t('send.confirm')">
             <send-confirm v-model="transaction" @confirmed="sendTransaction"/>
           </b-step-item>
 
-          <b-step-item label="Sending">
+          <b-step-item :label="$i18n.t('send.sending')">
             <sending ref="sendingView" @sent="transactionSent"/>
           </b-step-item>
 
-          <b-step-item label="Sent" type="is-success" icon="check">
+          <b-step-item :label="$i18n.t('send.sent')" type="is-success" icon="check">
             <transaction-sent @done="reset"/>
           </b-step-item>
 

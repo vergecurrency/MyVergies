@@ -53,7 +53,7 @@ export default {
     },
 
     label () {
-      let fallback = this.transaction.action
+      let fallback = this.$i18n.t(`transaction.${this.transaction.action}`)
       let outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
 
       if (this.transaction.action === 'sent') {

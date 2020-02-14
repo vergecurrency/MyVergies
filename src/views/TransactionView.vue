@@ -1,12 +1,15 @@
 <template>
   <div>
-    <navigation-header :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}" title="Transaction"/>
+    <navigation-header
+      :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+      :title="$i18n.t('transaction.transaction')"
+    />
 
     <div class="columns is-vcentered">
       <div class="column">
         <div class="tags has-addons">
-          <span class="tag is-medium">transaction</span>
-          <span class="tag is-medium is-capitalized" :class="tagColor" v-html="transaction.action" />
+          <span class="tag is-medium is-lowercase" v-html="$i18n.t('transaction.transaction')"/>
+          <span class="tag is-medium is-capitalized" :class="tagColor" v-html="$i18n.t(`transaction.${transaction.action}`)" />
         </div>
       </div>
       <div class="column has-text-right">
@@ -18,7 +21,7 @@
 
     <div class="columns">
       <div class="column">
-        Amount
+        {{ $i18n.t('transaction.amount') }}
         <transaction-amount
           class="is-size-4 has-text-weight-bold"
           :amount="transaction.amount"
@@ -26,18 +29,18 @@
         />
       </div>
       <div class="column">
-        Date
+        {{ $i18n.t('transaction.date') }}
         <p class="is-size-4 has-text-weight-semibold has-text-primary">{{ timestamp }}</p>
       </div>
     </div>
 
-    <p class="is-title-transaction-details">Details</p>
+    <p class="is-title-transaction-details" v-html="$i18n.t('transaction.details')"/>
 
     <div class="box">
 
       <div v-if="address" class="columns is-vcentered is-gapless">
         <div class="column">
-          <p class="has-text-weight-semibold">Address</p>
+          <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.address')"/>
           <p v-html="address"/>
         </div>
         <div class="column has-text-right">
@@ -51,7 +54,7 @@
 
       <div class="columns is-gapless">
         <div class="column">
-          <p class="has-text-weight-semibold">Confirmations</p>
+          <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.confirmations')"/>
           <p v-html="transaction.confirmations"/>
         </div>
       </div>
@@ -60,7 +63,7 @@
 
       <div class="columns is-vcentered is-gapless">
         <div class="column is-10">
-          <p class="has-text-weight-semibold">TXID</p>
+          <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.txid')"/>
           <p class="has-text-txid" v-html="transaction.txid"/>
         </div>
         <div class="column has-text-right">

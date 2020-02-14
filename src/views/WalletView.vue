@@ -30,9 +30,7 @@
                     <span class="icon">
                         <b-icon icon="credit-card" size="is-small"/>
                     </span>
-                    <span>
-                      Send
-                    </span>
+                    <span v-html="$i18n.t('wallet.send')"/>
                   </router-link>
                   <router-link
                     :to="{ name: 'wallets.receive', params: { walletName: wallet.name, wallet }}"
@@ -41,9 +39,7 @@
                     <span class="icon">
                         <b-icon icon="hand-holding-usd" size="is-small"/>
                     </span>
-                    <span>
-                      Receive
-                    </span>
+                    <span v-html="$i18n.t('wallet.receive')"/>
                   </router-link>
                 </div>
               </div>

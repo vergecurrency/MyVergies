@@ -3,9 +3,7 @@
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
-          <a class="is-size-2 has-text-weight-semibold is-active">
-            Wallets
-          </a>
+          <a class="is-size-2 has-text-weight-semibold is-active" v-html="$i18n.t('main.menu.wallets')"/>
           <ul class="menu-wallets">
             <li v-for="wallet in wallets" :key="wallet.name">
               <router-link
@@ -22,14 +20,18 @@
           </ul>
         </li>
         <li>
-          <router-link class="is-size-4 has-text-weight-semibold" :to="{ name: 'explorer' }">
-            Explorer
-          </router-link>
+          <router-link
+            class="is-size-4 has-text-weight-semibold"
+            :to="{ name: 'explorer' }"
+            v-html="$i18n.t('main.menu.explorer')"
+          />
         </li>
         <li>
-          <router-link class="is-size-4 has-text-weight-semibold" :to="{ name: 'contacts' }">
-            Contacts
-          </router-link>
+          <router-link
+            class="is-size-4 has-text-weight-semibold"
+            :to="{ name: 'contacts' }"
+            v-html="$i18n.t('main.menu.contacts')"
+          />
         </li>
       </ul>
     </aside>
