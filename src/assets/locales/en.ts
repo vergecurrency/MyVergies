@@ -37,7 +37,18 @@ const en = {
     internalMemo: 'Internal memo',
     internalMemoDetails: 'An optional internal memo',
     sendMax: 'Send max',
-    reset: 'Reset'
+    reset: 'Reset',
+    confirmTransaction: 'Confirm transaction',
+    cancel: 'Cancel',
+    transactionFee: 'Transaction fee',
+    total: 'Total',
+    transactionWarning: 'Double check that the wallet address is correct. Verge Currency cannot be held accountable for loss of XVG sent to wrong wallets.',
+    signing: 'Signing',
+    publishing: 'Publishing',
+    broadcasting: 'Broadcasting',
+    transactionSent: 'Transaction sent',
+    transactionSentSubtitle: 'That\'s some epic stuff you great person',
+    done: 'Done'
   },
   settings: {
     settings: 'Settings',

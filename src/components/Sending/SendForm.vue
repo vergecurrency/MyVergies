@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <section class="section">
 
     <div class="field">
       <div class="field-label">
@@ -64,15 +64,15 @@
     </div>
 
     <div class="columns">
-      <div class="column"></div>
-      <div class="column is-narrow">
-        <div class="buttons">
-          <a class="button" v-html="$i18n.t('send.reset')"/>
+      <div class="column">
+        <div class="buttons is-centered">
+          <a class="button is-light" v-html="$i18n.t('send.reset')"/>
           <a class="button is-primary" @click="$emit('input', value)" v-html="$i18n.t('send.confirm')"/>
         </div>
       </div>
     </div>
-  </div>
+
+  </section>
 </template>
 
 <script>

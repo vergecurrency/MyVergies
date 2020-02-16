@@ -29,7 +29,7 @@ const nl = {
     fillForm: 'Formulier invullen',
     confirm: 'Bevestig',
     sending: 'Verzenden',
-    sent: 'Klaar',
+    sent: 'Verzonden',
     recipient: 'Ontvanger',
     recipientDetails: 'Vul een geldig XVG adres of stealth adres in',
     amount: 'Bedrag',
@@ -37,7 +37,18 @@ const nl = {
     internalMemo: 'Interne memo',
     internalMemoDetails: 'Vul eventueel een interne memo in',
     sendMax: 'Verzend max',
-    reset: 'Reset'
+    reset: 'Reset',
+    confirmTransaction: 'Bevestig transactie',
+    cancel: 'Annuleer',
+    transactionFee: 'Transactiekosten',
+    total: 'Totaal',
+    transactionWarning: 'Controleer het wallet adres nogmaals. Verge Currency kan niet verantwoordelijk gehouden worden voor het verlies van XVG door foutief gebruikte wallet adressen.',
+    signing: 'Ondertekenen',
+    publishing: 'Uitgeven',
+    broadcasting: 'Uitzenden',
+    transactionSent: 'Transactie verzonden',
+    transactionSentSubtitle: 'Dat heb je behoorlijk fantastisch gedaan eerlijk gezegd',
+    done: 'Klaar'
   },
   settings: {
     settings: 'Instellingen',

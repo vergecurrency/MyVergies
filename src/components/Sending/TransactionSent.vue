@@ -1,13 +1,9 @@
 <template>
-  <div class="has-text-centered">
-    <h1 class="title">Transaction Sent!</h1>
-    Lorem ipsum dolor sit amet.
-    <br/>
-
-    <button class="button is-primary" @click="$emit('done')">
-      Done
-    </button>
-  </div>
+  <section class="section has-text-centered">
+    <h1 class="title">{{ $i18n.t('send.transactionSent') }}!</h1>
+    <p class="content">{{ $i18n.t('send.transactionSentSubtitle') }}!</p>
+    <button class="button is-primary" @click="$emit('done')" v-html="$i18n.t('send.done')"/>
+  </section>
 </template>
 
 <script>

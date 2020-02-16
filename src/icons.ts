@@ -20,8 +20,11 @@ import {
   faStar,
   faList,
   faCheck,
+  faCheckCircle,
+  faCircle,
   faUser,
-  faMoneyBill
+  faMoneyBill,
+  faCircleNotch
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -44,5 +47,8 @@ library.add(faGlobe)
 library.add(faStar)
 library.add(faList)
 library.add(faCheck)
+library.add(faCheckCircle)
+library.add(faCircle)
 library.add(faUser)
 library.add(faMoneyBill)
+library.add(faCircleNotch)

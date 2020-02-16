@@ -1,0 +1,14 @@
+@media (prefers-color-scheme: dark) {
+  .b-steps .steps .step-items .step-item.is-active .step-marker {
+    background-color: #555555;
+  }
+
+  .b-steps .steps .step-items .step-item .step-marker {
+    background-color: #9f9f9f;
+    border-color: #727272;
+  }
+
+  .step-title {
+    color: #9f9f9f;
+  }
+}
