@@ -14,7 +14,9 @@ const en = {
   transaction: {
     transaction: 'Transaction',
     sent: 'Sent',
+    sending: 'Sending',
     received: 'Received',
+    receiving: 'Receiving',
     moved: 'Moved',
     pending: 'Pending',
     amount: 'Amount',

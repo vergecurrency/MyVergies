@@ -1,5 +1,9 @@
 <template>
-  <section class="section has-text-centered">
+  <section class="section">
+
+    <div class="block">
+      <p>Bevestig het versturen van XVG naar ontvanger.</p>
+    </div>
 
     <div class="columns">
       <div class="column has-text-left" v-html="$i18n.t('send.send')"/>

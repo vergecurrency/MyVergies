@@ -2,7 +2,12 @@
   <router-link :to="{ name: 'wallets.transactions', params: { walletName: wallet.name, txid: transaction.txid, transaction, wallet }}">
     <div class="transaction-container">
       <div class="transaction-icon">
-        <img :src="icon"/>
+        <b-icon v-if="transaction.action === 'received'" icon="plus-circle" type="is-success" class="fa-fw"/>
+        <b-icon v-else-if="transaction.action === 'sent'" icon="minus-circle" type="is-danger"/>
+        <b-icon v-else-if="transaction.action === 'moved'" icon="truck" class="has-text-grey-light fa-fw"/>
+        <b-icon v-else-if="transaction.action === 'receiving'" icon="hourglass-half" class="has-text-grey-light fa-fw"/>
+        <b-icon v-else-if="transaction.action === 'sending'" icon="satellite-dish" class="has-text-grey-light fa-fw"/>
+        <b-icon v-else icon="question-circle" type="is-warning" class="fa-fw"/>
       </div>
       <div class="transaction-content">
         <div class="transaction-label">
@@ -12,27 +17,19 @@
           {{ timestamp }}
         </div>
       </div>
-      <transaction-amount :amount="transaction.amount" :action="transaction.action" :class="['transaction-amount']" />
+      <transaction-amount
+        :amount="transaction.amount"
+        :action="transaction.action"
+        class="has-text-weight-bold"
+        :class="['transaction-amount']"
+      />
     </div>
   </router-link>
 </template>
 
 <script>
 import moment from 'moment'
-import sentIcon from '@/assets/icons/sent.svg'
-import receivedIcon from '@/assets/icons/received.svg'
-import sendingIcon from '@/assets/icons/sending.svg'
-import movedIcon from '@/assets/icons/moved.svg'
-import receivingIcon from '@/assets/icons/receiving.svg'
 import TransactionAmount from '@/components/labels/TransactionAmount'
-
-const icons = {
-  sentIcon,
-  sendingIcon,
-  receivedIcon,
-  receivingIcon,
-  movedIcon
-}
 
 export default {
   name: 'TransactionRow',
@@ -56,7 +53,7 @@ export default {
       let fallback = this.$i18n.t(`transaction.${this.transaction.action}`)
       let outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
 
-      if (this.transaction.action === 'sent') {
+      if (this.transaction.action === 'sent' || this.transaction.action === 'sending') {
         return outputsWithAddress.shift().address || fallback
       }
 
@@ -89,9 +86,11 @@ export default {
     background-color: #f6f6f6;
   }
 
-  .transaction-icon > img {
-    width: 15px;
-    height: 15px;
+  .transaction-icon {
+    width: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .transaction-content {

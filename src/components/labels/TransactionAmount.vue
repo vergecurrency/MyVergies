@@ -23,10 +23,13 @@ export default {
 
       switch (this.action) {
         case 'sent':
+        case 'sending':
           return `- ${amount}`
         case 'received':
+        case 'receiving':
           return `+ ${amount}`
         case 'moved':
+        case 'pending':
         default:
           return amount
       }
@@ -35,10 +38,13 @@ export default {
     amountColor () {
       switch (this.action) {
         case 'sent':
+        case 'sending':
           return 'has-text-danger'
         case 'received':
+        case 'receiving':
           return 'has-text-success'
         case 'moved':
+        case 'pending':
         default:
           return 'has-text-grey-light'
       }

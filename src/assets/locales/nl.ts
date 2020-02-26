@@ -14,7 +14,9 @@ const nl = {
   transaction: {
     transaction: 'Transactie',
     sent: 'Verzonden',
+    sending: 'Verzenden',
     received: 'Ontvangen',
+    receiving: 'Ontvangen',
     moved: 'Verplaatst',
     pending: 'In afwachting',
     amount: 'Bedrag',

@@ -121,24 +121,15 @@ export default {
     tagColor () {
       switch (this.transaction.action) {
         case 'sent':
+        case 'sending':
           return 'is-danger'
         case 'received':
+        case 'receiving':
           return 'is-success'
         case 'moved':
+        case 'pending':
         default:
           return 'is-dark'
-      }
-    },
-
-    modalCardShadow () {
-      switch (this.transaction.action) {
-        case 'sent':
-          return 'has-shadow-danger'
-        case 'received':
-          return 'has-shadow-success'
-        case 'moved':
-        default:
-          return 'has-shadow-dark'
       }
     }
   },

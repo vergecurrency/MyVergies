@@ -1,16 +1,28 @@
 <template>
-  <div class="has-text-centered">
-    <div class="columns is-centered">
-      <div class="column is-narrow">
-        <section class="section has-text-left">
+  <div class="section has-text-centered">
+
+    <div class="block">
+      <div class="columns">
+        <div class="column">
           <sending-step :label="$i18n.t('send.signing')" :in-progress="step === 0" :done="step >= 1"/>
+        </div>
+        <div class="column">
           <sending-step :label="$i18n.t('send.publishing')" :in-progress="step === 1" :done="step >= 2"/>
+        </div>
+        <div class="column">
           <sending-step :label="$i18n.t('send.broadcasting')" :in-progress="step === 2" :done="step >= 3"/>
-        </section>
-        <b-progress type="is-success" :value="step / 3 * 100" size="is-large"/>
-        <br/>
+        </div>
       </div>
     </div>
+
+    <div class="block">Bezig met verzenden... dit duurt niet lang</div>
+
+    <div class="columns is-centered">
+      <div class="column is-half">
+        <b-progress type="is-success" :value="step / 3 * 100" size="is-large"/>
+      </div>
+    </div>
+
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faLock,
+  faLockOpen,
   faCog,
   faEdit,
   faCreditCard,
@@ -24,10 +25,17 @@ import {
   faCircle,
   faUser,
   faMoneyBill,
-  faCircleNotch
+  faCircleNotch,
+  faPlusCircle,
+  faMinusCircle,
+  faTruck,
+  faHourglassHalf,
+  faSatelliteDish,
+  faQuestionCircle
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
+library.add(faLockOpen)
 library.add(faCog)
 library.add(faEdit)
 library.add(faCreditCard)
@@ -52,3 +60,9 @@ library.add(faCircle)
 library.add(faUser)
 library.add(faMoneyBill)
 library.add(faCircleNotch)
+library.add(faPlusCircle)
+library.add(faMinusCircle)
+library.add(faTruck)
+library.add(faHourglassHalf)
+library.add(faSatelliteDish)
+library.add(faQuestionCircle)
