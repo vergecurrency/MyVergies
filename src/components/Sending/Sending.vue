@@ -15,7 +15,7 @@
       </div>
     </div>
 
-    <div class="block">Bezig met verzenden... dit duurt niet lang</div>
+    <div class="block" v-html="$i18n.t('send.sendingDescription')"/>
 
     <div class="columns is-centered">
       <div class="column is-half">

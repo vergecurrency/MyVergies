@@ -27,6 +27,9 @@ const en = {
     txid: 'TXID'
   },
   send: {
+    formDescription: 'Carefully fill in the required form fields.',
+    confirmDescription: 'Confirm sending the given amout of XVG to the selected recipient',
+    sendingDescription: 'Sending in progress... this doesn\'t take long',
     send: 'Verzend',
     fillForm: 'Fill form',
     confirm: 'Confirm',

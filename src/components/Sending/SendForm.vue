@@ -2,7 +2,7 @@
   <section class="section">
 
     <div class="block">
-      <p>Vul het verzend formulier zorgvuldig in.</p>
+      <p v-html="$i18n.t('send.formDescription')"/>
     </div>
 
     <div class="columns">

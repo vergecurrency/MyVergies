@@ -27,6 +27,9 @@ const nl = {
     txid: 'TXID'
   },
   send: {
+    formDescription: 'Vul het verzend formulier zorgvuldig in.',
+    confirmDescription: 'Bevestig het versturen van XVG naar ontvanger.',
+    sendingDescription: 'Bezig met verzenden... dit duurt niet lang',
     send: 'Verzend',
     fillForm: 'Formulier invullen',
     confirm: 'Bevestig',

@@ -2,7 +2,7 @@
   <section class="section">
 
     <div class="block">
-      <p>Bevestig het versturen van XVG naar ontvanger.</p>
+      <p v-html="$i18n.t('send.confirmDescription')"/>
     </div>
 
     <div class="columns">
