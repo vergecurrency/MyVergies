@@ -31,7 +31,9 @@ import {
   faTruck,
   faHourglassHalf,
   faSatelliteDish,
-  faQuestionCircle
+  faQuestionCircle,
+  faWifi,
+  faIdCard
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -66,3 +68,5 @@ library.add(faTruck)
 library.add(faHourglassHalf)
 library.add(faSatelliteDish)
 library.add(faQuestionCircle)
+library.add(faWifi)
+library.add(faIdCard)

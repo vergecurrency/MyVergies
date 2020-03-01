@@ -7,6 +7,11 @@ const nl = {
       contacts: 'Contacten'
     }
   },
+  unlock: {
+    unlockYourWallet: 'Ontgrendel uw wallet',
+    password: 'Wachtwoord',
+    forgotPassword: 'Ik ben mijn wachtwoord vergeten'
+  },
   wallet: {
     send: 'Verzend',
     receive: 'Ontvang'

@@ -3,7 +3,7 @@
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
-          <a class="is-size-2 has-text-weight-semibold is-active" v-html="$i18n.t('main.menu.wallets')"/>
+          <a class="is-size-2 has-text-weight-semibold" v-html="$i18n.t('main.menu.wallets')"/>
           <ul class="menu-wallets">
             <li v-for="wallet in wallets" :key="wallet.name">
               <router-link
@@ -40,15 +40,18 @@
 
 <script>
 import WalletCard from '@/components/WalletCard'
-import Wallets from '@/assets/data/example/wallets'
 
 export default {
   name: 'main-menu',
   components: { WalletCard },
+  props: {
+    wallets: {
+      type: Array
+    }
+  },
   data () {
     return {
-      selectedWallet: null,
-      wallets: Wallets
+      selectedWallet: null
     }
   },
   mounted () {

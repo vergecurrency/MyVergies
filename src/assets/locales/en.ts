@@ -7,6 +7,11 @@ const en = {
       contacts: 'Contacts'
     }
   },
+  unlock: {
+    unlockYourWallet: 'Unlock your wallet',
+    password: 'Password',
+    forgotPassword: 'I forgot my unlock password'
+  },
   wallet: {
     send: 'Send',
     receive: 'Receive'

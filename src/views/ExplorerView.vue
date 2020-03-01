@@ -3,9 +3,11 @@
     <div class="columns has-text-centered">
       <div class="column">
         <b-icon icon="search" custom-size="6x"/>
-        <h1 class="is-size-1 has-text-weight-bold has-text-grey">Let's Explore The Chain! 🕵️‍♀️</h1>
-        <p class="">
-          Some how you forgot to select your default wallet
+        <h1 class="is-size-1 has-text-grey is-family-handwritten">
+          Let's Explore The Chain! 🕵️‍♀️
+        </h1>
+        <p>
+          Not an opaque chain ;) but a public chain...
         </p>
       </div>
     </div>
@@ -14,6 +16,6 @@
 
 <script>
 export default {
-  name: 'welcome-view'
+  name: 'explorer-view'
 }
 </script>

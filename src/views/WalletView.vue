@@ -4,7 +4,7 @@
       <div class="columns is-vcentered">
         <div class="column">
           <p
-            class="is-size-5 has-text-weight-semibold is-capitalized has-text-grey has-line-height-small"
+            class="is-size-3 is-family-handwritten is-capitalized has-text-grey has-line-height-small"
             v-html="wallet.name"
           />
           <money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>

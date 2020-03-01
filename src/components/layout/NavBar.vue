@@ -13,23 +13,7 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item">
-          <div class="buttons">
-            <a class="button is-white is-not-draggable" @click="unlock">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="lock-open" />
-              </span>
-            </a>
-            <router-link to="/settings" class="button is-white is-not-draggable">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="cog" />
-              </span>
-            </router-link>
-            <router-link to="/help" class="button is-white is-not-draggable">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="question-circle" />
-              </span>
-            </router-link>
-          </div>
+          <slot name="navbar-items"/>
         </div>
       </div>
     </div>
@@ -37,24 +21,11 @@
 </template>
 
 <script>
-import AuthenticationModal from '@/components/modals/AuthenticationModal'
-
 export default {
   name: 'NavBar',
   computed: {
     isDarwin () {
       return process.platform === 'darwin'
-    }
-  },
-  methods: {
-    unlock () {
-      this.$buefy.modal.open({
-        parent: this,
-        component: AuthenticationModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        fullScreen: true
-      })
     }
   }
 }

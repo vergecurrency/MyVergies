@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <div class="columns">
+    <div class="columns is-vcentered">
       <div v-if="back" class="column is-narrow">
         <router-link
           class="button"
@@ -10,7 +10,7 @@
         </router-link>
       </div>
       <div class="column">
-        <p class="is-size-4 has-text-weight-bold" v-html="title"/>
+        <p class="is-size-3 is-family-handwritten" v-html="title"/>
       </div>
       <div class="column is-narrow">
         <slot name="right"/>

@@ -2,7 +2,7 @@
   <div :class="containerClass">
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
-      <p class="is-size-7 has-text-weight-semibold is-capitalized" v-html="wallet.name"/>
+      <p class="is-size-6 is-family-handwritten is-capitalized" v-html="wallet.name"/>
       <Money class="is-size-5 has-text-weight-bold" :amount="wallet.amount" crypto/>
       <Money class="is-size-7" :amount="wallet.amount" convert/>
     </div>
