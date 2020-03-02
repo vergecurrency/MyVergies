@@ -110,6 +110,7 @@ export default {
     reset () {
       this.viewLocked = false
       this.activeStep = 0
+      this.$router.push({ name: 'wallets', params: { walletName: this.wallet.name, wallet: this.wallet } })
     }
   }
 }

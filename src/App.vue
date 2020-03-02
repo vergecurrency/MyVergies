@@ -2,10 +2,10 @@
   <div id="app" class="app-container is-unselectable">
     <NavBar>
       <template slot="navbar-items">
-        <div class="navbar-item">
-          <b-icon icon="wifi" type="is-success"/>
-        </div>
         <div class="buttons">
+          <a class="button is-white is-not-draggable">
+            <b-icon icon="wifi" type="is-success" size="is-small"/>
+          </a>
           <a class="button is-white is-not-draggable" @click="unlock">
               <span class="icon has-text-grey-dark">
                 <b-icon size="is-small" icon="lock-open" />
