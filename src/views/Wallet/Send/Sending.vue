@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import SendingStep from '@/components/Sending/SendingStep'
+import SendingStep from './SendingStep'
 
 export default {
   name: 'Sending',

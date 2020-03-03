@@ -17,8 +17,12 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-narrow">
         <div class="buttons">
-          <button class="button is-primary">Create a new wallet</button>
-          <button class="button is-success">Restore an existing wallet</button>
+          <router-link class="button is-primary" :to="{ name: 'wallets.create.new' }">
+            Create a new wallet
+          </router-link>
+          <router-link class="button is-success" :to="{ name: 'wallets.create.restore' }">
+            Restore an existing wallet
+          </router-link>
         </div>
       </div>
     </div>

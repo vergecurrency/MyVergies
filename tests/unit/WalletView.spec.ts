@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import WalletView from '@/views/WalletView.vue'
+import WalletView from '@/views/Wallet/WalletView.vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import SendView from '@/views/SendView.vue'
+import SendView from '@/views/Wallet/Send/SendView.vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
 import electron from 'electron'

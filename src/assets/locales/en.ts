@@ -60,6 +60,19 @@ const en = {
     transactionSentSubtitle: 'That\'s some epic stuff you great person',
     done: 'Done'
   },
+  createWallet: {
+    aWalletName: 'A wallet name?',
+    aWalletNameDescription: 'This app allows you to create multiple wallets in one easy to use app!<br>So because of that let\'s give this wallet a name.',
+    walletName: 'Wallet name',
+    enterYourWalletName: 'Enter your wallet name',
+    walletColor: 'Wallet color',
+    writeDownPaperKey: 'Write down paper key',
+    preferences: 'Preferences',
+    paperKey: 'Paper key',
+    confirmPaperKey: 'Confirm paper key',
+    passPhrase: 'Pass phrase',
+    walletCreated: 'Wallet created'
+  },
   settings: {
     settings: 'Settings',
     security: 'Security',

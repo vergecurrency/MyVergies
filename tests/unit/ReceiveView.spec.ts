@@ -1,6 +1,6 @@
 import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
-import ReceiveView from '@/views/ReceiveView.vue'
+import ReceiveView from '@/views/Wallet/Receive/ReceiveView.vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
 

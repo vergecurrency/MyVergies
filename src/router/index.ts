@@ -1,15 +1,17 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import WelcomeView from '@/views/WelcomeView.vue'
-import WalletView from '@/views/WalletView.vue'
-import SendView from '@/views/SendView.vue'
-import ReceiveView from '@/views/ReceiveView.vue'
-import TransactionView from '@/views/TransactionView.vue'
-import WalletCreateView from '@/views/WalletCreateView.vue'
-import WalletSettingsView from '@/views/WalletSettingsView.vue'
-import ExplorerView from '@/views/ExplorerView.vue'
-import ContactsView from '@/views/ContactsView.vue'
-import SettingsView from '@/views/SettingsView.vue'
+import WalletView from '@/views/Wallet/WalletView.vue'
+import SendView from '@/views/Wallet/Send/SendView.vue'
+import ReceiveView from '@/views/Wallet/Receive/ReceiveView.vue'
+import TransactionView from '@/views/Wallet/Transaction/TransactionView.vue'
+import WalletCreateView from '@/views/Wallet/Create/CreateView.vue'
+import NewWalletView from '@/views/Wallet/Create/NewWalletView.vue'
+import RestoreWalletView from '@/views/Wallet/Create/RestoreWalletView.vue'
+import WalletSettingsView from '@/views/Wallet/Settings/SettingsView.vue'
+import ExplorerView from '@/views/Explorer/ExplorerView.vue'
+import ContactsView from '@/views/Contacts/ContactsView.vue'
+import SettingsView from '@/views/Settings/SettingsView.vue'
 
 Vue.use(VueRouter)
 
@@ -53,6 +55,16 @@ const routes = [
     path: '/wallets/create',
     name: 'wallets.create',
     component: WalletCreateView
+  },
+  {
+    path: '/wallets/create/new',
+    name: 'wallets.create.new',
+    component: NewWalletView
+  },
+  {
+    path: '/wallets/create/restore',
+    name: 'wallets.create.restore',
+    component: RestoreWalletView
   },
   {
     path: '/explorer',

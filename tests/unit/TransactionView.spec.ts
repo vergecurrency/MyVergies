@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import sinon from 'sinon'
-import TransactionView from '@/views/TransactionView.vue'
+import TransactionView from '@/views/Wallet/Transaction/TransactionView.vue'
 import Buefy from 'buefy'
 import VueRouter from 'vue-router'
 
