@@ -1,35 +1,35 @@
 <template>
   <content-view title="Create new wallet" :back="{ name: 'wallets.create' }">
 
-    <b-steps
-      v-model="activeStep"
-      size="is-small"
-      :has-navigation="false"
-    >
+    <template slot="section">
+      <b-steps
+        v-model="activeStep"
+        size="is-small"
+        :animated="false"
+        :has-navigation="false"
+        class="step-content-box"
+      >
 
-      <br/>
+        <br/>
 
-      <b-step-item :label="$i18n.t('createWallet.preferences')" :clickable="false">
-        <wallet-preferences :wallet="wallet" @next="next"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('createWallet.preferences')" :clickable="false" class="section">
+          <wallet-preferences :wallet="wallet" @next="next"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('createWallet.paperKey')" :clickable="false">
-        <paper-key @next="next"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('createWallet.paperKey')" :clickable="false" class="section">
+          <paper-key @next="next"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('createWallet.confirmPaperKey')" :clickable="false">
-        <wallet-preferences :wallet="wallet" @next="next"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false" class="section">
+          <wallet-preferences :wallet="wallet" @next="next"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false">
-        <wallet-preferences :wallet="wallet" @next="next"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('createWallet.walletCreated')" :clickable="false" class="section">
+          <wallet-preferences :wallet="wallet" @next="next"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('createWallet.walletCreated')" :clickable="false">
-        <wallet-preferences :wallet="wallet" @next="next"/>
-      </b-step-item>
-
-    </b-steps>
+      </b-steps>
+    </template>
 
   </content-view>
 </template>
@@ -59,3 +59,20 @@ export default {
   }
 }
 </script>
+
+<style>
+.step-content-box > .step-content {
+  border-radius: 0.5em;
+  margin-top: 1em;
+  background-color: rgba(0, 0, 0, 0.02);
+}
+.step-content-box > .step-content > .section {
+  padding: 1.5rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  .step-content-box > .step-content {
+    background-color: rgba(0, 0, 0, 0.15);
+  }
+}
+</style>

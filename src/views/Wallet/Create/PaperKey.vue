@@ -13,7 +13,7 @@
       >
         <div class="tags are-medium has-addons">
           <span class="tag is-success">{{ i+1 }}</span>
-          <span class="tag is-dark is-family-code has-text-weight-semibold expand-word" v-html="word"/>
+          <span class="tag is-family-code has-text-weight-semibold expand-word" v-html="word"/>
         </div>
       </div>
     </div>
