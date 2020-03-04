@@ -33,7 +33,9 @@ import {
   faSatelliteDish,
   faQuestionCircle,
   faWifi,
-  faIdCard
+  faIdCard,
+  faEye,
+  faEyeSlash
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -70,3 +72,5 @@ library.add(faSatelliteDish)
 library.add(faQuestionCircle)
 library.add(faWifi)
 library.add(faIdCard)
+library.add(faEye)
+library.add(faEyeSlash)
