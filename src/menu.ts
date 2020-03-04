@@ -35,7 +35,7 @@ let actions = {
   label: 'Actions',
   submenu: [
     {
-      label: 'Unlock'
+      label: 'Lock wallet'
     },
     {
       type: 'separator'
@@ -163,6 +163,9 @@ if (process.platform === 'darwin') {
     submenu: [
       {
         role: 'about'
+      },
+      {
+        label: 'Check for Updates...'
       },
       {
         type: 'separator'
