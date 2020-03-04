@@ -52,6 +52,7 @@ export default {
 
 <style>
   .is-modal-auth > .modal-content {
+    overflow: visible;
     max-width: 600px;
   }
 
