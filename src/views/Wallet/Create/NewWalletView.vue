@@ -12,19 +12,19 @@
 
         <br/>
 
-        <b-step-item :label="$i18n.t('createWallet.preferences')" :clickable="false" class="section">
+        <b-step-item :label="$i18n.t('createWallet.preferences')" class="section">
           <wallet-preferences :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.paperKey')" :clickable="false" class="section">
+        <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section">
           <paper-key @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false" class="section">
+        <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section">
           <pass-phrase @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.walletCreated')" :clickable="false" class="section">
+        <b-step-item :label="$i18n.t('createWallet.walletCreated')" class="section">
           <wallet-preferences :wallet="wallet" @next="next"/>
         </b-step-item>
 
@@ -73,7 +73,7 @@ export default {
 
 @media (prefers-color-scheme: dark) {
   .step-content-box > .step-content {
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: #262729;
   }
 }
 </style>

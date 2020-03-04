@@ -66,5 +66,9 @@ export default {
     .modal.is-full-screen > .animation-content > .modal-card.is-modal-auth {
       background-color: #2c2e30;
     }
+
+    .is-modal-auth .box {
+      background: #262729;
+    }
   }
 </style>
