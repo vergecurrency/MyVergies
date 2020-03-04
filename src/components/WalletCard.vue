@@ -2,7 +2,7 @@
   <div :class="containerClass">
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
-      <p class="is-size-6 is-family-handwritten is-capitalized" v-html="wallet.name"/>
+      <p class="is-size-6-1 is-family-handwritten is-capitalized" v-html="wallet.name"/>
       <Money class="is-size-5 has-text-weight-bold" :amount="wallet.amount" crypto/>
       <Money class="is-size-7" :amount="wallet.amount" convert/>
     </div>
@@ -31,7 +31,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
   .wallet-menu-card {
     position: relative;
     background: white;
@@ -107,5 +107,9 @@ export default {
     top: 0;
     left: 0;
     padding: 15px;
+  }
+
+  .is-size-6-1 {
+    font-size: 1.1rem !important;
   }
 </style>
