@@ -62,17 +62,21 @@ export default {
 </script>
 
 <style>
-.step-content-box > .step-content {
-  border-radius: 0.5em;
-  margin-top: 1em;
-  background-color: rgba(0, 0, 0, 0.02);
-}
 .step-content-box > .step-content > .section {
   padding: 1.5rem;
 }
 
+.step-content-box > .step-content {
+  border-radius: 0.5em;
+  margin-top: 1em;
+  background-color: #fdfdfd;
+  border: 1px solid #e9e9e9;
+  box-shadow: 0 0 0.5rem 0 #00000017;
+}
+
 @media (prefers-color-scheme: dark) {
   .step-content-box > .step-content {
+    border: 1px solid #434343;
     background-color: #262729;
   }
 }

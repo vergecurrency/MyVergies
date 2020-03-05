@@ -2,7 +2,9 @@
   <div class="is-vcentered is-fullheight">
     <div class="columns has-text-centered">
       <div class="column">
-        <b-icon icon="plus" custom-size="6x"/>
+        <page-title>
+          <img src="@/assets/headers/create-wallet@2x.png"/>
+        </page-title>
         <h1 class="is-size-1 has-text-grey is-family-handwritten">
           Create a Wallet ✨
         </h1>
@@ -30,7 +32,10 @@
 </template>
 
 <script>
+import PageTitle from '@/components/layout/PageTitle'
+
 export default {
-  name: 'wallet-create-view'
+  name: 'wallet-create-view',
+  components: { PageTitle }
 }
 </script>
