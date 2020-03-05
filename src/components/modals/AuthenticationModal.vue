@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="columns has-text-centered">
         <div class="column">
-          <b-icon icon="id-card" custom-size="6x"/>
+          <img src="@/assets/headers/id-card@2x.png" class="id-card"/>
           <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('unlock.unlockYourWallet')"/>
         </div>
       </div>
@@ -51,6 +51,10 @@ export default {
 </script>
 
 <style>
+  .id-card {
+    width: 250px;
+  }
+
   .is-modal-auth > .modal-content {
     overflow: visible;
     max-width: 600px;
