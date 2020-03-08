@@ -1,6 +1,4 @@
-<center>
-    <img src="raw/master/dist_electron/icons/256x256.png" alt="MyVergies Logo">
-</center>
+<p align="center"><img src="https://raw.githubusercontent.com/vergecurrency/MyVergies/master/readme-header.png" alt="MyVergies Logo"></p>
 
 <p align="center">
   <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/workflows/CICD/badge.svg"></a>
