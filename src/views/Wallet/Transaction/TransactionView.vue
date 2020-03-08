@@ -99,13 +99,13 @@ export default {
   },
   computed: {
     address () {
-      let outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
+      const outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
 
       return outputsWithAddress.shift().address || null
     },
 
     label () {
-      let fallback = this.transaction.action
+      const fallback = this.transaction.action
 
       if (this.transaction.action === 'sent') {
         return this.address || fallback

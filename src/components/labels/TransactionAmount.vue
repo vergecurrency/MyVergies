@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     amountFormatted () {
-      let amount = this.formatAmountFromSatoshis(this.amount, this.$electron.remote.app.getLocale())
+      const amount = this.formatAmountFromSatoshis(this.amount, this.$electron.remote.app.getLocale())
 
       switch (this.action) {
         case 'sent':

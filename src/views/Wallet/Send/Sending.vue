@@ -40,7 +40,7 @@ export default {
   methods: {
     animate () {
       this.step = 0
-      let interval = setInterval(() => {
+      const interval = setInterval(() => {
         if (this.step === 3) {
           this.$emit('sent')
           clearInterval(interval)
