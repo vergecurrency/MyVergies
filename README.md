@@ -1,3 +1,7 @@
+<center>
+    <img src="raw/master/dist_electron/icons/256x256.png" alt="MyVergies Logo">
+</center>
+
 <p align="center">
   <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/workflows/CICD/badge.svg"></a>
   <img src="https://img.shields.io/badge/status-pre--alpha-red.svg">
