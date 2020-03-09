@@ -115,6 +115,9 @@ if (isDevelopment) {
   }
 }
 
+// Will be default from Electron >= 9; So remove at that version.
+app.allowRendererProcessReuse = true
+
 /**
  * Auto Updater
  */
