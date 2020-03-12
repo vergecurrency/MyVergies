@@ -1,13 +1,12 @@
 'use strict'
 
-import { app, protocol, BrowserWindow } from 'electron'
-import logger from 'electron-log'
+import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
+import { template, dockTemplate, menuValues, MenuValues } from '@/menu'
+import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
-import {
-  createProtocol,
-  installVueDevtools
-} from 'vue-cli-plugin-electron-builder/lib'
+
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
 logger.transports.file.level = 'debug'
@@ -20,6 +19,12 @@ let win: BrowserWindow | null
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow () {
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+
+  if (process.platform === 'darwin') {
+    app.dock.setMenu(Menu.buildFromTemplate(dockTemplate))
+  }
+
   let mainWindowState = ElectronWindowState({
     defaultWidth: 1100,
     defaultHeight: 663
@@ -33,7 +38,9 @@ function createWindow () {
     width: mainWindowState.width,
     minHeight: 560,
     minWidth: 1030,
+    show: true,
     useContentSize: true,
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#1b1c1f' : '#e0e0e0',
     titleBarStyle: 'hidden',
     trafficLightPosition: {
       x: 12,
@@ -56,11 +63,21 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
+  win.on('close', (event) => {
+    console.log(menuValues.forceQuit, event)
+    if (process.platform === 'darwin' && !menuValues.forceQuit) {
+      event.preventDefault()
+      win!.hide()
+    }
+  })
+
   win.on('closed', () => {
     win = null
   })
 
-  require('./menu')
+  win.once('ready-to-show', () => {
+    win!.show()
+  })
 }
 
 // Quit when all windows are closed.
@@ -77,6 +94,8 @@ app.on('activate', () => {
   // dock icon is clicked and there are no other windows open.
   if (win === null) {
     createWindow()
+  } else {
+    win.show()
   }
 })
 
@@ -121,7 +140,6 @@ app.allowRendererProcessReuse = true
 /**
  * Auto Updater
  */
-
 autoUpdater.logger = logger
 autoUpdater.allowPrerelease = true
 autoUpdater.autoDownload = true

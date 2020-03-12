@@ -1,35 +1,40 @@
-import { app, Menu } from 'electron'
-import MenuItem = Electron.MenuItem
+import { app, MenuItem } from 'electron'
+
+export interface MenuValues {
+  forceQuit: boolean
+}
+
+export const menuValues: MenuValues = {
+  forceQuit: false
+}
 
 /**
  * macOS Dock menu items
  */
-if (process.platform === 'darwin') {
-  app.dock.setMenu(Menu.buildFromTemplate([
-    {
-      label: 'Send',
-      click () {
-        console.log('Send')
-      }
-    }, {
-      label: 'Receive',
-      click () {
-        console.log('Receive')
-      }
-    },
-    {
-      label: 'Settings',
-      click () {
-        console.log('Settings')
-      }
+export const dockTemplate = [
+  {
+    label: 'Send',
+    click () {
+      console.log('Send')
     }
-  ]))
-}
+  }, {
+    label: 'Receive',
+    click () {
+      console.log('Receive')
+    }
+  },
+  {
+    label: 'Settings',
+    click () {
+      console.log('Settings')
+    }
+  }
+]
 
 /**
  * Application menu.
  */
-let template: MenuItem[] = []
+export let template: MenuItem[] = []
 
 let actions = {
   label: 'Actions',
@@ -194,7 +199,12 @@ if (process.platform === 'darwin') {
         type: 'separator'
       },
       {
-        role: 'quit'
+        label: 'Quit ' + app.name,
+        accelerator: 'CmdOrCtrl+Q',
+        click () {
+          menuValues.forceQuit = true
+          app.quit();
+        }
       }
     ]
   })
@@ -202,12 +212,6 @@ if (process.platform === 'darwin') {
   // Window menu.
   // @ts-ignore
   template[3].submenu = [
-    {
-      label: 'Close',
-      // @ts-ignore
-      accelerator: 'CmdOrCtrl+W',
-      role: 'close'
-    },
     {
       label: 'Minimize',
       accelerator: 'CmdOrCtrl+M',
@@ -226,6 +230,3 @@ if (process.platform === 'darwin') {
     }
   ]
 }
-
-const menu = Menu.buildFromTemplate(template)
-Menu.setApplicationMenu(menu)

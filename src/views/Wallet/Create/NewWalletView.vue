@@ -25,7 +25,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.walletCreated')" class="section">
-          <wallet-preferences :wallet="wallet" @next="next"/>
+          <created @next="next"/>
         </b-step-item>
 
       </b-steps>
@@ -39,10 +39,11 @@ import ContentView from '@/components/layout/ContentView'
 import WalletPreferences from '@/views/Wallet/Create/WalletPreferences'
 import PaperKey from '@/views/Wallet/Create/PaperKey'
 import PassPhrase from '@/views/Wallet/Create/PassPhrase'
+import Created from '@/views/Wallet/Create/Created'
 
 export default {
   name: 'NewWalletView',
-  components: { PassPhrase, PaperKey, WalletPreferences, ContentView },
+  components: { Created, PassPhrase, PaperKey, WalletPreferences, ContentView },
   data () {
     return {
       activeStep: 0,
