@@ -15,6 +15,10 @@ html {
    user-select: text;
  }
 
+ .is-clickable {
+   cursor: pointer;
+ }
+
 @media (prefers-color-scheme: dark) {
   hr {
     background-color: #797979;

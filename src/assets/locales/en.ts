@@ -69,6 +69,8 @@ const en = {
     writeDownPaperKey: 'Write down paper key',
     preferences: 'Preferences',
     paperKey: 'Paper key',
+    aPaperKey: 'A paper key?',
+    aPaperKeyDescription: 'A paper key is 1 of the 2 parts to define your wallet and open your wallet in another app.<br>If you loose it you can never recover it and you\'ll loose access to your XVG.<br>So make absolutely sure to keep it very safe.',
     confirmPaperKey: 'Confirm paper key',
     passPhrase: 'Pass phrase',
     walletCreated: 'Wallet created'
