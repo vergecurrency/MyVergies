@@ -4,5 +4,6 @@ export default {
   bnApi: 'https://api.vergecurrency.network/node/api/XVG',
   explorer: 'https://verge-blockchain.info',
   decimalPerSatoshi: 6,
-  defaultCurrencyCode: 'USD'
+  defaultCurrencyCode: 'USD',
+  paperKeyLength: 12
 }

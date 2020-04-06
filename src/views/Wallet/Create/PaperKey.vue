@@ -35,13 +35,15 @@
         icon-left="edit"
         :label="$i18n.t('createWallet.confirmPaperKey')"
         type="is-primary"
-        @click="$emit('next')"
+        @click="confirmationHandler"
       />
     </b-field>
   </div>
 </template>
 
 <script>
+import Constants from '@/utils/constants'
+
 export default {
   name: 'PaperKey',
   data () {
@@ -66,8 +68,18 @@ export default {
   },
 
   computed: {
+    selectedPaperKeyWithPlaceholders () {
+      const placeholders = Array(Constants.paperKeyLength).fill('', 0, Constants.paperKeyLength)
+
+      this.selectedPaperKey.forEach(function (value, key) {
+        placeholders[key] = value
+      })
+
+      return placeholders
+    },
+
     words () {
-      return this.confirm ? this.selectedPaperKey : this.paperKey
+      return this.confirm ? this.selectedPaperKeyWithPlaceholders : this.paperKey
     },
 
     randomWords () {
@@ -87,6 +99,14 @@ export default {
       }
 
       return words
+    },
+
+    confirmationHandler () {
+      if (this.confirm) {
+        this.$emit('next')
+      } else {
+        this.confirm = true
+      }
     }
   }
 }

@@ -20,29 +20,32 @@
       </info-notification>
     </template>
 
-    <b-steps
-      v-model="activeStep"
-      size="is-small"
-      :has-navigation="false"
-    >
+    <template slot="section">
+      <b-steps
+        v-model="activeStep"
+        size="is-small"
+        :has-navigation="false"
+        class="step-content-box"
+      >
 
-      <b-step-item :label="$i18n.t('send.fillForm')" :clickable="false">
-        <send-form v-model="transaction" @input="validateTransaction"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('send.fillForm')" :clickable="false">
+          <send-form v-model="transaction" @input="validateTransaction"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('send.confirm')" :clickable="false">
-        <send-confirm v-model="transaction" @confirmed="sendTransaction" @cancel="activeStep = 0"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('send.confirm')" :clickable="false">
+          <send-confirm v-model="transaction" @confirmed="sendTransaction" @cancel="activeStep = 0"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('send.sending')" :clickable="false">
-        <sending ref="sendingView" @sent="transactionSent"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('send.sending')" :clickable="false">
+          <sending ref="sendingView" @sent="transactionSent"/>
+        </b-step-item>
 
-      <b-step-item :label="$i18n.t('send.sent')" icon="check">
-        <transaction-sent @done="reset"/>
-      </b-step-item>
+        <b-step-item :label="$i18n.t('send.sent')" icon="check">
+          <transaction-sent @done="reset"/>
+        </b-step-item>
 
-    </b-steps>
+      </b-steps>
+    </template>
 
   </content-view>
 </template>
