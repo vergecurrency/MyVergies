@@ -27,6 +27,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
     "axios": "^0.19.2",
+    "bitcore-wallet-client-xvg": "^8.1.1",
     "buefy": "^0.8.19",
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.6.5",
