@@ -7,8 +7,8 @@
             class="is-size-3 is-family-handwritten is-capitalized has-text-grey has-line-height-small"
             v-html="wallet.name"
           />
-          <money class="is-size-3 has-text-weight-dark" :amount="wallet.amount" crypto/>
-          <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.amount" convert/>
+          <money class="is-size-3 has-text-weight-dark" :amount="wallet.info.balance.totalAmount || 0" crypto/>
+          <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.info.balance.totalAmount || 0" convert/>
         </div>
         <div class="column">
           <div class="is-pulled-right">

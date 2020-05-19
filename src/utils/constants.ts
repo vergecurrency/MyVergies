@@ -3,6 +3,7 @@ export default {
   vwsApi: 'https://api.vergecurrency.network/vws/api',
   bnApi: 'https://api.vergecurrency.network/node/api/XVG',
   explorer: 'https://verge-blockchain.info',
+  satoshiDivider: 1000000,
   decimalPerSatoshi: 6,
   defaultCurrencyCode: 'USD',
   paperKeyLength: 12

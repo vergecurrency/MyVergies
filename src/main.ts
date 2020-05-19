@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions, mapGetters } from 'vuex'
 import constants from './utils/constants'
 import VueI18n from 'vue-i18n'
+import '@/wallet'
 
 // @ts-ignore
 Vue.http = Vue.prototype.$http = axios

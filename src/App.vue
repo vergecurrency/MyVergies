@@ -38,16 +38,17 @@ import NavBar from '@/components/layout/NavBar'
 import MainMenu from '@/components/layout/MainMenu'
 import ContentContainer from '@/components/layout/ContentContainer'
 import AuthenticationModal from '@/components/modals/AuthenticationModal'
-import Wallets from '@/assets/data/example/wallets'
 
 export default {
   name: 'my-vergies',
   components: { ContentContainer, MainMenu, NavBar },
+
   data () {
     return {
-      wallets: Wallets
+      wallets: this.$walletManager.wallets
     }
   },
+
   methods: {
     unlock () {
       this.$buefy.modal.open({
