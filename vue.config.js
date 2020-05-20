@@ -1,6 +1,14 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
+      chainWebpackRendererProcess: config => {
+        config.module
+          .rule('node-loader')
+          .test(/\.node$/)
+          .use('node-loader')
+          .loader('node-loader')
+          .end()
+      },
       builderOptions: {
         productName: 'MyVergies',
         appId: 'com.github.vergecurrency.myvergies',
