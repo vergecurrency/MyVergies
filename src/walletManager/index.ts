@@ -3,11 +3,9 @@ import keytar from 'keytar'
 import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import { Store } from 'vuex'
-const CryptoJS = require('crypto-js')
 
-const encryptingKey = 'password'
-// encrytedWallet = CryptoJS.AES.encrypt(wallet, encryptingKey).toString()
-// console.log(encrytedWallet)
+// const wallet = '{"name":"Main Account","color":"blue","coin":"xvg","network":"livenet","paperkey":"","passphrase":"","singleAddress":false}'
+// btoa(wallet)
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
   vue.prototype.$walletManager = new WalletManager()
@@ -25,8 +23,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    const jsonWallet: string = CryptoJS.AES.decrypt(encrytedWallet, encryptingKey).toString(CryptoJS.enc.Utf8)
-    const wallet: WalletConfigItem = JSON.parse(jsonWallet)
+    const wallet: WalletConfigItem = JSON.parse(atob(encrytedWallet as string))
 
     return wallet
   }))

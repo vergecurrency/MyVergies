@@ -32,7 +32,6 @@
     "buefy": "^0.8.19",
     "chai-as-promised": "^7.1.1",
     "core-js": "^3.6.5",
-    "crypto-js": "^4.0.0",
     "electron-log": "^4.1.2",
     "electron-updater": "^4.3.1",
     "electron-window-state": "^5.0.3",
