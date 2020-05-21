@@ -1,8 +1,6 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
 import keytar from 'keytar'
-import _ from 'lodash'
-import Info from '@/walletManager/models/Info'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
@@ -17,13 +15,13 @@ export default class WalletManager {
     for (const walletConfig of this.config.wallets) {
       const vwc = this.getClient(walletConfig)
       const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
-      const info = await wallet.open()
+      await wallet.open()
       this.wallets.push(wallet)
     }
   }
 
-  public getWallet (name: string): Wallet|undefined {
-    return _.find(this.wallets, ['name', name])
+  public getWallet (name: string): Wallet | undefined {
+    return this.wallets.find((wallet) => wallet.name === name)
   }
 
   public getWallets (): Wallet[] {
