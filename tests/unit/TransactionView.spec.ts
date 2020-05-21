@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import sinon from 'sinon'
 import TransactionView from '@/views/Wallet/Transaction/TransactionView.vue'
@@ -35,21 +34,22 @@ describe('TransactionView.vue', () => {
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction, wallet
+        transaction,
+        wallet
       },
       mocks: {
         $electron,
         $i18n: {
-          t (key: string) {
+          t(key: string) {
             return key
           }
         }
       }
     })
 
-    expect(wrapper.text()).to.include(transaction.txid)
-    expect(wrapper.text()).to.include(transaction.confirmations)
-    expect(wrapper.text()).to.include(transaction.action)
+    expect(wrapper.text()).toContain(transaction.txid)
+    expect(wrapper.text()).toContain(transaction.confirmations)
+    expect(wrapper.text()).toContain(transaction.action)
   })
 
   it('should open the tx address in a explorer', () => {
@@ -74,16 +74,20 @@ describe('TransactionView.vue', () => {
     }
 
     const openExternal = sinon.stub()
-    const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
+    const $electron = {
+      shell: { openExternal },
+      remote: { app: { getLocale: () => 'nl' } }
+    }
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction, wallet
+        transaction,
+        wallet
       },
       mocks: {
         $electron,
         $i18n: {
-          t (key: string) {
+          t(key: string) {
             return key
           }
         }
@@ -93,7 +97,7 @@ describe('TransactionView.vue', () => {
     wrapper.find('#show-address-details').trigger('click')
 
     // eslint-disable-next-line no-unused-expressions
-    expect(openExternal.called).to.be.true
+    expect(openExternal.called).toBe(true)
   })
 
   it('should open the tx id in a explorer', () => {
@@ -118,16 +122,20 @@ describe('TransactionView.vue', () => {
     }
 
     const openExternal = sinon.stub()
-    const $electron = { shell: { openExternal }, remote: { app: { getLocale: () => 'nl' } } }
+    const $electron = {
+      shell: { openExternal },
+      remote: { app: { getLocale: () => 'nl' } }
+    }
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction, wallet
+        transaction,
+        wallet
       },
       mocks: {
         $electron,
         $i18n: {
-          t (key: string) {
+          t(key: string) {
             return key
           }
         }
@@ -137,6 +145,6 @@ describe('TransactionView.vue', () => {
     wrapper.find('#show-txid-details').trigger('click')
 
     // eslint-disable-next-line no-unused-expressions
-    expect(openExternal.called).to.be.true
+    expect(openExternal.called).toBe(true)
   })
 })
