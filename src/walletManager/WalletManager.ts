@@ -1,6 +1,5 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
-import keytar from 'keytar'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
@@ -32,6 +31,8 @@ export default class WalletManager {
     const vwc = this.getClient(walletConfig)
     const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
 
+    const keytar = require('keytar')
+
     await wallet.create(walletConfig.name, walletConfig.name, 1, 1, {
       coin: walletConfig.coin,
       network: walletConfig.network,
@@ -46,7 +47,7 @@ export default class WalletManager {
 
   protected getClient (walletConfig: WalletConfigItem): Client {
     const vwc = new Client({
-      baseUrl: walletConfig.vwsApi || 'http://localhost:3232/vws/api', // || constants.vwsApi,
+      baseUrl: walletConfig.vwsApi || constants.vwsApi,
       verbose: false
     })
 

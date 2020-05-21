@@ -48,8 +48,6 @@ export default class Wallet {
           return reject(error)
         }
 
-        console.log(info)
-
         this.info = info
 
         resolve(info)

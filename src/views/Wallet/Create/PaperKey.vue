@@ -24,19 +24,39 @@
           <span
             v-for="(word, i) in randomWords" :key="i+word" v-html="word"
             class="tag is-family-code has-text-weight-semibold is-clickable"
-            @click="selectedPaperKey.push(word)"
+            @click="selectedPaperkey.push(word)"
           />
         </div>
       </div>
     </div>
 
-    <b-field align="right">
-      <b-button
-        icon-left="edit"
-        :label="$i18n.t('createWallet.confirmPaperKey')"
-        type="is-primary"
-        @click="confirmationHandler"
-      />
+    <b-notification
+      v-if="confirm && showInvalidPaperkeyError"
+      type="is-danger"
+      v-html="$i18n.t('createWallet.invalidPaperkeySelected')"
+    />
+
+    <b-field grouped>
+      <b-field expanded>
+        <b-button v-show="confirm" label="Show paper key" @click="confirm = false"/>
+      </b-field>
+
+      <b-field v-show="confirm && selectedPaperkey.length > 0">
+        <b-button
+          label="Reset"
+          @click="resetSelectedPaperkey"
+        />
+      </b-field>
+
+      <b-field>
+        <b-button
+          icon-left="edit"
+          :label="$i18n.t('createWallet.confirmPaperKey')"
+          type="is-primary"
+          @click="confirmationHandler"
+          :disabled="confirm && selectedPaperkey.length < 12"
+        />
+      </b-field>
     </b-field>
   </div>
 </template>
@@ -56,8 +76,9 @@ export default {
   data () {
     return {
       confirm: false,
-      selectedPaperKey: [],
-      paperKey: []
+      showInvalidPaperkeyError: false,
+      selectedPaperkey: [],
+      paperkey: []
     }
   },
 
@@ -66,10 +87,10 @@ export default {
   },
 
   computed: {
-    selectedPaperKeyWithPlaceholders () {
+    selectedPaperkeyWithPlaceholders () {
       const placeholders = Array(Constants.paperKeyLength).fill('', 0, Constants.paperKeyLength)
 
-      this.selectedPaperKey.forEach(function (value, key) {
+      this.selectedPaperkey.forEach(function (value, key) {
         placeholders[key] = value
       })
 
@@ -77,15 +98,19 @@ export default {
     },
 
     words () {
-      return this.confirm ? this.selectedPaperKeyWithPlaceholders : this.paperKey
+      return this.confirm ? this.selectedPaperkeyWithPlaceholders : this.paperkey
     },
 
     randomWords () {
-      const words = this.paperKey.filter(word => {
-        return !this.selectedPaperKey.includes(word)
+      const words = this.paperkey.filter(word => {
+        return !this.selectedPaperkey.includes(word)
       })
 
       return this.shuffleWords(words)
+    },
+
+    paperkeyCheckupIsValid () {
+      return this.paperkey.join('') === this.selectedPaperkey.join('')
     }
   },
 
@@ -97,7 +122,7 @@ export default {
         mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
       }
 
-      this.paperKey = mnemonic.toString().split(' ')
+      this.paperkey = mnemonic.toString().split(' ')
     },
 
     shuffleWords (words) {
@@ -110,13 +135,26 @@ export default {
     },
 
     confirmationHandler () {
-      if (this.confirm) {
-        this.wallet.paperKey = this.paperKey.join(' ')
-
-        this.$emit('next')
-      } else {
+      if (!this.confirm) {
         this.confirm = true
+
+        return
       }
+
+      if (!this.paperkeyCheckupIsValid) {
+        this.showInvalidPaperkeyError = true
+
+        return
+      }
+
+      this.wallet.paperkey = this.paperkey.join(' ')
+
+      return this.$emit('next')
+    },
+
+    resetSelectedPaperkey () {
+      this.selectedPaperkey = []
+      this.showInvalidPaperkeyError = false
     }
   }
 }

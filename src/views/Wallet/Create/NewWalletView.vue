@@ -24,8 +24,8 @@
           <pass-phrase :wallet="wallet" @next="createWallet"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.walletCreated')" class="section">
-          <created :wallet="wallet" @next="close"/>
+        <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section">
+          <created :wallet="wallet" :done="createdWallet !== null" @next="toWallet"/>
         </b-step-item>
 
       </b-steps>
@@ -71,19 +71,19 @@ export default {
     },
 
     createWallet () {
+      this.next()
+
       this.$walletManager.addWallet(this.wallet).then(wallet => {
         this.$store.dispatch('addWalletName', this.wallet.name)
 
         this.createdWallet = wallet
-
-        this.next()
       }).catch(error => {
         // TODO: k
         console.error(error)
       })
     },
 
-    close () {
+    toWallet () {
       this.$router.push({ name: 'wallets', params: { walletName: this.wallet.name, wallet: this.createdWallet } })
     }
   }

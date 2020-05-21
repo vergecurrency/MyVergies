@@ -1,16 +1,23 @@
 <template>
   <div>
     <div class="block">
-      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.aWalletName')"/>
-      <p v-html="$i18n.t('createWallet.aWalletNameDescription')"/>
+      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.createWallet')"/>
     </div>
 
-    <p>Hello</p>
+    <b-notification v-if="!done" :closable="false" class="has-text-weight-semibold has-text-grey-light is-flex">
+      <b-icon icon="circle-notch" type="is-primary" class="fa-pulse create-wallet-icon"/>
+      <p v-html="$i18n.t('createWallet.creatingWallet')"/>
+    </b-notification>
+    <b-notification v-else :closable="false" class="has-text-weight-semibold has-text-success is-flex">
+      <b-icon icon="check-circle" type="is-success" class="create-wallet-icon"/>
+      <p v-html="$i18n.t('createWallet.walletCreated')"/>
+    </b-notification>
 
     <b-field align="right">
       <b-button
+        v-if="done"
         icon-left="edit"
-        :label="$i18n.t('createWallet.passPhrase')"
+        :label="$i18n.t('createWallet.goToWallet')"
         type="is-primary"
         @click="$emit('next')"
       />
@@ -20,6 +27,19 @@
 
 <script>
 export default {
-  name: 'Created'
+  name: 'Created',
+
+  props: {
+    done: {
+      type: Boolean,
+      required: true
+    }
+  }
 }
 </script>
+
+<style>
+  .create-wallet-icon {
+    width: 30px
+  }
+</style>

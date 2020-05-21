@@ -28,4 +28,9 @@ const getters = {
   }
 }
 
-export default { state, mutations, actions, getters }
+export default {
+  state: state,
+  mutations: mutations,
+  actions: actions,
+  getters: getters
+}
