@@ -3,6 +3,11 @@ import keytar from 'keytar'
 import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import { Store } from 'vuex'
+const CryptoJS = require('crypto-js')
+
+const encryptingKey = 'password'
+// encrytedWallet = CryptoJS.AES.encrypt(wallet, encryptingKey).toString()
+// console.log(encrytedWallet)
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
   vue.prototype.$walletManager = new WalletManager()
@@ -20,8 +25,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    // TODO: descrypt the encrypted json wallet data.
-    const jsonWallet: string = encrytedWallet as string
+    const jsonWallet: string = CryptoJS.AES.decrypt(encrytedWallet, encryptingKey).toString(CryptoJS.enc.Utf8)
     const wallet: WalletConfigItem = JSON.parse(jsonWallet)
 
     return wallet
