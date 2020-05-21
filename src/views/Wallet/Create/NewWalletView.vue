@@ -77,10 +77,11 @@ export default {
         this.$store.dispatch('addWalletName', this.wallet.name)
 
         this.createdWallet = wallet
-      }).catch(error => {
-        // TODO: k
-        console.error(error)
       })
+      //   .catch(error => {
+      //   // TODO
+      //   console.error(error)
+      // })
     },
 
     toWallet () {
