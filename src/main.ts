@@ -10,8 +10,9 @@ import '@/mixins'
 import '@/icons'
 import { mapActions, mapGetters } from 'vuex'
 import constants from './utils/constants'
-import '@/wallet'
+import walletManager from '@/walletManager'
 
+Vue.use(walletManager, { store })
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$electron = electron
