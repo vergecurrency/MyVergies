@@ -7,6 +7,7 @@
 
     <b-field :label="$i18n.t('createWallet.passPhrase')">
       <b-input
+        v-model="passphrase"
         size="is-large"
         type="password"
         :placeholder="$i18n.t('createWallet.enterYourWalletName')"
@@ -19,7 +20,7 @@
         icon-left="edit"
         :label="$i18n.t('createWallet.passPhrase')"
         type="is-primary"
-        @click="$emit('next')"
+        @click="handlePassphrase"
       />
     </b-field>
   </div>
@@ -27,10 +28,27 @@
 
 <script>
 export default {
-  name: 'PassPhrase'
+  name: 'PassPhrase',
+
+  props: {
+    wallet: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data () {
+    return {
+      passphrase: ''
+    }
+  },
+
+  methods: {
+    handlePassphrase () {
+      this.wallet.passphrase = this.passphrase
+
+      this.$emit('next')
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>

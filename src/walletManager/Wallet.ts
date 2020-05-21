@@ -15,28 +15,20 @@ export default class Wallet {
     this.vwc = vwc
   }
 
-  public create (name: string, copayerName: string, m: number = 1, n: number = 1, options: object = {}): Promise<string> {
+  public create (name: string, copayerName: string, m: number = 1, n: number = 1, options: object = {}): Promise<string|null> {
     return new Promise((resolve, reject) => {
       this.vwc.createWallet(name, copayerName, m, n, options, (error: Error|null, secret: string|null) => {
         if (error) {
           return reject(error)
         }
 
-        if (secret === null) {
-          reject(new Error('not good'))
-        }
-
-        resolve(secret!)
+        resolve(secret)
       })
     })
   }
 
   public open (): Promise<Info> {
     return new Promise((resolve, reject) => {
-      if (this.info !== undefined) {
-        return resolve(this.info)
-      }
-
       this.vwc.openWallet((error: Error, info: Info) => {
         if (error) {
           return reject(error)
@@ -45,6 +37,22 @@ export default class Wallet {
         this.info = info
 
         resolve(this.info)
+      })
+    })
+  }
+
+  public status (): Promise<Info> {
+    return new Promise((resolve, reject) => {
+      this.vwc.getStatus({ includeExtendedInfo: true }, (error: Error, info: Info) => {
+        if (error) {
+          return reject(error)
+        }
+
+        console.log(info)
+
+        this.info = info
+
+        resolve(info)
       })
     })
   }

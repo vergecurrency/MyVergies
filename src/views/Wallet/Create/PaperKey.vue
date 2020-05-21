@@ -43,28 +43,26 @@
 
 <script>
 import Constants from '@/utils/constants'
+import Mnemonic from 'bitcore-mnemonic'
 
 export default {
   name: 'PaperKey',
+  props: {
+    wallet: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       confirm: false,
       selectedPaperKey: [],
-      paperKey: [
-        'Flee',
-        'Cave',
-        'Use',
-        'Suffer',
-        'Cat',
-        'Radio',
-        'Heart',
-        'Same',
-        'Frog',
-        'Disease',
-        'Topple',
-        'Inspire'
-      ]
+      paperKey: []
     }
+  },
+
+  mounted () {
+    this.generatePaperkey()
   },
 
   computed: {
@@ -92,6 +90,16 @@ export default {
   },
 
   methods: {
+    generatePaperkey () {
+      let mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
+
+      while (!Mnemonic.isValid(mnemonic.toString())) {
+        mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
+      }
+
+      this.paperKey = mnemonic.toString().split(' ')
+    },
+
     shuffleWords (words) {
       for (let i = words.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -103,6 +111,8 @@ export default {
 
     confirmationHandler () {
       if (this.confirm) {
+        this.wallet.paperKey = this.paperKey.join(' ')
+
         this.$emit('next')
       } else {
         this.confirm = true

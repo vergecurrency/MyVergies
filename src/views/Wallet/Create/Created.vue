@@ -6,6 +6,15 @@
     </div>
 
     <p>Hello</p>
+
+    <b-field align="right">
+      <b-button
+        icon-left="edit"
+        :label="$i18n.t('createWallet.passPhrase')"
+        type="is-primary"
+        @click="$emit('next')"
+      />
+    </b-field>
   </div>
 </template>
 
@@ -14,7 +23,3 @@ export default {
   name: 'Created'
 }
 </script>
-
-<style scoped>
-
-</style>

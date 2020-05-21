@@ -23,9 +23,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    const wallet: WalletConfigItem = JSON.parse(atob(encrytedWallet as string))
-
-    return wallet
+    return JSON.parse(atob(encrytedWallet as string))
   }))
 }
 
