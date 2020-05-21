@@ -1,5 +1,5 @@
-import WalletManager from '@/WalletManager/WalletManager'
-import ManagerConfig, { WalletConfigItem } from '@/WalletManager/ManagerConfig'
+import WalletManager from '@/walletManager/WalletManager'
+import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 
 let walletManager: WalletManager
 const STATIC_TEST_WALLETS: WalletConfigItem[] = [
