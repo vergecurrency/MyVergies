@@ -5,23 +5,15 @@ import electron from 'electron'
 import App from '@/App.vue'
 import router from '@/router'
 import store from '@/store'
-import Buefy from 'buefy'
 import i18n from '@/locale'
 import '@/mixins'
 import '@/icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { mapActions, mapGetters } from 'vuex'
 import constants from './utils/constants'
 import '@/wallet'
 
-// @ts-ignore
-Vue.http = Vue.prototype.$http = axios
 Vue.config.productionTip = false
-Vue.use(Buefy, {
-  defaultIconComponent: 'fa-icon',
-  defaultIconPack: 'fas'
-})
-Vue.component('fa-icon', FontAwesomeIcon)
+Vue.prototype.$http = axios
 Vue.prototype.$electron = electron
 
 new Vue({
