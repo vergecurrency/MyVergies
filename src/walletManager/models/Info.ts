@@ -1,4 +1,4 @@
-import Balance from '@/wallet/models/Balance'
+import Balance from '@/walletManager/models/Balance'
 
 export default interface Info {
   name: string

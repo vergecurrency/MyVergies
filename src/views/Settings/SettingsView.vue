@@ -46,7 +46,7 @@
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
-import messages from '@/utils/i18n'
+import locales from '@/locale/locales'
 import currencies from '@/utils/currencies'
 import { mapActions, mapGetters } from 'vuex'
 
@@ -55,7 +55,7 @@ export default {
   components: { FormSection, NavigationHeader },
   data () {
     return {
-      langs: Object.keys(messages),
+      langs: Object.keys(locales),
       currencies: currencies,
       lockAfter: '5m',
       locks: {

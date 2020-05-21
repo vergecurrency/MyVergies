@@ -1,7 +1,7 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
-import Info from '@/wallet/models/Info'
-import Balance from '@/wallet/models/Balance'
+import Info from '@/walletManager/models/Info'
+import Balance from '@/walletManager/models/Balance'
 
 export default class Wallet {
   protected vwc: Client

@@ -1,20 +1,18 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
 import _ from 'lodash'
-import Info from '@/wallet/models/Info'
-import Wallet from '@/wallet/Wallet'
-import ManagerConfig from '@/wallet/ManagerConfig'
+import Info from '@/walletManager/models/Info'
+import Wallet from '@/walletManager/Wallet'
+import ManagerConfig from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
 
 export default class WalletManager {
-  protected config: ManagerConfig
+  protected config?: ManagerConfig
   public readonly wallets: Wallet[] = []
 
-  constructor (config: ManagerConfig) {
+  public async boot (config: ManagerConfig) {
     this.config = config
-  }
 
-  public async boot () {
     for (const walletConfig of this.config.wallets) {
       const vwc = new Client({
         baseUrl: walletConfig.vwsApi || constants.vwsApi,

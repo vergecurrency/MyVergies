@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import Buefy from 'buefy'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faLock,
@@ -74,3 +77,9 @@ library.add(faWifi)
 library.add(faIdCard)
 library.add(faEye)
 library.add(faEyeSlash)
+
+Vue.use(Buefy, {
+  defaultIconComponent: 'fa-icon',
+  defaultIconPack: 'fas'
+})
+Vue.component('fa-icon', FontAwesomeIcon)
