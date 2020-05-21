@@ -25,7 +25,7 @@ function createWindow () {
     app.dock.setMenu(Menu.buildFromTemplate(dockTemplate))
   }
 
-  let mainWindowState = ElectronWindowState({
+  const mainWindowState = ElectronWindowState({
     defaultWidth: 1100,
     defaultHeight: 663
   })

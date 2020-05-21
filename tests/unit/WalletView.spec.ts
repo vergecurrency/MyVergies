@@ -12,8 +12,12 @@ describe('WalletView.vue', () => {
   it('should render correct contents', () => {
     const wallet = {
       name: 'Main Account',
-      amount: 123,
-      color: 'blue'
+      color: 'blue',
+      info: {
+        balance: {
+          totalAmount: 123000000
+        }
+      }
     }
 
     const wrapper = shallowMount(WalletView, {

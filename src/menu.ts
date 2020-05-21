@@ -34,9 +34,9 @@ export const dockTemplate = [
 /**
  * Application menu.
  */
-export let template: MenuItem[] = []
+export const template: MenuItem[] = []
 
-let actions = {
+const actions = {
   label: 'Actions',
   submenu: [
     {
@@ -60,7 +60,7 @@ let actions = {
   ]
 }
 
-let view = {
+const view = {
   label: 'View',
   submenu: [
     {
@@ -106,7 +106,7 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-let window = {
+const window = {
   role: 'window',
   submenu: [
     {
@@ -118,7 +118,7 @@ let window = {
   ]
 }
 
-let help = {
+const help = {
   role: 'help',
   submenu: [
     {
@@ -203,7 +203,7 @@ if (process.platform === 'darwin') {
         accelerator: 'CmdOrCtrl+Q',
         click () {
           menuValues.forceQuit = true
-          app.quit();
+          app.quit()
         }
       }
     ]
