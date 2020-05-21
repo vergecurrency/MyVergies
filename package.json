@@ -13,6 +13,7 @@
     "build": "vue-cli-service build",
     "test": "npm run test:unit & npm run test:e2e",
     "test:unit": "jest --watchAll",
+    "test:unit:ci": "jest --ci",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "electron:build": "npm run electron:rebuild & vue-cli-service electron:build",
