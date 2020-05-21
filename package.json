@@ -12,7 +12,8 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test": "npm run test:unit & npm run test:e2e",
-    "test:unit": "vue-cli-service test:unit",
+    "test:unit": "jest --watchAll",
+    "test:unit:ci": "jest --ci",
     "test:e2e": "vue-cli-service test:e2e",
     "lint": "vue-cli-service lint",
     "electron:build": "npm run electron:rebuild & vue-cli-service electron:build",
@@ -36,7 +37,6 @@
     "electron-updater": "^4.3.1",
     "electron-window-state": "^5.0.3",
     "keytar": "^5.6.0",
-    "lodash": "^4.17.15",
     "moment": "^2.25.3",
     "node-loader": "^0.6.0",
     "qrcode.vue": "^1.7.0",
@@ -51,6 +51,7 @@
   "devDependencies": {
     "@cypress/electron-plugin": "^1.1.0",
     "@types/chai": "^4.2.11",
+    "@types/jest": "^25.2.3",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.12.39",
     "@types/sinon": "^7.5.2",
@@ -67,6 +68,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.0.2",
     "@vue/test-utils": "^1.0.3",
+    "babel-core": "^7.0.0-bridge.0",
     "chai": "^4.2.0",
     "cypress": "^4.5.0",
     "electron": "^8.3.0",
@@ -78,11 +80,14 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^6.2.2",
+    "jest": "25.5.1",
     "sass": "^1.26.5",
     "sass-loader": "^8.0.2",
     "sinon": "^9.0.2",
+    "ts-jest": "25.5.1",
     "typescript": "^3.9.2",
     "vue-cli-plugin-electron-builder": "^1.4.6",
+    "vue-jest": "^3.0.5",
     "vue-template-compiler": "^2.6.11"
   }
 }
