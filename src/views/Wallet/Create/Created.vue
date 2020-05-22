@@ -4,13 +4,17 @@
       <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.createWallet')"/>
     </div>
 
-    <b-notification v-if="!done" :closable="false" class="has-text-weight-semibold has-text-grey-light is-flex">
-      <b-icon icon="circle-notch" type="is-primary" class="fa-pulse create-wallet-icon"/>
-      <p v-html="$i18n.t('createWallet.creatingWallet')"/>
+    <b-notification v-if="!done" :closable="false" class="has-text-weight-semibold has-text-grey-light">
+      <div class="is-flex">
+        <b-icon icon="circle-notch" type="is-primary" class="fa-pulse create-wallet-icon"/>
+        <p v-html="$i18n.t('createWallet.creatingWallet')"/>
+      </div>
     </b-notification>
-    <b-notification v-else :closable="false" class="has-text-weight-semibold has-text-success is-flex">
-      <b-icon icon="check-circle" type="is-success" class="create-wallet-icon"/>
-      <p v-html="$i18n.t('createWallet.walletCreated')"/>
+    <b-notification v-else :closable="false" class="has-text-weight-semibold" type="is-success">
+      <div class="is-flex">
+        <b-icon icon="check-circle" class="create-wallet-icon"/>
+        <p v-html="$i18n.t('createWallet.walletCreated')"/>
+      </div>
     </b-notification>
 
     <b-field align="right">

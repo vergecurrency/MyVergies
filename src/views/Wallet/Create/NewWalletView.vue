@@ -49,7 +49,7 @@ export default {
       activeStep: 0,
       wallet: {
         name: '',
-        color: 'red',
+        color: 'blue',
         coin: 'xvg',
         network: 'livenet',
         paperkey: '',
