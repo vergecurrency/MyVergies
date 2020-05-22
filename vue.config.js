@@ -5,9 +5,13 @@ module.exports = {
         config.module
           .rule('node-loader')
           .test(/\.node$/)
-          .use('node-loader')
+          .use('node')
           .loader('node-loader')
-          .end()
+        config.resolve.alias.set(
+          'keytar',
+          'keytar/build/Release/keytar.node'
+        )
+        return config
       },
       builderOptions: {
         productName: 'MyVergies',
@@ -61,7 +65,7 @@ module.exports = {
         nsis: {
           oneClick: false,
           allowToChangeInstallationDirectory: true,
-          /*eslint-disable */
+          /* eslint-disable */
           artifactName: '${productName}-Setup-${version}.${ext}'
           /* eslint-enable */
         },
