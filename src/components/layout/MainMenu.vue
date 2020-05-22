@@ -3,8 +3,13 @@
     <aside class="menu">
       <ul class="menu-list menu-list-wallet">
         <li>
-          <a class="is-size-2 has-text-weight-semibold" v-html="$i18n.t('main.menu.wallets')"/>
+          <a class="is-size-2 has-text-weight-semibold is-not-clickable" v-html="$i18n.t('main.menu.wallets')"/>
           <ul class="menu-wallets">
+            <li v-if="wallets.length === 0">
+              <router-link :to="{ name: 'wallets.create' }" active-class="">
+                <wallet-card-placeholder/>
+              </router-link>
+            </li>
             <li v-for="wallet in wallets" :key="wallet.name">
               <router-link
                 :to="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
@@ -40,10 +45,11 @@
 
 <script>
 import WalletCard from '@/components/WalletCard'
+import WalletCardPlaceholder from '@/components/WalletCardPlaceholder'
 
 export default {
   name: 'main-menu',
-  components: { WalletCard },
+  components: { WalletCardPlaceholder, WalletCard },
   props: {
     wallets: {
       type: Array
@@ -81,7 +87,8 @@ export default {
     padding-left: 0;
   }
 
-  .menu-wallets a.menu-wallets-card:hover {
+  .menu-wallets a.menu-wallets-card:hover,
+  .menu-list a.is-not-clickable:hover {
     background-color: transparent;
   }
 

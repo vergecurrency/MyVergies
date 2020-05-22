@@ -61,6 +61,8 @@ const en = {
     done: 'Done'
   },
   createWallet: {
+    addYourFirstWallet: 'Add your first wallet',
+    itsReallyEasy: 'It\'s really easy!',
     aWalletName: 'A wallet name?',
     aWalletNameDescription: 'This app allows you to create multiple wallets in one easy to use app!<br>So because of that let\'s give this wallet a name.',
     walletName: 'Wallet name',

@@ -61,6 +61,8 @@ const nl = {
     done: 'Klaar'
   },
   createWallet: {
+    addYourFirstWallet: 'Voeg je eerste wallet toe',
+    itsReallyEasy: 'Het is echt heel makkelijk!',
     aWalletName: 'Een wallet naam?',
     aWalletNameDescription: 'Deze app maakt het mogelijk om meerdere wallets te creeren!<br>Dus daarom moeten we je wallet onderscheiden met een naam.',
     walletName: 'Wallet naam',
