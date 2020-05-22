@@ -1,6 +1,6 @@
 {
   "name": "MyVergies",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "author": "Swen van Zanten <info@hdsign.nl>",
   "description": "An electron-vue Verge Currency desktop wallet with Tor built in",
   "license": "MIT",
