@@ -92,6 +92,15 @@ const nl = {
     walletCreated: 'Je wallet is succesvol aangemaakt!',
     goToWallet: 'Naar wallet'
   },
+  walletSettings: {
+    walletSettings: 'Wallet instellingen',
+    dangerZone: 'Gevare zone',
+    delete: 'Verwijderen',
+    deleteWallet: 'Verwijder wallet',
+    deleteWalletDesc: 'Hiermee zal je deze wallet uit de applicatie verwijderen. Je kunt je wallet altijd nog herstellen door de paper key en pass phrase te gebruiken. Zorg er alstublieft voor dat u uw paper key en pass phrase ergens veilig heeft bewaard en dat deze ook 100% overeenkomen. Onthoudt dat dit de enige gegevens zijn om je wallet ten alle tijden te herstellen.',
+    deleteWalletConfirm: 'Weet je zeker dat je je wallet <b>{name}</b> wilt verwijderen?',
+    walletDeleted: 'Je wallet <b>{name}</b> is verwijderd!'
+  },
   settings: {
     settings: 'Instellingen',
     security: 'Beveiliging',

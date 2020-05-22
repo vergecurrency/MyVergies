@@ -45,6 +45,18 @@ export default class WalletManager {
     return wallet
   }
 
+  public async removeWallet (wallet: Wallet): Promise<boolean> {
+    const keytar = require('keytar')
+
+    const succeeded = await keytar.deletePassword(`MyVergies Wallet: ${wallet.name}`, wallet.name)
+
+    if (succeeded) {
+      this.wallets.splice(this.wallets.findIndex(w => w === wallet), 1)
+    }
+
+    return succeeded
+  }
+
   protected getClient (walletConfig: WalletConfigItem): Client {
     const vwc = new Client({
       baseUrl: walletConfig.vwsApi || constants.vwsApi,

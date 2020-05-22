@@ -6,7 +6,7 @@ const mutations = {
   },
 
   REMOVE_WALLET_NAME (state: string[], walletName: string) {
-    state = state.filter(name => name !== walletName)
+    state.splice(state.findIndex(n => n === walletName), 1)
   }
 }
 
