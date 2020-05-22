@@ -34,6 +34,24 @@
           </b-select>
         </b-field>
 
+        <b-field>
+          <b-switch v-model="showAdvanced"><span v-html="$i18n.t('createWallet.advanced')"/></b-switch>
+        </b-field>
+
+        <div class="box" v-show="showAdvanced">
+          <b-field :label="$i18n.t('createWallet.singleAddress')">
+            <b-switch
+              v-model="wallet.singleAddress"
+            />
+          </b-field>
+
+          <b-field :label="$i18n.t('createWallet.serviceURL')">
+            <b-input
+              v-model="wallet.vwsApi"
+            />
+          </b-field>
+        </div>
+
       </div>
     </div>
 
@@ -43,6 +61,7 @@
         :label="$i18n.t('createWallet.writeDownPaperKey')"
         type="is-primary"
         @click="$emit('next')"
+        :disabled="!preferencesAreValid"
       />
     </b-field>
   </div>
@@ -50,15 +69,35 @@
 
 <script>
 import WalletCard from '@/components/WalletCard'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'WalletPreferences',
   components: { WalletCard },
+  data () {
+    return {
+      showAdvanced: false
+    }
+  },
   props: {
     wallet: {
       type: Object,
       required: true
     }
+  },
+  computed: {
+    nameLongEnough () {
+      return this.wallet.name.length < 1 || this.wallet.name.length > 4
+    },
+    nameExists () {
+      return this.allWalletNames().includes(this.wallet.name)
+    },
+    preferencesAreValid () {
+      return this.wallet.name !== '' && this.nameLongEnough && !this.nameExists
+    }
+  },
+  methods: {
+    ...mapGetters(['allWalletNames'])
   }
 }
 </script>

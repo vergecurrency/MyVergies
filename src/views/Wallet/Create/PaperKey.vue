@@ -24,54 +24,73 @@
           <span
             v-for="(word, i) in randomWords" :key="i+word" v-html="word"
             class="tag is-family-code has-text-weight-semibold is-clickable"
-            @click="selectedPaperKey.push(word)"
+            @click="selectedPaperkey.push(word)"
           />
         </div>
       </div>
     </div>
 
-    <b-field align="right">
-      <b-button
-        icon-left="edit"
-        :label="$i18n.t('createWallet.confirmPaperKey')"
-        type="is-primary"
-        @click="confirmationHandler"
-      />
+    <b-notification
+      v-if="confirm && showInvalidPaperkeyError"
+      type="is-danger"
+      v-html="$i18n.t('createWallet.invalidPaperkeySelected')"
+    />
+
+    <b-field grouped>
+      <b-field expanded>
+        <b-button v-show="confirm" label="Show paper key" @click="confirm = false"/>
+      </b-field>
+
+      <b-field v-show="confirm && selectedPaperkey.length > 0">
+        <b-button
+          label="Reset"
+          @click="resetSelectedPaperkey"
+        />
+      </b-field>
+
+      <b-field>
+        <b-button
+          icon-left="edit"
+          :label="$i18n.t('createWallet.confirmPaperKey')"
+          type="is-primary"
+          @click="confirmationHandler"
+          :disabled="confirm && selectedPaperkey.length < 12"
+        />
+      </b-field>
     </b-field>
   </div>
 </template>
 
 <script>
 import Constants from '@/utils/constants'
+import Mnemonic from 'bitcore-mnemonic'
 
 export default {
   name: 'PaperKey',
+  props: {
+    wallet: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       confirm: false,
-      selectedPaperKey: [],
-      paperKey: [
-        'Flee',
-        'Cave',
-        'Use',
-        'Suffer',
-        'Cat',
-        'Radio',
-        'Heart',
-        'Same',
-        'Frog',
-        'Disease',
-        'Topple',
-        'Inspire'
-      ]
+      showInvalidPaperkeyError: false,
+      selectedPaperkey: [],
+      paperkey: []
     }
   },
 
+  mounted () {
+    this.generatePaperkey()
+  },
+
   computed: {
-    selectedPaperKeyWithPlaceholders () {
+    selectedPaperkeyWithPlaceholders () {
       const placeholders = Array(Constants.paperKeyLength).fill('', 0, Constants.paperKeyLength)
 
-      this.selectedPaperKey.forEach(function (value, key) {
+      this.selectedPaperkey.forEach(function (value, key) {
         placeholders[key] = value
       })
 
@@ -79,19 +98,33 @@ export default {
     },
 
     words () {
-      return this.confirm ? this.selectedPaperKeyWithPlaceholders : this.paperKey
+      return this.confirm ? this.selectedPaperkeyWithPlaceholders : this.paperkey
     },
 
     randomWords () {
-      const words = this.paperKey.filter(word => {
-        return !this.selectedPaperKey.includes(word)
+      const words = this.paperkey.filter(word => {
+        return !this.selectedPaperkey.includes(word)
       })
 
       return this.shuffleWords(words)
+    },
+
+    paperkeyCheckupIsValid () {
+      return this.paperkey.join('') === this.selectedPaperkey.join('')
     }
   },
 
   methods: {
+    generatePaperkey () {
+      let mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
+
+      while (!Mnemonic.isValid(mnemonic.toString())) {
+        mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
+      }
+
+      this.paperkey = mnemonic.toString().split(' ')
+    },
+
     shuffleWords (words) {
       for (let i = words.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -102,11 +135,26 @@ export default {
     },
 
     confirmationHandler () {
-      if (this.confirm) {
-        this.$emit('next')
-      } else {
+      if (!this.confirm) {
         this.confirm = true
+
+        return
       }
+
+      if (!this.paperkeyCheckupIsValid) {
+        this.showInvalidPaperkeyError = true
+
+        return
+      }
+
+      this.wallet.paperkey = this.paperkey.join(' ')
+
+      return this.$emit('next')
+    },
+
+    resetSelectedPaperkey () {
+      this.selectedPaperkey = []
+      this.showInvalidPaperkeyError = false
     }
   }
 }

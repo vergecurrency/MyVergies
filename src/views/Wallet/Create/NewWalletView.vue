@@ -17,15 +17,15 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section">
-          <paper-key @next="next"/>
+          <paper-key :wallet="wallet" @next="next"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section">
-          <pass-phrase @next="next"/>
+          <pass-phrase :wallet="wallet" @next="createWallet"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.walletCreated')" class="section">
-          <created @next="next"/>
+        <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section">
+          <created :wallet="wallet" :done="createdWallet !== null" @next="toWallet"/>
         </b-step-item>
 
       </b-steps>
@@ -50,13 +50,42 @@ export default {
       wallet: {
         name: '',
         color: 'red',
-        amount: 1234567.89
-      }
+        coin: 'xvg',
+        network: 'livenet',
+        paperkey: '',
+        passphrase: '',
+        singleAddress: false,
+        vwsApi: 'http://localhost:3232/vws/api',
+        info: {
+          balance: {
+            totalAmount: 12300000000
+          }
+        }
+      },
+      createdWallet: null
     }
   },
   methods: {
     next () {
       this.activeStep++
+    },
+
+    createWallet () {
+      this.next()
+
+      this.$walletManager.addWallet(this.wallet).then(wallet => {
+        this.$store.dispatch('addWalletName', this.wallet.name)
+
+        this.createdWallet = wallet
+      })
+      //   .catch(error => {
+      //   // TODO
+      //   console.error(error)
+      // })
+    },
+
+    toWallet () {
+      this.$router.push({ name: 'wallets', params: { walletName: this.wallet.name, wallet: this.createdWallet } })
     }
   }
 }

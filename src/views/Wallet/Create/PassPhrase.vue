@@ -1,36 +1,129 @@
 <template>
   <div>
     <div class="block">
-      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.aWalletName')"/>
-      <p v-html="$i18n.t('createWallet.aWalletNameDescription')"/>
+      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.passPhrase')"/>
+      <p v-html="$i18n.t('createWallet.passPhraseDescription')"/>
     </div>
 
-    <b-field :label="$i18n.t('createWallet.passPhrase')">
+    <div v-show="!confirm" class="block">
+      <div class="columns is-centered">
+        <div class="column is-narrow">
+          <requirement-marker :label="$i18n.t('createWallet.setupPassphraseReq1')" :checked="isMinimumSize"/>
+        </div>
+        <div class="column is-narrow">
+          <requirement-marker :label="$i18n.t('createWallet.setupPassphraseReq2')" :checked="containsCapsAndSmalls"/>
+        </div>
+        <div class="column is-narrow">
+          <requirement-marker :label="$i18n.t('createWallet.setupPassphraseReq3')" :checked="containsSpecials"/>
+        </div>
+      </div>
+    </div>
+
+    <b-notification v-if="confirm && !passphraseInvalid" v-html="$i18n.t('createWallet.confirmPassphrase')"/>
+    <b-notification
+      type="is-danger"
+      v-if="confirm && passphraseInvalid"
+      v-html="$i18n.t('createWallet.passphraseInvalid')"
+    />
+
+    <b-field :label="confirm ? $i18n.t('createWallet.confirm') : $i18n.t('createWallet.passPhrase')">
       <b-input
+        v-model="passphrase"
         size="is-large"
         type="password"
-        :placeholder="$i18n.t('createWallet.enterYourWalletName')"
+        :placeholder="$i18n.t('createWallet.setupPassphrasePassPlaceholder')"
         password-reveal
       />
     </b-field>
 
-    <b-field align="right">
-      <b-button
-        icon-left="edit"
-        :label="$i18n.t('createWallet.passPhrase')"
-        type="is-primary"
-        @click="$emit('next')"
-      />
+    <b-field grouped>
+      <b-field expanded>
+        <b-button v-if="confirm" @click="back" v-html="$i18n.t('createWallet.back')"/>
+      </b-field>
+
+      <b-field align="right">
+        <b-button
+          v-if="!confirm"
+          :label="$i18n.t('createWallet.proceed')"
+          type="is-primary"
+          @click="proceed"
+          :disabled="!isValid"
+        />
+
+        <b-button
+          v-if="confirm"
+          :label="$i18n.t('createWallet.createWallet')"
+          type="is-primary"
+          @click="createWallet"
+        />
+      </b-field>
     </b-field>
   </div>
 </template>
 
 <script>
+import RequirementMarker from '@/views/Wallet/Create/RequirementMarker'
 export default {
-  name: 'PassPhrase'
+  name: 'PassPhrase',
+  components: { RequirementMarker },
+  props: {
+    wallet: {
+      type: Object,
+      required: true
+    }
+  },
+
+  data () {
+    return {
+      confirm: false,
+      passphrase: '',
+      confirmPassphrase: '',
+      passphraseInvalid: false
+    }
+  },
+
+  computed: {
+    isMinimumSize () {
+      return this.passphrase.length >= 8
+    },
+
+    containsCapsAndSmalls () {
+      return !!(this.passphrase.match(/[A-Z]/g) && this.passphrase.match(/[a-z]/g))
+    },
+
+    containsSpecials () {
+      return !!this.passphrase.match(/[!@#$%^&*()_+-=\\[\]{};':"\\|,.<>/?]/g)
+    },
+
+    isValid () {
+      return this.isMinimumSize && this.containsCapsAndSmalls && this.containsSpecials
+    }
+  },
+
+  methods: {
+    proceed () {
+      this.passphraseInvalid = false
+      this.confirmPassphrase = this.passphrase
+      this.passphrase = ''
+      this.confirm = true
+    },
+
+    createWallet () {
+      if (this.confirmPassphrase !== this.passphrase) {
+        this.passphraseInvalid = true
+
+        return
+      }
+
+      this.wallet.passphrase = this.passphrase
+
+      this.$emit('next')
+    },
+
+    back () {
+      this.passphrase = ''
+      this.confirm = false
+    }
+  }
 }
 </script>
-
-<style scoped>
-
-</style>
