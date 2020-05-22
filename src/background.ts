@@ -3,9 +3,10 @@
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { template, dockTemplate, menuValues, MenuValues } from '@/menu'
+import { template, dockTemplate, menuValues } from '@/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
+import '@/utils/keytar/main'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 

@@ -1,18 +1,6 @@
 module.exports = {
   pluginOptions: {
     electronBuilder: {
-      chainWebpackRendererProcess: config => {
-        config.module
-          .rule('node-loader')
-          .test(/\.node$/)
-          .use('node')
-          .loader('node-loader')
-        config.resolve.alias.set(
-          'keytar',
-          'keytar/build/Release/keytar.node'
-        )
-        return config
-      },
       builderOptions: {
         productName: 'MyVergies',
         appId: 'com.github.vergecurrency.myvergies',
@@ -70,7 +58,8 @@ module.exports = {
           /* eslint-enable */
         },
         afterSign: 'dist_electron/notarize.js'
-      }
+      },
+      externals: ['keytar']
     }
   }
 }

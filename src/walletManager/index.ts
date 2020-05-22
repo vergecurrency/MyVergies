@@ -1,7 +1,7 @@
 import Vue, { PluginFunction } from 'vue'
-import keytar from 'keytar'
 import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
+import keytar from '@/utils/keytar'
 import { Store } from 'vuex'
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
@@ -20,7 +20,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
   }
 
   return Promise.all(names.map(async (name: string): Promise<WalletConfigItem> => {
-    const encrytedWallet = await keytar.getPassword(`MyVergies Wallet: ${name}`, name)
+    const encrytedWallet = await keytar.getCredentials(`MyVergies Wallet: ${name}`, name)
 
     if (encrytedWallet === undefined) {
       throw Error(`Couldn't load wallet: ${name}`)

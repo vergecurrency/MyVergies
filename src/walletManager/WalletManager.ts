@@ -3,6 +3,7 @@ import Client from 'bitcore-wallet-client-xvg'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
+import keytar from '@/utils/keytar'
 
 export default class WalletManager {
   protected config?: ManagerConfig
@@ -31,24 +32,20 @@ export default class WalletManager {
     const vwc = this.getClient(walletConfig)
     const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
 
-    const keytar = require('keytar')
-
     await wallet.create(walletConfig.name, walletConfig.name, 1, 1, {
       coin: walletConfig.coin,
       network: walletConfig.network,
       singleAddress: walletConfig.singleAddress
     })
     await wallet.status()
-    await keytar.setPassword(`MyVergies Wallet: ${walletConfig.name}`, walletConfig.name, btoa(JSON.stringify(walletConfig)))
+    await keytar.setCredentials(`MyVergies Wallet: ${wallet.name}`, walletConfig.name, btoa(JSON.stringify(walletConfig)))
     this.wallets.push(wallet)
 
     return wallet
   }
 
   public async removeWallet (wallet: Wallet): Promise<boolean> {
-    const keytar = require('keytar')
-
-    const succeeded = await keytar.deletePassword(`MyVergies Wallet: ${wallet.name}`, wallet.name)
+    const succeeded = await keytar.deleteCredentials(`MyVergies Wallet: ${wallet.name}`, wallet.name!)
 
     if (succeeded) {
       this.wallets.splice(this.wallets.findIndex(w => w === wallet), 1)
