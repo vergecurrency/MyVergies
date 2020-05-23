@@ -25,7 +25,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section" :clickable="false">
-          <created :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="toWallet"/>
+          <created :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
         </b-step-item>
 
       </b-steps>
@@ -85,8 +85,8 @@ export default {
       })
     },
 
-    toWallet () {
-      this.$router.push({ name: 'wallets', params: { walletName: this.wallet.name, wallet: this.createdWallet } })
+    walletCreated (event) {
+      this.$router.push({ name: event.route, params: { walletName: this.wallet.name, wallet: this.createdWallet } })
     }
   }
 }

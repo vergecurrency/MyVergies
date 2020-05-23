@@ -93,6 +93,7 @@ const en = {
     proceed: 'Proceed',
     almostReady: 'Almost ready!',
     almostReadyDesc: 'We just need to know we\'re on the same level.',
+    awesomeYouveDoneIt: 'Awesome, you\'ve done it!',
     createTerm1: 'I understand that the only way to restore this wallet is by providing the <b>paper key</b> and the <b>pass phrase</b>. If any of these credentials are lost or differ from this setup there is no way to recover them. I\'m solely responsible for these credentials. Not the developers of this application.',
     createTerm2: 'I understand that this wallets credentials are stored in my systems <b>credentials register</b>. And that these credentials aren\'t covered by automatic backups by default.',
     createTerm3: 'I have read, understood, and agree to the Terms of Use.',
@@ -101,6 +102,15 @@ const en = {
     createWallet: 'Create wallet',
     creatingWallet: 'Your wallet is being created...',
     walletCreated: 'Your wallet has been successfully created!',
+    whatToDoNext: 'What to do next?',
+    exportYourWallet: 'Export your wallet',
+    exportYourWalletDesc: 'Creating an extra backup of your wallet credentials can be a smart thing to do. Either store it savely on a removable drive or another secure place.',
+    exportWallet: 'Export wallet',
+    sendXvgToYourWallet: 'Send XVG to your wallet',
+    sendXvgToYourWalletDesc: 'You\'ve created a wallet but don\'t want to receive XVG on it? Right of course do you!',
+    receiveXvg: 'Receive XVG',
+    orGoToWallet: 'Or...',
+    orGoToWalletDesc: 'Go to your wallet view where you can handle each of the above.',
     goToWallet: 'Go to wallet'
   },
   walletSettings: {

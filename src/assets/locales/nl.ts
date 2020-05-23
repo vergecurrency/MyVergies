@@ -93,6 +93,7 @@ const nl = {
     proceed: 'Ga verder',
     almostReady: 'Bijna klaar!',
     almostReadyDesc: 'Even controlleren of we elkaar begrijpen.',
+    awesomeYouveDoneIt: 'Super vet, het is gelukt!',
     createTerm1: 'Ik begrijp dat mijn <b>paper key</b> en <b>pass phrase</b> de enige mogelijkheid geven om deze wallet te herstellen. Als één van deze gegevens verloren gaan of verschillen met de gegevens verstrekt tijdens dit setup, er géén mogelijkheid is om mijn wallet te herstellen. Ik ben zelf verantwoordelijk voor deze gegevens. Niet de ontwikkelaars van deze applicatie.',
     createTerm2: 'Ik begrijp dat de gegevens van deze wallet zijn opgeslagen in mijn systeems <b>credentials register</b>. En dat deze gegevens niet standaard automatisch worden meegenomen in een backup.',
     createTerm3: 'Ik heb de gebruiksvoorwaarden gelezen, begrepen en ik accepteer ze.',
@@ -101,6 +102,15 @@ const nl = {
     createWallet: 'Maak wallet aan',
     creatingWallet: 'Je wallet wordt nu aangemaakt...',
     walletCreated: 'Je wallet is succesvol aangemaakt!',
+    whatToDoNext: 'Wat nu?',
+    exportYourWallet: 'Exporteer je wallet',
+    exportYourWalletDesc: 'Het aanmaken van een extra backup van je wallet gegevens is best een slimme zet. Sla deze gegevens op op een verwijderbare hardeschijf or op een andere veilige plaats.',
+    exportWallet: 'Exporteer wallet',
+    sendXvgToYourWallet: 'Verzend XVG naar je wallet',
+    sendXvgToYourWalletDesc: 'Je hebt zojuist een nieuwe wallet aangemaakt maar wilt er geen XVG op ontvangen? Ha! natuurlijk wil je dat!',
+    receiveXvg: 'Ontvang XVG',
+    orGoToWallet: 'Of...',
+    orGoToWalletDesc: 'Ga naar je wallet scherm en voer bovenstaande activiteiten daar uit.',
     goToWallet: 'Naar wallet'
   },
   walletSettings: {

@@ -5,7 +5,7 @@
         <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.almostReady')"/>
         <p v-html="$i18n.t('createWallet.almostReadyDesc')"/>
       </div>
-      <h3 v-else class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.createWallet')"/>
+      <h1 v-else class="title is-family-handwritten" v-html="$i18n.t('createWallet.awesomeYouveDoneIt')"/>
     </div>
 
     <div v-if="!confirmed">
@@ -46,28 +46,60 @@
         </b-field>
       </b-field>
     </div>
-    <b-notification v-else-if="confirmed && !done" :closable="false" class="has-text-weight-semibold has-text-grey-light">
-      <div class="is-flex">
+    <b-notification v-else-if="confirmed" :closable="false" class="has-text-weight-semibold has-text-grey-light">
+      <div v-if="!done" class="is-flex">
         <b-icon icon="circle-notch" type="is-primary" class="fa-pulse create-wallet-icon"/>
         <p v-html="$i18n.t('createWallet.creatingWallet')"/>
       </div>
-    </b-notification>
-    <b-notification v-else :closable="false" class="has-text-weight-semibold" type="is-success">
-      <div class="is-flex">
-        <b-icon icon="check-circle" class="create-wallet-icon"/>
+      <div v-else class="has-text-success is-flex wallet-created">
+        <b-icon icon="check-circle" class="create-wallet-icon" size="is-large"/>
         <p v-html="$i18n.t('createWallet.walletCreated')"/>
       </div>
     </b-notification>
 
-    <b-field align="right">
-      <b-button
-        v-if="done"
-        icon-left="edit"
-        :label="$i18n.t('createWallet.goToWallet')"
-        type="is-primary"
-        @click="$emit('next')"
-      />
-    </b-field>
+    <div v-if="confirmed && done">
+      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.whatToDoNext')"/>
+      <div class="box has-background-warning">
+        <div class="columns is-vcentered">
+          <div class="column">
+            <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.exportYourWallet')"/>
+            <p v-html="$i18n.t('createWallet.exportYourWalletDesc')"/>
+          </div>
+          <div class="column is-narrow">
+            <b-button @click="exportWallet" v-html="$i18n.t('createWallet.exportWallet')"/>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="columns is-vcentered">
+          <div class="column">
+            <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.sendXvgToYourWallet')"/>
+            <p v-html="$i18n.t('createWallet.sendXvgToYourWalletDesc')"/>
+          </div>
+          <div class="column is-narrow">
+            <b-button @click="$emit('next', { route: 'wallets.receive' })" v-html="$i18n.t('createWallet.receiveXvg')"/>
+          </div>
+        </div>
+      </div>
+      <div class="box">
+        <div class="columns is-vcentered">
+          <div class="column">
+            <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.orGoToWalletDesc')"/>
+            <p v-html="$i18n.t('createWallet.orGoToWalletDesc')"></p>
+          </div>
+          <div class="column is-narrow">
+            <b-button
+              v-if="done"
+              icon-left="edit"
+              :label="$i18n.t('createWallet.goToWallet')"
+              type="is-primary"
+              @click="$emit('next', { route: 'wallets' })"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -114,6 +146,10 @@ export default {
           shell.openExternal(constants.termsOfUse)
         }
       })
+    },
+
+    exportWallet () {
+      // Open export modal
     }
   }
 }
@@ -122,5 +158,9 @@ export default {
 <style>
   .create-wallet-icon {
     width: 30px
+  }
+  .notification .wallet-created {
+    flex-direction: column;
+    align-items: center;
   }
 </style>
