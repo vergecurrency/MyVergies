@@ -1,5 +1,8 @@
 <template>
-  <content-view :title="$i18n.t('createWallet.createNewWallet')" :back="{ name: 'wallets.create' }">
+  <content-view
+    :title="$i18n.t(restore ? 'createWallet.restoreExistingWallet' : 'createWallet.createNewWallet')"
+    :back="{ name: 'wallets.create' }"
+  >
 
     <template slot="section">
       <b-steps
@@ -17,7 +20,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section" :clickable="false">
-          <paper-key :wallet="wallet" @next="next"/>
+          <paper-key :wallet="wallet" @next="next" :fill="restore"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section" :clickable="false">
@@ -42,7 +45,7 @@ import PassPhrase from '@/views/Wallet/Create/PassPhrase'
 import Created from '@/views/Wallet/Create/Create'
 
 export default {
-  name: 'NewWalletView',
+  name: 'WalletSetupView',
   components: { Created, PassPhrase, PaperKey, WalletPreferences, ContentView },
   data () {
     return {
@@ -63,6 +66,12 @@ export default {
         }
       },
       createdWallet: null
+    }
+  },
+  props: {
+    restore: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
