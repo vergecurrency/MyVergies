@@ -15,6 +15,7 @@ export default {
   .wallet-card-placeholder {
     border: 2px dashed #c7c7c7;
     border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 3px 0 #a7a7a7;
     padding: 10px;
     height: 120px;
     cursor: pointer;
@@ -24,9 +25,13 @@ export default {
     align-items: center;
     font-size: 1.5rem;
     color: #a2a2a2;
+    transition: all 0.5s ease-in-out;
   }
   .wallet-card-placeholder > small {
     font-size: .8rem;
     color: #727272;
+  }
+  .wallet-card-placeholder:hover {
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.2), 0 2px 0 #a7a7a7;
   }
 </style>

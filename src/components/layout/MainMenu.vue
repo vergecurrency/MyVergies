@@ -6,7 +6,11 @@
           <a class="is-size-2 has-text-weight-semibold is-not-clickable" v-html="$i18n.t('main.menu.wallets')"/>
           <ul class="menu-wallets">
             <li v-if="wallets.length === 0">
-              <router-link :to="{ name: 'wallets.create' }" active-class="">
+              <router-link
+                :to="{ name: 'wallets.create' }"
+                active-class=""
+                class="menu-wallets-card"
+              >
                 <wallet-card-placeholder/>
               </router-link>
             </li>
@@ -77,7 +81,9 @@ export default {
     padding: 10px 30px;
   }
 
-  .menu-list.menu-list-wallet a.is-active {
+  .menu-list.menu-list-wallet a.is-active,
+  .menu-wallets a.menu-wallets-card:hover,
+  .menu-list a.is-not-clickable:hover {
     background-color: transparent;
   }
 
@@ -85,11 +91,6 @@ export default {
     border-left: none;
     margin: 0;
     padding-left: 0;
-  }
-
-  .menu-wallets a.menu-wallets-card:hover,
-  .menu-list a.is-not-clickable:hover {
-    background-color: transparent;
   }
 
   .menu-list-wallet a {

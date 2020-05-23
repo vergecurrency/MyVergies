@@ -12,8 +12,6 @@
 <script>
 import Money from '@/components/labels/Money'
 
-const colors = ['green', 'purple', 'orange', 'red']
-
 export default {
   name: 'WalletCard',
   components: { Money },
@@ -25,7 +23,7 @@ export default {
   },
   computed: {
     containerClass () {
-      return 'wallet-menu-card wallet-menu-card-background-' + (this.wallet.color || colors[Math.floor(Math.random() * colors.length)])
+      return 'wallet-menu-card wallet-menu-card-background-' + this.wallet.color
     }
   }
 }
@@ -38,7 +36,7 @@ export default {
     border-radius: 10px;
     color: white;
     height: 120px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 3px 0px #111111;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 3px 0 #111111;
     transition: all 0.5s ease-in-out;
     cursor: pointer;
   }
