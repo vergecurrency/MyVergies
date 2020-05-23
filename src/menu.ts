@@ -1,13 +1,5 @@
 import { app, MenuItem } from 'electron'
 
-export interface MenuValues {
-  forceQuit: boolean
-}
-
-export const menuValues: MenuValues = {
-  forceQuit: false
-}
-
 /**
  * macOS Dock menu items
  */
@@ -202,7 +194,6 @@ if (process.platform === 'darwin') {
         label: 'Quit ' + app.name,
         accelerator: 'CmdOrCtrl+Q',
         click () {
-          menuValues.forceQuit = true
           app.quit()
         }
       }
