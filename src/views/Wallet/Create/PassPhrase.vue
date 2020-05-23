@@ -28,11 +28,13 @@
 
     <b-field :label="confirm ? $i18n.t('createWallet.confirm') : $i18n.t('createWallet.passPhrase')">
       <b-input
+        ref="passphraseInput"
         v-model="passphrase"
         size="is-large"
         type="password"
         :placeholder="$i18n.t('createWallet.setupPassphrasePassPlaceholder')"
         password-reveal
+        @keyup.enter.native="confirm ? done() : proceed()"
       />
     </b-field>
 
@@ -52,9 +54,9 @@
 
         <b-button
           v-if="confirm"
-          :label="$i18n.t('createWallet.createWallet')"
+          :label="$i18n.t('createWallet.proceed')"
           type="is-primary"
-          @click="createWallet"
+          @click="done"
         />
       </b-field>
     </b-field>
@@ -106,9 +108,11 @@ export default {
       this.confirmPassphrase = this.passphrase
       this.passphrase = ''
       this.confirm = true
+
+      this.$refs.passphraseInput.$el.focus()
     },
 
-    createWallet () {
+    done () {
       if (this.confirmPassphrase !== this.passphrase) {
         this.passphraseInvalid = true
 

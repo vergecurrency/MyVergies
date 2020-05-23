@@ -30,7 +30,7 @@ If you want to help us out on development you can use this guide:
 
 2. Install the npm dependencies.
 ``` bash
-npm i
+npm ci
 ```
 
 3. Run a local instance with hot reload.

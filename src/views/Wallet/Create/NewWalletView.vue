@@ -1,5 +1,5 @@
 <template>
-  <content-view title="Create new wallet" :back="{ name: 'wallets.create' }">
+  <content-view :title="$i18n.t('createWallet.createNewWallet')" :back="{ name: 'wallets.create' }">
 
     <template slot="section">
       <b-steps
@@ -12,20 +12,20 @@
 
         <br/>
 
-        <b-step-item :label="$i18n.t('createWallet.preferences')" class="section">
+        <b-step-item :label="$i18n.t('createWallet.preferences')" class="section" :clickable="false">
           <wallet-preferences :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section">
+        <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section" :clickable="false">
           <paper-key :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section">
-          <pass-phrase :wallet="wallet" @next="createWallet"/>
+        <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section" :clickable="false">
+          <pass-phrase :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section">
-          <created :wallet="wallet" :done="createdWallet !== null" @next="toWallet"/>
+        <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section" :clickable="false">
+          <created :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="toWallet"/>
         </b-step-item>
 
       </b-steps>
@@ -39,7 +39,7 @@ import ContentView from '@/components/layout/ContentView'
 import WalletPreferences from '@/views/Wallet/Create/WalletPreferences'
 import PaperKey from '@/views/Wallet/Create/PaperKey'
 import PassPhrase from '@/views/Wallet/Create/PassPhrase'
-import Created from '@/views/Wallet/Create/Created'
+import Created from '@/views/Wallet/Create/Create'
 
 export default {
   name: 'NewWalletView',
@@ -71,17 +71,18 @@ export default {
     },
 
     createWallet () {
-      this.next()
-
       this.$walletManager.addWallet(this.wallet).then(wallet => {
         this.$store.dispatch('addWalletName', this.wallet.name)
 
         this.createdWallet = wallet
+      }).catch(error => {
+        this.$buefy.dialog.alert({
+          message: error.toString(),
+          onConfirm: () => {
+            // decide what to do.
+          }
+        })
       })
-      //   .catch(error => {
-      //   // TODO
-      //   console.error(error)
-      // })
     },
 
     toWallet () {

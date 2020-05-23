@@ -61,6 +61,8 @@ const nl = {
     done: 'Klaar'
   },
   createWallet: {
+    createNewWallet: 'Nieuwe wallet aanmaken',
+    restoreExistingWallet: 'Herstel bestaande wallet',
     addYourFirstWallet: 'Voeg je eerste wallet toe',
     itsReallyEasy: 'Het is echt heel makkelijk!',
     aWalletName: 'Een wallet naam?',
@@ -89,6 +91,13 @@ const nl = {
     confirm: 'Bevestig',
     back: 'Terug',
     proceed: 'Ga verder',
+    almostReady: 'Bijna klaar!',
+    almostReadyDesc: 'Even controlleren of we elkaar begrijpen.',
+    createTerm1: 'Ik begrijp dat mijn <b>paper key</b> en <b>pass phrase</b> de enige mogelijkheid geven om deze wallet te herstellen. Als één van deze gegevens verloren gaan of verschillen met de gegevens verstrekt tijdens dit setup, er géén mogelijkheid is om mijn wallet te herstellen. Ik ben zelf verantwoordelijk voor deze gegevens. Niet de ontwikkelaars van deze applicatie.',
+    createTerm2: 'Ik begrijp dat de gegevens van deze wallet zijn opgeslagen in mijn systeems <b>credentials register</b>. En dat deze gegevens niet standaard automatisch worden meegenomen in een backup.',
+    createTerm3: 'Ik heb de gebruiksvoorwaarden gelezen, begrepen en ik accepteer ze.',
+    termsOfUse: 'Gebruiksvoorwaarden',
+    openTermsOfUseConfirm: 'Je staat op het punt om een externe web pagina te openen in je standaard browser',
     createWallet: 'Maak wallet aan',
     creatingWallet: 'Je wallet wordt nu aangemaakt...',
     walletCreated: 'Je wallet is succesvol aangemaakt!',

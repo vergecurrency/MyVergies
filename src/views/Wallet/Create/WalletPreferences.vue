@@ -20,6 +20,7 @@
             size="is-large"
             :placeholder="$i18n.t('createWallet.enterYourWalletName')"
             v-model="wallet.name"
+            @keyup.enter.native="proceed"
           />
         </b-field>
 
@@ -47,6 +48,7 @@
           <b-field :label="$i18n.t('createWallet.serviceURL')">
             <b-input
               v-model="wallet.vwsApi"
+              @keyup.enter.native="proceed"
             />
           </b-field>
         </div>
@@ -59,7 +61,7 @@
         icon-left="edit"
         :label="$i18n.t('createWallet.writeDownPaperKey')"
         type="is-primary"
-        @click="$emit('next')"
+        @click="proceed"
         :disabled="!preferencesAreValid"
       />
     </b-field>
@@ -96,6 +98,14 @@ export default {
     }
   },
   methods: {
+    proceed () {
+      if (!this.preferencesAreValid) {
+        return
+      }
+
+      this.$emit('next')
+    },
+
     ...mapGetters(['allWalletNames'])
   }
 }

@@ -61,6 +61,8 @@ const en = {
     done: 'Done'
   },
   createWallet: {
+    createNewWallet: 'Create new wallet',
+    restoreExistingWallet: 'Restore existing wallet',
     addYourFirstWallet: 'Add your first wallet',
     itsReallyEasy: 'It\'s really easy!',
     aWalletName: 'A wallet name?',
@@ -89,6 +91,13 @@ const en = {
     confirm: 'Confirm',
     back: 'Back',
     proceed: 'Proceed',
+    almostReady: 'Almost ready!',
+    almostReadyDesc: 'We just need to know we\'re on the same level.',
+    createTerm1: 'I understand that the only way to restore this wallet is by providing the <b>paper key</b> and the <b>pass phrase</b>. If any of these credentials are lost or differ from this setup there is no way to recover them. I\'m solely responsible for these credentials. Not the developers of this application.',
+    createTerm2: 'I understand that this wallets credentials are stored in my systems <b>credentials register</b>. And that these credentials aren\'t covered by automatic backups by default.',
+    createTerm3: 'I have read, understood, and agree to the Terms of Use.',
+    termsOfUse: 'Terms of Use',
+    openTermsOfUseConfirm: 'You\'re about to open an external webpage inside your default browser',
     createWallet: 'Create wallet',
     creatingWallet: 'Your wallet is being created...',
     walletCreated: 'Your wallet has been successfully created!',
