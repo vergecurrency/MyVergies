@@ -7,7 +7,7 @@ import { template, dockTemplate } from '@/toolbar/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
 import '@/utils/keytar/main'
-import { isDevelopmentEnvironment, isProductionEnvironment } from './utils'
+import { isDevelopmentEnvironment, isProductionEnvironment, isMacOSEnvironment, isWinOSEnvironment } from './utils'
 
 logger.transports.file.level = 'debug'
 
@@ -64,7 +64,7 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
-  if (process.platform === 'darwin') {
+  if (isMacOSEnvironment()) {
     let forceQuit = false
 
     app.on('before-quit', () => {
@@ -130,7 +130,7 @@ app.on('ready', async () => {
 
 // Exit cleanly on request from parent process in development mode.
 if (isDevelopmentEnvironment()) {
-  if (process.platform === 'win32') {
+  if (isWinOSEnvironment()) {
     process.on('message', data => {
       if (data === 'graceful-exit') {
         app.quit()

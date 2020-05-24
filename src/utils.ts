@@ -6,3 +6,6 @@ export const isProductionEnvironment = () =>
 
 export const isMacOSEnvironment = () =>
   process && process.platform === "darwin";
+
+export const isWinOSEnvironment = () =>
+  process && process.platform === 'win32';
