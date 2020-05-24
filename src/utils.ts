@@ -9,3 +9,10 @@ export const isMacOSEnvironment = () =>
 
 export const isWinOSEnvironment = () =>
   process && process.platform === 'win32';
+
+export default {
+  isDevelopmentEnvironment,
+  isProductionEnvironment,
+  isMacOSEnvironment,
+  isWinOSEnvironment
+}

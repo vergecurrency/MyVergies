@@ -1,0 +1,392 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Menus should always have the same order 1`] = `
+Array [
+  Object {
+    "label": "MyVergies",
+    "submenu": Object {
+      "append": [MockFunction] {
+        "calls": Array [
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "about",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "label": "Check for Updates...",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "type": "separator",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "accelerator": "CmdOrCtrl+,",
+                "label": "Settings",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "services",
+                "submenu": Array [],
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "type": "separator",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "hide",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "hideOthers",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "unhide",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "type": "separator",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "accelerator": "CmdOrCtrl+Q",
+                "click": [Function],
+                "label": "Quit MyVergies",
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    },
+  },
+  mockConstructor {
+    "values": Object {
+      "role": "editMenu",
+      "submenu": Object {
+        "append": [MockFunction] {
+          "calls": Array [
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "label": "Lock wallet",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "type": "separator",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "click": [Function],
+                  "label": "Send",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "click": [Function],
+                  "label": "Receive",
+                },
+              },
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+    },
+  },
+  mockConstructor {
+    "values": Object {
+      "role": "viewMenu",
+      "submenu": Object {
+        "append": [MockFunction] {
+          "calls": Array [
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "role": "resetZoom",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "role": "zoomIn",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "role": "zoomOut",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "type": "separator",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "role": "togglefullscreen",
+                },
+              },
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+    },
+  },
+  Object {
+    "role": "windowMenu",
+    "submenu": Object {
+      "append": [MockFunction] {
+        "calls": Array [
+          Array [
+            mockConstructor {
+              "values": Object {
+                "label": "Learn how to create a new wallet",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "label": "Learn how to restore an existing wallet",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "label": "Learn how to send XVG",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "label": "Learn how to receive XVG",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "type": "separator",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "click": [Function],
+                "label": "Visit our GitHub",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "click": [Function],
+                "label": "Visit vergecurrency.com",
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    },
+  },
+  Object {
+    "role": "help",
+    "submenu": Object {
+      "append": [MockFunction] {
+        "calls": Array [
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "minimize",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "close",
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    },
+  },
+]
+`;
