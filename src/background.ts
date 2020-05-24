@@ -1,5 +1,7 @@
 'use strict'
 
+import path from 'path'
+import fs from 'fs'
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import * as Tor from '@deadcanaries/granax'
@@ -118,6 +120,13 @@ app.on('activate', () => {
 })
 
 const startUpTorOnPort = (port: number) => {
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libcrypto.so.1.1'), 0o755)
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libevent-2.1.6.dylib'), 0o755)
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libevent-2.1.so.6'), 0o755)
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libssl.so.1.1'), 0o755)
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'tor'), 0o755)
+  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'tor.real'), 0o755)
+
   const tor = Tor()
   return new Promise((resolve, reject) => {
     tor.on('ready', async () => {

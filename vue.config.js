@@ -11,6 +11,7 @@ module.exports = {
             repo: 'MyVergies'
           }
         ],
+        asar: false,
         dmg: {
           sign: false,
           icon: 'dist_electron/icons/dmg.icns',
