@@ -4,20 +4,30 @@ import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
 import keytar from '@/utils/keytar'
+import Timeout = NodeJS.Timeout
 
 export default class WalletManager {
   protected config?: ManagerConfig
+  protected ticker?: Timeout
+
   public readonly wallets: Wallet[] = []
 
   public async boot (config: ManagerConfig) {
     this.config = config
 
     for (const walletConfig of this.config.wallets) {
-      const vwc = this.getClient(walletConfig)
-      const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
-      await wallet.open()
-      this.wallets.push(wallet)
+      try {
+        const vwc = this.getClient(walletConfig)
+        const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
+        await wallet.open()
+
+        this.wallets.push(wallet)
+      } catch (e) {
+        console.error(e)
+      }
     }
+
+    this.startTicker()
   }
 
   public getWallet (name: string): Wallet | undefined {
@@ -67,5 +77,24 @@ export default class WalletManager {
     })
 
     return vwc
+  }
+
+  protected startTicker () {
+    this.ticker = setInterval(async () => {
+      for (const wallet of this.wallets) {
+        try {
+          await wallet.status()
+          await wallet.fetchTxHistory()
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }, 30000)
+  }
+
+  protected stopTicker () {
+    if (this.ticker) {
+      clearInterval(this.ticker)
+    }
   }
 }

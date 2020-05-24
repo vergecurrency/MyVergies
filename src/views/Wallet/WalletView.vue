@@ -61,21 +61,20 @@
 
 <script>
 import TransactionRow from '@/components/TransactionRow'
-import TxHistory from '@/assets/data/example/txHistory'
 import Money from '@/components/labels/Money'
 
 export default {
   name: 'WalletView',
   components: { TransactionRow, Money },
-  data () {
-    return {
-      transactions: TxHistory
-    }
-  },
   props: {
     wallet: {
       type: Object,
       required: true
+    }
+  },
+  computed: {
+    transactions () {
+      return this.wallet.transactions || []
     }
   },
   methods: {

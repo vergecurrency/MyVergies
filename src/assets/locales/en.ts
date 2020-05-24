@@ -78,6 +78,8 @@ const en = {
     paperKey: 'Paper key',
     aPaperKey: 'A paper key?',
     aPaperKeyDescription: 'A paper key is 1 of the 2 parts to define your wallet and open your wallet in another app.<br>If you loose it you can never recover it and you\'ll loose access to your XVG.<br>So make absolutely sure to keep it very safe.',
+    fillInYourPaperKey: 'Fill in your paper key',
+    fillInYourPaperKeyDesc: 'In order to restore your previously used wallet you need to fill in your wallets paper key. Only enter lowercase modern latin alphabet characters. No spaces or special characters.',
     confirmPaperKey: 'Confirm paper key',
     invalidPaperkeySelected: 'The selected in paper key isn\'t correct and doesn\'t match the original one. Please try again!',
     passPhrase: 'Pass phrase',

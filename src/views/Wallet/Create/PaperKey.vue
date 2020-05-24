@@ -1,8 +1,11 @@
 <template>
   <div>
     <div class="block">
-      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.aPaperKey')"/>
-      <p v-html="$i18n.t('createWallet.aPaperKeyDescription')"/>
+      <h3
+        class="is-size-3 is-family-handwritten"
+        v-html="$i18n.t(this.restore ? 'createWallet.fillInYourPaperKey' : 'createWallet.aPaperKey')"
+      />
+      <p v-html="$i18n.t(this.restore ? 'createWallet.fillInYourPaperKeyDesc' : 'createWallet.aPaperKeyDescription')"/>
     </div>
 
     <div class="columns is-multiline">
@@ -13,7 +16,7 @@
       >
         <div class="tags are-medium has-addons">
           <span class="tag is-success">{{ i+1 }}</span>
-          <span v-if="fill" class="tag expand-word">
+          <span v-if="restore" class="tag expand-word">
             <input v-model="paperkey[i]" class="word-input"/>
           </span>
           <span v-else class="tag is-family-code has-text-weight-semibold expand-word" v-html="word"/>
@@ -75,7 +78,7 @@ export default {
       type: Object,
       required: true
     },
-    fill: {
+    restore: {
       type: Boolean,
       default: false
     }
@@ -105,7 +108,7 @@ export default {
     },
 
     words () {
-      if (this.fill) {
+      if (this.restore) {
         return Array(Constants.paperKeyLength).fill('', 0, Constants.paperKeyLength)
       }
 
@@ -127,7 +130,7 @@ export default {
 
   methods: {
     generatePaperkey () {
-      if (this.fill) {
+      if (this.restore) {
         this.paperkey = Array(Constants.paperKeyLength).fill(undefined, 0, Constants.paperKeyLength)
         return
       }
@@ -151,19 +154,19 @@ export default {
     },
 
     confirmationHandler () {
-      if (!this.fill && !this.confirm) {
+      if (!this.restore && !this.confirm) {
         this.confirm = true
 
         return
       }
 
-      if (!this.fill && !this.paperkeyCheckupIsValid) {
+      if (!this.restore && !this.paperkeyCheckupIsValid) {
         this.showInvalidPaperkeyError = true
 
         return
       }
 
-      if (this.fill && (this.paperkey.includes(undefined) || this.paperkey.includes(''))) {
+      if (this.restore && (this.paperkey.includes(undefined) || this.paperkey.includes(''))) {
         this.showInvalidPaperkeyError = true
 
         return
