@@ -49,17 +49,18 @@ function createWindow () {
       y: 36
     },
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      enableRemoteModule: true
     }
   })
+
+  mainWindowState.manage(win)
 
   win.webContents.session.setProxy({
     proxyRules: `socks5://127.0.0.1:${TOR_SOCKS_PORT}`,
     proxyBypassRules: '<local>, 192.168.1.1/16, fefe:13::abc/33'
   }).then(() => {
     console.log('Socks proxy set')
-
-    mainWindowState.manage(win!)
 
     if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
