@@ -3,12 +3,11 @@
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { template, dockTemplate } from '@/menu'
+import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
 import '@/utils/keytar/main'
-
-const isDevelopment = process.env.NODE_ENV !== 'production'
+import { isDevelopmentEnvironment, isProductionEnvironment, isMacOSEnvironment, isWinOSEnvironment } from './utils'
 
 logger.transports.file.level = 'debug'
 
@@ -20,7 +19,7 @@ let win: BrowserWindow | null
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow () {
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  Menu.setApplicationMenu(Menu.buildFromTemplate(generateMenuTemplate()))
 
   if (process.platform === 'darwin') {
     app.dock.setMenu(Menu.buildFromTemplate(dockTemplate))
@@ -37,6 +36,7 @@ function createWindow () {
     y: mainWindowState.y,
     height: mainWindowState.height,
     width: mainWindowState.width,
+    title: "MyVergies",
     minHeight: 560,
     minWidth: 1030,
     show: true,
@@ -64,7 +64,7 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
-  if (process.platform === 'darwin') {
+  if (isMacOSEnvironment()) {
     let forceQuit = false
 
     app.on('before-quit', () => {
@@ -112,7 +112,7 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
+  if (isDevelopmentEnvironment() && !process.env.IS_TEST) {
     // Install Vue Devtools
     // Devtools extensions are broken in Electron 6.0.0 and greater
     // See https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378 for more info
@@ -129,8 +129,8 @@ app.on('ready', async () => {
 })
 
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopment) {
-  if (process.platform === 'win32') {
+if (isDevelopmentEnvironment()) {
+  if (isWinOSEnvironment()) {
     process.on('message', data => {
       if (data === 'graceful-exit') {
         app.quit()
@@ -143,9 +143,6 @@ if (isDevelopment) {
   }
 }
 
-// Will be default from Electron >= 9; So remove at that version.
-app.allowRendererProcessReuse = true
-
 /**
  * Auto Updater
  */
@@ -155,7 +152,7 @@ autoUpdater.autoDownload = true
 autoUpdater.autoInstallOnAppQuit = true
 
 app.on('ready', () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (isProductionEnvironment()) {
     autoUpdater.checkForUpdatesAndNotify()
   }
 })
