@@ -60,12 +60,12 @@ function createWindow () {
     proxyRules: `socks5://127.0.0.1:${TOR_SOCKS_PORT}`,
     proxyBypassRules: '<local>, 192.168.1.1/16, fefe:13::abc/33'
   }).then(() => {
-    console.log('Socks proxy set')
-
     if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
       win!.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
-      if (!process.env.IS_TEST) win!.webContents.openDevTools()
+      if (!process.env.IS_TEST) {
+        win!.webContents.openDevTools()
+      }
     } else {
       createProtocol('app')
       // Load the index.html when not in development
