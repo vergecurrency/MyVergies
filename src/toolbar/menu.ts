@@ -6,14 +6,6 @@ import ServicesMenu from "./services";
 import AppMenu from './app'
 import { isMacOSEnvironment } from '@/utils';
 
-export interface MenuValues {
-  forceQuit: boolean;
-}
-
-export const menuValues: MenuValues = {
-  forceQuit: false
-};
-
 /**
  * macOS Dock menu items
  */
