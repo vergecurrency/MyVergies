@@ -3,7 +3,7 @@
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { template, dockTemplate } from '@/toolbar/menu'
+import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
 import '@/utils/keytar/main'
@@ -19,7 +19,7 @@ let win: BrowserWindow | null
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
 
 function createWindow () {
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  Menu.setApplicationMenu(Menu.buildFromTemplate(generateMenuTemplate()))
 
   if (process.platform === 'darwin') {
     app.dock.setMenu(Menu.buildFromTemplate(dockTemplate))

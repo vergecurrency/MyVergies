@@ -1,6 +1,5 @@
 import { app } from "electron";
 import { MenuItem, Menu } from "electron";
-import { menuValues } from "./menu";
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
@@ -39,7 +38,6 @@ const SubMenuItems: MenuItem[] = [
     label: "Quit " + app.name,
     accelerator: "CmdOrCtrl+Q",
     click() {
-      menuValues.forceQuit = true;
       app.quit();
     }
   })

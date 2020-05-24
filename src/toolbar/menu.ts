@@ -33,7 +33,7 @@ export const dockTemplate = [
 /**
  * Application menu.
  */
-export const template: MenuItem[] = [
+export const generateMenuTemplate: () => MenuItem[] = () => [
   ...(isMacOSEnvironment() ? [AppMenu] : []),
   ServicesMenu,
   ViewMenu,
