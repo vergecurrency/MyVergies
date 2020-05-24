@@ -4,6 +4,7 @@ exports[`Menus should always have the same order 1`] = `
 Array [
   Object {
     "label": "MyVergies",
+    "role": "appMenu",
     "submenu": Object {
       "append": [MockFunction] {
         "calls": Array [
@@ -83,8 +84,8 @@ Array [
             mockConstructor {
               "values": Object {
                 "accelerator": "CmdOrCtrl+Q",
-                "click": [Function],
                 "label": "Quit MyVergies",
+                "role": "quit",
               },
             },
           ],
@@ -174,8 +175,102 @@ Array [
                 },
               },
             ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "type": "separator",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "CmdOrCtrl+Z",
+                  "role": "undo",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "Shift+CmdOrCtrl+Z",
+                  "role": "redo",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "type": "separator",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "CmdOrCtrl+X",
+                  "role": "cut",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "CmdOrCtrl+C",
+                  "role": "copy",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "CmdOrCtrl+V",
+                  "role": "paste",
+                },
+              },
+            ],
+            Array [
+              mockConstructor {
+                "values": Object {
+                  "accelerator": "CmdOrCtrl+A",
+                  "role": "selectAll",
+                },
+              },
+            ],
           ],
           "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
             Object {
               "type": "return",
               "value": undefined,
