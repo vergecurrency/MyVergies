@@ -28,6 +28,39 @@ export const dockTemplate = [
  */
 export const template: MenuItem[] = []
 
+const edit = {
+  role: 'editMenu',
+  submenu: [
+    {
+      accelerator: 'CmdOrCtrl+Z',
+      role: 'undo'
+    },
+    {
+      accelerator: 'Shift+CmdOrCtrl+Z',
+      role: 'redo'
+    },
+    {
+      type: 'separator'
+    },
+    {
+      accelerator: 'CmdOrCtrl+X',
+      role: 'cut'
+    },
+    {
+      accelerator: 'CmdOrCtrl+C',
+      role: 'copy'
+    },
+    {
+      accelerator: 'CmdOrCtrl+V',
+      role: 'paste'
+    },
+    {
+      accelerator: 'CmdOrCtrl+A',
+      role: 'selectAll'
+    }
+  ]
+}
+
 const actions = {
   label: 'Actions',
   submenu: [
@@ -53,7 +86,7 @@ const actions = {
 }
 
 const view = {
-  label: 'View',
+  role: 'viewMenu',
   submenu: [
     {
       role: 'resetzoom'
@@ -89,8 +122,8 @@ if (process.env.NODE_ENV === 'development') {
   })
   // @ts-ignore
   view.submenu.unshift({
+    role: 'reload',
     // @ts-ignore
-    label: 'Reload',
     accelerator: 'CmdOrCtrl+R',
     click (item: any, focusedWindow: any) {
       if (focusedWindow) focusedWindow.reload()
@@ -144,6 +177,8 @@ const help = {
 }
 
 // @ts-ignore
+template.push(edit)
+// @ts-ignore
 template.push(actions)
 // @ts-ignore
 template.push(view)
@@ -156,6 +191,7 @@ if (process.platform === 'darwin') {
   const name = app.name
   template.unshift({
     label: name,
+    role: 'appMenu',
     // @ts-ignore
     submenu: [
       {
@@ -191,11 +227,7 @@ if (process.platform === 'darwin') {
         type: 'separator'
       },
       {
-        label: 'Quit ' + app.name,
-        accelerator: 'CmdOrCtrl+Q',
-        click () {
-          app.quit()
-        }
+        role: 'quit'
       }
     ]
   })
@@ -204,19 +236,16 @@ if (process.platform === 'darwin') {
   // @ts-ignore
   template[3].submenu = [
     {
-      label: 'Minimize',
       accelerator: 'CmdOrCtrl+M',
       role: 'minimize'
     },
     {
-      label: 'Zoom',
       role: 'zoom'
     },
     {
       type: 'separator'
     },
     {
-      label: 'Bring All to Front',
       role: 'front'
     }
   ]
