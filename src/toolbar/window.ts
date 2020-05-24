@@ -1,6 +1,7 @@
 import { MenuItem, Menu } from "electron";
+import { isWinOSEnvironment } from '@/utils';
 
-const SubMenuItems: MenuItem[] = [
+let SubMenuItems: MenuItem[] = [
   new MenuItem({
     label: "Learn how to create a new wallet"
   }),
@@ -31,6 +32,25 @@ const SubMenuItems: MenuItem[] = [
     }
   })
 ];
+
+if(isWinOSEnvironment()){
+  SubMenuItems = [
+    ...SubMenuItems,
+    new MenuItem({
+      accelerator: 'CmdOrCtrl+M',
+      role: 'minimize'
+    }),
+    new MenuItem({
+      role: 'zoom'
+    }),
+    new MenuItem({
+      type: 'separator'
+    }),
+    new MenuItem({
+      role: 'front'
+    })
+  ]
+}
 
 const WindowSubMenu = new Menu();
 for (const item of SubMenuItems) {

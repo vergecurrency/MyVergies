@@ -18,6 +18,36 @@ const SubMenuItems: MenuItem[] = [
     click() {
       console.log("Send");
     }
+  }),
+  new MenuItem({
+    type: 'separator'
+  }),
+  new MenuItem({
+    accelerator: 'CmdOrCtrl+Z',
+    role: 'undo'
+  }),
+  new MenuItem({
+    accelerator: 'Shift+CmdOrCtrl+Z',
+    role: 'redo'
+  }),
+  new MenuItem({
+    type: 'separator'
+  }),
+  new MenuItem({
+    accelerator: 'CmdOrCtrl+X',
+    role: 'cut'
+  }),
+  new MenuItem({
+    accelerator: 'CmdOrCtrl+C',
+    role: 'copy'
+  }),
+  new MenuItem({
+    accelerator: 'CmdOrCtrl+V',
+    role: 'paste'
+  }),
+  new MenuItem({
+    accelerator: 'CmdOrCtrl+A',
+    role: 'selectAll'
   })
 ];
 

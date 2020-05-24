@@ -37,9 +37,7 @@ const SubMenuItems: MenuItem[] = [
   new MenuItem({
     label: "Quit " + app.name,
     accelerator: "CmdOrCtrl+Q",
-    click() {
-      app.quit();
-    }
+    role: 'quit'
   })
 ];
 
@@ -50,6 +48,7 @@ for (const item of SubMenuItems) {
 
 const AppMenu: MenuItem = {
   label: "MyVergies",
+  role: 'appMenu',
   submenu: AppSubMenu
 } as MenuItem;
 
