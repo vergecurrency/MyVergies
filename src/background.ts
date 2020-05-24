@@ -36,7 +36,7 @@ function createWindow () {
     y: mainWindowState.y,
     height: mainWindowState.height,
     width: mainWindowState.width,
-    title: "MyVergies",
+    title: 'MyVergies',
     minHeight: 560,
     minWidth: 1030,
     show: true,
