@@ -40,8 +40,6 @@
     "moment": "^2.26.0",
     "node-loader": "^0.6.0",
     "qrcode.vue": "^1.7.0",
-    "socks-proxy-agent": "^5.0.0",
-    "tor-axios": "^1.0.9",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-i18n": "^8.17.7",
