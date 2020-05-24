@@ -84,7 +84,7 @@
       <div class="box">
         <div class="columns is-vcentered">
           <div class="column">
-            <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.orGoToWalletDesc')"/>
+            <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.orGoToWallet')"/>
             <p v-html="$i18n.t('createWallet.orGoToWalletDesc')"></p>
           </div>
           <div class="column is-narrow">

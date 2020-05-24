@@ -6,8 +6,7 @@ import SendView from '@/views/Wallet/Send/SendView.vue'
 import ReceiveView from '@/views/Wallet/Receive/ReceiveView.vue'
 import TransactionView from '@/views/Wallet/Transaction/TransactionView.vue'
 import WalletCreateView from '@/views/Wallet/Create/CreateView.vue'
-import NewWalletView from '@/views/Wallet/Create/NewWalletView.vue'
-import RestoreWalletView from '@/views/Wallet/Create/RestoreWalletView.vue'
+import WalletSetupView from '@/views/Wallet/Create/WalletSetupView.vue'
 import WalletSettingsView from '@/views/Wallet/Settings/SettingsView.vue'
 import ExplorerView from '@/views/Explorer/ExplorerView.vue'
 import ContactsView from '@/views/Contacts/ContactsView.vue'
@@ -59,12 +58,13 @@ const routes = [
   {
     path: '/wallets/create/new',
     name: 'wallets.create.new',
-    component: NewWalletView
+    component: WalletSetupView
   },
   {
     path: '/wallets/create/restore',
     name: 'wallets.create.restore',
-    component: RestoreWalletView
+    component: WalletSetupView,
+    props: true
   },
   {
     path: '/explorer',

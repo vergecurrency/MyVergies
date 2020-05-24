@@ -3,7 +3,7 @@
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { template, dockTemplate, menuValues } from '@/toolbar/menu'
+import { template, dockTemplate } from '@/toolbar/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
 import '@/utils/keytar/main'
@@ -64,12 +64,21 @@ function createWindow () {
     win.loadURL('app://./index.html')
   }
 
-  win.on('close', (event) => {
-    if (process.platform === 'darwin' && !menuValues.forceQuit) {
-      event.preventDefault()
-      win!.hide()
-    }
-  })
+  if (process.platform === 'darwin') {
+    let forceQuit = false
+
+    app.on('before-quit', () => {
+      forceQuit = true
+    })
+
+    win.on('close', event => {
+      if (!forceQuit) {
+        event.preventDefault()
+
+        win!.hide()
+      }
+    })
+  }
 
   win.on('closed', () => {
     win = null

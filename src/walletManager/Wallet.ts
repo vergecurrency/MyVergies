@@ -15,16 +15,24 @@ export default class Wallet {
     this.vwc = vwc
   }
 
-  public create (name: string, copayerName: string, m: number = 1, n: number = 1, options: object = {}): Promise<string|null> {
-    return new Promise((resolve, reject) => {
-      this.vwc.createWallet(name, copayerName, m, n, options, (error: Error|null, secret: string|null) => {
-        if (error) {
-          return reject(error)
-        }
+  public async create (name: string, copayerName: string, m: number = 1, n: number = 1, options: object = {}) {
+    try {
+      // First check if the wallet is already on the server.
+      // If not we create the wallet after getting an error.
+      const status = await this.status()
 
-        resolve(secret)
+      return status
+    } catch (e) {
+      return new Promise((resolve, reject) => {
+        this.vwc.createWallet(name, copayerName, m, n, options, (error: Error|null, secret: string|null) => {
+          if (error) {
+            return reject(error)
+          }
+
+          resolve(secret)
+        })
       })
-    })
+    }
   }
 
   public open (): Promise<Info> {

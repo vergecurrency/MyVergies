@@ -13,7 +13,10 @@
       >
         <div class="tags are-medium has-addons">
           <span class="tag is-success">{{ i+1 }}</span>
-          <span class="tag is-family-code has-text-weight-semibold expand-word" v-html="word"/>
+          <span v-if="fill" class="tag expand-word">
+            <input v-model="paperkey[i]" class="word-input"/>
+          </span>
+          <span v-else class="tag is-family-code has-text-weight-semibold expand-word" v-html="word"/>
         </div>
       </div>
     </div>
@@ -71,6 +74,10 @@ export default {
     wallet: {
       type: Object,
       required: true
+    },
+    fill: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -98,6 +105,10 @@ export default {
     },
 
     words () {
+      if (this.fill) {
+        return Array(Constants.paperKeyLength).fill('', 0, Constants.paperKeyLength)
+      }
+
       return this.confirm ? this.selectedPaperkeyWithPlaceholders : this.paperkey
     },
 
@@ -116,6 +127,11 @@ export default {
 
   methods: {
     generatePaperkey () {
+      if (this.fill) {
+        this.paperkey = Array(Constants.paperKeyLength).fill(undefined, 0, Constants.paperKeyLength)
+        return
+      }
+
       let mnemonic = new Mnemonic(Mnemonic.Words.ENGLISH)
 
       while (!Mnemonic.isValid(mnemonic.toString())) {
@@ -135,13 +151,19 @@ export default {
     },
 
     confirmationHandler () {
-      if (!this.confirm) {
+      if (!this.fill && !this.confirm) {
         this.confirm = true
 
         return
       }
 
-      if (!this.paperkeyCheckupIsValid) {
+      if (!this.fill && !this.paperkeyCheckupIsValid) {
+        this.showInvalidPaperkeyError = true
+
+        return
+      }
+
+      if (this.fill && (this.paperkey.includes(undefined) || this.paperkey.includes(''))) {
         this.showInvalidPaperkeyError = true
 
         return
@@ -161,6 +183,23 @@ export default {
 </script>
 
 <style>
+input.word-input {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  color: #0a0a0a;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 1rem;
+  height: 100%;
+  outline: none;
+}
+
+.word-input input:focus {
+  border: none;
+  box-shadow: none;
+}
+
 .expand-word {
   flex-grow: 1;
 }

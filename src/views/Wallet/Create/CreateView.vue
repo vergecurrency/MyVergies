@@ -22,7 +22,7 @@
           <router-link class="button is-primary" :to="{ name: 'wallets.create.new' }">
             Create a new wallet
           </router-link>
-          <router-link class="button is-success" :to="{ name: 'wallets.create.restore' }">
+          <router-link class="button is-success" :to="{ name: 'wallets.create.restore', params: { restore: true } }">
             Restore an existing wallet
           </router-link>
         </div>
