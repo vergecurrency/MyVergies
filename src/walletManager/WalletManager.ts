@@ -1,5 +1,6 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
+import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
@@ -23,7 +24,7 @@ export default class WalletManager {
 
         this.wallets.push(wallet)
       } catch (e) {
-        console.error(e)
+        Log.error(e.toString())
       }
     }
 
@@ -80,16 +81,20 @@ export default class WalletManager {
   }
 
   protected startTicker () {
-    this.ticker = setInterval(async () => {
+    const fetch = async () => {
       for (const wallet of this.wallets) {
         try {
           await wallet.status()
           await wallet.fetchTxHistory()
         } catch (e) {
-          console.error(e)
+          Log.error(e.toString())
         }
       }
-    }, 30000)
+    }
+
+    this.ticker = setInterval(fetch, 30000)
+
+    fetch()
   }
 
   protected stopTicker () {

@@ -25,7 +25,7 @@ test('should render correct contents', () => {
     },
     mocks: {
       $i18n: {
-        t(key: string) {
+        t (key: string) {
           return key
         }
       }
