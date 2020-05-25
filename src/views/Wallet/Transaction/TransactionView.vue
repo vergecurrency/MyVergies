@@ -88,8 +88,8 @@ export default {
   name: 'transaction-view',
   components: { TransactionAmount, NavigationHeader },
   props: {
-    transaction: {
-      type: Object,
+    txid: {
+      type: String,
       required: true
     },
     wallet: {
@@ -98,6 +98,10 @@ export default {
     }
   },
   computed: {
+    transaction () {
+      return this.wallet.transactions.find(tx => tx.txid === this.txid)
+    },
+
     address () {
       const outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []
 

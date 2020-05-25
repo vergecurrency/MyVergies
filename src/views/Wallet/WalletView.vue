@@ -52,7 +52,7 @@
       <transaction-row
         v-for="transaction in transactions"
         :key="transaction.txid"
-        :transaction="transaction"
+        :txid="transaction.txid"
         :wallet="wallet"
       />
     </div>
