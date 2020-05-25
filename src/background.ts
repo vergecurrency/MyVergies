@@ -7,11 +7,11 @@ import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
-import { enforceMacOSAppLocation } from 'electron-util'
+import * as ElectronUtils from 'electron-util'
 import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
 import '@/utils/keytar/main'
-import { isDevelopmentEnvironment, isProductionEnvironment, isMacOSEnvironment, isWinOSEnvironment } from './utils'
+import * as Utils from './utils'
 
 logger.transports.file.level = 'debug'
 
@@ -76,7 +76,7 @@ function createWindow () {
     }
   })
 
-  if (isMacOSEnvironment()) {
+  if (Utils.isMacOSEnvironment()) {
     let forceQuit = false
 
     app.on('before-quit', () => {
@@ -141,12 +141,12 @@ const startUpTorOnPort = (port: number) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  enforceMacOSAppLocation()
+  ElectronUtils.enforceMacOSAppLocation()
 
   startUpTorOnPort(TOR_SOCKS_PORT).then(async port => {
     console.log(`TorSocks listening on ${port}!`)
 
-    if (isDevelopmentEnvironment() && !process.env.IS_TEST) {
+    if (Utils.isDevelopmentEnvironment() && !process.env.IS_TEST) {
     // Install Vue Devtools
     // Devtools extensions are broken in Electron 6.0.0 and greater
     // See https://github.com/nklayman/vue-cli-plugin-electron-builder/issues/378 for more info
@@ -164,8 +164,8 @@ app.on('ready', async () => {
 })
 
 // Exit cleanly on request from parent process in development mode.
-if (isDevelopmentEnvironment()) {
-  if (isWinOSEnvironment()) {
+if (Utils.isDevelopmentEnvironment()) {
+  if (Utils.isWinOSEnvironment()) {
     process.on('message', data => {
       if (data === 'graceful-exit') {
         app.quit()
@@ -190,7 +190,7 @@ autoUpdater.autoDownload = true
 autoUpdater.autoInstallOnAppQuit = true
 
 app.on('ready', () => {
-  if (isProductionEnvironment()) {
+  if (Utils.isProductionEnvironment()) {
     autoUpdater.checkForUpdatesAndNotify()
   }
 })

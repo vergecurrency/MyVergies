@@ -6,21 +6,23 @@ import { platform } from 'os'
 import { Socket } from 'net'
 import { readFileSync, chmodSync } from 'fs'
 import { TorController, torrc } from '@deadcanaries/granax'
-import { fixPathForAsarUnpack } from 'electron-util'
+import * as ElectronUtils from 'electron-util'
 
-const BIN_PATH: string = fixPathForAsarUnpack(path.join(__dirname, 'bin'))
+const BIN_PATH: string = ElectronUtils.fixPathForAsarUnpack(path.join(__dirname, 'bin'))
 const LD_LIBRARY_PATH: string = path.join(
   BIN_PATH, 'tor-browser_en-US', 'Browser', 'TorBrowser', 'Tor'
 )
 
-const binFiles = [
-  'libcrypto.so.1.1',
-  'libevent-2.1.6.dylib',
-  'libevent-2.1.so.6',
-  'libssl.so.1.1',
-  'tor',
-  'tor.real'
-].forEach(file => chmodSync(path.join(BIN_PATH, 'Tor', file), 0o555))
+if (ElectronUtils.isFirstAppLaunch()) {
+  const binFiles = [
+    'libcrypto.so.1.1',
+    'libevent-2.1.6.dylib',
+    'libevent-2.1.so.6',
+    'libssl.so.1.1',
+    'tor',
+    'tor.real'
+  ].forEach(file => chmodSync(path.join(BIN_PATH, 'Tor', file), 0o555))
+}
 
 export default function (options: Object = {}, torrcOptions: Object = {}) {
   const socket: Socket = new Socket()
