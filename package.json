@@ -24,6 +24,7 @@
   },
   "main": "background.js",
   "dependencies": {
+    "@deadcanaries/granax": "^3.2.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.28",
     "@fortawesome/free-solid-svg-icons": "^5.13.0",
     "@fortawesome/vue-fontawesome": "^0.1.9",
@@ -70,8 +71,9 @@
     "babel-core": "^7.0.0-bridge.0",
     "chai": "^4.2.0",
     "cypress": "^4.6.0",
-    "electron": "^9.0.0",
+    "electron": "^8.3.0",
     "electron-notarize": "^0.2.1",
+    "electron-util": "^0.14.1",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",

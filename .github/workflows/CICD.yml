@@ -20,7 +20,7 @@ jobs:
         uses: actions/cache@preview
         with:
           path: node_modules
-          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/npm-shrinkwrap.json') }}
           restore-keys: |
             ${{ runner.os }}-node${{ matrix.node-version }}-
       - name: npm install, lint and test
@@ -47,7 +47,7 @@ jobs:
         if: contains(matrix.os, 'macOS') || contains(matrix.os, 'Ubuntu')
         with:
           path: node_modules
-          key: ${{ runner.os }}-node13.x-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-node13.x-${{ hashFiles('**/npm-shrinkwrap.json') }}
           restore-keys: |
             ${{ runner.os }}-node13.x-
       - name: add macOS signing certificate
