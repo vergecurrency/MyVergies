@@ -4,11 +4,12 @@ import path from 'path'
 import fs from 'fs'
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
-import * as Tor from '@deadcanaries/granax'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
-import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
+import { enforceMacOSAppLocation } from 'electron-util'
+import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
+import Tor from '@/http/tor'
 import '@/utils/keytar/main'
 import { isDevelopmentEnvironment, isProductionEnvironment, isMacOSEnvironment, isWinOSEnvironment } from './utils'
 
@@ -120,13 +121,6 @@ app.on('activate', () => {
 })
 
 const startUpTorOnPort = (port: number) => {
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libcrypto.so.1.1'), 0o755)
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libevent-2.1.6.dylib'), 0o755)
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libevent-2.1.so.6'), 0o755)
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'libssl.so.1.1'), 0o755)
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'tor'), 0o755)
-  fs.chmodSync(path.join(__dirname, 'bin', 'Tor', 'tor.real'), 0o755)
-
   const tor = Tor()
   return new Promise((resolve, reject) => {
     tor.on('ready', async () => {
@@ -147,6 +141,8 @@ const startUpTorOnPort = (port: number) => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
+  enforceMacOSAppLocation()
+
   startUpTorOnPort(TOR_SOCKS_PORT).then(async port => {
     console.log(`TorSocks listening on ${port}!`)
 
@@ -181,6 +177,9 @@ if (isDevelopmentEnvironment()) {
     })
   }
 }
+
+// Will be default from Electron >= 9; So remove at that version.
+app.allowRendererProcessReuse = true
 
 /**
  * Auto Updater

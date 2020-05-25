@@ -11,7 +11,10 @@ module.exports = {
             repo: 'MyVergies'
           }
         ],
-        asar: false,
+        asar: true,
+        asarUnpack: [
+          'bin/**/*'
+        ],
         dmg: {
           sign: false,
           icon: 'dist_electron/icons/dmg.icns',
@@ -30,6 +33,7 @@ module.exports = {
           ]
         },
         mac: {
+          darkModeSupport: true,
           hardenedRuntime: true,
           gatekeeperAssess: false,
           entitlements: 'dist_electron/entitlements.mac.plist',
