@@ -13,7 +13,7 @@ const LD_LIBRARY_PATH: string = path.join(
   BIN_PATH, 'tor-browser_en-US', 'Browser', 'TorBrowser', 'Tor'
 )
 
-if (ElectronUtils.isFirstAppLaunch() && !ElectronUtils.is.windows) {
+if (!ElectronUtils.is.windows) {
   const binFiles = [
     'libcrypto.so.1.1',
     'libevent-2.1.6.dylib',
