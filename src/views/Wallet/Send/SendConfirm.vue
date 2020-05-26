@@ -1,22 +1,23 @@
 <template>
-  <section class="section">
+  <div>
 
     <div class="block">
+      <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('send.confirm')"/>
       <p v-html="$i18n.t('send.confirmDescription')"/>
     </div>
 
-    <div class="columns">
+    <div class="columns is-size-7">
       <div class="column has-text-left" v-html="$i18n.t('send.send')"/>
       <div class="column has-text-right has-text-weight-bold">10,00 XVG</div>
     </div>
-    <div class="columns">
+    <div class="columns is-size-7">
       <div class="column has-text-left" v-html="$i18n.t('send.transactionFee')"/>
       <div class="column has-text-right has-text-weight-bold">0,10 XVG</div>
     </div>
 
     <div class="navbar-divider"/>
 
-    <div class="columns is-size-4">
+    <div class="columns is-size-5">
       <div class="column has-text-left" v-html="$i18n.t('send.total')"/>
       <div class="column has-text-right has-text-weight-bold has-text-primary">10,10 XVG</div>
     </div>
@@ -50,7 +51,7 @@
       </div>
     </div>
 
-  </section>
+  </div>
 </template>
 
 <script>

@@ -14,7 +14,7 @@ const LD_LIBRARY_PATH: string = path.join(
 )
 
 if (!ElectronUtils.is.windows) {
-  const binFiles = [
+  [
     'libcrypto.so.1.1',
     'libevent-2.1.6.dylib',
     'libevent-2.1.so.6',

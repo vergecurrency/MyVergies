@@ -1,4 +1,4 @@
-import { app, MenuItem, Menu } from 'electron'
+import { app, MenuItem, Menu, BrowserWindow } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
@@ -12,7 +12,10 @@ const SubMenuItems: MenuItem[] = [
   }),
   new MenuItem({
     label: 'Settings',
-    accelerator: 'CmdOrCtrl+,'
+    accelerator: 'CmdOrCtrl+,',
+    click (menuItem: MenuItem, browserWindow: BrowserWindow) {
+      return browserWindow.webContents.send('open-settings')
+    }
   }),
   new MenuItem({
     role: 'services',

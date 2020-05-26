@@ -38,6 +38,7 @@ import NavBar from '@/components/layout/NavBar'
 import MainMenu from '@/components/layout/MainMenu'
 import ContentContainer from '@/components/layout/ContentContainer'
 import AuthenticationModal from '@/components/modals/AuthenticationModal'
+import { ipcRenderer } from 'electron'
 
 export default {
   name: 'my-vergies',
@@ -47,6 +48,12 @@ export default {
     return {
       wallets: this.$walletManager.wallets
     }
+  },
+
+  created () {
+    ipcRenderer.on('open-settings', () => {
+      this.$router.push('/settings')
+    })
   },
 
   methods: {
@@ -68,12 +75,12 @@ export default {
 
   .app-container {
     height: 100%;
-    background: #ebebeb;
+    background: #fbfbfb;
     cursor: default;
   }
 
   .app-content-container {
-    height: calc(100% - 52px);
+    height: calc(100% - 53px);
   }
 
   .app-content-box-container {

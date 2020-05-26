@@ -72,7 +72,8 @@ export default {
 
 <style scoped lang="scss">
   .main-menu {
-    background: #e0e0e0;
+    background: #fbfbfb;
+    border-right: 1px solid #e8e8e8;
     overflow-y: auto;
     max-width: 280px;
   }
@@ -104,12 +105,13 @@ export default {
     line-height: 0;
     color: #252525;
     right: 5px;
-    top: calc(50% - 4px);
+    top: calc(50% - 5px);
   }
 
   @media (prefers-color-scheme: dark) {
     .main-menu {
-      background: #1b1c1f;
+      background: #1f2123;
+      border-right: 1px solid #333333;
       color: white;
     }
 
