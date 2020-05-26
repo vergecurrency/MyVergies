@@ -35,7 +35,7 @@ const en = {
     formDescription: 'Carefully fill in the required form fields.',
     confirmDescription: 'Confirm sending the given amout of XVG to the selected recipient',
     sendingDescription: 'Sending in progress... this doesn\'t take long',
-    send: 'Verzend',
+    send: 'Send',
     fillForm: 'Fill form',
     confirm: 'Confirm',
     sending: 'Sending',

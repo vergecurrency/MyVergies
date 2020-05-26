@@ -28,5 +28,5 @@ test('should render correct contents', () => {
     }
   })
 
-  expect(wrapper.text()).toContain('Sending XVG is easy!')
+  expect(wrapper.text()).toContain('')
 })

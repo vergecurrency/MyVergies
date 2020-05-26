@@ -17,7 +17,6 @@
 
         <b-field :label="$i18n.t('createWallet.walletName')">
           <b-input
-            size="is-large"
             :placeholder="$i18n.t('createWallet.enterYourWalletName')"
             v-model="wallet.name"
             @keyup.enter.native="proceed"
@@ -25,7 +24,7 @@
         </b-field>
 
         <b-field :label="$i18n.t('createWallet.walletColor')">
-          <b-select size="is-large" v-model="wallet.color" expanded>
+          <b-select v-model="wallet.color" expanded>
             <option value="blue" selected>Blue</option>
             <option value="red">Red</option>
             <option value="green">Green</option>
