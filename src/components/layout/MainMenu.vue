@@ -72,9 +72,10 @@ export default {
 
 <style scoped lang="scss">
   .main-menu {
-    background: #e0e0e0;
+    background: #fbfbfb;
     overflow-y: auto;
     max-width: 280px;
+    border-right: 1px solid #e8e8e8;
   }
 
   .menu-list.menu-list-wallet a {

@@ -68,7 +68,7 @@ export default {
 
   .app-container {
     height: 100%;
-    background: #ebebeb;
+    background: #fbfbfb;
     cursor: default;
   }
 

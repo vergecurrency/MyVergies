@@ -32,6 +32,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .navbar {
+    border-bottom: 1px solid #e8e8e8;
+  }
+
+  .navbar.is-white {
+    background: black;
+  }
+
   .is-draggable {
     -webkit-app-region: drag;
   }
