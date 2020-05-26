@@ -1,7 +1,7 @@
 <template>
   <div class="field">
     <div
-      class="button has-text-grey-lighter is-large sending-step"
+      class="button has-text-grey-lighter is-medium sending-step"
       :class="{'has-text-weight-semibold': inProgress || done}"
     >
       <b-icon v-if="done" icon="check-circle" type="is-success"/>

@@ -61,6 +61,10 @@ export default {
   }
 
   @media (prefers-color-scheme: dark) {
+    .navbar {
+      border-bottom: 1px solid #3a3a3a;
+    }
+
     .navbar.is-white {
       background: #2c2e30;
     }

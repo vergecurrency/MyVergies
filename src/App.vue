@@ -73,7 +73,7 @@ export default {
   }
 
   .app-content-container {
-    height: calc(100% - 52px);
+    height: calc(100% - 53px);
   }
 
   .app-content-box-container {
