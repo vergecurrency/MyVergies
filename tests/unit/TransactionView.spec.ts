@@ -27,14 +27,15 @@ describe('TransactionView.vue', () => {
     const wallet = {
       name: 'Main Account',
       amount: 123,
-      color: 'blue'
+      color: 'blue',
+      transactions: [transaction]
     }
 
     const $electron = { remote: { app: { getLocale: () => 'nl' } } }
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction,
+        txid: transaction.txid,
         wallet
       },
       mocks: {
@@ -70,7 +71,8 @@ describe('TransactionView.vue', () => {
     const wallet = {
       name: 'Main Account',
       amount: 123,
-      color: 'blue'
+      color: 'blue',
+      transactions: [transaction]
     }
 
     const openExternal = sinon.stub()
@@ -81,7 +83,7 @@ describe('TransactionView.vue', () => {
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction,
+        txid: transaction.txid,
         wallet
       },
       mocks: {
@@ -118,7 +120,8 @@ describe('TransactionView.vue', () => {
     const wallet = {
       name: 'Main Account',
       amount: 123,
-      color: 'blue'
+      color: 'blue',
+      transactions: [transaction]
     }
 
     const openExternal = sinon.stub()
@@ -129,7 +132,7 @@ describe('TransactionView.vue', () => {
     const wrapper = shallowMount(TransactionView, {
       localVue,
       propsData: {
-        transaction,
+        txid: transaction.txid,
         wallet
       },
       mocks: {

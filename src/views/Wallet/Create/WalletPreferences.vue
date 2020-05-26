@@ -38,7 +38,7 @@
         </b-field>
 
         <div class="box" v-show="showAdvanced">
-          <b-field :label="$i18n.t('createWallet.singleAddress')">
+          <b-field v-if="!restore" :label="$i18n.t('createWallet.singleAddress')">
             <b-switch
               v-model="wallet.singleAddress"
             />
@@ -83,6 +83,10 @@ export default {
     wallet: {
       type: Object,
       required: true
+    },
+    restore: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

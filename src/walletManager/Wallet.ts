@@ -2,12 +2,14 @@
 import Client from 'bitcore-wallet-client-xvg'
 import Info from '@/walletManager/models/Info'
 import Balance from '@/walletManager/models/Balance'
+import Tx from '@/walletManager/models/Tx'
 
 export default class Wallet {
   protected vwc: Client
   public name?: string
   public color?: string
   public info?: Info
+  public transactions: Tx[] = []
 
   constructor (name: string, color: string, vwc: Client) {
     this.name = name
@@ -44,7 +46,7 @@ export default class Wallet {
 
         this.info = info
 
-        resolve(this.info)
+        resolve(info)
       })
     })
   }
@@ -75,9 +77,33 @@ export default class Wallet {
     })
   }
 
-  public sync (name: string): Promise<boolean> {
+  public scan (name: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      resolve(true)
+      this.vwc.startScan({}, (error: Error|null) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(true)
+      })
     })
+  }
+
+  public fetchTxHistory (): Promise<Tx[]> {
+    return new Promise((resolve, reject) => {
+      this.vwc.getTxHistory({ includeExtendedInfo: true }, (error: Error|null, txs: Tx[]) => {
+        if (error) {
+          return reject(error)
+        }
+
+        this.transactions = txs
+
+        resolve(txs)
+      })
+    })
+  }
+
+  public getTxHistory (): Tx[] {
+    return this.transactions
   }
 }

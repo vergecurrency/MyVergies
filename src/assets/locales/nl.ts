@@ -78,6 +78,8 @@ const nl = {
     paperKey: 'Paper key',
     aPaperKey: 'Een paper key?',
     aPaperKeyDescription: 'Een paper key is 1 van de 2 onderdelen om je wallet te definieren en met andere apps te openen.<br>Als je deze kwijt raakt kun je hem nooit meer herstellen en ben je ook de toegang tot je XVG kwijt.<br>Bewaar hem dus bijzonder goed.',
+    fillInYourPaperKey: 'Vul je paper key in',
+    fillInYourPaperKeyDesc: 'Voor het herstellen van je bestaande wallet dien je je wallets paper key in te vullen. Vul alleen kleine latijnse alfabet letter in. Geen spaties of speciale karakters.',
     confirmPaperKey: 'Bevestig paper key',
     invalidPaperkeySelected: 'De geselecteerde paper key is niet gelijk aan de eerder getoonde paper key. Zorg ervoor dat deze overeenkomen met elkaar.',
     passPhrase: 'Pass phrase',

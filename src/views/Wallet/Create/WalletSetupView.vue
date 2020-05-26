@@ -15,11 +15,11 @@
         <br/>
 
         <b-step-item :label="$i18n.t('createWallet.preferences')" :clickable="false">
-          <wallet-preferences :wallet="wallet" @next="next"/>
+          <wallet-preferences :wallet="wallet" @next="next" :restore="restore"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.paperKey')" :clickable="false">
-          <paper-key :wallet="wallet" @next="next" :fill="restore"/>
+          <paper-key :wallet="wallet" @next="next" :restore="restore"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false">

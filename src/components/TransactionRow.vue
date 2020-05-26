@@ -35,8 +35,8 @@ export default {
   name: 'TransactionRow',
   components: { TransactionAmount },
   props: {
-    transaction: {
-      type: Object,
+    txid: {
+      type: String,
       required: true
     },
     wallet: {
@@ -45,6 +45,10 @@ export default {
     }
   },
   computed: {
+    transaction () {
+      return this.wallet.transactions.find(tx => tx.txid === this.txid)
+    },
+
     label () {
       const fallback = this.$i18n.t(`transaction.${this.transaction.action}`)
       const outputsWithAddress = this.transaction.outputs.filter(output => output.address !== 'false') || []

@@ -3,6 +3,12 @@
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
       <p class="is-size-6-1 is-family-handwritten is-capitalized" v-html="wallet.name"/>
+      <p
+        v-if="!wallet.name || wallet.name == ''"
+        class="is-size-6-1 is-family-handwritten is-capitalized"
+        v-html="'a proper name'"
+        style="opacity: 0.5"
+      />
       <Money class="is-size-5 has-text-weight-bold" :amount="wallet.info.balance.totalAmount || 0" crypto/>
       <Money class="is-size-7" :amount="wallet.info.balance.totalAmount || 0" convert/>
     </div>

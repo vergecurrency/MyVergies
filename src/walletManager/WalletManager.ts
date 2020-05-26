@@ -1,23 +1,34 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
+import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
 import keytar from '@/utils/keytar'
+import Timeout = NodeJS.Timeout
 
 export default class WalletManager {
   protected config?: ManagerConfig
+  protected ticker?: Timeout
+
   public readonly wallets: Wallet[] = []
 
   public async boot (config: ManagerConfig) {
     this.config = config
 
     for (const walletConfig of this.config.wallets) {
-      const vwc = this.getClient(walletConfig)
-      const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
-      await wallet.open()
-      this.wallets.push(wallet)
+      try {
+        const vwc = this.getClient(walletConfig)
+        const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
+        await wallet.open()
+
+        this.wallets.push(wallet)
+      } catch (e) {
+        Log.error(e.toString())
+      }
     }
+
+    this.startTicker()
   }
 
   public getWallet (name: string): Wallet | undefined {
@@ -67,5 +78,28 @@ export default class WalletManager {
     })
 
     return vwc
+  }
+
+  protected startTicker () {
+    const fetch = async () => {
+      for (const wallet of this.wallets) {
+        try {
+          await wallet.status()
+          await wallet.fetchTxHistory()
+        } catch (e) {
+          Log.error(e.toString())
+        }
+      }
+    }
+
+    this.ticker = setInterval(fetch, 30000)
+
+    fetch()
+  }
+
+  protected stopTicker () {
+    if (this.ticker) {
+      clearInterval(this.ticker)
+    }
   }
 }
