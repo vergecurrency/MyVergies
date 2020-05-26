@@ -1,56 +1,56 @@
-import { MenuItem, Menu } from "electron";
-import { isDevelopmentEnvironment } from "@/utils";
+import { MenuItem, Menu } from 'electron'
+import { isDevelopmentEnvironment } from '@/utils'
 
 let SubMenuItems: MenuItem[] = [
   new MenuItem({
-    role: "resetZoom"
+    role: 'resetZoom'
   }),
   new MenuItem({
-    role: "zoomIn"
+    role: 'zoomIn'
   }),
   new MenuItem({
-    role: "zoomOut"
+    role: 'zoomOut'
   }),
   new MenuItem({
-    type: "separator"
+    type: 'separator'
   }),
   new MenuItem({
-    role: "togglefullscreen"
+    role: 'togglefullscreen'
   })
-];
+]
 
 if (isDevelopmentEnvironment()) {
   SubMenuItems = [
     ...SubMenuItems,
     new MenuItem({
-      type: "separator"
+      type: 'separator'
     }),
     new MenuItem({
-      label: "Toggle Developer Tools",
+      label: 'Toggle Developer Tools',
       accelerator:
-        process.platform === "darwin" ? "Alt+Command+I" : "Ctrl+Shift+I",
-      click(_: any, focusedWindow: any) {
-        if (focusedWindow) focusedWindow.webContents.toggleDevTools();
+        process.platform === 'darwin' ? 'Alt+Command+I' : 'Ctrl+Shift+I',
+      click (_: any, focusedWindow: any) {
+        if (focusedWindow) focusedWindow.webContents.toggleDevTools()
       }
     }),
     new MenuItem({
-      label: "Reload",
-      accelerator: "CmdOrCtrl+R",
-      click(_: any, focusedWindow: any) {
-        if (focusedWindow) focusedWindow.reload();
+      label: 'Reload',
+      accelerator: 'CmdOrCtrl+R',
+      click (_: any, focusedWindow: any) {
+        if (focusedWindow) focusedWindow.reload()
       }
     })
-  ];
+  ]
 }
 
-const ViewSubMenu = new Menu();
+const ViewSubMenu = new Menu()
 for (const item of SubMenuItems) {
-  ViewSubMenu.append(item as MenuItem);
+  ViewSubMenu.append(item as MenuItem)
 }
 
 const ViewMenu: MenuItem = new MenuItem({
-  role: "viewMenu",
+  role: 'viewMenu',
   submenu: ViewSubMenu
-});
+})
 
-export default ViewMenu;
+export default ViewMenu

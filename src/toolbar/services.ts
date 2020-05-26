@@ -1,22 +1,22 @@
-import { MenuItem, Menu } from "electron";
+import { MenuItem, Menu } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
-    label: "Lock wallet"
+    label: 'Lock wallet'
   }),
   new MenuItem({
-    type: "separator"
+    type: 'separator'
   }),
   new MenuItem({
-    label: "Send",
-    click() {
-      console.log("Send");
+    label: 'Send',
+    click () {
+      console.log('Send')
     }
   }),
   new MenuItem({
-    label: "Receive",
-    click() {
-      console.log("Send");
+    label: 'Receive',
+    click () {
+      console.log('Send')
     }
   }),
   new MenuItem({
@@ -49,16 +49,16 @@ const SubMenuItems: MenuItem[] = [
     accelerator: 'CmdOrCtrl+A',
     role: 'selectAll'
   })
-];
+]
 
-const ServicesSubMenu = new Menu();
+const ServicesSubMenu = new Menu()
 for (const item of SubMenuItems) {
-  ServicesSubMenu.append(item as MenuItem);
+  ServicesSubMenu.append(item as MenuItem)
 }
 
 const ServicesMenu: MenuItem = new MenuItem({
-  role: "editMenu",
+  role: 'editMenu',
   submenu: ServicesSubMenu
-});
+})
 
-export default ServicesMenu;
+export default ServicesMenu

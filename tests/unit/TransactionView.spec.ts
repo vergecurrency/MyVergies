@@ -40,7 +40,7 @@ describe('TransactionView.vue', () => {
       mocks: {
         $electron,
         $i18n: {
-          t(key: string) {
+          t (key: string) {
             return key
           }
         }
@@ -87,7 +87,7 @@ describe('TransactionView.vue', () => {
       mocks: {
         $electron,
         $i18n: {
-          t(key: string) {
+          t (key: string) {
             return key
           }
         }
@@ -135,7 +135,7 @@ describe('TransactionView.vue', () => {
       mocks: {
         $electron,
         $i18n: {
-          t(key: string) {
+          t (key: string) {
             return key
           }
         }

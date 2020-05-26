@@ -1,39 +1,39 @@
-import { MenuItem, Menu } from "electron";
-import { isWinOSEnvironment } from '@/utils';
+import { MenuItem, Menu } from 'electron'
+import { isWinOSEnvironment } from '@/utils'
 
 let SubMenuItems: MenuItem[] = [
   new MenuItem({
-    label: "Learn how to create a new wallet"
+    label: 'Learn how to create a new wallet'
   }),
   new MenuItem({
-    label: "Learn how to restore an existing wallet"
+    label: 'Learn how to restore an existing wallet'
   }),
   new MenuItem({
-    label: "Learn how to send XVG"
+    label: 'Learn how to send XVG'
   }),
   new MenuItem({
-    label: "Learn how to receive XVG"
+    label: 'Learn how to receive XVG'
   }),
   new MenuItem({
-    type: "separator"
+    type: 'separator'
   }),
   new MenuItem({
-    label: "Visit our GitHub",
+    label: 'Visit our GitHub',
     click: () => {
-      require("electron").shell.openExternal(
-        "https://github.com/vergecurrency"
-      );
+      require('electron').shell.openExternal(
+        'https://github.com/vergecurrency'
+      )
     }
   }),
   new MenuItem({
-    label: "Visit vergecurrency.com",
+    label: 'Visit vergecurrency.com',
     click: () => {
-      require("electron").shell.openExternal("https://vergecurrency.com");
+      require('electron').shell.openExternal('https://vergecurrency.com')
     }
   })
-];
+]
 
-if(isWinOSEnvironment()){
+if (isWinOSEnvironment()) {
   SubMenuItems = [
     ...SubMenuItems,
     new MenuItem({
@@ -52,14 +52,14 @@ if(isWinOSEnvironment()){
   ]
 }
 
-const WindowSubMenu = new Menu();
+const WindowSubMenu = new Menu()
 for (const item of SubMenuItems) {
-  WindowSubMenu.append(item as MenuItem);
+  WindowSubMenu.append(item as MenuItem)
 }
 
 const WindowMenu: MenuItem = {
-  role: "windowMenu",
+  role: 'windowMenu',
   submenu: WindowSubMenu
-} as MenuItem;
+} as MenuItem
 
-export default WindowMenu;
+export default WindowMenu

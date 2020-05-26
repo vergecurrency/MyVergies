@@ -1,22 +1,22 @@
-import { MenuItem, Menu } from "electron";
+import { MenuItem, Menu } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
-    role: "minimize"
+    role: 'minimize'
   }),
   new MenuItem({
-    role: "close"
+    role: 'close'
   })
-];
+]
 
-const HelpSubMenu = new Menu();
+const HelpSubMenu = new Menu()
 for (const item of SubMenuItems) {
-  HelpSubMenu.append(item as MenuItem);
+  HelpSubMenu.append(item as MenuItem)
 }
 
 const HelpMenu: MenuItem = {
-  role: "help",
+  role: 'help',
   submenu: HelpSubMenu
-} as MenuItem;
+} as MenuItem
 
-export default HelpMenu;
+export default HelpMenu
