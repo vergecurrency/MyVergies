@@ -33,6 +33,7 @@ Array [
             mockConstructor {
               "values": Object {
                 "accelerator": "CmdOrCtrl+,",
+                "click": [Function],
                 "label": "Settings",
               },
             },
