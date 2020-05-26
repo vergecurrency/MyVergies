@@ -37,7 +37,7 @@ export default {
   }
 
   .navbar.is-white {
-    background: black;
+    background: #f0f0f0;
   }
 
   .is-draggable {
