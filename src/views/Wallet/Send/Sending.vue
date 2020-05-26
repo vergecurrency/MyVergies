@@ -1,15 +1,15 @@
 <template>
-  <div class="section has-text-centered">
+  <div class="has-text-centered">
 
     <div class="block">
-      <div class="columns">
-        <div class="column">
+      <div class="columns is-centered">
+        <div class="column is-narrow">
           <sending-step :label="$i18n.t('send.signing')" :in-progress="step === 0" :done="step >= 1"/>
         </div>
-        <div class="column">
+        <div class="column is-narrow">
           <sending-step :label="$i18n.t('send.publishing')" :in-progress="step === 1" :done="step >= 2"/>
         </div>
-        <div class="column">
+        <div class="column is-narrow">
           <sending-step :label="$i18n.t('send.broadcasting')" :in-progress="step === 2" :done="step >= 3"/>
         </div>
       </div>

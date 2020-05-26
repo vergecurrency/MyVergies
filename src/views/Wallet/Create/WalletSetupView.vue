@@ -10,24 +10,23 @@
         size="is-small"
         :animated="false"
         :has-navigation="false"
-        class="step-content-box"
       >
 
         <br/>
 
-        <b-step-item :label="$i18n.t('createWallet.preferences')" class="section" :clickable="false">
+        <b-step-item :label="$i18n.t('createWallet.preferences')" :clickable="false">
           <wallet-preferences :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.paperKey')" class="section" :clickable="false">
+        <b-step-item :label="$i18n.t('createWallet.paperKey')" :clickable="false">
           <paper-key :wallet="wallet" @next="next" :fill="restore"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.passPhrase')" class="section" :clickable="false">
+        <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false">
           <pass-phrase :wallet="wallet" @next="next"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.createWallet')" class="section" :clickable="false">
+        <b-step-item :label="$i18n.t('createWallet.createWallet')" :clickable="false">
           <created :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
         </b-step-item>
 

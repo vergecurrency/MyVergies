@@ -68,12 +68,12 @@ export default {
 
   .app-container {
     height: 100%;
-    background: #ebebeb;
+    background: #fbfbfb;
     cursor: default;
   }
 
   .app-content-container {
-    height: calc(100% - 52px);
+    height: calc(100% - 53px);
   }
 
   .app-content-box-container {
