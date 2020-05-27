@@ -94,7 +94,7 @@ export default {
     },
 
     containsSpecials () {
-      return !!this.passphrase.match(/[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/g)
+      return !!this.passphrase.match(/[!@#$%^&*()_+-=\\[\]{};':"\\|,.<>/?]/g)
     },
 
     isValid () {
