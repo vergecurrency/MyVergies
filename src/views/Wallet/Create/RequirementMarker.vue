@@ -8,8 +8,8 @@
       <b-icon v-else icon="circle" type="is-light"/>
       <span
         :class="{'has-text-success': checked}"
-
-      >{{ label }}</span>
+        v-html="label"
+      />
     </div>
   </div>
 </template>

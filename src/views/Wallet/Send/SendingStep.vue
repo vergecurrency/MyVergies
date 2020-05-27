@@ -9,7 +9,8 @@
       <b-icon v-else icon="circle" type="is-light"/>
       <span
         :class="{'has-text-primary': inProgress, 'has-text-success': done}"
-      >{{label}}</span>
+        v-html="label"
+      />
     </div>
   </div>
 </template>
