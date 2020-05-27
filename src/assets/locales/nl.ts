@@ -86,7 +86,7 @@ const nl = {
     passPhraseDescription: 'Het versleutelen van uw paper key is een belangrijke veiligheidsmaatregel. Zorg ervoor dat u bij het terugzetten van een wallet uw vorige wachtwoordzin hergebruikt.',
     setupPassphraseReq1: 'Min. 8 tekens',
     setupPassphraseReq2: 'Hoofdletters en kleine letters',
-    setupPassphraseReq3: 'Speciale karakters (!.,-#€%&+#)',
+    setupPassphraseReq3: 'Speciale karakters of cijfer',
     setupPassphrasePassPlaceholder: 'Vul een wachtwoordzin in',
     confirmPassphrase: 'Bevestig je zojuist ingevulde passphrase!',
     passphraseInvalid: 'De ingevulde passphrase komt niet overeen met de eerder ingevulde passphrase. Zorg ervoor dat deze overeenkomen met elkaar',

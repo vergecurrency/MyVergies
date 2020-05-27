@@ -86,7 +86,7 @@ const en = {
     passPhraseDescription: 'Encrypting your paper key is an important safety measure. Make sure when restoring a wallet to use your previous passphrase.',
     setupPassphraseReq1: 'Min. 8 characters',
     setupPassphraseReq2: 'Uppercase and lowercase',
-    setupPassphraseReq3: 'Special character (!.,-#€%&+#)',
+    setupPassphraseReq3: 'Special character or number',
     setupPassphrasePassPlaceholder: 'Enter your passphrase',
     confirmPassphrase: 'Confirm your newly create passphrase',
     passphraseInvalid: 'The filled in passphrase isn\'t correct and doesn\'t match the original one. Please try again!',
