@@ -48,7 +48,7 @@ export default {
   methods: {
     removeWallet () {
       this.$buefy.dialog.confirm({
-        message: this.$i18n.t('walletSettings.deleteWalletConfirm', { name: this.wallet.name }),
+        message: new Option(this.$i18n.t('walletSettings.deleteWalletConfirm', { name: this.wallet.name })).innerHTML,
         onConfirm: this.handleRemovingWallet
       })
     },
@@ -61,7 +61,7 @@ export default {
           this.$router.push({ name: 'wallets.create' })
 
           this.$buefy.toast.open({
-            message: this.$i18n.t('walletSettings.walletDeleted', { name: this.wallet.name }),
+            message: new Option(this.$i18n.t('walletSettings.walletDeleted', { name: this.wallet.name })).innerHTML,
             type: 'is-success'
           })
         }

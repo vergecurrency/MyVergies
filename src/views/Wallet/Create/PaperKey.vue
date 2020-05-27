@@ -19,7 +19,7 @@
           <span v-if="restore" class="tag expand-word">
             <input v-model="paperkey[i]" class="word-input"/>
           </span>
-          <span v-else class="tag is-family-code has-text-weight-semibold expand-word" v-html="word"/>
+          <span v-else class="tag is-family-code has-text-weight-semibold expand-word">{{ word }}</span>
         </div>
       </div>
     </div>
@@ -28,10 +28,10 @@
       <div class="column">
         <div class="tags are-medium">
           <span
-            v-for="(word, i) in randomWords" :key="i+word" v-html="word"
+            v-for="(word, i) in randomWords" :key="i+word"
             class="tag is-family-code has-text-weight-semibold is-clickable"
             @click="selectedPaperkey.push(word)"
-          />
+          >{{ word }}</span>
         </div>
       </div>
     </div>

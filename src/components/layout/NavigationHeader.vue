@@ -10,7 +10,7 @@
         </router-link>
       </div>
       <div class="column">
-        <p class="is-size-3 is-family-handwritten" v-html="title"/>
+        <p class="is-size-3 is-family-handwritten">{{ title }}</p>
       </div>
       <div class="column is-narrow">
         <slot name="right"/>

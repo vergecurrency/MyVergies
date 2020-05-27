@@ -29,7 +29,7 @@
                 </div>
                 <div class="column">
                   <p>Your receive address</p>
-                  <p v-html="address" class="has-text-weight-bold"/>
+                  <p class="has-text-weight-bold">{{address}}</p>
                   <hr/>
                   <div class="buttons">
                     <a class="button is-primary">

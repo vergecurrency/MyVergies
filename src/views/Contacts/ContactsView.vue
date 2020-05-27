@@ -13,10 +13,10 @@
       <div class="column">
         <b-table :data="contacts" :columns="columns">
           <template slot-scope="props">
-            <b-table-column field="name" v-html="props.row.name"/>
+            <b-table-column field="name">{{ props.row.name }}</b-table-column>
             <b-table-column field="addresses">
               <ul>
-                <li v-for="address in props.row.addresses" :key="address" v-html="address"/>
+                <li v-for="address in props.row.addresses" :key="address">{{ address }}</li>
               </ul>
             </b-table-column>
           </template>
