@@ -121,8 +121,8 @@ const en = {
     delete: 'Delete',
     deleteWallet: 'Delete wallet',
     deleteWalletDesc: 'This will delete your wallet from this application. Your wallet can still be restored by using your paper key and pass phrase. Please make absolutely sure you\'ve written down your paper key and know your pass phrase. Remember that your paper key + pass phrase is the only way to restore your current wallet.',
-    deleteWalletConfirm: 'Are you sure you want to the delete your wallet {name}?',
-    walletDeleted: 'Wallet {name} was deleted!'
+    deleteWalletConfirm: 'Are you sure you want to the delete your wallet <b>{name}</b>?',
+    walletDeleted: 'Wallet <b>{name}</b> was deleted!'
   },
   settings: {
     settings: 'Settings',

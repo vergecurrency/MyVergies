@@ -41,7 +41,7 @@
       <div v-if="address" class="columns is-vcentered is-gapless">
         <div class="column">
           <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.address')"/>
-          <p>{{address}}</p>
+          <p v-html="address"/>
         </div>
         <div class="column has-text-right">
           <a id="show-address-details" class="button is-rounded is-small" @click="showAddressDetails">
@@ -55,7 +55,7 @@
       <div class="columns is-gapless">
         <div class="column">
           <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.confirmations')"/>
-          <p>{{transaction.confirmations}}</p>
+          <p v-html="transaction.confirmations"/>
         </div>
       </div>
 
@@ -64,7 +64,7 @@
       <div class="columns is-vcentered is-gapless">
         <div class="column is-10">
           <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.txid')"/>
-          <p class="has-text-txid">{{transaction.txid}}</p>
+          <p class="has-text-txid" v-html="transaction.txid"/>
         </div>
         <div class="column has-text-right">
           <a id="show-txid-details" class="button is-rounded is-small" @click="showTxidDetails">

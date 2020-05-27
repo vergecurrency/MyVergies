@@ -1,7 +1,7 @@
 <template>
  <div>
    <div v-if="!noDivider" class="navbar-divider"/>
-   <h6 class="title is-6 has-text-grey-light">{{ title }}</h6>
+   <h6 class="title is-6 has-text-grey-light" v-html="title"/>
    <slot/>
  </div>
 </template>
