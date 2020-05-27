@@ -2,7 +2,7 @@
   <div :class="containerClass">
     <div class="wallet-menu-card-background"></div>
     <div class="wallet-menu-card-content">
-      <p class="is-size-6-1 is-family-handwritten is-capitalized" v-html="wallet.name"/>
+      <p class="is-size-6-1 is-family-handwritten is-capitalized">{{ wallet.name }}</p>
       <p
         v-if="!wallet.name || wallet.name == ''"
         class="is-size-6-1 is-family-handwritten is-capitalized"
