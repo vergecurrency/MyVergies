@@ -20,7 +20,6 @@
             <b-input
               :placeholder="$i18n.t('createWallet.enterYourWalletName')"
               v-model="wallet.name"
-              @keyup.enter.native="proceed"
             />
           </b-field>
 
@@ -51,7 +50,6 @@
                 type="url"
                 :use-html5-validation="true"
                 v-model="wallet.vwsApi"
-                @keyup.enter.native="proceed"
               />
             </b-field>
           </div>
@@ -103,7 +101,7 @@ export default {
     },
     nameIsValid () {
       return !(/<?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)?>/i.test(this.wallet.name) ||
-        /[!@#$%^&*()_+-=\\[\]{};':"\\|,.<>/?]/g.test(this.wallet.name))
+        /[`~!@#$%^&*()_+-=\\[\]{};':"\\|,.<>/?]/g.test(this.wallet.name))
     },
     preferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && !this.nameExists && this.nameIsValid
