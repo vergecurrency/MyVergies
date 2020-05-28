@@ -49,14 +49,14 @@ export default class WalletManager {
       singleAddress: walletConfig.singleAddress
     })
     await wallet.status()
-    await keytar.setCredentials(`MyVergies Wallet: ${wallet.name}`, walletConfig.name, btoa(JSON.stringify(walletConfig)))
+    await keytar.setCredentials(keytar.walletService(), walletConfig.name, btoa(JSON.stringify(walletConfig)))
     this.wallets.push(wallet)
 
     return wallet
   }
 
   public async removeWallet (wallet: Wallet): Promise<boolean> {
-    const succeeded = await keytar.deleteCredentials(`MyVergies Wallet: ${wallet.name}`, wallet.name!)
+    const succeeded = await keytar.deleteCredentials(keytar.walletService(), wallet.name!)
 
     if (succeeded) {
       this.wallets.splice(this.wallets.findIndex(w => w === wallet), 1)

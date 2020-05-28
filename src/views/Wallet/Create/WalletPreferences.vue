@@ -20,6 +20,7 @@
             <b-input
               :placeholder="$i18n.t('createWallet.enterYourWalletName')"
               v-model="wallet.name"
+              maxlength="15"
             />
           </b-field>
 
@@ -96,15 +97,14 @@ export default {
     nameLongEnough () {
       return this.wallet.name.length < 1 || this.wallet.name.length > 4
     },
+    nameNotTooLong () {
+      return this.wallet.name.length <= 15
+    },
     nameExists () {
       return this.allWalletNames().includes(this.wallet.name)
     },
-    nameIsValid () {
-      return !(/<?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)?>/i.test(this.wallet.name) ||
-        /[`~!@#$%^&*()_+-=\\[\]{};':"\\|,.<>/?]/g.test(this.wallet.name))
-    },
     preferencesAreValid () {
-      return this.wallet.name !== '' && this.nameLongEnough && !this.nameExists && this.nameIsValid
+      return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
     }
   },
   methods: {

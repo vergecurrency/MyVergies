@@ -20,7 +20,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
   }
 
   return Promise.all(names.map(async (name: string): Promise<WalletConfigItem> => {
-    const encrytedWallet = await keytar.getCredentials(`MyVergies Wallet: ${name}`, name)
+    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), name)
 
     if (encrytedWallet === undefined) {
       throw Error(`Couldn't load wallet: ${name}`)

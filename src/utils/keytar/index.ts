@@ -11,5 +11,9 @@ export default {
 
   deleteCredentials: async (service: string, account: string) => {
     return electron.ipcRenderer.sendSync('delete-password', service, account)
+  },
+
+  walletService: (): string => {
+    return 'MyVergies Wallet'
   }
 }
