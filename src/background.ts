@@ -1,7 +1,5 @@
 'use strict'
 
-import path from 'path'
-import fs from 'fs'
 import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
