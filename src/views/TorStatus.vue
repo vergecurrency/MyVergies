@@ -1,5 +1,5 @@
 <template>
-  <b-dropdown hoverable aria-role="list" class="dropdown-trigger dropdown-trigger-fix">
+  <b-dropdown hoverable aria-role="list" class="dropdown-trigger">
     <button class="button is-white is-not-draggable" slot="trigger">
       <LoadingOnion v-if="connectionStatus === 'loading'" />
       <DisconnectedOnion v-if="connectionStatus === 'disconnected'" />
@@ -94,9 +94,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.navbar .dropdown-trigger-fix {
-  margin: 0 0.5rem 0 0;
-}
-</style>
