@@ -1,4 +1,6 @@
-const en = {
+import { LocaleDefinition } from './standard.local'
+
+const en: LocaleDefinition = {
   main: {
     menu: {
       wallets: 'Wallets',
@@ -6,6 +8,14 @@ const en = {
       explorer: 'Explorer',
       contacts: 'Contacts'
     }
+  },
+  tor: {
+    status: {
+      loading: 'Loading ...',
+      connected: 'Connected',
+      disconnected: 'Disconnected'
+    },
+    toggle: 'Tor-Proxy'
   },
   unlock: {
     unlockYourWallet: 'Unlock your wallet',

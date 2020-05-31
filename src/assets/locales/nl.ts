@@ -1,4 +1,7 @@
-const nl = {
+import { LocaleDefinition } from './standard.local'
+
+// @ts-ignore
+const nl: LocaleDefinition = {
   main: {
     menu: {
       wallets: 'Wallets',
