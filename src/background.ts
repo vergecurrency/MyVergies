@@ -1,6 +1,4 @@
-'use strict'
-
-import { app, protocol, nativeTheme, BrowserWindow, Menu } from 'electron'
+import { app, protocol, nativeTheme, BrowserWindow, Menu, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import logger from 'electron-log'
@@ -19,6 +17,13 @@ let win: BrowserWindow | null
 const TOR_SOCKS_PORT = 9999
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([{ scheme: 'app', privileges: { secure: true, standard: true } }])
+
+const activateTorProxy = (win: BrowserWindow) => win.webContents.session.setProxy({
+  proxyRules: `socks5://127.0.0.1:${TOR_SOCKS_PORT}`,
+  proxyBypassRules: '<local>, 192.168.1.1/16, fefe:13::abc/33'
+})
+
+const deactivateTorProxy = (win: BrowserWindow) => win.webContents.session.setProxy({ proxyRules: undefined })
 
 function createWindow () {
   Menu.setApplicationMenu(Menu.buildFromTemplate(generateMenuTemplate()))
@@ -57,10 +62,7 @@ function createWindow () {
 
   mainWindowState.manage(win)
 
-  win.webContents.session.setProxy({
-    proxyRules: `socks5://127.0.0.1:${TOR_SOCKS_PORT}`,
-    proxyBypassRules: '<local>, 192.168.1.1/16, fefe:13::abc/33'
-  }).then(() => {
+  activateTorProxy(win).then(() => {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
       win!.loadURL(process.env.WEBPACK_DEV_SERVER_URL as string)
@@ -97,6 +99,8 @@ function createWindow () {
   win.once('ready-to-show', () => {
     win!.show()
   })
+
+  return win
 }
 
 // Quit when all windows are closed.
@@ -157,7 +161,17 @@ app.on('ready', async () => {
         console.error('Vue Devtools failed to install:', e.toString())
       }
     }
-    createWindow()
+    const window = createWindow()
+    ipcMain.on('TOGGLE_TOR', async (event, arg: any) => {
+      if (arg.activate === true) {
+        await activateTorProxy(window)
+      } else {
+        await deactivateTorProxy(window)
+      }
+
+      event.returnValue = 'received'
+      event.reply('TOR_TOGGLED')
+    })
   })
 })
 
