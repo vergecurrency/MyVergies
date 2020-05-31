@@ -2,26 +2,7 @@
   <div id="app" class="app-container is-unselectable">
     <NavBar>
       <template slot="navbar-items">
-        <div class="buttons">
-          <a class="button is-white is-not-draggable">
-            <b-icon icon="wifi" type="is-success" size="is-small"/>
-          </a>
-          <a class="button is-white is-not-draggable" @click="unlock">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="lock-open" />
-              </span>
-          </a>
-          <router-link to="/settings" class="button is-white is-not-draggable">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="cog" />
-              </span>
-          </router-link>
-          <router-link to="/help" class="button is-white is-not-draggable">
-              <span class="icon has-text-grey-dark">
-                <b-icon size="is-small" icon="question-circle" />
-              </span>
-          </router-link>
-        </div>
+        <IconListBar/>
       </template>
     </NavBar>
     <div class="columns is-gapless app-content-container is-marginless">
@@ -35,14 +16,14 @@
 
 <script>
 import NavBar from '@/components/layout/NavBar'
+import IconListBar from '@/views/IconListBar'
 import MainMenu from '@/components/layout/MainMenu'
 import ContentContainer from '@/components/layout/ContentContainer'
-import AuthenticationModal from '@/components/modals/AuthenticationModal'
 import { ipcRenderer } from 'electron'
 
 export default {
   name: 'my-vergies',
-  components: { ContentContainer, MainMenu, NavBar },
+  components: { ContentContainer, MainMenu, NavBar, IconListBar },
 
   data () {
     return {
@@ -54,18 +35,6 @@ export default {
     ipcRenderer.on('open-settings', () => {
       this.$router.push('/settings')
     })
-  },
-
-  methods: {
-    unlock () {
-      this.$buefy.modal.open({
-        parent: this,
-        component: AuthenticationModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        fullScreen: true
-      })
-    }
   }
 }
 </script>
