@@ -63,7 +63,7 @@ import TransactionRow from '@/components/TransactionRow'
 import Money from '@/components/labels/Money'
 
 export default {
-  name: 'WalletView',
+  name: 'wallet-view',
   components: { TransactionRow, Money },
   props: {
     wallet: {

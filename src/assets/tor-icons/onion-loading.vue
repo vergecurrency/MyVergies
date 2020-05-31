@@ -27,6 +27,12 @@
   </svg>
 </template>
 
+<script>
+export default {
+  name: 'tor-loading'
+}
+</script>
+
 <style lang="scss">
 #inner-layer {
   animation: inner 3s ease-in-out infinite;

@@ -19,3 +19,9 @@
     />
   </svg>
 </template>
+
+<script>
+export default {
+  name: 'tor-error'
+}
+</script>
