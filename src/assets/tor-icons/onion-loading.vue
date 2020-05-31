@@ -28,59 +28,57 @@
 </template>
 
 <style lang="scss">
-// #ff7f00
-
 #inner-layer {
-    animation: inner 3s ease-in-out infinite;
+  animation: inner 3s ease-in-out infinite;
 }
 
 #mid-layer {
-    animation: mid 3s ease-in-out infinite;
+  animation: mid 3s ease-in-out infinite;
 }
 
 #outer-layer {
-    animation: outter 3s ease-in-out infinite;
+  animation: outter 3s ease-in-out infinite;
 }
 
 @keyframes inner {
-    0% {
-        fill: #4a4a4a;
-    }
-    25% {
-        fill: #ff7f00;
-    }
-    75% {
-        fill: #ff7f00;
-    }
-    100% {
-        fill: #4a4a4a;
-    }
+  0% {
+    fill: #4a4a4a;
+  }
+  25% {
+    fill: #ff7f00;
+  }
+  75% {
+    fill: #ff7f00;
+  }
+  100% {
+    fill: #4a4a4a;
+  }
 }
 
 @keyframes mid {
-    0% {
-        fill: #4a4a4a;
-    }
-    50% {
-        fill: #ff7f00;
-    }
-    75% {
-        fill: #ff7f00;
-    }
-    100% {
-        fill: #4a4a4a;
-    }
+  0% {
+    fill: #4a4a4a;
+  }
+  50% {
+    fill: #ff7f00;
+  }
+  75% {
+    fill: #ff7f00;
+  }
+  100% {
+    fill: #4a4a4a;
+  }
 }
 
 @keyframes outter {
-    0% {
-        fill: #4a4a4a;
-    }
-    75% {
-        fill: #ff7f00;
-    }
-    100% {
-        fill: #4a4a4a;
-    }
+  0% {
+    fill: #4a4a4a;
+  }
+  75% {
+    fill: #ff7f00;
+  }
+  100% {
+    fill: #4a4a4a;
+  }
 }
 </style>
