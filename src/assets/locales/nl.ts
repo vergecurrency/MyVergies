@@ -1,4 +1,6 @@
-const nl = {
+import { LocaleDefinition } from '@/locale/locale'
+
+const nl: LocaleDefinition = {
   main: {
     menu: {
       wallets: 'Wallets',
@@ -6,6 +8,18 @@ const nl = {
       explorer: 'Explorer',
       contacts: 'Contacten'
     }
+  },
+  tor: {
+    status: {
+      title: 'Tor status',
+      ip: 'IP adres',
+      region: 'Regio',
+      unableToConnect: 'verbinding verbroken',
+      loading: 'Laden ...',
+      connected: 'Verbonden',
+      disconnected: 'Niet verbonden'
+    },
+    toggle: 'Tor ingeschakeld'
   },
   unlock: {
     unlockYourWallet: 'Ontgrendel uw wallet',
