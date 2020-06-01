@@ -16,18 +16,18 @@
     </b-dropdown-item>
     <hr class="dropdown-divider">
     <b-dropdown-item aria-role="listitem" :focusable="false" custom>
-      <b-field label="Tor Status">
+      <b-field :label="$i18n.t('tor.status.title')">
         {{ this.connectionStatusName }}
       </b-field>
     </b-dropdown-item>
     <div v-if="!loading">
       <b-dropdown-item aria-role="listitem" :focusable="false" custom>
-        <b-field label="IP Address">
+        <b-field :label="$i18n.t('tor.status.ip')">
           {{ networkData.ip }}
         </b-field>
       </b-dropdown-item>
       <b-dropdown-item aria-role="listitem" :focusable="false" custom>
-        <b-field label="Region">
+        <b-field :label="$i18n.t('tor.status.region')">
           {{ networkData.country_name }}, {{ networkData.city }}
         </b-field>
       </b-dropdown-item>

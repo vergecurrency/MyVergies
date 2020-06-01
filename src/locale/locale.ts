@@ -9,6 +9,9 @@ export interface LocaleDefinition {
   },
   tor: {
     status: {
+      title: string,
+      region: string,
+      ip: string,
       loading: string,
       connected: string,
       disconnected: string
