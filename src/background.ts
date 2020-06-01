@@ -8,6 +8,7 @@ import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
 import '@/utils/keytar/main'
 import * as Utils from './utils'
+import { eventConstants } from './utils/constants'
 
 logger.transports.file.level = 'debug'
 
@@ -162,7 +163,7 @@ app.on('ready', async () => {
       }
     }
     const window = createWindow()
-    ipcMain.on('TOGGLE_TOR', async (event, arg: any) => {
+    ipcMain.on(eventConstants.toggleTor, async (event, arg: any) => {
       if (arg.activate === true) {
         await activateTorProxy(window)
       } else {
@@ -170,7 +171,7 @@ app.on('ready', async () => {
       }
 
       event.returnValue = 'received'
-      event.reply('TOR_TOGGLED')
+      event.reply(eventConstants.toggledTor)
     })
   })
 })

@@ -1,3 +1,8 @@
+export const eventConstants = {
+  toggleTor: 'TOGGLE_TOR',
+  toggledTor: 'TOR_TOGGLED'
+}
+
 export default {
   priceApi: 'https://api.vergecurrency.network/price/api/v1/price',
   ipApi: 'https://api.vergecurrency.network/price/api/v1/ip/',

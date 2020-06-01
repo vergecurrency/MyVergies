@@ -29,7 +29,7 @@ import { ipcRenderer } from 'electron'
 import LoadingOnion from '@/assets/tor-icons/onion-loading'
 import DisconnectedOnion from '@/assets/tor-icons/onion-disconnected'
 import ConnectedOnion from '@/assets/tor-icons/onion-connected'
-import constants from '@/utils/constants'
+import constants, { eventConstants } from '@/utils/constants'
 
 export default {
   name: 'tor-status',
@@ -86,8 +86,8 @@ export default {
         })
     },
     changed: function () {
-      ipcRenderer.sendSync('TOGGLE_TOR', { activate: this.torActivated })
-      ipcRenderer.once('TOR_TOGGLED', () => {
+      ipcRenderer.sendSync(eventConstants.toggleTor, { activate: this.torActivated })
+      ipcRenderer.once(eventConstants.toggledTor, () => {
         this.fetchIpAddress()
       })
     }
