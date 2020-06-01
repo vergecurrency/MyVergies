@@ -1,6 +1,5 @@
-import { LocaleDefinition } from '../../locale/locale'
+import { LocaleDefinition } from '@/locale/locale'
 
-// @ts-ignore
 const nl: LocaleDefinition = {
   main: {
     menu: {
@@ -12,7 +11,7 @@ const nl: LocaleDefinition = {
   },
   tor: {
     status: {
-      title: 'Tor toestand',
+      title: 'Tor status',
       ip: 'IP adres',
       region: 'Regio',
       unableToConnect: 'verbinding verbroken',

@@ -1,4 +1,4 @@
-import { LocaleDefinition } from '../../locale/locale'
+import { LocaleDefinition } from '@/locale/locale'
 
 // @ts-ignore
 const hi: LocaleDefinition = {}
