@@ -12,6 +12,7 @@ export interface LocaleDefinition {
       title: string,
       region: string,
       ip: string,
+      unableToConnect: string,
       loading: string,
       connected: string,
       disconnected: string

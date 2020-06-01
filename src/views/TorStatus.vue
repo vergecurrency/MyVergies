@@ -4,6 +4,7 @@
       <LoadingOnion v-if="connectionStatus === 'loading'" />
       <DisconnectedOnion v-if="connectionStatus === 'disconnected'" />
       <ConnectedOnion v-if="connectionStatus === 'connected'" />
+      <ErrorOnion v-if="connectionStatus === 'error'" />
     </button>
     <b-dropdown-item aria-role="listitem" :focusable="false" custom>
       <div class="ox">
@@ -20,7 +21,7 @@
         {{ this.connectionStatusName }}
       </b-field>
     </b-dropdown-item>
-    <div v-if="!loading">
+    <div v-if="!loading && !error">
       <b-dropdown-item aria-role="listitem" :focusable="false" custom>
         <b-field :label="$i18n.t('tor.status.ip')">
           {{ networkData.ip }}
@@ -40,12 +41,13 @@ import { ipcRenderer } from 'electron'
 import LoadingOnion from '@/assets/tor-icons/onion-loading'
 import DisconnectedOnion from '@/assets/tor-icons/onion-disconnected'
 import ConnectedOnion from '@/assets/tor-icons/onion-connected'
+import ErrorOnion from '@/assets/tor-icons/onion-error'
 import constants, { eventConstants } from '@/utils/constants'
 import Log from 'electron-log'
 
 export default {
   name: 'tor-status',
-  components: { LoadingOnion, DisconnectedOnion, ConnectedOnion },
+  components: { LoadingOnion, DisconnectedOnion, ConnectedOnion, ErrorOnion },
   data () {
     return {
       loading: true,
@@ -63,6 +65,10 @@ export default {
         return this.$i18n.t('tor.status.loading')
       }
 
+      if (this.error) {
+        return this.$i18n.t('tor.status.unableToConnect')
+      }
+
       if (!this.torActivated) {
         return this.$i18n.t('tor.status.disconnected')
       }
@@ -72,6 +78,10 @@ export default {
     connectionStatus: function () {
       if (this.loading) {
         return 'loading'
+      }
+
+      if (this.error) {
+        return 'error'
       }
 
       if (!this.torActivated) {
@@ -94,6 +104,8 @@ export default {
         })
         .catch(err => {
           Log.warn("Couldn't load ip data. Reason:", err)
+          this.error = err
+          this.networkData = null
           this.loading = false
         })
     },
