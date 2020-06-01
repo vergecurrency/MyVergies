@@ -1,4 +1,4 @@
-import { LocaleDefinition } from './locale'
+import { LocaleDefinition } from '../../locale/locale'
 
 const en: LocaleDefinition = {
   main: {
