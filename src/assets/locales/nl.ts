@@ -12,6 +12,9 @@ const nl: LocaleDefinition = {
   },
   tor: {
     status: {
+      title: 'Tor toestand',
+      ip: 'IP adres',
+      region: 'Regio',
       loading: 'Laden ...',
       connected: 'Verbonden',
       disconnected: 'Niet verbonden'
