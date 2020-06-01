@@ -41,6 +41,7 @@ import LoadingOnion from '@/assets/tor-icons/onion-loading'
 import DisconnectedOnion from '@/assets/tor-icons/onion-disconnected'
 import ConnectedOnion from '@/assets/tor-icons/onion-connected'
 import constants, { eventConstants } from '@/utils/constants'
+import Log from 'electron-log'
 
 export default {
   name: 'tor-status',
@@ -92,7 +93,7 @@ export default {
           this.loading = false
         })
         .catch(err => {
-          this.error = err
+          Log.warn("Couldn't load ip data. Reason:", err)
           this.loading = false
         })
     },
