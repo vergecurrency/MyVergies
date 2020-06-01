@@ -10,6 +10,14 @@ const nl: LocaleDefinition = {
       contacts: 'Contacten'
     }
   },
+  tor: {
+    status: {
+      loading: 'Laden ...',
+      connected: 'Verbonden',
+      disconnected: 'Niet verbonden'
+    },
+    toggle: 'Tor ingeschakeld'
+  },
   unlock: {
     unlockYourWallet: 'Ontgrendel uw wallet',
     password: 'Wachtwoord',

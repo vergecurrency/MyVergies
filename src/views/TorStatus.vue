@@ -1,26 +1,37 @@
 <template>
-  <b-dropdown hoverable aria-role="list" class="dropdown-trigger">
+  <b-dropdown aria-role="list" class="dropdown-trigger" position="is-bottom-left">
     <button class="button is-white is-not-draggable" slot="trigger">
       <LoadingOnion v-if="connectionStatus === 'loading'" />
       <DisconnectedOnion v-if="connectionStatus === 'disconnected'" />
       <ConnectedOnion v-if="connectionStatus === 'connected'" />
     </button>
-    <b-dropdown-item aria-role="listitem" :focusable="false" custom paddingless>
-      <div class="app-content-box">
-        <div class="has-text-centered">
+    <b-dropdown-item aria-role="listitem" :focusable="false" custom>
+      <div class="ox">
+        <b-field>
           <b-switch v-model="torActivated" @input="changed">
             {{ $i18n.t("tor.toggle") }}
           </b-switch>
-          <br /><br />
-          <b>Tor Status:</b> <br />{{ this.connectionStatusName }}<br /><br />
-          <div v-if="!loading">
-            <b>IP Address:</b> <br />{{ networkData.ip }}<br /><br />
-            <b>Region:</b> <br />{{ networkData.country_name }},
-            {{ networkData.city }}
-          </div>
-        </div>
+        </b-field>
       </div>
     </b-dropdown-item>
+    <hr class="dropdown-divider">
+    <b-dropdown-item aria-role="listitem" :focusable="false" custom>
+      <b-field label="Tor Status">
+        {{ this.connectionStatusName }}
+      </b-field>
+    </b-dropdown-item>
+    <div v-if="!loading">
+      <b-dropdown-item aria-role="listitem" :focusable="false" custom>
+        <b-field label="IP Address">
+          {{ networkData.ip }}
+        </b-field>
+      </b-dropdown-item>
+      <b-dropdown-item aria-role="listitem" :focusable="false" custom>
+        <b-field label="Region">
+          {{ networkData.country_name }}, {{ networkData.city }}
+        </b-field>
+      </b-dropdown-item>
+    </div>
   </b-dropdown>
 </template>
 

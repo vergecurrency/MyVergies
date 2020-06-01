@@ -15,7 +15,7 @@ const en: LocaleDefinition = {
       connected: 'Connected',
       disconnected: 'Disconnected'
     },
-    toggle: 'Tor-Proxy'
+    toggle: 'Tor enabled'
   },
   unlock: {
     unlockYourWallet: 'Unlock your wallet',
