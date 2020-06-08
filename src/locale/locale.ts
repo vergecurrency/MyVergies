@@ -5,7 +5,8 @@ export interface LocaleDefinition {
       add: string,
       explorer: string,
       contacts: string
-    }
+    },
+    copiedSuccessfully: string
   },
   tor: {
     status: {

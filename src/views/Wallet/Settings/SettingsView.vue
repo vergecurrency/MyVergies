@@ -7,7 +7,18 @@
 
     <div class="box">
 
-      <form-section :title="$i18n.t('walletSettings.dangerZone')" no-divider>
+      <form-section title="Credentials" no-divider>
+        <b-message>
+          <b-field
+            horizontal
+            label="Paper key"
+          >
+            <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
+          </b-field>
+        </b-message>
+      </form-section>
+
+      <form-section :title="$i18n.t('walletSettings.dangerZone')">
 
         <b-message type="is-danger">
           <b-field
@@ -35,10 +46,11 @@
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
 import { mapActions } from 'vuex'
+import CredentialBox from '@/components/CredentialBox'
 
 export default {
   name: 'wallet-settings-view',
-  components: { FormSection, NavigationHeader },
+  components: { CredentialBox, FormSection, NavigationHeader },
   props: {
     wallet: {
       type: Object,

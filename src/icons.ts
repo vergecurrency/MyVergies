@@ -38,7 +38,8 @@ import {
   faWifi,
   faIdCard,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faCopy
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -77,6 +78,7 @@ library.add(faWifi)
 library.add(faIdCard)
 library.add(faEye)
 library.add(faEyeSlash)
+library.add(faCopy)
 
 Vue.use(Buefy, {
   defaultIconComponent: 'fa-icon',

@@ -7,7 +7,8 @@ const en: LocaleDefinition = {
       add: 'Add new wallet',
       explorer: 'Explorer',
       contacts: 'Contacts'
-    }
+    },
+    copiedSuccessfully: 'Yes, copied successfully!'
   },
   tor: {
     status: {
