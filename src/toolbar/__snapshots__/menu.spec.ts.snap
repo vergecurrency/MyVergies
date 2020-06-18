@@ -369,6 +369,39 @@ Array [
           Array [
             mockConstructor {
               "values": Object {
+                "role": "minimize",
+              },
+            },
+          ],
+          Array [
+            mockConstructor {
+              "values": Object {
+                "role": "close",
+              },
+            },
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+    },
+  },
+  Object {
+    "role": "help",
+    "submenu": Object {
+      "append": [MockFunction] {
+        "calls": Array [
+          Array [
+            mockConstructor {
+              "values": Object {
                 "label": "Learn how to create a new wallet",
               },
             },
@@ -439,39 +472,6 @@ Array [
             "type": "return",
             "value": undefined,
           },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-        ],
-      },
-    },
-  },
-  Object {
-    "role": "help",
-    "submenu": Object {
-      "append": [MockFunction] {
-        "calls": Array [
-          Array [
-            mockConstructor {
-              "values": Object {
-                "role": "minimize",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
-                "role": "close",
-              },
-            },
-          ],
-        ],
-        "results": Array [
           Object {
             "type": "return",
             "value": undefined,

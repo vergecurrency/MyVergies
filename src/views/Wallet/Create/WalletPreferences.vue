@@ -38,7 +38,7 @@
             <b-switch v-model="showAdvanced"><span v-html="$i18n.t('createWallet.advanced')"/></b-switch>
           </b-field>
 
-          <div class="box" v-show="showAdvanced">
+          <div class="box wallet-preferences__advanced__box" v-show="showAdvanced">
             <b-field v-if="!restore" :label="$i18n.t('createWallet.singleAddress')">
               <b-switch
                 v-model="wallet.singleAddress"
@@ -124,5 +124,8 @@ export default {
 <style scoped>
 .card-column {
   max-width: 250px;
+}
+.wallet-preferences__advanced__box {
+  margin: 0 -20px;
 }
 </style>

@@ -24,18 +24,21 @@
               </router-link>
             </li>
             <li>
-              <router-link :to="{ name: 'wallets.create' }" v-t="'main.menu.add'"></router-link>
+              <router-link :to="{ name: 'wallets.create' }">
+                <b-icon icon="plus" size="is-small"/>
+                <span v-t="'main.menu.add'"/>
+              </router-link>
             </li>
           </ul>
         </li>
-        <li>
+        <li class="is-hidden">
           <router-link
             class="is-size-4 has-text-weight-semibold"
             :to="{ name: 'explorer' }"
             v-html="$i18n.t('main.menu.explorer')"
           />
         </li>
-        <li>
+        <li class="is-hidden">
           <router-link
             class="is-size-4 has-text-weight-semibold"
             :to="{ name: 'contacts' }"
@@ -106,6 +109,16 @@ export default {
     color: #252525;
     right: 5px;
     top: calc(50% - 5px);
+  }
+
+  .main-menu .icon {
+    display: -webkit-inline-box;
+    height: 1.5em;
+    width: 1.5em;
+  }
+
+  .main-menu .icon:first-child:not(:last-child) {
+    margin-right: 0.1875em;
   }
 
   @media (prefers-color-scheme: dark) {
