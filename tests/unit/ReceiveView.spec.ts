@@ -7,19 +7,32 @@ const localVue = createLocalVue()
 localVue.use(Buefy)
 localVue.use(VueRouter)
 
-test('should render correct contents', () => {
+test('should render correct contents', async () => {
+  const address = 'DF7R7M5semP472WSvK6WPZkDM1h9ixTL6F'
   const wallet = {
     name: 'Main Account',
     amount: 123,
-    color: 'blue'
+    color: 'blue',
+    getAddress: () => {
+      return new Promise(resolve => {
+        resolve({ address })
+      })
+    }
   }
 
   const wrapper = shallowMount(ReceiveView, {
     localVue,
     propsData: {
       wallet
+    },
+    mocks: {
+      $i18n: {
+        t: (key: string) => key
+      }
     }
   })
 
-  expect(wrapper.text()).toContain('DF7R7M5semP472WSvK6WPZkDM1h9ixTL6F')
+  await wrapper.vm.$nextTick()
+  expect(wrapper.vm.$data.address).toBe(address)
+  expect(wrapper.text()).toContain(address)
 })
