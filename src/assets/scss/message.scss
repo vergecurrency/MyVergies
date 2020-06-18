@@ -1,0 +1,33 @@
+@media (prefers-color-scheme: dark) {
+  .message {
+    background-color: darken($message-background-color, 70%);
+
+    @each $name, $pair in ($message-colors) {
+      $color: nth($pair, 1);
+      $color-invert: nth($pair, 2);
+      $color-lightning: max((100% - lightness($color)) - 2%, 0%);
+      $color-luminance: colorLuminance($color);
+      $darken-percentage: $color-luminance * 70%;
+      $desaturate-percentage: $color-luminance * 30%;
+
+      &.is-#{$name} {
+        background-color: darken(lighten($color, $color-lightning), 92%);
+
+        .message-header {
+          background-color: $color;
+          color: $color-invert;
+        }
+
+        .message-body {
+          border-color: darken($color, 20%);
+          color: lighten(desaturate(darken($color, $darken-percentage), $desaturate-percentage), 20%);
+        }
+      }
+    }
+  }
+
+  .message-body {
+    border-color: darken($message-body-border-color, 50%);
+    color: lighten($message-body-color, 40%);
+  }
+}

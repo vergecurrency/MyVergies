@@ -1,0 +1,5 @@
+@media (prefers-color-scheme: dark) {
+  .navbar-divider {
+    background-color: darken($navbar-divider-background-color, 90%);
+  }
+}
