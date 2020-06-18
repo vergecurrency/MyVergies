@@ -1,53 +1,49 @@
 <template>
   <div>
-    <navigation-header :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}" title="Receive"/>
+    <navigation-header :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}" :title="$i18n.t('receive.receive')"/>
 
     <div class="box">
 
-      <info-notification>
-        <template slot="title">
-          Receiving XVG is easy!
-        </template>
-        <template slot="subtitle">
-          Just use the following address to receive funds on.
-        </template>
-        <template slot="content">
-          When you've used this address once this wallet will generate a new address for you.<br/>
-          However the previous address can still be used to receive funds on.
-        </template>
-      </info-notification>
-
         <b-tabs v-model="activeTab">
-          <b-tab-item label="New Address" icon="star">
+          <b-tab-item :label="$i18n.t('receive.newAddress')" icon="star">
 
             <section class="section">
-              <div class="columns is-vcentered">
+              <div v-if="address" class="columns is-vcentered">
                 <div class="column is-narrow">
                   <div class="qr-box has-shadow-dark">
                     <qrcode-vue :value="address" size="200" level="H"/>
                   </div>
                 </div>
                 <div class="column">
-                  <p>Your receive address</p>
-                  <p class="has-text-weight-bold">{{address}}</p>
-                  <hr/>
+                  <b-field :label="$i18n.t('receive.yourReceiveAddress')">
+                    <b-notification :closable="false">
+                      <span class="has-text-weght-bold">{{ address }}</span>
+                    </b-notification>
+                  </b-field>
                   <div class="buttons">
-                    <a class="button is-primary">
-                      New address
-                    </a>
-                    <a class="button is-primary">
-                      Copy
-                    </a>
+                    <a class="button is-primary" @click="getNewAddress" v-html="$i18n.t('receive.newAddress')"/>
+                    <a class="button is-primary" @click="copy" v-html="$i18n.t('receive.copy')"/>
+                  </div>
+                </div>
+              </div>
+              <div v-else>
+                <div class="columns is-vcentered">
+                  <div class="column is-narrow">
+                    <b-skeleton animated height="200" width="200"></b-skeleton>
+                  </div>
+                  <div class="column">
+                    <b-skeleton width="20%" animated></b-skeleton>
+                    <b-skeleton width="40%" animated></b-skeleton>
+                    <b-skeleton width="80%" animated></b-skeleton>
+                    <b-skeleton animated></b-skeleton>
                   </div>
                 </div>
               </div>
             </section>
 
           </b-tab-item>
-          <b-tab-item label="Previous Addresses" icon="list">
-            <section class="section">
-              Lorem ipsum dolor sit amet.
-            </section>
+          <b-tab-item :label="$i18n.t('receive.previousAddresses')" icon="list">
+            <b-table :data="wallet.addresses" :columns="addressColumns"/>
           </b-tab-item>
         </b-tabs>
 
@@ -58,22 +54,70 @@
 
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
-import InfoNotification from '@/components/InfoNotification'
 import QrcodeVue from 'qrcode.vue'
 
 export default {
   name: 'receive-view',
-  components: { InfoNotification, NavigationHeader, QrcodeVue },
+  components: { NavigationHeader, QrcodeVue },
   data () {
     return {
       activeTab: 0,
-      address: 'DF7R7M5semP472WSvK6WPZkDM1h9ixTL6F'
+      address: null,
+      addressColumns: [
+        {
+          field: 'address',
+          label: 'Address'
+        },
+        {
+          field: 'path',
+          label: 'Path'
+        },
+        {
+          field: 'createdOn',
+          label: 'Created On'
+        }
+      ]
     }
   },
   props: {
     wallet: {
       type: Object,
       required: true
+    }
+  },
+
+  created () {
+    this.getAddress()
+  },
+
+  methods: {
+    getAddress () {
+      this.wallet.getAddress().then(addressInfo => {
+        this.address = addressInfo.address
+      }).catch(e => {
+        this.$buefy.dialogs.alert({
+          message: e.message
+        })
+      })
+    },
+
+    getNewAddress () {
+      this.wallet.createAddress().then(addressInfo => {
+        this.address = addressInfo.address
+      }).catch(e => {
+        this.$buefy.dialogs.alert({
+          message: e.message
+        })
+      })
+    },
+
+    copy () {
+      this.$electron.clipboard.writeText(this.address, 'selection')
+
+      this.$buefy.toast.open({
+        message: this.$i18n.t('receive.addressCopied'),
+        type: 'is-success'
+      })
     }
   }
 }

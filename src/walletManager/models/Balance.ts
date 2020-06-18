@@ -8,7 +8,7 @@ export default interface Balance {
   byAddress: BalanceAddress[]
 }
 
-interface BalanceAddress {
+export interface BalanceAddress {
   address: string
   path: string
   amount: number

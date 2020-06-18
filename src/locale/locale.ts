@@ -79,6 +79,14 @@ export interface LocaleDefinition {
       'Amount below dust threshold': string,
     }
   },
+  receive: {
+    receive: string,
+    newAddress: string,
+    previousAddresses: string,
+    yourReceiveAddress: string,
+    copy: string,
+    addressCopied: string
+  },
   createWallet: {
     createNewWallet: string,
     restoreExistingWallet: string,

@@ -81,6 +81,14 @@ const nl: LocaleDefinition = {
       'Amount below dust threshold': 'Het opgegeven bedrag is te laag'
     }
   },
+  receive: {
+    receive: 'Ontvangen',
+    newAddress: 'Nieuw adres',
+    previousAddresses: 'Vorige adressen',
+    yourReceiveAddress: 'Je ontvangst adres',
+    copy: 'Kopieer',
+    addressCopied: 'Adres gekopieerd!'
+  },
   createWallet: {
     createNewWallet: 'Nieuwe wallet aanmaken',
     restoreExistingWallet: 'Herstel bestaande wallet',

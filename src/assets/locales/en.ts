@@ -81,6 +81,14 @@ const en: LocaleDefinition = {
       'Amount below dust threshold': 'The given amount is below the dust threshold'
     }
   },
+  receive: {
+    receive: 'Receive',
+    newAddress: 'New address',
+    previousAddresses: 'Previous addresses',
+    yourReceiveAddress: 'Your receive address',
+    copy: 'Copy',
+    addressCopied: 'Address Copied!'
+  },
   createWallet: {
     createNewWallet: 'Create new wallet',
     restoreExistingWallet: 'Restore existing wallet',

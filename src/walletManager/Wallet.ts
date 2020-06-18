@@ -1,9 +1,10 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
 import Info from '@/walletManager/models/Info'
-import Balance from '@/walletManager/models/Balance'
+import Balance, { BalanceAddress } from '@/walletManager/models/Balance'
 import Tx from '@/walletManager/models/Tx'
 import { TxProposal, TxProposalResponse } from '@/walletManager/models/TxProposal'
+import AddressInfo from '@/walletManager/models/AddressInfo'
 
 export default class Wallet {
   protected vwc: Client
@@ -11,6 +12,7 @@ export default class Wallet {
   public color?: string
   public info?: Info
   public transactions: Tx[] = []
+  public addresses: AddressInfo[] = []
 
   constructor (name: string, color: string, vwc: Client) {
     this.name = name
@@ -153,6 +155,57 @@ export default class Wallet {
 
         resolve(txp)
       })
+    })
+  }
+
+  public createAddress (): Promise<AddressInfo> {
+    return new Promise((resolve, reject) => {
+      this.vwc.createAddress({}, (error: Error|null, addressInfo: AddressInfo) => {
+        if (error) {
+          return reject(error)
+        }
+
+        this.addresses.unshift(addressInfo)
+
+        resolve(addressInfo)
+      })
+    })
+  }
+
+  public getMainAddresses (options: object): Promise<AddressInfo[]> {
+    return new Promise((resolve, reject) => {
+      this.vwc.getMainAddresses(options, (error: Error|null, addresses: AddressInfo[]) => {
+        if (error) {
+          return reject(error)
+        }
+
+        this.addresses = addresses
+
+        resolve(addresses)
+      })
+    })
+  }
+
+  public getAddress (): Promise<AddressInfo> {
+    const options = {
+      reverse: true
+    }
+
+    if (!this.info) {
+      throw new Error('Wallet info not found')
+    }
+
+    const info = this.info
+
+    return this.getMainAddresses(options).then(addresses => {
+      for (const addressInfo of addresses) {
+        if (!info.balance.byAddress.find((balance: BalanceAddress) => balance.address === addressInfo.address)) {
+          return addressInfo
+        }
+      }
+
+      // Create a new address
+      return this.createAddress()
     })
   }
 }
