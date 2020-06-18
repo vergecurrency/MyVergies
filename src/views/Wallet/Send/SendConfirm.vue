@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="value.txp">
 
     <div class="block">
       <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('send.confirm')"/>
@@ -8,21 +8,29 @@
 
     <div class="columns is-size-7">
       <div class="column has-text-left" v-html="$i18n.t('send.send')"/>
-      <div class="column has-text-right has-text-weight-bold">10,00 XVG</div>
+      <div class="column has-text-right has-text-weight-bold">
+        <money :amount="value.txp.amount" crypto/>
+      </div>
     </div>
     <div class="columns is-size-7">
       <div class="column has-text-left" v-html="$i18n.t('send.transactionFee')"/>
-      <div class="column has-text-right has-text-weight-bold">0,10 XVG</div>
+      <div class="column has-text-right has-text-weight-bold">
+        <money :amount="value.txp.fee || 0" crypto/>
+      </div>
     </div>
 
     <div class="navbar-divider"/>
 
     <div class="columns is-size-5">
       <div class="column has-text-left" v-html="$i18n.t('send.total')"/>
-      <div class="column has-text-right has-text-weight-bold has-text-primary">10,10 XVG</div>
+      <div class="column has-text-right has-text-weight-bold has-text-primary">
+        <money :amount="totalAmount" crypto/>
+      </div>
     </div>
     <div class="columns">
-      <div class="column has-text-right has-text-weight-bold has-text-primary">€ 0,05</div>
+      <div class="column has-text-right has-text-weight-bold has-text-primary">
+        <money :amount="totalAmount" convert/>
+      </div>
     </div>
 
     <div class="navbar-divider"/>
@@ -30,7 +38,7 @@
     <div class="columns">
       <div class="column has-text-left" v-html="$i18n.t('send.recipient')" />
       <div class="column has-text-right has-text-weight-bold">
-        <span class="tag is-large is-selectable is-family-monospace" v-html="value.recipient"/>
+        <span class="tag is-large is-selectable is-family-monospace" v-html="value.toAddress"/>
       </div>
     </div>
 
@@ -55,12 +63,21 @@
 </template>
 
 <script>
+import Money from '@/components/labels/Money'
+
 export default {
   name: 'SendConfirm',
+  components: { Money },
   props: {
     value: {
       required: true,
       type: Object
+    }
+  },
+
+  computed: {
+    totalAmount () {
+      return this.value.txp.amount + this.value.txp.fee || 0
     }
   }
 }

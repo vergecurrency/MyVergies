@@ -39,15 +39,11 @@ export default {
   },
   methods: {
     animate () {
-      this.step = 0
-      const interval = setInterval(() => {
-        if (this.step === 3) {
-          this.$emit('sent')
-          clearInterval(interval)
-        }
+      if (this.step === 2) {
+        return
+      }
 
-        ++this.step
-      }, 2500)
+      ++this.step
     }
   }
 }

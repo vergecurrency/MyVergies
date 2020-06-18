@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form @submit.prevent="$emit('input', value)">
 
     <div class="block">
       <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('send.send')"/>
@@ -22,7 +22,7 @@
                   </a>
                 </p>
                 <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Recipient XVG address" v-model="value.recipient">
+                  <input class="input" type="text" placeholder="Recipient XVG address" v-model="value.toAddress">
                 </p>
               </div>
               <div v-if="showHelp" class="help notification is-small" v-html="$i18n.t('send.recipientDetails')"/>
@@ -65,7 +65,7 @@
           </div>
           <div class="field-body">
             <div class="field is-expanded">
-              <input class="input" type="text" placeholder="Gift to Swen" v-model="value.memo">
+              <input class="input" type="text" placeholder="Gift to Swen" v-model="value.message">
               <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.internalMemoDetails')"/>
             </div>
           </div>
@@ -86,12 +86,12 @@
       <div class="column">
         <div class="buttons is-centered">
           <a class="button is-light" v-html="$i18n.t('send.reset')"/>
-          <a class="button is-primary" @click="$emit('input', value)" v-html="$i18n.t('send.confirm')"/>
+          <button type="submit" class="button is-primary" v-html="$i18n.t('send.confirm')"/>
         </div>
       </div>
     </div>
 
-  </div>
+  </form>
 </template>
 
 <script>

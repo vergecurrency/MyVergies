@@ -15,4 +15,5 @@ export interface WalletConfigItem {
   passphrase: string
   singleAddress: boolean
   vwsApi?: string
+  walletPrivKey?: string
 }

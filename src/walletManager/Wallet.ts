@@ -3,6 +3,7 @@ import Client from 'bitcore-wallet-client-xvg'
 import Info from '@/walletManager/models/Info'
 import Balance from '@/walletManager/models/Balance'
 import Tx from '@/walletManager/models/Tx'
+import { TxProposal, TxProposalResponse } from '@/walletManager/models/TxProposal'
 
 export default class Wallet {
   protected vwc: Client
@@ -105,5 +106,53 @@ export default class Wallet {
 
   public getTxHistory (): Tx[] {
     return this.transactions
+  }
+
+  public createTxProposal (proposal: TxProposal): Promise<TxProposalResponse> {
+    return new Promise((resolve, reject) => {
+      this.vwc.createTxProposal(proposal, (error: Error|null, txp: TxProposalResponse) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(txp)
+      })
+    })
+  }
+
+  public publishTxProposal (proposal: TxProposalResponse): Promise<TxProposalResponse> {
+    return new Promise((resolve, reject) => {
+      this.vwc.publishTxProposal({ txp: proposal }, (error: Error|null, txp: TxProposalResponse) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(txp)
+      })
+    })
+  }
+
+  public signTxProposal (proposal: TxProposalResponse, passphrase: string): Promise<TxProposalResponse> {
+    return new Promise((resolve, reject) => {
+      this.vwc.signTxProposal(proposal, passphrase, (error: Error|null, txp: TxProposalResponse) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(txp)
+      })
+    })
+  }
+
+  public broadcastTxProposal (proposal: TxProposalResponse): Promise<TxProposalResponse> {
+    return new Promise((resolve, reject) => {
+      this.vwc.broadcastTxProposal(proposal, (error: Error|null, txp: TxProposalResponse) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(txp)
+      })
+    })
   }
 }

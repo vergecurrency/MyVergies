@@ -23,7 +23,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('send.sending')" :clickable="false">
-          <sending ref="sendingView" @sent="transactionSent"/>
+          <sending ref="sendingView"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('send.sent')" icon="check">
@@ -42,6 +42,7 @@ import Sending from '@/views/Wallet/Send/Sending'
 import TransactionSent from '@/views/Wallet/Send/TransactionSent'
 import SendConfirm from '@/views/Wallet/Send/SendConfirm'
 import ContentView from '@/components/layout/ContentView'
+import constants from '@/utils/constants'
 
 export default {
   name: 'send-view',
@@ -51,9 +52,10 @@ export default {
       viewLocked: false,
       activeStep: 0,
       transaction: {
-        recipient: 'DBn4ZuRme7bjtN85y3hJ4K2AWC8hhDNcsm',
+        toAddress: '',
         amount: 0,
-        memo: ''
+        message: '',
+        txp: null
       }
     }
   },
@@ -76,23 +78,61 @@ export default {
   },
   methods: {
     validateTransaction () {
-      this.activeStep = 1
+      const options = {
+        outputs: [
+          {
+            toAddress: this.transaction.toAddress,
+            amount: this.transaction.amount * constants.satoshiDivider
+          }
+        ],
+        dryRun: false
+      }
+
+      this.wallet.createTxProposal(options).then(txp => {
+        this.transaction.txp = txp
+        this.activeStep = 1
+      }).catch(e => {
+        this.$buefy.dialog.alert({
+          message: e.message
+        })
+      })
     },
 
     sendTransaction () {
       this.viewLocked = true
-      this.$refs.sendingView.animate()
       this.activeStep = 2
-    },
 
-    transactionSent () {
-      this.viewLocked = false
-      this.activeStep = 3
+      this.wallet.publishTxProposal(this.transaction.txp).then(async txp => {
+        this.$refs.sendingView.animate()
+
+        const passphrase = await this.$walletManager.getWalletPassphrase(this.wallet)
+
+        return this.wallet.signTxProposal(txp, passphrase)
+      }).then(txp => {
+        this.$refs.sendingView.animate()
+
+        return this.wallet.broadcastTxProposal(txp)
+      }).then(txp => {
+        this.$refs.sendingView.animate()
+
+        this.viewLocked = false
+        this.activeStep = 3
+      }).catch(e => {
+        this.$buefy.dialog.alert({
+          message: e.message
+        })
+      })
     },
 
     reset () {
       this.viewLocked = false
       this.activeStep = 0
+      this.transaction = {
+        toAddress: '',
+        amount: 0,
+        message: '',
+        txp: null
+      }
     }
   }
 }

@@ -1,5 +1,7 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
+// @ts-ignore
+import Mnemonic from 'bitcore-mnemonic'
 import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
@@ -65,17 +67,35 @@ export default class WalletManager {
     return succeeded
   }
 
+  // TODO: function will only return passphrase when application unlocked.
+  public async getWalletPassphrase (wallet: Wallet): Promise<string> {
+    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), wallet.name!)
+
+    if (encrytedWallet === undefined) {
+      throw Error(`Couldn't load wallet: ${name}`)
+    }
+
+    const walletConfig = JSON.parse(atob(encrytedWallet as string))
+
+    if (!walletConfig.passphrase) {
+      throw Error('Passphrase not found')
+    }
+
+    return walletConfig.passphrase
+  }
+
   protected getClient (walletConfig: WalletConfigItem): Client {
     const vwc = new Client({
       baseUrl: walletConfig.vwsApi || constants.vwsApi,
       verbose: false
     })
 
-    vwc.seedFromMnemonic(walletConfig.paperkey, {
-      coin: walletConfig.coin,
-      network: walletConfig.network,
-      passphrase: walletConfig.passphrase
-    })
+    const mnemonic = new Mnemonic(walletConfig.paperkey)
+    const hdPrivateKey = mnemonic.toHDPrivateKey(walletConfig.passphrase, walletConfig.network)
+
+    walletConfig.walletPrivKey = hdPrivateKey.derive(0, true).privateKey.toString()
+
+    vwc.seedFromMnemonic(walletConfig.paperkey, walletConfig)
 
     return vwc
   }

@@ -10,6 +10,7 @@ export default {
   bnApi: 'https://api.vergecurrency.network/node/api/XVG',
   explorer: 'https://verge-blockchain.info',
   termsOfUse: 'https://vergecurrency.com/wallets/terms',
+  feePerKb: 100000,
   satoshiDivider: 1000000,
   decimalPerSatoshi: 6,
   defaultCurrencyCode: 'USD',
