@@ -73,7 +73,13 @@ const nl: LocaleDefinition = {
     broadcasting: 'Uitzenden',
     transactionSent: 'Transactie verzonden',
     transactionSentSubtitle: 'Dat heb je behoorlijk fantastisch gedaan eerlijk gezegd',
-    done: 'Klaar'
+    done: 'Klaar',
+    errors: {
+      'INVALID_ADDRESS: Invalid address': 'Het opgegeven XVG adres is ongeldig',
+      'Insufficient funds': 'Onvoldoende saldo voor het opgegeven bedrag',
+      'BADREQUEST: Invalid amount': 'Het opgegeven bedrag is ongeldig',
+      'Amount below dust threshold': 'Het opgegeven bedrag is te laag'
+    }
   },
   createWallet: {
     createNewWallet: 'Nieuwe wallet aanmaken',

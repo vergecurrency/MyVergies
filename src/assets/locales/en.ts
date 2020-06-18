@@ -73,7 +73,13 @@ const en: LocaleDefinition = {
     broadcasting: 'Broadcasting',
     transactionSent: 'Transaction sent',
     transactionSentSubtitle: 'That\'s some epic stuff you great person',
-    done: 'Done'
+    done: 'Done',
+    errors: {
+      'INVALID_ADDRESS: Invalid address': 'The provided XVG address is invalid',
+      'Insufficient funds': 'Insufficient funds for the given amount',
+      'BADREQUEST: Invalid amount': 'The given amount is invalid',
+      'Amount below dust threshold': 'The given amount is below the dust threshold'
+    }
   },
   createWallet: {
     createNewWallet: 'Create new wallet',

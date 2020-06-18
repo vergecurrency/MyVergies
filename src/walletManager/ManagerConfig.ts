@@ -13,7 +13,7 @@ export interface WalletConfigItem {
   network: string
   paperkey: string
   passphrase: string
+  walletPrivKey: string
   singleAddress: boolean
   vwsApi?: string
-  walletPrivKey?: string
 }

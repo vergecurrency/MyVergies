@@ -71,7 +71,13 @@ export interface LocaleDefinition {
     broadcasting: string,
     transactionSent: string,
     transactionSentSubtitle: string,
-    done: string
+    done: string,
+    errors: {
+      'INVALID_ADDRESS: Invalid address': string,
+      'Insufficient funds': string,
+      'BADREQUEST: Invalid amount': string,
+      'Amount below dust threshold': string,
+    }
   },
   createWallet: {
     createNewWallet: string,

@@ -93,7 +93,7 @@ export default {
         this.activeStep = 1
       }).catch(e => {
         this.$buefy.dialog.alert({
-          message: e.message
+          message: this.$i18n.t(`send.errors.${e.message}`)
         })
       })
     },

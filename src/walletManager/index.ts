@@ -3,6 +3,8 @@ import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import keytar from '@/utils/keytar'
 import { Store } from 'vuex'
+// @ts-ignore
+import Mnemonic from 'bitcore-mnemonic'
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
   vue.prototype.$walletManager = new WalletManager()
@@ -26,7 +28,13 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    return JSON.parse(atob(encrytedWallet as string))
+    const walletConfig = JSON.parse(atob(encrytedWallet as string))
+    const mnemonic = new Mnemonic(walletConfig.paperkey)
+    const hdPrivateKey = mnemonic.toHDPrivateKey(walletConfig.passphrase, walletConfig.network)
+
+    walletConfig.walletPrivKey = hdPrivateKey.derive(0, true).privateKey.toString()
+
+    return walletConfig
   }))
 }
 

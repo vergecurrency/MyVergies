@@ -1,7 +1,5 @@
 // @ts-ignore
 import Client from 'bitcore-wallet-client-xvg'
-// @ts-ignore
-import Mnemonic from 'bitcore-mnemonic'
 import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
@@ -89,11 +87,6 @@ export default class WalletManager {
       baseUrl: walletConfig.vwsApi || constants.vwsApi,
       verbose: false
     })
-
-    const mnemonic = new Mnemonic(walletConfig.paperkey)
-    const hdPrivateKey = mnemonic.toHDPrivateKey(walletConfig.passphrase, walletConfig.network)
-
-    walletConfig.walletPrivKey = hdPrivateKey.derive(0, true).privateKey.toString()
 
     vwc.seedFromMnemonic(walletConfig.paperkey, walletConfig)
 
