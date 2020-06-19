@@ -1,6 +1,6 @@
 import { MenuItem, Menu } from 'electron'
 
-let SubMenuItems: MenuItem[] = [
+const SubMenuItems: MenuItem[] = [
   new MenuItem({
     label: 'Learn how to create a new wallet'
   }),

@@ -16,11 +16,12 @@
                 <div class="buttons">
                   <router-link
                     :to="{ name: 'wallets.settings', params: { walletName: wallet.name, wallet }}"
-                    class="button is-text"
+                    class="button"
                   >
                     <span class="icon has-text-grey-dark">
                       <b-icon icon="edit" size="is-small"/>
                     </span>
+                    <span v-html="$i18n.t('wallet.settings')"/>
                   </router-link>
                   <router-link
                     :to="{ name: 'wallets.send', params: { walletName: wallet.name, wallet }}"

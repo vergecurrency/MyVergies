@@ -28,6 +28,7 @@ const nl: LocaleDefinition = {
     forgotPassword: 'Ik ben mijn wachtwoord vergeten'
   },
   wallet: {
+    settings: 'Instellingen',
     send: 'Verzend',
     receive: 'Ontvang'
   },

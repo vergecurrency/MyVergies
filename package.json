@@ -9,8 +9,6 @@
     "url": "git://github.com/vergecurrency/MyVergies.git"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
     "test": "npm run test:unit & npm run test:e2e",
     "test:unit": "jest --watchAll",
     "test:unit:ci": "jest --ci",

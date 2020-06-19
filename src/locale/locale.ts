@@ -26,6 +26,7 @@ export interface LocaleDefinition {
     forgotPassword: string
   },
   wallet: {
+    settings: string,
     send: string,
     receive: string
   },

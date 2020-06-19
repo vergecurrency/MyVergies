@@ -28,6 +28,7 @@ const en: LocaleDefinition = {
     forgotPassword: 'I forgot my unlock password'
   },
   wallet: {
+    settings: 'Settings',
     send: 'Send',
     receive: 'Receive'
   },
