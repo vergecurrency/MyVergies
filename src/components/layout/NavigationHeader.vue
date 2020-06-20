@@ -67,7 +67,7 @@ export default {
   width: 100%;
   top: 52px;
   margin: 0 -31px;
-  z-index: 1;
+  z-index: 10;
   border-radius: 0;
   padding: 10px 30px;
   transition-property: all;
