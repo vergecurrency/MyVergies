@@ -1,5 +1,5 @@
 <template>
- <div>
+ <div class="form-section">
    <div v-if="!noDivider" class="navbar-divider"/>
    <h6 class="title is-6 has-text-grey-light" v-html="title"/>
    <slot/>
@@ -21,3 +21,15 @@ export default {
   }
 }
 </script>
+
+<style>
+.form-section {
+  padding: 10px 0;
+}
+.form-section:first-child {
+  padding-top: 0;
+}
+.form-section:last-child {
+  padding-bottom: 0;
+}
+</style>

@@ -31,13 +31,17 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
   .navbar {
     border-bottom: 1px solid #e8e8e8;
   }
 
   .navbar.is-white {
     background: #f0f0f0;
+  }
+
+  .navbar .button {
+    max-height: 36px;
   }
 
   .is-draggable {

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="box"
+    class="notification"
   >
     <span
       class="is-large is-family-monospace has-text-weight-semibold"

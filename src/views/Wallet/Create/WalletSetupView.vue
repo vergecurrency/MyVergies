@@ -27,7 +27,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.createWallet')" :clickable="false">
-          <created :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
+          <create :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
         </b-step-item>
 
       </b-steps>
@@ -41,11 +41,11 @@ import ContentView from '@/components/layout/ContentView'
 import WalletPreferences from '@/views/Wallet/Create/WalletPreferences'
 import PaperKey from '@/views/Wallet/Create/PaperKey'
 import PassPhrase from '@/views/Wallet/Create/PassPhrase'
-import Created from '@/views/Wallet/Create/Create'
+import Create from '@/views/Wallet/Create/Create'
 
 export default {
   name: 'WalletSetupView',
-  components: { Created, PassPhrase, PaperKey, WalletPreferences, ContentView },
+  components: { Create, PassPhrase, PaperKey, WalletPreferences, ContentView },
   data () {
     return {
       activeStep: 0,

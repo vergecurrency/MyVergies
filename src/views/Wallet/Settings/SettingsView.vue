@@ -7,34 +7,80 @@
 
     <div class="box">
 
-      <form-section title="Credentials" no-divider>
-        <b-message>
-          <b-field
-            horizontal
-            label="Paper key"
-          >
-            <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
-          </b-field>
-        </b-message>
+      <form-section
+        :title="$i18n.t('walletSettings.service')"
+        no-divider
+        >
+        <div class="box has-background-info-light">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.serviceUrl')"/>
+              <p v-html="$i18n.t('walletSettings.serviceUrlDesc')"/>
+            </div>
+            <div class="column">
+              <b-input v-model="wallet.vwc.request.baseUrl"/>
+            </div>
+          </div>
+        </div>
       </form-section>
 
-      <form-section :title="$i18n.t('walletSettings.dangerZone')">
+      <form-section
+        :title="$i18n.t('walletSettings.credentials')"
+      >
+        <div class="box">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.paperKey')"/>
+              <p v-html="$i18n.t('createWallet.aPaperKeyDescription')"/>
+            </div>
+            <div class="column">
+              <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
+            </div>
+          </div>
+        </div>
 
-        <b-message type="is-danger">
-          <b-field
-            horizontal
-            :label="$i18n.t('walletSettings.delete')"
-            message=""
-          >
-            <div v-html="$i18n.t('walletSettings.deleteWalletDesc')"/>
-            <b-button
-              type="is-danger"
-              :label="$i18n.t('walletSettings.deleteWallet')"
-              @click="removeWallet"
-            />
-          </b-field>
-        </b-message>
+        <div class="box">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.passphrase')"/>
+              <p v-html="$i18n.t('walletSettings.passphraseDesc')"/>
+            </div>
+            <div class="column is-narrow">
+              <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary"/>
+            </div>
+          </div>
+        </div>
 
+        <div class="box has-background-warning">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.exportYourWallet')"/>
+              <p v-html="$i18n.t('createWallet.exportYourWalletDesc')"/>
+            </div>
+            <div class="column is-narrow">
+              <b-button v-html="$i18n.t('createWallet.exportWallet')"/>
+            </div>
+          </div>
+        </div>
+      </form-section>
+
+      <form-section
+        :title="$i18n.t('walletSettings.dangerZone')"
+      >
+        <div class="box has-background-danger has-text-light">
+          <div class="columns is-vcentered">
+            <div class="column">
+              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.delete')"/>
+              <p v-html="$i18n.t('walletSettings.deleteWalletDesc')"/>
+            </div>
+            <div class="column is-narrow">
+              <b-button
+                v-html="$i18n.t('walletSettings.deleteWallet')"
+                @click="removeWallet"
+              />
+            </div>
+          </div>
+        </div>
       </form-section>
 
     </div>

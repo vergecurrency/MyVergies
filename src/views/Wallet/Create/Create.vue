@@ -108,7 +108,7 @@ import constants from '@/utils/constants'
 import { shell } from 'electron'
 
 export default {
-  name: 'Created',
+  name: 'Create',
 
   props: {
     done: {

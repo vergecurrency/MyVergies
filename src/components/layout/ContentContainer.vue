@@ -1,6 +1,6 @@
 <template>
   <div class="column" style="height: 100%">
-    <div class="app-content-box">
+    <div ref="appContentBox" class="app-content-box">
       <slot/>
     </div>
   </div>
