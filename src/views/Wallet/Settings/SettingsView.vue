@@ -46,7 +46,7 @@
               <p v-html="$i18n.t('walletSettings.passphraseDesc')"/>
             </div>
             <div class="column is-narrow">
-              <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary"/>
+              <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary" @click="showPassphrase"/>
             </div>
           </div>
         </div>
@@ -104,6 +104,16 @@ export default {
     }
   },
   methods: {
+    showPassphrase () {
+      this.$walletManager.getWalletPassphrase(this.wallet).then(passphrase => {
+        this.$buefy.dialog.alert({
+          message: `<div class="box has-background-warning"><h4 class="has-text-weight-semibold">${this.$i18n.t('walletSettings.yourWalletsPassphrase')}:</h4><p>${passphrase}</p></div>`
+        })
+      }).catch(e => {
+        this.$buefy.dialog.alert(e.message)
+      })
+    },
+
     removeWallet () {
       this.$buefy.dialog.confirm({
         message: this.$i18n.t('walletSettings.deleteWalletConfirm', { name: this.wallet.name }),

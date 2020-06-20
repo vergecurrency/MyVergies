@@ -27,7 +27,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('send.sent')" icon="check">
-          <transaction-sent @done="reset"/>
+          <transaction-sent @send="reset" @next="goTo"/>
         </b-step-item>
 
       </b-steps>
@@ -115,6 +115,7 @@ export default {
       }).then(txp => {
         this.$refs.sendingView.animate()
 
+        this.transaction.txp = txp
         this.viewLocked = false
         this.activeStep = 3
       }).catch(e => {
@@ -133,6 +134,21 @@ export default {
         message: '',
         txp: null
       }
+    },
+
+    goTo (event) {
+      if (this.activeStep !== 3) {
+        return
+      }
+
+      this.$router.push({
+        name: event.route,
+        params: {
+          walletName: this.wallet.name,
+          wallet: this.wallet,
+          txid: this.transaction.txp.txid
+        }
+      })
     }
   }
 }
