@@ -62,8 +62,13 @@ export default class WalletManager {
     walletConfig.name = wallet.name!
     walletConfig.color = wallet.color!
 
-    await keytar.deleteCredentials(keytar.walletService(), name)
-    await keytar.setCredentials(keytar.walletService(), walletConfig.name, btoa(JSON.stringify(walletConfig)))
+    const encryptedWallet = btoa(JSON.stringify(walletConfig))
+
+    await keytar.setCredentials(keytar.walletService(), walletConfig.name, encryptedWallet)
+
+    if (name !== wallet.name) {
+      await keytar.deleteCredentials(keytar.walletService(), name)
+    }
 
     return wallet
   }
