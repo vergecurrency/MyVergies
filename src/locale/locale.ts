@@ -6,7 +6,14 @@ export interface LocaleDefinition {
       explorer: string,
       contacts: string
     },
-    copiedSuccessfully: string
+    copiedSuccessfully: string,
+    colors: {
+      blue: string,
+      red: string,
+      green: string,
+      purple: string,
+      orange: string
+    }
   },
   tor: {
     status: {
@@ -155,6 +162,11 @@ export interface LocaleDefinition {
   },
   walletSettings: {
     walletSettings: string,
+    preferences: string,
+    name: string,
+    nameDesc: string,
+    color: string,
+    colorDesc: string,
     service: string,
     serviceUrl: string,
     serviceUrlDesc: string,

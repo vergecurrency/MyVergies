@@ -26,11 +26,11 @@
 
           <b-field :label="$i18n.t('createWallet.walletColor')">
             <b-select v-model="wallet.color" expanded>
-              <option value="blue" selected>Blue</option>
-              <option value="red">Red</option>
-              <option value="green">Green</option>
-              <option value="purple">Purple</option>
-              <option value="orange">Orange</option>
+              <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
+              <option value="red" v-html="$i18n.t('main.colors.red')"/>
+              <option value="green" v-html="$i18n.t('main.colors.green')"/>
+              <option value="purple" v-html="$i18n.t('main.colors.purple')"/>
+              <option value="orange" v-html="$i18n.t('main.colors.orange')"/>
             </b-select>
           </b-field>
 

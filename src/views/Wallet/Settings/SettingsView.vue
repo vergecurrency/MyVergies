@@ -7,80 +7,90 @@
 
     <div class="box">
 
+      <wallet-card :wallet="wallet"/>
+
+      <br>
+
+      <form-section
+        :title="$i18n.t('walletSettings.preferences')"
+        no-divider
+      >
+        <form-box
+          :title="$i18n.t('walletSettings.name')"
+          :description="$i18n.t('walletSettings.nameDesc')"
+          :is-narrow="false"
+        >
+          <b-input v-model="wallet.name" @blur="save"/>
+        </form-box>
+
+        <form-box
+          :title="$i18n.t('walletSettings.color')"
+          :description="$i18n.t('walletSettings.colorDesc')"
+          :is-narrow="false"
+        >
+          <b-select v-model="wallet.color" expanded @blur="save">
+            <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
+            <option value="red" v-html="$i18n.t('main.colors.red')"/>
+            <option value="green" v-html="$i18n.t('main.colors.green')"/>
+            <option value="purple" v-html="$i18n.t('main.colors.purple')"/>
+            <option value="orange" v-html="$i18n.t('main.colors.orange')"/>
+          </b-select>
+        </form-box>
+      </form-section>
+
       <form-section
         :title="$i18n.t('walletSettings.service')"
-        no-divider
+      >
+        <form-box
+          :title="$i18n.t('walletSettings.serviceUrl')"
+          :description="$i18n.t('walletSettings.serviceUrlDesc')"
+          :is-narrow="false"
+          type="is-info"
         >
-        <div class="box has-background-info-light">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.serviceUrl')"/>
-              <p v-html="$i18n.t('walletSettings.serviceUrlDesc')"/>
-            </div>
-            <div class="column">
-              <b-input v-model="wallet.vwc.request.baseUrl"/>
-            </div>
-          </div>
-        </div>
+          <b-input v-model="wallet.vwc.request.baseUrl" @blur="save"/>
+        </form-box>
       </form-section>
 
       <form-section
         :title="$i18n.t('walletSettings.credentials')"
       >
-        <div class="box">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.paperKey')"/>
-              <p v-html="$i18n.t('createWallet.aPaperKeyDescription')"/>
-            </div>
-            <div class="column">
-              <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
-            </div>
-          </div>
-        </div>
+        <form-box
+          :title="$i18n.t('walletSettings.paperKey')"
+          :description="$i18n.t('createWallet.aPaperKeyDescription')"
+          :is-narrow="false"
+        >
+          <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
+        </form-box>
 
-        <div class="box">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.passphrase')"/>
-              <p v-html="$i18n.t('walletSettings.passphraseDesc')"/>
-            </div>
-            <div class="column is-narrow">
-              <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary" @click="showPassphrase"/>
-            </div>
-          </div>
-        </div>
+        <form-box
+          :title="$i18n.t('walletSettings.passphrase')"
+          :description="$i18n.t('walletSettings.passphraseDesc')"
+        >
+          <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary" @click="showPassphrase"/>
+        </form-box>
 
-        <div class="box has-background-warning">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <h4 class="has-text-weight-semibold" v-html="$i18n.t('createWallet.exportYourWallet')"/>
-              <p v-html="$i18n.t('createWallet.exportYourWalletDesc')"/>
-            </div>
-            <div class="column is-narrow">
-              <b-button v-html="$i18n.t('createWallet.exportWallet')"/>
-            </div>
-          </div>
-        </div>
+        <form-box
+          :title="$i18n.t('createWallet.exportYourWallet')"
+          :description="$i18n.t('createWallet.exportYourWalletDesc')"
+          type="is-warning"
+        >
+          <b-button v-html="$i18n.t('createWallet.exportWallet')"/>
+        </form-box>
       </form-section>
 
       <form-section
         :title="$i18n.t('walletSettings.dangerZone')"
       >
-        <div class="box has-background-danger has-text-light">
-          <div class="columns is-vcentered">
-            <div class="column">
-              <h4 class="has-text-weight-semibold" v-html="$i18n.t('walletSettings.delete')"/>
-              <p v-html="$i18n.t('walletSettings.deleteWalletDesc')"/>
-            </div>
-            <div class="column is-narrow">
-              <b-button
-                v-html="$i18n.t('walletSettings.deleteWallet')"
-                @click="removeWallet"
-              />
-            </div>
-          </div>
-        </div>
+        <form-box
+          :title="$i18n.t('walletSettings.delete')"
+          :description="$i18n.t('walletSettings.deleteWalletDesc')"
+          type="is-danger"
+        >
+          <b-button
+            v-html="$i18n.t('walletSettings.deleteWallet')"
+            @click="removeWallet"
+          />
+        </form-box>
       </form-section>
 
     </div>
@@ -93,17 +103,40 @@ import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
 import { mapActions } from 'vuex'
 import CredentialBox from '@/components/CredentialBox'
+import FormBox from '@/components/layout/FormBox'
+import WalletCard from '@/components/WalletCard'
 
 export default {
   name: 'wallet-settings-view',
-  components: { CredentialBox, FormSection, NavigationHeader },
+  components: { WalletCard, FormBox, CredentialBox, FormSection, NavigationHeader },
+
+  data () {
+    return {
+      previousWalletName: this.wallet.name
+    }
+  },
+
   props: {
     wallet: {
       type: Object,
       required: true
     }
   },
+
   methods: {
+    save () {
+      this.$walletManager.updateWallet(this.previousWalletName, this.wallet).then(wallet => {
+        this.replaceWalletName({
+          previous: this.previousWalletName,
+          new: this.wallet.name
+        })
+
+        this.previousWalletName = this.wallet.name
+      }).catch(e => {
+        this.$buefy.dialog.alert(e.message)
+      })
+    },
+
     showPassphrase () {
       this.$walletManager.getWalletPassphrase(this.wallet).then(passphrase => {
         this.$buefy.dialog.alert({
@@ -136,7 +169,7 @@ export default {
       })
     },
 
-    ...mapActions(['removeWalletName'])
+    ...mapActions(['removeWalletName', 'replaceWalletName'])
   }
 }
 </script>

@@ -8,7 +8,14 @@ const nl: LocaleDefinition = {
       explorer: 'Explorer',
       contacts: 'Contacten'
     },
-    copiedSuccessfully: 'Yeah, succesvol gekopieerd!'
+    copiedSuccessfully: 'Yeah, succesvol gekopieerd!',
+    colors: {
+      blue: 'Blauw',
+      red: 'Rood',
+      green: 'Groen',
+      purple: 'Paars',
+      orange: 'Oranje'
+    }
   },
   tor: {
     status: {
@@ -157,6 +164,11 @@ const nl: LocaleDefinition = {
   },
   walletSettings: {
     walletSettings: 'Wallet instellingen',
+    preferences: 'Voorkeuren',
+    name: 'Naam',
+    nameDesc: 'De wallet naam is nodig omdat je meerdere wallets kunt aanmaken in deze fantastiche applicatie!',
+    color: 'Kleur',
+    colorDesc: 'Geef de wallet kaart je favorite kleur!',
     service: 'Service',
     serviceUrl: 'Service URL',
     serviceUrlDesc: 'Deze wallet is afhankelijk van Verge Wallet Service (VWS) voor blockchain-informatie, netwerken en Copayer-synchronisatie. Het staat je altijd vrij om deze te wijzigen naar je eigen VWS service.',

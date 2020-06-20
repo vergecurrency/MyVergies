@@ -8,7 +8,14 @@ const en: LocaleDefinition = {
       explorer: 'Explorer',
       contacts: 'Contacts'
     },
-    copiedSuccessfully: 'Yes, copied successfully!'
+    copiedSuccessfully: 'Yes, copied successfully!',
+    colors: {
+      blue: 'Blue',
+      red: 'Red',
+      green: 'Green',
+      purple: 'Purple',
+      orange: 'Orange'
+    }
   },
   tor: {
     status: {
@@ -157,6 +164,11 @@ const en: LocaleDefinition = {
   },
   walletSettings: {
     walletSettings: 'Wallet settings',
+    preferences: 'Preferences',
+    name: 'Name',
+    nameDesc: 'The wallets name is needed because you can have multiple wallets inside this awesome application!',
+    color: 'Color',
+    colorDesc: 'Give the wallet card your favorite color!',
     service: 'Service',
     serviceUrl: 'Service URL',
     serviceUrlDesc: 'This wallet depends on Verge Wallet Service (VWS) for blockchain information, networking and Copayer synchronization. You\'re always able to change this into your own VWS instance.',

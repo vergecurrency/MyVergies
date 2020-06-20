@@ -115,6 +115,8 @@ export default {
       }).then(txp => {
         this.$refs.sendingView.animate()
 
+        this.fetchTransaction()
+
         this.transaction.txp = txp
         this.viewLocked = false
         this.activeStep = 3
@@ -149,6 +151,13 @@ export default {
           txid: this.transaction.txp.txid
         }
       })
+    },
+
+    fetchTransaction () {
+      setTimeout(async () => {
+        await this.wallet.status()
+        await this.wallet.fetchTxHistory()
+      }, 2500)
     }
   }
 }

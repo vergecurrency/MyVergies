@@ -55,6 +55,19 @@ export default class WalletManager {
     return wallet
   }
 
+  public async updateWallet (name: string, wallet: Wallet): Promise<Wallet> {
+    const walletConfig = await this.getWalletConfig(name)
+    // @ts-ignore
+    walletConfig.vwsApi = wallet.vwc.request.baseUrl
+    walletConfig.name = wallet.name!
+    walletConfig.color = wallet.color!
+
+    await keytar.deleteCredentials(keytar.walletService(), name)
+    await keytar.setCredentials(keytar.walletService(), walletConfig.name, btoa(JSON.stringify(walletConfig)))
+
+    return wallet
+  }
+
   public async removeWallet (wallet: Wallet): Promise<boolean> {
     const succeeded = await keytar.deleteCredentials(keytar.walletService(), wallet.name!)
 
@@ -67,17 +80,7 @@ export default class WalletManager {
 
   // TODO: function will only return passphrase when application unlocked.
   public async getWalletPassphrase (wallet: Wallet): Promise<string> {
-    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), wallet.name!)
-
-    if (encrytedWallet === undefined) {
-      throw Error(`Couldn't load wallet: ${name}`)
-    }
-
-    const walletConfig = JSON.parse(atob(encrytedWallet as string))
-
-    if (!walletConfig.passphrase) {
-      throw Error('Passphrase not found')
-    }
+    const walletConfig = await this.getWalletConfig(wallet.name!)
 
     return walletConfig.passphrase
   }
@@ -91,6 +94,16 @@ export default class WalletManager {
     vwc.seedFromMnemonic(walletConfig.paperkey, walletConfig)
 
     return vwc
+  }
+
+  protected async getWalletConfig (name: string): Promise<WalletConfigItem> {
+    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), name)
+
+    if (encrytedWallet === undefined) {
+      throw Error(`Couldn't load wallet: ${name}`)
+    }
+
+    return JSON.parse(atob(encrytedWallet as string))
   }
 
   protected startTicker () {
