@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="navbar is-white is-draggable"
+    class="navbar is-app-navbar is-draggable"
     role="navigation"
     aria-label="main navigation"
   >
@@ -36,7 +36,7 @@ export default {
   border-bottom: 1px solid #e8e8e8;
 }
 
-.navbar.is-white {
+.navbar.is-app-navbar {
   background: #f0f0f0;
 }
 
@@ -69,7 +69,7 @@ export default {
     border-bottom: 1px solid #3a3a3a;
   }
 
-  .navbar.is-white {
+  .navbar.is-app-navbar {
     background: #2c2e30;
   }
 
