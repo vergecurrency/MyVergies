@@ -20,7 +20,15 @@
           :description="$i18n.t('walletSettings.nameDesc')"
           :is-narrow="false"
         >
-          <b-input v-model="wallet.name" @blur="save"/>
+          <b-field
+            :type="nameType"
+          >
+            <b-input
+              v-model="wallet.name"
+              maxlength="15"
+              @blur="save"
+            />
+          </b-field>
         </form-box>
 
         <form-box
@@ -101,7 +109,7 @@
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import CredentialBox from '@/components/CredentialBox'
 import FormBox from '@/components/layout/FormBox'
 import WalletCard from '@/components/WalletCard'
@@ -123,8 +131,36 @@ export default {
     }
   },
 
+  computed: {
+    nameLongEnough () {
+      return this.wallet.name.length < 1 || this.wallet.name.length > 4
+    },
+    nameNotTooLong () {
+      return this.wallet.name.length <= 15
+    },
+    nameExists () {
+      if (this.previousWalletName === this.wallet.name) {
+        return false
+      }
+
+      return this.allWalletNames().includes(this.wallet.name)
+    },
+    preferencesAreValid () {
+      return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
+    },
+    nameType () {
+      return this.preferencesAreValid ? '' : 'is-danger'
+    }
+  },
+
   methods: {
     save () {
+      if (!this.preferencesAreValid) {
+        this.wallet.name = this.previousWalletName
+
+        return
+      }
+
       this.$walletManager.updateWallet(this.previousWalletName, this.wallet).then(wallet => {
         this.replaceWalletName({
           previous: this.previousWalletName,
@@ -169,7 +205,8 @@ export default {
       })
     },
 
-    ...mapActions(['removeWalletName', 'replaceWalletName'])
+    ...mapActions(['removeWalletName', 'replaceWalletName']),
+    ...mapGetters(['allWalletNames'])
   }
 }
 </script>
