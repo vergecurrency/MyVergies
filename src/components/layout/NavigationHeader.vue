@@ -1,19 +1,21 @@
 <template>
-  <div ref="header" class="box navigation-header">
-    <div class="columns is-vcentered">
-      <div v-if="back" class="column is-narrow">
-        <router-link
-          class="button"
-          :to="back"
-        >
-          <b-icon icon="angle-left" size="is-small"/>
-        </router-link>
-      </div>
-      <div class="column">
-        <p class="is-size-3 is-family-handwritten" v-html="title"/>
-      </div>
-      <div class="column is-narrow">
-        <slot name="right"/>
+  <div ref="header" class="navigation-header">
+    <div class="box">
+      <div class="columns is-vcentered">
+        <div v-if="back" class="column is-narrow">
+          <router-link
+            class="button"
+            :to="back"
+          >
+            <b-icon icon="angle-left" size="is-small"/>
+          </router-link>
+        </div>
+        <div class="column">
+          <p class="is-size-3 is-family-handwritten" v-html="title"/>
+        </div>
+        <div class="column is-narrow">
+          <slot name="right"/>
+        </div>
       </div>
     </div>
   </div>
@@ -62,20 +64,28 @@ export default {
 </script>
 
 <style>
+.navigation-header {
+  transition-property: all;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  padding-bottom: 30px;
+}
+
 .navigation-header.sticky {
   position: fixed;
   width: 100%;
   top: 52px;
   margin: 0 -31px;
   z-index: 10;
-  border-radius: 0;
+}
+
+.navigation-header.sticky .box {
+  width: 100%;
   padding: 10px 30px;
-  transition-property: all;
-  transition-duration: .5s;
-  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+  border-radius: 0;
 }
 
 .has-sticky {
-  padding-top: 113px;
+  padding-top: 120px;
 }
 </style>
