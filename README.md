@@ -33,6 +33,14 @@ If you want to help us out on development you can use this guide:
 npm ci
 ```
 
+_Note : If you're using Linux, this project needs libsecret as a dependency. You need to install it before running npm:_
+
+Ubuntu/Debian : `sudo apt install libsecret-1-dev`
+
+Red Hat : `sudo yum install libsecret-devel`
+
+Arch Linux : `sudo pacman -S libsecret`
+
 3. Run a local instance with hot reload.
 ```bash
 npm run electron:serve
