@@ -35,7 +35,9 @@ export interface LocaleDefinition {
   wallet: {
     settings: string,
     send: string,
-    receive: string
+    receive: string,
+    noTransactions: string,
+    noTransactionsDesc: string
   },
   transaction: {
     transaction: string,

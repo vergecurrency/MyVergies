@@ -37,7 +37,9 @@ const en: LocaleDefinition = {
   wallet: {
     settings: 'Settings',
     send: 'Send',
-    receive: 'Receive'
+    receive: 'Receive',
+    noTransactions: 'No transactions received yet',
+    noTransactionsDesc: 'Received transactions can be found here'
   },
   transaction: {
     transaction: 'Transaction',

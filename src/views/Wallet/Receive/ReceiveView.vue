@@ -95,7 +95,7 @@ export default {
       this.wallet.getAddress().then(addressInfo => {
         this.address = addressInfo.address
       }).catch(e => {
-        this.$buefy.dialogs.alert({
+        this.$buefy.dialog.alert({
           message: e.message
         })
       })
@@ -105,7 +105,7 @@ export default {
       this.wallet.createAddress().then(addressInfo => {
         this.address = addressInfo.address
       }).catch(e => {
-        this.$buefy.dialogs.alert({
+        this.$buefy.dialog.alert({
           message: e.message
         })
       })

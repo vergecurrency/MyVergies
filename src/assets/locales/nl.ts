@@ -37,7 +37,9 @@ const nl: LocaleDefinition = {
   wallet: {
     settings: 'Instellingen',
     send: 'Verzend',
-    receive: 'Ontvang'
+    receive: 'Ontvang',
+    noTransactions: 'Nog geen transacties ontvangen',
+    noTransactionsDesc: 'Ontvangen transacties zullen hier worden weergegeven'
   },
   transaction: {
     transaction: 'Transactie',
