@@ -48,9 +48,11 @@ export default class WalletManager {
       network: walletConfig.network,
       singleAddress: walletConfig.singleAddress
     })
-    await wallet.status()
+    await wallet.open()
     await keytar.setCredentials(keytar.walletService(), walletConfig.name, btoa(JSON.stringify(walletConfig)))
     this.wallets.push(wallet)
+
+    this.restartTicker()
 
     return wallet
   }
@@ -69,6 +71,8 @@ export default class WalletManager {
     if (name !== wallet.name) {
       await keytar.deleteCredentials(keytar.walletService(), name)
     }
+
+    this.restartTicker()
 
     return wallet
   }
@@ -132,5 +136,10 @@ export default class WalletManager {
     if (this.ticker) {
       clearInterval(this.ticker)
     }
+  }
+
+  protected restartTicker () {
+    this.stopTicker()
+    this.startTicker()
   }
 }
