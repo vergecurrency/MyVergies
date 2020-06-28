@@ -11,4 +11,8 @@
   .step-title {
     color: #9f9f9f;
   }
+
+  .b-steps .steps .step-items .step-item::before, .b-steps .steps .step-items .step-item::after {
+    background: #1b1b1b;
+  }
 }
