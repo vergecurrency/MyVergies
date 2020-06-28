@@ -5,7 +5,7 @@
         <li>
           <a class="is-size-2 has-text-weight-semibold is-not-clickable" v-html="$i18n.t('main.menu.wallets')"/>
           <ul class="menu-wallets">
-            <li v-if="wallets.length === 0">
+            <li v-if="hasNoWallets">
               <router-link
                 :to="{ name: 'wallets.create' }"
                 active-class=""
@@ -14,8 +14,10 @@
                 <wallet-card-placeholder/>
               </router-link>
             </li>
-            <li v-for="wallet in wallets" :key="wallet.name">
+            <li v-else v-for="wallet in walletPlaceholders" :key="wallet.name">
+              <a v-if="wallet.isLoading" class="menu-wallets-card"><wallet-card-skeleton/></a>
               <router-link
+                v-else
                 :to="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
                 class="menu-wallets-card"
                 @click="selectedWallet = wallet"
@@ -51,20 +53,46 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import WalletCard from '@/components/WalletCard'
 import WalletCardPlaceholder from '@/components/WalletCardPlaceholder'
+import WalletCardSkeleton from '@/components/WalletCardSkeleton'
 
 export default {
   name: 'main-menu',
-  components: { WalletCardPlaceholder, WalletCard },
+  components: { WalletCardSkeleton, WalletCardPlaceholder, WalletCard },
   props: {
     wallets: {
-      type: Array
+      type: Array,
+      required: true
     }
   },
   data () {
     return {
       selectedWallet: null
+    }
+  },
+  computed: {
+    ...mapGetters(['allWalletNames']),
+
+    walletPlaceholders () {
+      return this.allWalletNames.map(name => {
+        const wallet = this.wallets.find(wallet => wallet.name === name)
+
+        if (wallet) {
+          wallet.isLoading = false
+          return wallet
+        }
+
+        return {
+          name,
+          isLoading: true
+        }
+      })
+    },
+
+    hasNoWallets () {
+      return this.allWalletNames.length === 0
     }
   },
   mounted () {
