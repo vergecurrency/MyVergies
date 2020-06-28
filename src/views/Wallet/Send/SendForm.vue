@@ -9,35 +9,36 @@
     <div class="columns">
       <div class="column">
 
-        <div class="field is-horizontal">
-          <div class="field-label">
-            <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.recipient')"/>
-          </div>
-          <div class="field-body">
-            <div class="field is-expanded">
-              <div class="field has-addons">
-                <p class="control">
-                  <a class="button">
-                    <b-icon icon="address-book" size="is-small"/>
-                  </a>
-                </p>
-                <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Recipient XVG address" v-model="value.toAddress">
-                </p>
+        <div class="box">
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.recipient')"/>
+            </div>
+            <div class="field-body">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control">
+                    <a class="button">
+                      <b-icon icon="address-book" size="is-small"/>
+                    </a>
+                  </p>
+                  <p class="control is-expanded">
+                    <input class="input" type="text" placeholder="Recipient XVG address" v-model="value.toAddress">
+                  </p>
+                </div>
+                <div v-if="showHelp" class="help notification is-small" v-html="$i18n.t('send.recipientDetails')"/>
               </div>
-              <div v-if="showHelp" class="help notification is-small" v-html="$i18n.t('send.recipientDetails')"/>
             </div>
           </div>
-        </div>
 
-        <div class="field is-horizontal">
-          <div class="field-label">
-            <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.amount')"/>
-          </div>
-          <div class="field-body">
-            <div class="field is-expanded ">
-              <div class="field has-addons">
-                <p class="control">
+          <div class="field is-horizontal">
+            <div class="field-label">
+              <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.amount')"/>
+            </div>
+            <div class="field-body">
+              <div class="field is-expanded ">
+                <div class="field has-addons">
+                  <p class="control">
               <span class="select">
                 <select>
                   <option>XVG</option>
@@ -46,27 +47,28 @@
                   <option>€</option>
                 </select>
               </span>
-                </p>
-                <p class="control is-expanded">
-                  <input class="input" type="text" placeholder="Amount you want to send" v-model="value.amount">
-                </p>
-                <p class="control">
-                  <a class="button" v-html="$i18n.t('send.sendMax')"/>
-                </p>
+                  </p>
+                  <p class="control is-expanded">
+                    <input class="input" type="text" placeholder="Amount you want to send" v-model="value.amount">
+                  </p>
+                  <p class="control">
+                    <a class="button" v-html="$i18n.t('send.sendMax')"/>
+                  </p>
+                </div>
+                <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.amountDetails')"/>
               </div>
-              <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.amountDetails')"/>
             </div>
           </div>
-        </div>
 
-        <div v-if="showMemo" class="field is-horizontal">
-          <div class="field-label">
-            <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.internalMemo')"/>
-          </div>
-          <div class="field-body">
-            <div class="field is-expanded">
-              <input class="input" type="text" placeholder="Gift to Swen" v-model="value.message">
-              <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.internalMemoDetails')"/>
+          <div v-if="showMemo" class="field is-horizontal">
+            <div class="field-label">
+              <label class="label has-text-left has-text-grey" v-html="$i18n.t('send.internalMemo')"/>
+            </div>
+            <div class="field-body">
+              <div class="field is-expanded">
+                <input class="input" type="text" placeholder="Gift to Swen" v-model="value.message">
+                <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.internalMemoDetails')"/>
+              </div>
             </div>
           </div>
         </div>
