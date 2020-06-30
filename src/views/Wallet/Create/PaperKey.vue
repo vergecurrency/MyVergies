@@ -14,7 +14,7 @@
         v-for="(word, i) in words"
         :key="i+word"
       >
-        <div class="tags are-medium has-addons">
+        <div class="tags are-medium has-addons word">
           <span class="tag is-success">{{ i+1 }}</span>
           <span v-if="restore" class="tag expand-word">
             <input v-model="paperkey[i]" class="word-input"/>
@@ -195,7 +195,12 @@ input.word-input {
   font-weight: 600;
   font-size: 1rem;
   height: 100%;
+  width: 100%;
   outline: none;
+}
+
+.word {
+  flex-wrap: nowrap;
 }
 
 .word-input input:focus {
