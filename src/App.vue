@@ -32,8 +32,14 @@ export default {
   },
 
   created () {
+    this.lock(false)
+
     ipcRenderer.on('open-settings', () => {
       this.$router.push('/settings')
+    })
+
+    ipcRenderer.on('user-idle', () => {
+      this.lock()
     })
   }
 }

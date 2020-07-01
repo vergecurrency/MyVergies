@@ -1,4 +1,4 @@
-import { app, protocol, nativeTheme, BrowserWindow, Menu, ipcMain } from 'electron'
+import { app, protocol, nativeTheme, BrowserWindow, Menu, ipcMain, powerMonitor } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import logger from 'electron-log'
@@ -100,6 +100,16 @@ function createWindow () {
   win.once('ready-to-show', () => {
     win!.show()
   })
+
+  powerMonitor.on('lock-screen', () => {
+    win!.webContents.send('user-idle')
+  })
+
+  setInterval(() => {
+    if (powerMonitor.getSystemIdleTime() >= 60) {
+      win!.webContents.send('user-idle')
+    }
+  }, 1000)
 
   return win
 }
