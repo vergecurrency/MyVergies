@@ -3,7 +3,8 @@
     <TorStatus />
     <a class="button is-white is-not-draggable" @click="lock">
       <span class="icon has-text-grey-dark">
-        <b-icon size="is-small" icon="lock-open" />
+        <b-icon v-if="$root.authenticated" size="is-small" icon="lock-open" />
+        <b-icon v-else size="is-small" icon="lock" />
       </span>
     </a>
     <router-link to="/settings" class="button is-white is-not-draggable">

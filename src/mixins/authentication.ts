@@ -2,65 +2,91 @@ import Vue from 'vue'
 import AuthenticationModal from '@/components/modals/AuthenticationModal.vue'
 import { BModalConfig } from 'buefy/types/components'
 import Log from 'electron-log'
+import { NavigationGuardNext, Route } from 'vue-router'
 
-const authenticationModalStatus = {
-  shown: false
-}
-
-const showAuthenticationModal = (vue: Vue, config: object = {}) => {
-  Log.info('authenticate')
-
-  if (authenticationModalStatus.shown) {
-    return
-  }
-
-  authenticationModalStatus.shown = true
-
-  vue.$buefy.modal.open({
+const showAuthenticationModal = (vue: Vue, config: object = {}): Promise<boolean> => {
+  return new Promise((resolve, reject) => {
     // @ts-ignore
-    component: AuthenticationModal,
-    parent: vue,
-    hasModalCard: true,
-    fullScreen: false,
-    canCancel: false,
-    events: {
-      authenticated () {
-        Log.info('authenticated')
-      },
+    if (vue.$root.authenticationModalShown) {
+      // @ts-ignore
+      resolve(vue.$root.authenticated)
+    }
 
-      forgotPassword () {
-        Log.info('forgot password')
+    Log.info('authenticate')
+
+    // @ts-ignore
+    vue.$root.authenticationModalShown = true
+
+    vue.$buefy.modal.open({
+      // @ts-ignore
+      component: AuthenticationModal,
+      parent: vue,
+      canCancel: false,
+      hasModalCard: true,
+      events: {
+        authenticated () {
+          Log.info('authenticated')
+
+          // @ts-ignore
+          resolve(vue.$root.authenticated = true)
+        },
+
+        forgotPassword () {
+          Log.info('forgot password')
+        },
+        close () {
+          // @ts-ignore
+          vue.$root.authenticationModalShown = false
+        }
       },
-      close () {
-        authenticationModalStatus.shown = false
-      }
-    },
-    ...config
+      ...config
+    })
   })
 }
 
 Vue.mixin({
-  computed: {
-    authenticationModalStatus () {
-      return authenticationModalStatus
-    }
-  },
-
   methods: {
-    lock (animated: boolean = true) {
-      const config: BModalConfig = {
-        fullScreen: true
+    lock () {
+      // @ts-ignore
+      if (!this.$root.authenticated) {
+        return
       }
 
-      if (!animated) {
-        config.animation = ''
-      }
+      Log.info('lock application')
 
-      showAuthenticationModal(this, config)
+      // @ts-ignore
+      this.$root.authenticated = false
+
+      if (this.$route.meta.needsAuthentication || false) {
+        // @ts-ignore
+        this.authenticate()
+      }
     },
 
-    authenticate () {
-      showAuthenticationModal(this)
+    authenticate (): Promise<boolean> {
+      return showAuthenticationModal(this)
+    },
+
+    registerRouterGuard () {
+      this.$router.beforeEach((to: Route, from: Route, next: NavigationGuardNext) => {
+        // @ts-ignore
+        if (!((to.meta.needsAuthentication || false) && !this.$root.authenticated)) {
+          next()
+
+          return
+        }
+
+        next(false)
+
+        // @ts-ignore
+        this.authenticate().then(() => {
+          this.$router.push({
+            // @ts-ignore
+            name: to.name,
+            params: to.params
+          })
+        })
+      })
     }
   }
 })

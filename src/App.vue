@@ -32,7 +32,8 @@ export default {
   },
 
   created () {
-    this.lock(false)
+    this.lock()
+    this.registerRouterGuard()
 
     ipcRenderer.on('open-settings', () => {
       this.$router.push('/settings')

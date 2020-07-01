@@ -14,81 +14,94 @@ import SettingsView from '@/views/Settings/SettingsView.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'welcome',
-    component: WelcomeView
-  },
-  {
-    path: '/wallets/:walletName',
-    name: 'wallets',
-    component: WalletView,
-    props: true
-  },
-  {
-    path: '/wallets/:walletName/send',
-    name: 'wallets.send',
-    component: SendView,
-    props: true
-  },
-  {
-    path: '/wallets/:walletName/receive',
-    name: 'wallets.receive',
-    component: ReceiveView,
-    props: true
-  },
-  {
-    path: '/wallets/:walletName/transactions/:txid',
-    name: 'wallets.transactions',
-    component: TransactionView,
-    props: true
-  },
-  {
-    path: '/wallets/:walletName/settings',
-    name: 'wallets.settings',
-    component: WalletSettingsView,
-    props: true
-  },
-  {
-    path: '/wallets/create',
-    name: 'wallets.create',
-    component: WalletCreateView
-  },
-  {
-    path: '/wallets/create/new',
-    name: 'wallets.create.new',
-    component: WalletSetupView
-  },
-  {
-    path: '/wallets/create/restore',
-    name: 'wallets.create.restore',
-    component: WalletSetupView,
-    props: true
-  },
-  {
-    path: '/explorer',
-    name: 'explorer',
-    component: ExplorerView
-  },
-  {
-    path: '/contacts',
-    name: 'contacts',
-    component: ContactsView
-  },
-  {
-    path: '/settings',
-    name: 'settings',
-    component: SettingsView
-  },
-  {
-    path: '*',
-    redirect: '/'
-  }
-]
-
 const router = new VueRouter({
-  routes
+  routes: [
+    {
+      path: '/',
+      name: 'welcome',
+      component: WelcomeView
+    },
+    {
+      path: '/wallets/:walletName',
+      name: 'wallets',
+      component: WalletView,
+      props: true
+    },
+    {
+      path: '/wallets/:walletName/send',
+      name: 'wallets.send',
+      component: SendView,
+      props: true,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/wallets/:walletName/receive',
+      name: 'wallets.receive',
+      component: ReceiveView,
+      props: true
+    },
+    {
+      path: '/wallets/:walletName/transactions/:txid',
+      name: 'wallets.transactions',
+      component: TransactionView,
+      props: true
+    },
+    {
+      path: '/wallets/:walletName/settings',
+      name: 'wallets.settings',
+      component: WalletSettingsView,
+      props: true,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/wallets/create',
+      name: 'wallets.create',
+      component: WalletCreateView
+    },
+    {
+      path: '/wallets/create/new',
+      name: 'wallets.create.new',
+      component: WalletSetupView,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/wallets/create/restore',
+      name: 'wallets.create.restore',
+      component: WalletSetupView,
+      props: true,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/explorer',
+      name: 'explorer',
+      component: ExplorerView
+    },
+    {
+      path: '/contacts',
+      name: 'contacts',
+      component: ContactsView
+    },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: SettingsView,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '*',
+      redirect: '/'
+    }
+  ]
 })
 
 export default router

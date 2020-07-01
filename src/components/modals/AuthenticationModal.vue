@@ -72,6 +72,15 @@ export default {
     width: 250px;
   }
 
+  .is-modal-auth {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background: #f0f0f090;
+    backdrop-filter: brightness(150%) saturate(150%) blur(30px);
+    background-blend-mode: overlay;
+    padding: 30px;
+  }
+
   .is-modal-auth > .modal-content {
     overflow: visible;
     max-width: 600px;
@@ -84,8 +93,8 @@ export default {
   }
 
   @media (prefers-color-scheme: dark) {
-    .modal.is-full-screen > .animation-content > .modal-card.is-modal-auth {
-      background-color: #2c2e30;
+    .is-modal-auth {
+      background-color: #2c2e3090;
     }
 
     .is-modal-auth .box {

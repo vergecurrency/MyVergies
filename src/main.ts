@@ -22,6 +22,13 @@ new Vue({
   router,
   store,
   render: h => h(App),
+  data () {
+    return {
+      // TODO: better solution then a data boolean
+      authenticated: false,
+      authenticationModalShown: false
+    }
+  },
   computed: {
     ...mapGetters(['currentLanguageCode', 'currentCurrencyCode'])
   },
