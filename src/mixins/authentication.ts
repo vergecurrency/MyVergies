@@ -1,13 +1,14 @@
 import Vue from 'vue'
 import AuthenticationModal from '@/components/modals/AuthenticationModal.vue'
 import { BModalConfig } from 'buefy/types/components'
+import Log from 'electron-log'
 
 const authenticationModalStatus = {
   shown: false
 }
 
 const showAuthenticationModal = (vue: Vue, config: object = {}) => {
-  console.log('authenticate')
+  Log.info('authenticate')
 
   if (authenticationModalStatus.shown) {
     return
@@ -24,11 +25,11 @@ const showAuthenticationModal = (vue: Vue, config: object = {}) => {
     canCancel: false,
     events: {
       authenticated () {
-        console.log('authenticated')
+        Log.info('authenticated')
       },
 
       forgotPassword () {
-        console.log('forgot password')
+        Log.info('forgot password')
       },
       close () {
         authenticationModalStatus.shown = false
