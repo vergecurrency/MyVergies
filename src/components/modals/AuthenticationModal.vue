@@ -7,46 +7,63 @@
           <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('unlock.unlockYourWallet')"/>
         </div>
       </div>
-      <div class="box">
-        <div class="field">
-          <div class="field-body">
-            <div class="field is-expanded">
-              <div class="field has-addons">
-                <p class="control is-expanded has-icons-left">
-                  <input
-                    class="input is-large"
-                    type="password"
-                    :placeholder="$i18n.t('unlock.password')"
-                    @keyup.enter="$parent.close()"
-                  >
-                  <span class="icon is-medium is-left">
+
+      <form @submit.prevent="authenticationSubmit">
+        <div class="box">
+          <div class="field">
+            <div class="field-body">
+              <div class="field is-expanded">
+                <div class="field has-addons">
+                  <p class="control is-expanded has-icons-left">
+                    <input
+                      v-model="password"
+                      class="input is-large"
+                      type="password"
+                      :placeholder="$i18n.t('unlock.password')"
+                    >
+                    <span class="icon is-medium is-left">
                     <b-icon icon="lock" size="is-small"/>
                   </span>
-                </p>
-                <p class="control">
-                  <a class="button is-large" @click="$parent.close()">
-                    <b-icon icon="angle-right" size="is-small"/>
-                  </a>
-                </p>
+                  </p>
+                  <p class="control">
+                    <button class="button is-large" type="submit">
+                      <b-icon icon="angle-right" size="is-small"/>
+                    </button>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div class="field">
-          <p class="control">
-            <a class="button is-text" v-html="$i18n.t('unlock.forgotPassword')"/>
-          </p>
-        </div>
+          <div class="field">
+            <p class="control">
+              <a class="button is-text" v-html="$i18n.t('unlock.forgotPassword')" @click="$emit('forgotPassword')"/>
+            </p>
+          </div>
 
-      </div>
+        </div>
+      </form>
+
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'authentication-modal'
+  name: 'AuthenticationModal',
+
+  data () {
+    return {
+      password: ''
+    }
+  },
+
+  methods: {
+    authenticationSubmit () {
+      this.$emit('authenticated')
+      this.$emit('close')
+    }
+  }
 }
 </script>
 

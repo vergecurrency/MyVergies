@@ -1,7 +1,7 @@
 <template>
   <div class="buttons">
     <TorStatus />
-    <a class="button is-white is-not-draggable" @click="unlock">
+    <a class="button is-white is-not-draggable" @click="lock">
       <span class="icon has-text-grey-dark">
         <b-icon size="is-small" icon="lock-open" />
       </span>
@@ -22,22 +22,9 @@
 <script>
 import TorStatus from '@/views/TorStatus'
 
-import AuthenticationModal from '@/components/modals/AuthenticationModal'
-
 export default {
   name: 'icon-list-bar',
-  components: { TorStatus },
-  methods: {
-    unlock () {
-      this.$buefy.modal.open({
-        parent: this,
-        component: AuthenticationModal,
-        hasModalCard: true,
-        canCancel: ['escape', 'outside'],
-        fullScreen: true
-      })
-    }
-  }
+  components: { TorStatus }
 }
 </script>
 
