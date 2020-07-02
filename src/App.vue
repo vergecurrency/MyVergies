@@ -32,7 +32,6 @@ export default {
   },
 
   created () {
-    this.lock()
     this.registerRouterGuard()
 
     ipcRenderer.on('open-settings', () => {

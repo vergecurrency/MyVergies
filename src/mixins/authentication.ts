@@ -1,75 +1,90 @@
-import Vue from 'vue'
-import AuthenticationModal from '@/components/modals/AuthenticationModal.vue'
+import Vue, { VueConstructor } from 'vue'
+import { NavigationGuardNext, Route } from 'vue-router'
 import { BModalConfig } from 'buefy/types/components'
 import Log from 'electron-log'
-import { NavigationGuardNext, Route } from 'vue-router'
+import AuthenticationModal from '@/components/modals/AuthenticationModal.vue'
 
-const showAuthenticationModal = (vue: Vue, config: object = {}): Promise<boolean> => {
-  return new Promise((resolve, reject) => {
-    // @ts-ignore
-    if (vue.$root.authenticationModalShown) {
-      // @ts-ignore
-      resolve(vue.$root.authenticated)
-    }
-
-    Log.info('authenticate')
-
-    // @ts-ignore
-    vue.$root.authenticationModalShown = true
-
-    vue.$buefy.modal.open({
-      // @ts-ignore
-      component: AuthenticationModal,
-      parent: vue,
-      canCancel: false,
-      hasModalCard: true,
-      events: {
-        authenticated () {
-          Log.info('authenticated')
-
-          // @ts-ignore
-          resolve(vue.$root.authenticated = true)
-        },
-
-        forgotPassword () {
-          Log.info('forgot password')
-        },
-        close () {
-          // @ts-ignore
-          vue.$root.authenticationModalShown = false
-        }
-      },
-      ...config
-    })
-  })
+declare module 'vue/types/vue' {
+  interface Vue {
+    authenticationModalShown: boolean
+    authenticated: boolean
+    lock (): void
+    authenticate (config?: object): Promise<boolean>
+    validateAuthentication (password: string): boolean
+  }
 }
 
 Vue.mixin({
   methods: {
     lock () {
-      // @ts-ignore
       if (!this.$root.authenticated) {
         return
       }
 
       Log.info('lock application')
 
-      // @ts-ignore
       this.$root.authenticated = false
 
       if (this.$route.meta.needsAuthentication || false) {
-        // @ts-ignore
-        this.authenticate()
+        this.authenticate({
+          canCancel: false
+        })
       }
     },
 
-    authenticate (): Promise<boolean> {
-      return showAuthenticationModal(this)
+    authenticate (config: object = {}): Promise<boolean> {
+      return new Promise((resolve, reject) => {
+        if (this.$root.authenticationModalShown) {
+          resolve(this.$root.authenticated)
+        }
+
+        Log.info('authenticate')
+
+        this.$root.authenticationModalShown = true
+        const vue = this
+        const closeHandler = () => {
+          vue.$root.authenticated = false
+          vue.$root.authenticationModalShown = false
+
+          resolve(false)
+        }
+
+        const modal = this.$buefy.modal.open({
+          component: AuthenticationModal,
+          customClass: 'is-modal-auth',
+          parent: this,
+          hasModalCard: true,
+          trapFocus: true,
+          canCancel: ['escape', 'outside'],
+          onCancel: closeHandler,
+          events: {
+            authenticate (password: string) {
+              vue.$root.authenticated = vue.validateAuthentication(password)
+              vue.$root.authenticationModalShown = false
+              modal.close()
+
+              Log.info('authenticated')
+
+              resolve(vue.$root.authenticated)
+            },
+            forgotPassword () {
+              Log.info('forgot password')
+            },
+            close: closeHandler
+          },
+          ...config
+        })
+      })
+    },
+
+    validateAuthentication (password: string): boolean {
+      return true
     },
 
     registerRouterGuard () {
+      this.$root.authenticated = false
+
       this.$router.beforeEach((to: Route, from: Route, next: NavigationGuardNext) => {
-        // @ts-ignore
         if (!((to.meta.needsAuthentication || false) && !this.$root.authenticated)) {
           next()
 
@@ -78,15 +93,21 @@ Vue.mixin({
 
         next(false)
 
-        // @ts-ignore
-        this.authenticate().then(() => {
+        this.authenticate().then(authenticated => {
+          if (!authenticated) {
+            return
+          }
+
           this.$router.push({
-            // @ts-ignore
-            name: to.name,
+            name: to.name || 'welcome',
             params: to.params
           })
         })
       })
+    },
+
+    toggleAuthentication () {
+      this.$root.authenticated ? this.lock() : this.authenticate()
     }
   }
 })

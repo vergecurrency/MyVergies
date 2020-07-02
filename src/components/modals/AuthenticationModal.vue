@@ -1,6 +1,12 @@
 <template>
   <div class="modal-card is-modal-auth">
     <div class="modal-content">
+      <button
+        v-if="!($route.meta.needsAuthentication || false)"
+        class="delete is-pulled-right"
+        aria-label="close"
+        @click="$emit('close')"
+      />
       <div class="columns has-text-centered">
         <div class="column">
           <img src="@/assets/headers/id-card@2x.png" class="id-card"/>
@@ -60,28 +66,26 @@ export default {
 
   methods: {
     authenticationSubmit () {
-      this.$emit('authenticated')
-      this.$emit('close')
+      this.$emit('authenticate', { password: this.password })
     }
   }
 }
 </script>
 
 <style>
-  .id-card {
-    width: 250px;
+  .modal.is-modal-auth > .modal-background {
+    backdrop-filter: brightness(150%) saturate(150%) blur(80px);
   }
 
-  .is-modal-auth {
+  .modal-card.is-modal-auth {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     background: #f0f0f090;
     backdrop-filter: brightness(150%) saturate(150%) blur(30px);
-    background-blend-mode: overlay;
     padding: 30px;
   }
 
-  .is-modal-auth > .modal-content {
+  .modal-card.is-modal-auth > .modal-content {
     overflow: visible;
     max-width: 600px;
   }
@@ -92,12 +96,16 @@ export default {
     width: auto;
   }
 
+  .id-card {
+    width: 250px;
+  }
+
   @media (prefers-color-scheme: dark) {
-    .is-modal-auth {
+    .modal-card.is-modal-auth {
       background-color: #2c2e3090;
     }
 
-    .is-modal-auth .box {
+    .modal-card.is-modal-auth .box {
       background: #262729;
     }
   }

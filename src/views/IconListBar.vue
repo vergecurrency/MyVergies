@@ -1,7 +1,7 @@
 <template>
   <div class="buttons">
     <TorStatus />
-    <a class="button is-white is-not-draggable" @click="lock">
+    <a class="button is-white is-not-draggable" @click="toggleAuthentication">
       <span class="icon has-text-grey-dark">
         <b-icon v-if="$root.authenticated" size="is-small" icon="lock-open" />
         <b-icon v-else size="is-small" icon="lock" />
