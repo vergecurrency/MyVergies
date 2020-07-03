@@ -74,7 +74,7 @@ export default {
 
 <style>
   .modal.is-modal-auth > .modal-background {
-    backdrop-filter: brightness(150%) saturate(150%) blur(80px);
+    backdrop-filter: blur(120px);
   }
 
   .modal-card.is-modal-auth {

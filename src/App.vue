@@ -32,14 +32,14 @@ export default {
   },
 
   created () {
-    this.registerRouterGuard()
+    this.$authManager.registerRouterGuard()
 
     ipcRenderer.on('open-settings', () => {
       this.$router.push('/settings')
     })
 
     ipcRenderer.on('user-idle', () => {
-      this.lock()
+      this.$authManager.lock()
     })
   }
 }

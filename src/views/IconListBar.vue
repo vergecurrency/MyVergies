@@ -1,9 +1,9 @@
 <template>
   <div class="buttons">
     <TorStatus />
-    <a class="button is-white is-not-draggable" @click="toggleAuthentication">
+    <a class="button is-white is-not-draggable" @click="$authManager.toggleAuthentication()">
       <span class="icon has-text-grey-dark">
-        <b-icon v-if="$root.authenticated" size="is-small" icon="lock-open" />
+        <b-icon v-if="isAuthenticated" size="is-small" icon="lock-open" />
         <b-icon v-else size="is-small" icon="lock" />
       </span>
     </a>

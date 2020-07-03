@@ -11,8 +11,10 @@ import '@/icons'
 import { mapActions, mapGetters } from 'vuex'
 import constants from './utils/constants'
 import walletManager from '@/walletManager'
+import authManager from '@/authentication'
 
 Vue.use(walletManager, { store })
+Vue.use(authManager)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 Vue.prototype.$electron = electron
@@ -22,13 +24,6 @@ new Vue({
   router,
   store,
   render: h => h(App),
-  data () {
-    return {
-      // TODO: better solution then a data boolean
-      authenticated: false,
-      authenticationModalShown: false
-    }
-  },
   computed: {
     ...mapGetters(['currentLanguageCode', 'currentCurrencyCode'])
   },
