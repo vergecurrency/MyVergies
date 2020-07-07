@@ -16,7 +16,7 @@
 
 <script>
 import NavBar from '@/components/layout/NavBar'
-import IconListBar from '@/views/IconListBar'
+import IconListBar from '@/components/layout/IconListBar'
 import MainMenu from '@/components/layout/MainMenu'
 import ContentContainer from '@/components/layout/ContentContainer'
 import { ipcRenderer } from 'electron'

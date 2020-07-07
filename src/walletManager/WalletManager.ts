@@ -4,7 +4,7 @@ import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import constants from '@/utils/constants'
-import keytar from '@/utils/keytar'
+import Keytar from '@/utils/keytar'
 import Timeout = NodeJS.Timeout
 
 export default class WalletManager {
@@ -49,7 +49,7 @@ export default class WalletManager {
       singleAddress: walletConfig.singleAddress
     })
     await wallet.open()
-    await keytar.setCredentials(keytar.walletService(), walletConfig.name, btoa(JSON.stringify(walletConfig)))
+    await Keytar.setCredentials(Keytar.walletService, walletConfig.name, btoa(JSON.stringify(walletConfig)))
     this.wallets.push(wallet)
 
     this.restartTicker()
@@ -66,10 +66,10 @@ export default class WalletManager {
 
     const encryptedWallet = btoa(JSON.stringify(walletConfig))
 
-    await keytar.setCredentials(keytar.walletService(), walletConfig.name, encryptedWallet)
+    await Keytar.setCredentials(Keytar.walletService, walletConfig.name, encryptedWallet)
 
     if (name !== wallet.name) {
-      await keytar.deleteCredentials(keytar.walletService(), name)
+      await Keytar.deleteCredentials(Keytar.walletService, name)
     }
 
     this.restartTicker()
@@ -78,7 +78,7 @@ export default class WalletManager {
   }
 
   public async removeWallet (wallet: Wallet): Promise<boolean> {
-    const succeeded = await keytar.deleteCredentials(keytar.walletService(), wallet.name!)
+    const succeeded = await Keytar.deleteCredentials(Keytar.walletService, wallet.name!)
 
     if (succeeded) {
       this.wallets.splice(this.wallets.findIndex(w => w === wallet), 1)
@@ -106,7 +106,7 @@ export default class WalletManager {
   }
 
   protected async getWalletConfig (name: string): Promise<WalletConfigItem> {
-    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), name)
+    const encrytedWallet = await Keytar.getCredentials(Keytar.walletService, name)
 
     if (encrytedWallet === undefined) {
       throw Error(`Couldn't load wallet: ${name}`)

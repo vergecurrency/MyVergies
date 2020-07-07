@@ -1,7 +1,7 @@
 import Vue, { PluginFunction } from 'vue'
 import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
-import keytar from '@/utils/keytar'
+import Keytar from '@/utils/keytar'
 import { Store } from 'vuex'
 // @ts-ignore
 import Mnemonic from 'bitcore-mnemonic'
@@ -22,7 +22,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
   }
 
   return Promise.all(names.map(async (name: string): Promise<WalletConfigItem> => {
-    const encrytedWallet = await keytar.getCredentials(keytar.walletService(), name)
+    const encrytedWallet = await Keytar.getCredentials(Keytar.walletService, name)
 
     if (encrytedWallet === undefined) {
       throw Error(`Couldn't load wallet: ${name}`)

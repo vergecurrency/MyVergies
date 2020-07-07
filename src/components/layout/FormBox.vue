@@ -1,5 +1,5 @@
 <template>
-  <div class="box" :class="boxClasses">
+  <div class="box" :class="formattedType">
     <div class="columns is-vcentered">
       <div class="column">
         <h4 class="has-text-weight-semibold" v-html="title"/>
@@ -16,15 +16,24 @@
 export default {
   name: 'FormBox',
 
-  data () {
-    return {
-      boxClasses: {
-        'has-background-info-light': this.type === 'is-info',
-        'has-background-success has-text-white': this.type === 'is-success',
-        'has-background-warning': this.type === 'is-warning',
-        'has-background-danger has-text-white': this.type === 'is-danger'
-      },
-      contentColumnClasses: {
+  computed: {
+    formattedType () {
+      switch (this.type) {
+        case 'is-info':
+          return 'has-background-info-light'
+        case 'is-success':
+          return 'has-background-success has-text-white'
+        case 'is-warning':
+          return 'has-background-warning'
+        case 'is-danger':
+          return 'has-background-danger has-text-white'
+        default:
+          return ''
+      }
+    },
+
+    contentColumnClasses () {
+      return {
         'is-narrow': this.isNarrow
       }
     }
@@ -50,3 +59,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .box[disabled] {
+    pointer-events: none;
+    opacity: 0.8;
+    background: #f1f1f1;
+  }
+</style>

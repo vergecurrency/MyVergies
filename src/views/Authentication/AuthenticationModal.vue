@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card is-modal-auth">
+  <div class="modal-card is-modal-auth" :class="{'is-auth-failed': wrongPassword}">
     <div class="modal-content">
       <button
         v-if="!($route.meta.needsAuthentication || false)"
@@ -14,59 +14,52 @@
         </div>
       </div>
 
-      <form @submit.prevent="authenticationSubmit">
-        <div class="box">
-          <div class="field">
-            <div class="field-body">
-              <div class="field is-expanded">
-                <div class="field has-addons">
-                  <p class="control is-expanded has-icons-left">
-                    <input
-                      v-model="password"
-                      class="input is-large"
-                      type="password"
-                      :placeholder="$i18n.t('unlock.password')"
-                    >
-                    <span class="icon is-medium is-left">
-                    <b-icon icon="lock" size="is-small"/>
-                  </span>
-                  </p>
-                  <p class="control">
-                    <button class="button is-large" type="submit">
-                      <b-icon icon="angle-right" size="is-small"/>
-                    </button>
-                  </p>
-                </div>
-              </div>
+      <div class="box" :class="{'has-background-danger-light': wrongPassword}">
+        <b-field
+          :type="{ 'is-danger': wrongPassword }"
+        >
+          <div class="columns is-centered">
+            <div class="column is-two-thirds">
+              <pin-input @submit="authenticationSubmit" @changed="wrongPassword = false"/>
             </div>
           </div>
+        </b-field>
 
-          <div class="field">
-            <p class="control">
-              <a class="button is-text" v-html="$i18n.t('unlock.forgotPassword')" @click="$emit('forgotPassword')"/>
-            </p>
-          </div>
-
-        </div>
-      </form>
+        <b-field class="has-text-centered">
+          <p class="control">
+            <a class="button is-text" v-html="$i18n.t('unlock.forgotPassword')" @click="$emit('forgotPin')"/>
+          </p>
+        </b-field>
+      </div>
 
     </div>
   </div>
 </template>
 
 <script>
+import PinInput from '@/components/PinInput'
 export default {
   name: 'AuthenticationModal',
-
+  components: { PinInput },
   data () {
     return {
-      password: ''
+      wrongPassword: false
     }
   },
 
   methods: {
-    authenticationSubmit () {
-      this.$emit('authenticate', { password: this.password })
+    authenticationSubmit (password) {
+      this.$authManager.authenticate(password).then(authenticated => {
+        if (!authenticated) {
+          this.shakeCard()
+        } else {
+          this.$emit('authenticated')
+        }
+      })
+    },
+
+    shakeCard () {
+      this.wrongPassword = true
     }
   }
 }
@@ -98,6 +91,29 @@ export default {
 
   .id-card {
     width: 250px;
+  }
+
+  .modal-card.is-modal-auth.is-auth-failed {
+    animation: shake 0.5s;
+    animation-iteration-count: 1;
+  }
+
+  @keyframes shake {
+    10%, 90% {
+      transform: translate3d(-1px, 0, 0);
+    }
+
+    20%, 80% {
+      transform: translate3d(2px, 0, 0);
+    }
+
+    30%, 50%, 70% {
+      transform: translate3d(-4px, 0, 0);
+    }
+
+    40%, 60% {
+      transform: translate3d(4px, 0, 0);
+    }
   }
 
   @media (prefers-color-scheme: dark) {

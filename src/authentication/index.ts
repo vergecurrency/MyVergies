@@ -2,26 +2,35 @@ import Vue, { PluginFunction } from 'vue'
 import VueRouter, { NavigationGuardNext, Route } from 'vue-router'
 import { BuefyNamespace } from 'buefy'
 import Log from 'electron-log'
-import AuthenticationModal from '@/components/modals/AuthenticationModal.vue'
+import Keytar from '@/utils/keytar'
+import AuthenticationModal from '@/views/Authentication/AuthenticationModal.vue'
 
 class AuthManager {
   protected authenticated: boolean = false
   protected authenticationModalShown: boolean = false
-  public $parent!: Vue
-  public $router!: VueRouter
-  public $buefy!: BuefyNamespace
+  protected $parent!: Vue
+  protected $router!: VueRouter
+  protected $buefy!: BuefyNamespace
 
   public get isAuthenticated (): boolean {
     return this.authenticated
   }
 
-  public injectVue (vue: Vue) {
+  public injectVue (vue: Vue): void {
     this.$parent = vue
     this.$router = vue.$router
     this.$buefy = vue.$buefy
   }
 
-  public lock () {
+  public async authenticate (pin: string): Promise<boolean> {
+    this.authenticated = await this.validateAuthentication(pin)
+
+    Log.info(this.authenticated ? 'authenticated' : 'authication failed')
+
+    return this.authenticated
+  }
+
+  public lock (): void {
     if (!this.authenticated) {
       return
     }
@@ -31,13 +40,13 @@ class AuthManager {
     this.authenticated = false
 
     if (this.$router.currentRoute.meta.needsAuthentication || false) {
-      this.authenticate({
+      this.showAuthenticationModal({
         canCancel: false
       })
     }
   }
 
-  public authenticate (config: object = {}): Promise<boolean> {
+  public showAuthenticationModal (config: object = {}): Promise<boolean> {
     return new Promise((resolve, reject) => {
       if (this.authenticationModalShown) {
         resolve(this.authenticated)
@@ -64,17 +73,13 @@ class AuthManager {
         canCancel: ['escape', 'outside'],
         onCancel: closeHandler,
         events: {
-          authenticate (password: string) {
-            manager.authenticated = manager.validateAuthentication(password)
+          forgotPin () {
+            Log.info('forgot PIN')
+          },
+          authenticated () {
             manager.authenticationModalShown = false
             modal.close()
-
-            Log.info('authenticated')
-
-            resolve(manager.authenticated)
-          },
-          forgotPassword () {
-            Log.info('forgot password')
+            resolve(true)
           },
           close: closeHandler
         },
@@ -83,8 +88,14 @@ class AuthManager {
     })
   }
 
-  public validateAuthentication (password: string): boolean {
+  public async changePin (pin: string): Promise<boolean> {
+    Keytar.setCredentials(Keytar.appService, 'application', pin)
+
     return true
+  }
+
+  public async validateAuthentication (pin: string): Promise<boolean> {
+    return await Keytar.getCredentials(Keytar.appService, 'application') === pin
   }
 
   public registerRouterGuard () {
@@ -99,7 +110,7 @@ class AuthManager {
 
       next(false)
 
-      this.authenticate().then(authenticated => {
+      this.showAuthenticationModal().then(authenticated => {
         if (!authenticated) {
           return
         }
@@ -112,8 +123,8 @@ class AuthManager {
     })
   }
 
-  public toggleAuthentication () {
-    this.authenticated ? this.lock() : this.authenticate()
+  public toggleAuthentication (): void {
+    this.authenticated ? this.lock() : this.showAuthenticationModal()
   }
 }
 
@@ -122,7 +133,7 @@ const authManagerPlugin: PluginFunction<any> = function (vue: typeof Vue, option
   vue.observable(vue.prototype.$authManager)
 
   vue.mixin({
-    beforeCreate () {
+    beforeCreate (): void {
       vue.prototype.$authManager.injectVue(this)
     },
 

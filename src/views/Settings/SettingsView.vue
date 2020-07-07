@@ -23,7 +23,7 @@
 
       <form-section :title="$i18n.t('settings.security')">
         <b-field horizontal :label="$i18n.t('settings.password')">
-          <b-button v-html="$i18n.t('settings.changePassword')" type="is-light"/>
+          <b-button v-html="$i18n.t('settings.changePassword')" type="is-light" @click="changePassword"/>
         </b-field>
 
         <b-field horizontal :label="$i18n.t('settings.lockAfter')" :message="$i18n.t('settings.lockAfterDetails')">
@@ -44,11 +44,12 @@
 </template>
 
 <script>
-import NavigationHeader from '@/components/layout/NavigationHeader'
-import FormSection from '@/components/layout/FormSection'
+import { mapActions, mapGetters } from 'vuex'
 import locales from '@/locale/locales'
 import currencies from '@/utils/currencies'
-import { mapActions, mapGetters } from 'vuex'
+import NavigationHeader from '@/components/layout/NavigationHeader'
+import FormSection from '@/components/layout/FormSection'
+import ChangePinModal from '@/views/Settings/ChangePinModal'
 
 export default {
   name: 'settings-view',
@@ -88,7 +89,17 @@ export default {
   },
   methods: {
     ...mapGetters(['currentCurrencyCode', 'currentLanguageCode']),
-    ...mapActions(['updateCurrency', 'updateLanguage'])
+    ...mapActions(['updateCurrency', 'updateLanguage']),
+
+    changePassword () {
+      this.$buefy.modal.open({
+        component: ChangePinModal,
+        parent: this,
+        canCancel: ['escape', 'outside'],
+        hasModalCard: true,
+        trapFocus: true
+      })
+    }
   }
 }
 </script>
