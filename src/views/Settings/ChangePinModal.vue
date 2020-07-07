@@ -2,8 +2,8 @@
   <div class="modal-card box">
     <div class="columns">
       <div class="column">
-        <p class="is-size-3 is-family-handwritten">Change your PIN</p>
-        You're about to change the PIN used as a security mesuare by this application.
+        <p class="is-size-3 is-family-handwritten" v-html="$i18n.t('settings.changeYourPin')"/>
+        <span v-html="$i18n.t('settings.changeYourPinDesc')"/>
       </div>
     </div>
 
@@ -11,8 +11,8 @@
       <div class="column">
         <div class="box-with-pins">
           <form-box
-            title="Current PIN"
-            :description="stage === 0 ? 'Fill in your current PIN used to unlock this application' : ''"
+            :title="$i18n.t('settings.currentPin')"
+            :description="stage === 0 ? $i18n.t('settings.currentPinDesc') : ''"
             :type="currentPinType"
             :is-narrow="false"
           >
@@ -31,8 +31,8 @@
 
           <form-box
             :disabled="stage < 1"
-            title="New PIN"
-            :description="stage === 1 ? 'Fill in your current PIN used to unlock this application' : ''"
+            :title="$i18n.t('settings.newPin')"
+            :description="stage === 1 ? $i18n.t('settings.newPinDesc') : ''"
             :is-narrow="false"
           >
             <pin-input
@@ -49,8 +49,8 @@
 
           <form-box
             :disabled="stage < 2"
-            title="Confirm new PIN"
-            :description="stage === 2 ? 'Fill in your current PIN used to unlock this application' : ''"
+            :title="$i18n.t('settings.newPinConfirmation')"
+            :description="stage === 2 ? $i18n.t('settings.newPinConfirmationDesc') : ''"
             :is-narrow="false"
             :type="newPinNotConfirmedType"
           >
@@ -72,10 +72,10 @@
 
     <div class="columns">
       <div class="column">
-        <b-button @click="$emit('close')">Cancel</b-button>
+        <b-button @click="$emit('close')" v-html="$i18n.t('settings.cancel')"/>
       </div>
       <div v-if="pin != ''" class="column is-narrow">
-        <b-button type="is-primary" @click="change">Change PIN</b-button>
+        <b-button type="is-primary" @click="change" v-html="$i18n.t('settings.changePin')"/>
       </div>
     </div>
   </div>
@@ -112,7 +112,7 @@ export default {
       this.$authManager.changePin(this.pin).then(changed => {
         if (!changed) {
           this.$buefy.toast.open({
-            message: 'Couldn\'t change PIN',
+            message: this.$i18n.t('settings.couldntChangePin'),
             type: 'is-danger'
           })
 
@@ -122,7 +122,7 @@ export default {
         this.$emit('close')
 
         this.$buefy.toast.open({
-          message: 'PIN changed!',
+          message: this.$i18n.t('settings.pinChanged'),
           type: 'is-success'
         })
       })

@@ -22,8 +22,8 @@
       </form-section>
 
       <form-section :title="$i18n.t('settings.security')">
-        <b-field horizontal :label="$i18n.t('settings.password')">
-          <b-button v-html="$i18n.t('settings.changePassword')" type="is-light" @click="changePassword"/>
+        <b-field horizontal :label="$i18n.t('settings.pin')">
+          <b-button v-html="$i18n.t('settings.changePin')" type="is-light" @click="changePin"/>
         </b-field>
 
         <b-field horizontal :label="$i18n.t('settings.lockAfter')" :message="$i18n.t('settings.lockAfterDetails')">
@@ -91,7 +91,7 @@ export default {
     ...mapGetters(['currentCurrencyCode', 'currentLanguageCode']),
     ...mapActions(['updateCurrency', 'updateLanguage']),
 
-    changePassword () {
+    changePin () {
       this.$buefy.modal.open({
         component: ChangePinModal,
         parent: this,

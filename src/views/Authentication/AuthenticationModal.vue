@@ -1,5 +1,5 @@
 <template>
-  <div class="modal-card is-modal-auth" :class="{'is-auth-failed': wrongPassword}">
+  <div class="modal-card is-modal-auth" :class="{'is-auth-failed': wrongPin}">
     <div class="modal-content">
       <button
         v-if="!($route.meta.needsAuthentication || false)"
@@ -14,20 +14,20 @@
         </div>
       </div>
 
-      <div class="box" :class="{'has-background-danger-light': wrongPassword}">
+      <div class="box" :class="{'has-background-danger-light': wrongPin}">
         <b-field
-          :type="{ 'is-danger': wrongPassword }"
+          :type="{ 'is-danger': wrongPin }"
         >
           <div class="columns is-centered">
             <div class="column is-two-thirds">
-              <pin-input @submit="authenticationSubmit" @changed="wrongPassword = false"/>
+              <pin-input @submit="authenticationSubmit" @changed="wrongPin = false"/>
             </div>
           </div>
         </b-field>
 
         <b-field class="has-text-centered">
           <p class="control">
-            <a class="button is-text" v-html="$i18n.t('unlock.forgotPassword')" @click="$emit('forgotPin')"/>
+            <a class="button is-text" v-html="$i18n.t('unlock.forgotPin')" @click="$emit('forgotPin')"/>
           </p>
         </b-field>
       </div>
@@ -43,13 +43,13 @@ export default {
   components: { PinInput },
   data () {
     return {
-      wrongPassword: false
+      wrongPin: false
     }
   },
 
   methods: {
-    authenticationSubmit (password) {
-      this.$authManager.authenticate(password).then(authenticated => {
+    authenticationSubmit (pin) {
+      this.$authManager.authenticate(pin).then(authenticated => {
         if (!authenticated) {
           this.shakeCard()
         } else {
@@ -59,7 +59,7 @@ export default {
     },
 
     shakeCard () {
-      this.wrongPassword = true
+      this.wrongPin = true
     }
   }
 }

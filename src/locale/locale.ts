@@ -29,8 +29,8 @@ export interface LocaleDefinition {
   },
   unlock: {
     unlockYourWallet: string,
-    password: string,
-    forgotPassword: string
+    pin: string,
+    forgotPin: string
   },
   wallet: {
     settings: string,
@@ -191,12 +191,23 @@ export interface LocaleDefinition {
     language: string,
     currency: string,
     currencyDetails: string,
-    password: string,
-    changePassword: string,
+    pin: string,
+    changePin: string,
     lockAfter: string,
     lockAfterDetails: string,
     connection: string,
     torConnection: string,
     manageTorConnection: string
+    changeYourPin: string
+    changeYourPinDesc: string,
+    currentPin: string,
+    currentPinDesc: string,
+    newPin: string,
+    newPinDesc: string,
+    newPinConfirmation: string,
+    newPinConfirmationDesc: string,
+    cancel: string,
+    couldntChangePin: string,
+    pinChanged: string
   }
 }

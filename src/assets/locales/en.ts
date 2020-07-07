@@ -31,8 +31,8 @@ const en: LocaleDefinition = {
   },
   unlock: {
     unlockYourWallet: 'Unlock your wallet',
-    password: 'Password',
-    forgotPassword: 'I forgot my unlock password'
+    pin: 'PIN',
+    forgotPin: 'I forgot my unlock PIN'
   },
   wallet: {
     settings: 'Settings',
@@ -193,13 +193,24 @@ const en: LocaleDefinition = {
     language: 'Language',
     currency: 'Currency',
     currencyDetails: 'All fiat prices will be displayed in this currency',
-    password: 'Password',
-    changePassword: 'Change password',
+    pin: 'PIN',
+    changePin: 'Change PIN',
     lockAfter: 'Lock after',
     lockAfterDetails: 'Lock application after the given amount of time',
     connection: 'Connection',
     torConnection: 'TOR connection',
-    manageTorConnection: 'Manage TOR connection'
+    manageTorConnection: 'Manage TOR connection',
+    changeYourPin: 'Change your PIN',
+    changeYourPinDesc: 'You\'re about to change the PIN used as a security measure by this application.',
+    currentPin: 'Current PIN',
+    currentPinDesc: 'Fill in your current PIN used to unlock this application',
+    newPin: 'New PIN',
+    newPinDesc: 'Fill in your new PIN, make sure you\'ll remember it after this change ;)',
+    newPinConfirmation: 'Confirm new PIN',
+    newPinConfirmationDesc: 'To verify you filled in the new PIN correctly let\'s confirm the input.',
+    cancel: 'Cancel',
+    couldntChangePin: 'Couldn\'t change PIN',
+    pinChanged: 'PIN changed!'
   }
 }
 export default en

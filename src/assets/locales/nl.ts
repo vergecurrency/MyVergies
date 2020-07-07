@@ -31,8 +31,8 @@ const nl: LocaleDefinition = {
   },
   unlock: {
     unlockYourWallet: 'Ontgrendel uw wallet',
-    password: 'Wachtwoord',
-    forgotPassword: 'Ik ben mijn wachtwoord vergeten'
+    pin: 'PIN',
+    forgotPin: 'Ik ben mijn PIN vergeten'
   },
   wallet: {
     settings: 'Instellingen',
@@ -193,13 +193,24 @@ const nl: LocaleDefinition = {
     language: 'Taal',
     currency: 'Valuta',
     currencyDetails: 'Alle fiat prijzen zullen worden getoond in deze valuta',
-    password: 'Wachtwoord',
-    changePassword: 'Verander wachtwoord',
+    pin: 'PIN',
+    changePin: 'Verander PIN',
     lockAfter: 'Vergrendel na',
     lockAfterDetails: 'Vergrendel applicatie na de opgegeven tijd is verstreken',
     connection: 'Verbinding',
     torConnection: 'TOR verbinding',
-    manageTorConnection: 'Beheer TOR verbinding'
+    manageTorConnection: 'Beheer TOR verbinding',
+    changeYourPin: 'Verander je PIN',
+    changeYourPinDesc: 'Je wilt de PIN veranderen welke wordt gebruikt als een beveiligingsmiddel voor de applicatie.',
+    currentPin: 'Huidige PIN',
+    currentPinDesc: 'Vul je huidige PIN ter controle in welke je nu gebruikt voor deze applicatie.',
+    newPin: 'Nieuwe PIN',
+    newPinDesc: 'Vul nu je nieuwe PIN in. Zorg er wel voor dat je hem ook daadwerkelijk onthoudt!',
+    newPinConfirmation: 'Bevestig nieuwe PIN',
+    newPinConfirmationDesc: 'Voor de zekerheid moet je die nieuwe PIN even bevestigen.',
+    cancel: 'Annuleer',
+    couldntChangePin: 'Kun de PIN niet veranderen',
+    pinChanged: 'PIN veranderd!'
   }
 }
 export default nl
