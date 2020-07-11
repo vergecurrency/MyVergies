@@ -66,13 +66,7 @@ export default {
 </script>
 
 <style>
-  .modal.is-modal-auth > .modal-background {
-    backdrop-filter: blur(120px);
-  }
-
   .modal-card.is-modal-auth {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
     background: #f0f0f090;
     backdrop-filter: brightness(150%) saturate(150%) blur(30px);
     padding: 30px;

@@ -1,3 +1,8 @@
+.modal-card {
+  box-shadow: 0 10px 30px 0px #0000006b;
+  border-radius: 10px;
+}
+
 .modal-card-head {
   border-bottom: none;
 }
@@ -14,9 +19,13 @@
   background-color: #f7f7f7;
 }
 
+.modal-background {
+  background-color: rgba(190, 190, 190, 0.5);
+}
+
 @media (prefers-color-scheme: dark) {
   .modal-background {
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(0, 0, 0, 0.5);
   }
 
   .modal-card-head {
