@@ -26,14 +26,22 @@
           <b-button v-html="$i18n.t('settings.changePin')" type="is-light" @click="changePin"/>
         </b-field>
 
-        <b-field horizontal :label="$i18n.t('settings.lockAfter')" :message="$i18n.t('settings.lockAfterDetails')">
+        <b-field
+          horizontal
+          :label="$i18n.t('settings.lockAfter')"
+          :message="$i18n.t('settings.lockAfterDetails')"
+          class="is-hidden"
+        >
           <b-select v-model="lockAfter" expanded icon="lock">
             <option v-for="(lock, i) in locks" :key="`Currency${i}`" :value="i" v-html="lock"/>
           </b-select>
         </b-field>
       </form-section>
 
-      <form-section :title="$i18n.t('settings.connection')">
+      <form-section
+        :title="$i18n.t('settings.connection')"
+        class="is-hidden"
+      >
         <b-field horizontal :label="$i18n.t('settings.torConnection')">
           <b-button v-html="$i18n.t('settings.manageTorConnection')" type="is-light"/>
         </b-field>
