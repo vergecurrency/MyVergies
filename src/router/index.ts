@@ -92,10 +92,7 @@ const router = new VueRouter({
     {
       path: '/settings',
       name: 'settings',
-      component: SettingsView,
-      meta: {
-        needsAuthentication: true
-      }
+      component: SettingsView
     },
     {
       path: '*',

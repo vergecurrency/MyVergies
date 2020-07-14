@@ -2,7 +2,7 @@
   <div class="modal-card is-modal-auth" :class="{'is-auth-failed': wrongPin}">
     <div class="modal-content">
       <button
-        v-if="!($route.meta.needsAuthentication || false)"
+        v-if="showCloseButton"
         class="delete is-pulled-right"
         aria-label="close"
         @click="$emit('close')"
@@ -44,6 +44,12 @@ export default {
   data () {
     return {
       wrongPin: false
+    }
+  },
+
+  computed: {
+    showCloseButton () {
+      return !(this.$route.meta.needsAuthentication || false)
     }
   },
 
