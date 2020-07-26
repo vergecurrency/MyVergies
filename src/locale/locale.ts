@@ -13,7 +13,21 @@ export interface LocaleDefinition {
       green: string
       purple: string
       orange: string
-    }
+    },
+    version: string
+  }
+  welcome: {
+    welcomeToMyVergies: string
+    createdBy: string
+    addAWallet: string
+    addAWalletDesc: string
+    addWallet: string
+    changeThings: string
+    changeThingsDesc: string
+    tweakSettings: string
+    helpImprove: string
+    helpImproveDesc: string
+    goToGithub: string
   }
   tor: {
     status: {
@@ -171,6 +185,7 @@ export interface LocaleDefinition {
     confirmImportDesc: string
     walletNameAlreadyExists: string
     import: string
+    usesSingleAddress: string
   }
   walletSettings: {
     walletSettings: string
@@ -219,6 +234,10 @@ export interface LocaleDefinition {
     cancel: string
     couldntChangePin: string
     pinChanged: string
+    addPin: string
+    addPinDesc: string
+    couldntSetPin: string
+    pinAdded: string
   }
   export: {
     description: string

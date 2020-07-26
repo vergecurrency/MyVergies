@@ -8,8 +8,8 @@ import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
 import ExportImportManager from '@/walletManager/ExportImportManager'
 import '@/utils/keytar/main'
-import * as Utils from './utils'
-import { eventConstants } from './utils/constants'
+import * as Utils from '@/utils'
+import { eventConstants } from '@/utils/constants'
 
 logger.transports.file.level = 'debug'
 
@@ -36,7 +36,7 @@ function createWindow () {
 
   const mainWindowState = ElectronWindowState({
     defaultWidth: 1100,
-    defaultHeight: 663
+    defaultHeight: 700
   })
 
   // Create the browser window.

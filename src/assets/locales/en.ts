@@ -15,7 +15,21 @@ const en: LocaleDefinition = {
       green: 'Green',
       purple: 'Purple',
       orange: 'Orange'
-    }
+    },
+    version: 'version'
+  },
+  welcome: {
+    welcomeToMyVergies: 'Welcome to MyVergies',
+    createdBy: 'Created by <b>Swen van Zanten</b>',
+    addAWallet: 'Add a wallet',
+    addAWalletDesc: 'You are able to add multiple wallets... which is awesome cause I could think of a ton of reasons to add atleast a few.',
+    addWallet: 'Add wallet',
+    changeThings: 'Change things',
+    changeThingsDesc: 'Within the settings you\'re able to tweak MyVergies into the perfect XVG wallet companion!',
+    tweakSettings: 'Tweak settings',
+    helpImprove: 'Help improve',
+    helpImproveDesc: 'MyVergies\'s code is open source and can be downloaded and improved on by anyone out there (after approval). Let\'s build a better world together!',
+    goToGithub: 'Go to GitHub'
   },
   tor: {
     status: {
@@ -172,7 +186,8 @@ const en: LocaleDefinition = {
     dropWalletFile: 'Drop your wallet file here',
     confirmImportDesc: 'Review the import files wallet configuration and change values if needed. If satisfied go ahead with the import.',
     walletNameAlreadyExists: 'This wallet name already exists, motify the wallets name to continue the import.',
-    import: 'Import'
+    import: 'Import',
+    usesSingleAddress: 'Uses single address'
   },
   walletSettings: {
     walletSettings: 'Wallet settings',
@@ -220,7 +235,11 @@ const en: LocaleDefinition = {
     newPinConfirmationDesc: 'To verify you filled in the new PIN correctly let\'s confirm the input.',
     cancel: 'Cancel',
     couldntChangePin: 'Couldn\'t change PIN',
-    pinChanged: 'PIN changed!'
+    pinChanged: 'PIN changed!',
+    addPin: 'Add PIN',
+    addPinDesc: 'This applications secures all your wallets and settings with an easy to remember PIN. Let\'s set one up.',
+    couldntSetPin: 'Couldn\'t set your PIN',
+    pinAdded: 'PIN was set, enjoy MyVergies!'
   },
   export: {
     description: 'Creating an extra backup of your wallet credentials can be a smart thing to do. Either store it savely on a removable drive or another secure place.',

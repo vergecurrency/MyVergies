@@ -48,6 +48,8 @@
       </form-section>
 
     </div>
+
+    <version-block/>
   </div>
 </template>
 
@@ -58,10 +60,11 @@ import currencies from '@/utils/currencies'
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
 import ChangePinModal from '@/views/Settings/ChangePinModal'
+import VersionBlock from '@/components/VersionBlock'
 
 export default {
   name: 'settings-view',
-  components: { FormSection, NavigationHeader },
+  components: { VersionBlock, FormSection, NavigationHeader },
   data () {
     return {
       langs: Object.keys(locales),

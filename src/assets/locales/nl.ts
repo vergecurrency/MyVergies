@@ -15,7 +15,21 @@ const nl: LocaleDefinition = {
       green: 'Groen',
       purple: 'Paars',
       orange: 'Oranje'
-    }
+    },
+    version: 'versie'
+  },
+  welcome: {
+    welcomeToMyVergies: 'Welkom bij MyVergies',
+    createdBy: 'Ontwikkeld door <b>Swen van Zanten</b>',
+    addAWallet: 'Voeg wallet toe',
+    addAWalletDesc: 'Je kunt meerdere wallets toevoegen... dat is te gek want ik kan zeker een aantal reden bedenken om er een paar toe te voegen.',
+    addWallet: 'Voeg wallet toe',
+    changeThings: 'Verander dingen',
+    changeThingsDesc: 'Met behulp van de instellingen kun je MyVergies veranderen in de perfecte XVG partner!',
+    tweakSettings: 'Verander instellingen',
+    helpImprove: 'Help verbeteren',
+    helpImproveDesc: 'MyVergies\'s code is open source en kan iedereen dus downloaden en verbeteren (na goedkeuring). Laten we samen een betere wereld bouwen!',
+    goToGithub: 'Ga naar GitHub'
   },
   tor: {
     status: {
@@ -172,7 +186,8 @@ const nl: LocaleDefinition = {
     dropWalletFile: 'Sleep je wallet bestand hierheen',
     confirmImportDesc: 'Bevestig de gegevens van het geïmporteerde bestand en wijzig zo nodig de gegevens. Als het allemaal goed is kun je doorgaan met importeren.',
     walletNameAlreadyExists: 'Deze wallet naam bestaat al, pas de naam van het te importeren wallet aan om door te kunnen gaan.',
-    import: 'Importeer'
+    import: 'Importeer',
+    usesSingleAddress: 'Gebruikt enkel adres'
   },
   walletSettings: {
     walletSettings: 'Wallet instellingen',
@@ -219,8 +234,12 @@ const nl: LocaleDefinition = {
     newPinConfirmation: 'Bevestig nieuwe PIN',
     newPinConfirmationDesc: 'Voor de zekerheid moet je die nieuwe PIN even bevestigen.',
     cancel: 'Annuleer',
-    couldntChangePin: 'Kun de PIN niet veranderen',
-    pinChanged: 'PIN veranderd!'
+    couldntChangePin: 'Kon de PIN niet veranderen',
+    pinChanged: 'PIN veranderd!',
+    addPin: 'Voeg PIN toe',
+    addPinDesc: 'Deze applicatie beveiligd al uw wallets en instellingen met een makkelijk te onthouden PIN. Laten we er één instellen!',
+    couldntSetPin: 'Kon de PIN niet instellen',
+    pinAdded: 'PIN ingesteld, geniet nu van MyVergies!'
   },
   export: {
     description: 'Het aanmaken van een extra backup van je wallet gegevens is best een slimme zet. Sla deze gegevens op op een verwijderbare hardeschijf or op een andere veilige plaats.',

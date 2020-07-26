@@ -42,6 +42,7 @@ import WalletPreferences from '@/views/Wallet/Create/WalletPreferences'
 import PaperKey from '@/views/Wallet/Create/PaperKey'
 import PassPhrase from '@/views/Wallet/Create/PassPhrase'
 import Create from '@/views/Wallet/Create/Create'
+import constants from '@/utils/constants'
 
 export default {
   name: 'WalletSetupView',
@@ -57,7 +58,7 @@ export default {
         paperkey: '',
         passphrase: '',
         singleAddress: false,
-        vwsApi: 'http://localhost:3232/vws/api',
+        vwsApi: constants.vwsApi,
         info: {
           balance: {
             totalAmount: 12300000000

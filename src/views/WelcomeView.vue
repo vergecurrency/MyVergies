@@ -1,21 +1,72 @@
 <template>
   <div>
-    <div class="columns has-text-centered">
-      <div class="column">
-        <b-icon icon="hand-pointer" custom-size="6x"/>
-        <h1 class="is-size-1 has-text-grey is-family-handwritten">
-          Select a wallet
-        </h1>
-        <p class="">
-          Some how you forgot to select your default wallet 😂
-        </p>
+    <div class="columns">
+      <div class="column welcome-header">
+        <div class="header-logo">
+          <img src="@/assets/headers/logo@2x.png"/>
+        </div>
+        <div class="has-text-right">
+          <h1 class="is-size-1 is-family-handwritten" v-html="$i18n.t('welcome.welcomeToMyVergies')"/>
+          <h4 class="is-size-6 has-text-grey" v-html="$i18n.t('welcome.createdBy')"/>
+        </div>
       </div>
     </div>
+
+    <div class="box">
+
+      <form-box
+        :title="$i18n.t('welcome.addAWallet')"
+        :description="$i18n.t('welcome.addAWalletDesc')"
+      >
+        <router-link class="button is-success" :to="{ name: 'wallets.create' }" v-html="$i18n.t('welcome.addWallet')"/>
+      </form-box>
+
+      <form-box
+        :title="$i18n.t('welcome.changeThings')"
+        :description="$i18n.t('welcome.changeThingsDesc')"
+      >
+        <router-link class="button is-primary" :to="{ name: 'settings' }" v-html="$i18n.t('welcome.tweakSettings')"/>
+      </form-box>
+
+      <form-box
+        :title="$i18n.t('welcome.helpImprove')"
+        :description="$i18n.t('welcome.helpImproveDesc')"
+        type="is-info"
+      >
+        <b-button :label="$i18n.t('welcome.goToGithub')" type="is-info" @click="openGitHub"/>
+      </form-box>
+
+    </div>
+
+    <version-block/>
   </div>
 </template>
 
 <script>
+import FormBox from '@/components/layout/FormBox'
+import VersionBlock from '@/components/VersionBlock'
+
 export default {
-  name: 'welcome-view'
+  name: 'WelcomeView',
+
+  components: { VersionBlock, FormBox },
+
+  methods: {
+    openGitHub () {
+      this.$electron.shell.openExternal('https://github.com/vergecurrency/MyVergies')
+    }
+  }
 }
 </script>
+
+<style>
+  .welcome-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header-logo > img {
+    width: 200px;
+  }
+</style>

@@ -126,6 +126,10 @@ class AuthManager {
   public toggleAuthentication (): void {
     this.authenticated ? this.lock() : this.showAuthenticationModal()
   }
+
+  public async pinIsSet (): Promise<boolean> {
+    return await Keytar.getCredentials(Keytar.appService, 'application') !== null
+  }
 }
 
 const authManagerPlugin: PluginFunction<any> = function (vue: typeof Vue, options: any): void {

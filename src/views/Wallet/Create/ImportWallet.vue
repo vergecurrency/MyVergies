@@ -81,21 +81,6 @@
                 </td>
               </tr>
               <tr>
-                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.coin')"/>
-                <td>{{ wallet.coin }}</td>
-              </tr>
-              <tr>
-                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.network')"/>
-                <td>{{ wallet.network }}</td>
-              </tr>
-              <tr>
-                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.singleAddress')"/>
-                <td>
-                  <b-icon v-if="wallet.singleAddress" icon="check" type="is-success"/>
-                  <b-icon v-else icon="times" type="is-danger"/>
-                </td>
-              </tr>
-              <tr>
                 <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.serviceURL')"/>
                 <td>
                   <b-input
@@ -105,6 +90,20 @@
                     v-model="wallet.vwsApi"
                   />
                 </td>
+              </tr>
+              <tr v-if="wallet.singleAddress">
+                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.usesSingleAddress')"/>
+                <td>
+                  <b-icon icon="check" type="is-success"/>
+                </td>
+              </tr>
+              <tr>
+                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.coin')"/>
+                <td>{{ wallet.coin }}</td>
+              </tr>
+              <tr>
+                <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.network')"/>
+                <td>{{ wallet.network }}</td>
               </tr>
               <tr>
                 <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.paperKey')"/>
