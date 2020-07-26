@@ -1,14 +1,14 @@
 <template>
   <div>
     <div class="block">
-      <div v-if="!confirmed">
+      <div v-if="!confirmed && !skipConfirmation">
         <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.almostReady')"/>
         <p v-html="$i18n.t('createWallet.almostReadyDesc')"/>
       </div>
       <h1 v-else class="title is-family-handwritten" v-html="$i18n.t('createWallet.awesomeYouveDoneIt')"/>
     </div>
 
-    <div v-if="!confirmed">
+    <div v-if="!confirmed && !skipConfirmation">
       <b-field class="box">
         <b-switch
           v-model="agreedTerm1"
@@ -46,7 +46,7 @@
         </b-field>
       </b-field>
     </div>
-    <b-notification v-else-if="confirmed" :closable="false" class="has-text-weight-semibold has-text-grey-light">
+    <b-notification v-else-if="confirmed || skipConfirmation" :closable="false" class="has-text-weight-semibold has-text-grey-light">
       <div v-if="!done" class="is-flex">
         <b-icon icon="circle-notch" type="is-primary" class="fa-pulse create-wallet-icon"/>
         <p v-html="$i18n.t('createWallet.creatingWallet')"/>
@@ -57,7 +57,7 @@
       </div>
     </b-notification>
 
-    <div v-if="confirmed && done">
+    <div v-if="(confirmed || skipConfirmation) && done">
       <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('createWallet.whatToDoNext')"/>
       <div class="box has-background-warning">
         <div class="columns is-vcentered">
@@ -106,6 +106,7 @@
 <script>
 import constants from '@/utils/constants'
 import { shell } from 'electron'
+import ExportModal from '@/views/Wallet/Settings/ExportModal'
 
 export default {
   name: 'Create',
@@ -114,6 +115,16 @@ export default {
     done: {
       type: Boolean,
       required: true
+    },
+
+    skipConfirmation: {
+      type: Boolean,
+      required: false
+    },
+
+    wallet: {
+      type: Object,
+      default: null
     }
   },
 
@@ -128,7 +139,7 @@ export default {
 
   computed: {
     isConfirmed () {
-      return this.agreedTerm1 && this.agreedTerm2 && this.agreedTerm3
+      return (this.agreedTerm1 && this.agreedTerm2 && this.agreedTerm3) || this.skipConfirmation
     }
   },
 
@@ -149,7 +160,15 @@ export default {
     },
 
     exportWallet () {
-      // Open export modal
+      this.$buefy.modal.open({
+        component: ExportModal,
+        parent: this,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          wallet: this.wallet
+        }
+      })
     }
   }
 }

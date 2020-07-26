@@ -41,7 +41,11 @@ import {
   faEyeSlash,
   faCopy,
   faListUl,
-  faExclamationCircle
+  faExclamationCircle,
+  faFolderOpen,
+  faFileContract,
+  faFileImport,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -83,6 +87,10 @@ library.add(faEyeSlash)
 library.add(faCopy)
 library.add(faListUl)
 library.add(faExclamationCircle)
+library.add(faFolderOpen)
+library.add(faFileContract)
+library.add(faFileImport)
+library.add(faTimes)
 
 Vue.use(Buefy, {
   defaultIconComponent: 'fa-icon',

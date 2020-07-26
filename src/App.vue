@@ -38,6 +38,10 @@ export default {
       this.$router.push('/settings')
     })
 
+    ipcRenderer.on('lock-application', () => {
+      this.$authManager.lock()
+    })
+
     ipcRenderer.on('user-idle', () => {
       this.$authManager.lock()
     })

@@ -162,7 +162,17 @@ const nl: LocaleDefinition = {
     receiveXvg: 'Ontvang XVG',
     orGoToWallet: 'Of...',
     orGoToWalletDesc: 'Ga naar je wallet scherm en voer bovenstaande activiteiten daar uit.',
-    goToWallet: 'Naar wallet'
+    goToWallet: 'Naar wallet',
+    importWallet: 'Importeer wallet',
+    coin: 'Coin',
+    network: 'Netwerk',
+    openFile: 'Open bestand',
+    openFileDesc: 'Als je je wallet al eerder hebt geëxporteerd kun je je wallet slepen of kiezen vanuit het bestandsdialoog om het te importeren.',
+    openWalletFile: 'Open wallet bestand',
+    dropWalletFile: 'Sleep je wallet bestand hierheen',
+    confirmImportDesc: 'Bevestig de gegevens van het geïmporteerde bestand en wijzig zo nodig de gegevens. Als het allemaal goed is kun je doorgaan met importeren.',
+    walletNameAlreadyExists: 'Deze wallet naam bestaat al, pas de naam van het te importeren wallet aan om door te kunnen gaan.',
+    import: 'Importeer'
   },
   walletSettings: {
     walletSettings: 'Wallet instellingen',
@@ -211,6 +221,19 @@ const nl: LocaleDefinition = {
     cancel: 'Annuleer',
     couldntChangePin: 'Kun de PIN niet veranderen',
     pinChanged: 'PIN veranderd!'
+  },
+  export: {
+    description: 'Het aanmaken van een extra backup van je wallet gegevens is best een slimme zet. Sla deze gegevens op op een verwijderbare hardeschijf or op een andere veilige plaats.',
+    condition1: 'Zorg ervoor dat je dit bestand op een veilige en vertrouwde plek opslaat',
+    condition2: 'Jij bent zelf verantwoordelijk voor wie dit bestand kan inzien',
+    condition3: 'Dit bestand bevat alle gegevens om je saldo te verzenden en te stelen',
+    fileEncryption: 'Bestand versleuteling',
+    fileEncryptionDesc: 'Omdat dit bestand alle informatie van je wallet bevat raden we je sterk aan om het bestand te versleutelen met een wachtwoord.',
+    passwordPlaceholder: 'Uw versleutelings wachtwoord',
+    confirmation: 'Ik begrijp wat ik aan het doen ben en wil graag mijn wallet gegevens in een apart bestand opslaan.',
+    exportFile: 'Export bestand opslaan',
+    unknownError: 'Je wallet was niet geëxporteerd door een onbekende fout',
+    successfulExport: 'Je wallet is succesvol geëxporteerd!'
   }
 }
 export default nl

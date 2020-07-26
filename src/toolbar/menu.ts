@@ -9,26 +9,7 @@ import { isMacOSEnvironment } from '@/utils'
 /**
  * macOS Dock menu items
  */
-export const dockTemplate = [
-  {
-    label: 'Send',
-    click () {
-      console.log('Send')
-    }
-  },
-  {
-    label: 'Receive',
-    click () {
-      console.log('Receive')
-    }
-  },
-  {
-    label: 'Settings',
-    click () {
-      console.log('Settings')
-    }
-  }
-]
+export const dockTemplate = []
 
 /**
  * Application menu.

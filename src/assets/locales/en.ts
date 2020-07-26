@@ -162,7 +162,17 @@ const en: LocaleDefinition = {
     receiveXvg: 'Receive XVG',
     orGoToWallet: 'Or...',
     orGoToWalletDesc: 'Go to your wallet view where you can handle each of the above.',
-    goToWallet: 'Go to wallet'
+    goToWallet: 'Go to wallet',
+    importWallet: 'Import wallet',
+    coin: 'Coin',
+    network: 'Network',
+    openFile: 'Open file',
+    openFileDesc: 'If you exported your wallet before you can drag and drop or choose your file from the file dialog to import the wallet.',
+    openWalletFile: 'Open wallet file',
+    dropWalletFile: 'Drop your wallet file here',
+    confirmImportDesc: 'Review the import files wallet configuration and change values if needed. If satisfied go ahead with the import.',
+    walletNameAlreadyExists: 'This wallet name already exists, motify the wallets name to continue the import.',
+    import: 'Import'
   },
   walletSettings: {
     walletSettings: 'Wallet settings',
@@ -211,6 +221,19 @@ const en: LocaleDefinition = {
     cancel: 'Cancel',
     couldntChangePin: 'Couldn\'t change PIN',
     pinChanged: 'PIN changed!'
+  },
+  export: {
+    description: 'Creating an extra backup of your wallet credentials can be a smart thing to do. Either store it savely on a removable drive or another secure place.',
+    condition1: 'Make sure to store your exported wallet file on a secure and trusted place',
+    condition2: 'You are responsible for who is able to access this file',
+    condition3: 'Everything needed to send and steel your funds is in this file',
+    fileEncryption: 'File encryption',
+    fileEncryptionDesc: 'Because the export file contains all the data to your wallet we encourage you to encrypt your export file with a password.',
+    passwordPlaceholder: 'Your file encryption password',
+    confirmation: 'I understand the what I\'m doing and want to export my wallet into a separate file.',
+    exportFile: 'Save export',
+    unknownError: 'Wallet wasn\'t exported because of an unknown reason',
+    successfulExport: 'Successfully exported wallet!'
   }
 }
 export default en

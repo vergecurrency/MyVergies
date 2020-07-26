@@ -82,7 +82,7 @@
           :description="$i18n.t('createWallet.exportYourWalletDesc')"
           type="is-warning"
         >
-          <b-button v-html="$i18n.t('createWallet.exportWallet')"/>
+          <b-button v-html="$i18n.t('createWallet.exportWallet')" @click="exportWallet"/>
         </form-box>
       </form-section>
 
@@ -113,6 +113,7 @@ import { mapActions, mapGetters } from 'vuex'
 import CredentialBox from '@/components/CredentialBox'
 import FormBox from '@/components/layout/FormBox'
 import WalletCard from '@/components/WalletCard'
+import ExportModal from '@/views/Wallet/Settings/ExportModal'
 
 export default {
   name: 'wallet-settings-view',
@@ -180,6 +181,18 @@ export default {
         })
       }).catch(e => {
         this.$buefy.dialog.alert(e.message)
+      })
+    },
+
+    exportWallet () {
+      this.$buefy.modal.open({
+        component: ExportModal,
+        parent: this,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          wallet: this.wallet
+        }
       })
     },
 

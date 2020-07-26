@@ -6,6 +6,7 @@ import ElectronWindowState from 'electron-window-state'
 import * as ElectronUtils from 'electron-util'
 import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
+import ExportImportManager from '@/walletManager/ExportImportManager'
 import '@/utils/keytar/main'
 import * as Utils from './utils'
 import { eventConstants } from './utils/constants'
@@ -110,6 +111,9 @@ function createWindow () {
       win!.webContents.send('user-idle')
     }
   }, 1000)
+
+  // Register export save dialog events
+  ExportImportManager.registerEvents(win)
 
   return win
 }

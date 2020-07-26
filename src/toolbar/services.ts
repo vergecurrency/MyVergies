@@ -1,22 +1,11 @@
-import { MenuItem, Menu } from 'electron'
+import { MenuItem, Menu, BrowserWindow } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
-    label: 'Lock wallet'
-  }),
-  new MenuItem({
-    type: 'separator'
-  }),
-  new MenuItem({
-    label: 'Send',
-    click () {
-      console.log('Send')
-    }
-  }),
-  new MenuItem({
-    label: 'Receive',
-    click () {
-      console.log('Send')
+    label: 'Lock application',
+    accelerator: 'CmdOrCtrl+L',
+    click (menuItem: MenuItem, browserWindow: BrowserWindow) {
+      return browserWindow.webContents.send('lock-application')
     }
   }),
   new MenuItem({

@@ -208,4 +208,17 @@ export default class Wallet {
       return this.createAddress()
     })
   }
+
+  public getExportConfig (): object {
+    return {
+      name: this.name,
+      color: this.color,
+      coin: this.info!.wallet.coin,
+      network: this.info!.wallet.network,
+      paperkey: this.vwc.credentials.mnemonic,
+      walletPrivKey: this.vwc.credentials.walletPrivKey,
+      singleAddress: this.info!.wallet.singleAddress,
+      vwsApi: this.vwc.request.baseUrl
+    }
+  }
 }

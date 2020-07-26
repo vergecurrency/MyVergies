@@ -27,7 +27,7 @@
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.createWallet')" :clickable="false">
-          <create :wallet="wallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
+          <create :wallet="createdWallet" :done="createdWallet !== null" @createWallet="createWallet" @next="walletCreated"/>
         </b-step-item>
 
       </b-steps>

@@ -5,9 +5,6 @@ const SubMenuItems: MenuItem[] = [
     role: 'about'
   }),
   new MenuItem({
-    label: 'Check for Updates...'
-  }),
-  new MenuItem({
     type: 'separator'
   }),
   new MenuItem({

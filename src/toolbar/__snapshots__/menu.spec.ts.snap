@@ -18,13 +18,6 @@ Array [
           Array [
             mockConstructor {
               "values": Object {
-                "label": "Check for Updates...",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
                 "type": "separator",
               },
             },
@@ -132,10 +125,6 @@ Array [
             "type": "return",
             "value": undefined,
           },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
         ],
       },
     },
@@ -149,30 +138,9 @@ Array [
             Array [
               mockConstructor {
                 "values": Object {
-                  "label": "Lock wallet",
-                },
-              },
-            ],
-            Array [
-              mockConstructor {
-                "values": Object {
-                  "type": "separator",
-                },
-              },
-            ],
-            Array [
-              mockConstructor {
-                "values": Object {
+                  "accelerator": "CmdOrCtrl+L",
                   "click": [Function],
-                  "label": "Send",
-                },
-              },
-            ],
-            Array [
-              mockConstructor {
-                "values": Object {
-                  "click": [Function],
-                  "label": "Receive",
+                  "label": "Lock application",
                 },
               },
             ],
@@ -240,18 +208,6 @@ Array [
             ],
           ],
           "results": Array [
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
-            Object {
-              "type": "return",
-              "value": undefined,
-            },
             Object {
               "type": "return",
               "value": undefined,
@@ -402,41 +358,6 @@ Array [
           Array [
             mockConstructor {
               "values": Object {
-                "label": "Learn how to create a new wallet",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
-                "label": "Learn how to restore an existing wallet",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
-                "label": "Learn how to send XVG",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
-                "label": "Learn how to receive XVG",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
-                "type": "separator",
-              },
-            },
-          ],
-          Array [
-            mockConstructor {
-              "values": Object {
                 "click": [Function],
                 "label": "Visit our GitHub",
               },
@@ -452,26 +373,6 @@ Array [
           ],
         ],
         "results": Array [
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
-          Object {
-            "type": "return",
-            "value": undefined,
-          },
           Object {
             "type": "return",
             "value": undefined,

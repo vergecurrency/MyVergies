@@ -1,21 +1,21 @@
 import { MenuItem, Menu } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
-  new MenuItem({
-    label: 'Learn how to create a new wallet'
-  }),
-  new MenuItem({
-    label: 'Learn how to restore an existing wallet'
-  }),
-  new MenuItem({
-    label: 'Learn how to send XVG'
-  }),
-  new MenuItem({
-    label: 'Learn how to receive XVG'
-  }),
-  new MenuItem({
-    type: 'separator'
-  }),
+  // new MenuItem({
+  //   label: 'Learn how to create a new wallet'
+  // }),
+  // new MenuItem({
+  //   label: 'Learn how to restore an existing wallet'
+  // }),
+  // new MenuItem({
+  //   label: 'Learn how to send XVG'
+  // }),
+  // new MenuItem({
+  //   label: 'Learn how to receive XVG'
+  // }),
+  // new MenuItem({
+  //   type: 'separator'
+  // }),
   new MenuItem({
     label: 'Visit our GitHub',
     click: () => {

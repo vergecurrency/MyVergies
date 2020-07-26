@@ -26,6 +26,16 @@
             Restore an existing wallet
           </router-link>
         </div>
+
+        <span class="has-text-weight-bold">Or</span>
+
+        <br/>
+        <br/>
+        <div class="buttons is-centered">
+          <router-link class="button" :to="{ name: 'wallets.create.import' }">
+            Import wallet
+          </router-link>
+        </div>
       </div>
     </div>
   </div>

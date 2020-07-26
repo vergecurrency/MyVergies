@@ -23,6 +23,10 @@
   background-color: rgba(190, 190, 190, 0.5);
 }
 
+.modal-card-head.is-warning {
+  background-color: $warning;
+}
+
 @media (prefers-color-scheme: dark) {
   .modal-background {
     background-color: rgba(70, 70, 70, 0.5);
@@ -40,5 +44,9 @@
 
   .modal-card-title {
     color: #b6b6b6;
+  }
+
+  .modal-card-head.is-warning .modal-card-title {
+    color: #1e1e1e;
   }
 }

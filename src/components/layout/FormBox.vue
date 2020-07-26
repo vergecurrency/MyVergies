@@ -1,11 +1,12 @@
 <template>
   <div class="box" :class="formattedType">
+    <b-switch v-if="toggleable" v-model="enabled" class="form-box-toggle"/>
     <div class="columns is-vcentered">
       <div class="column">
         <h4 class="has-text-weight-semibold" v-html="title"/>
-        <p v-html="description"/>
+        <p v-if="enabled" v-html="description"/>
       </div>
-      <div class="column" :class="contentColumnClasses">
+      <div v-if="enabled" class="column" :class="contentColumnClasses">
         <slot/>
       </div>
     </div>
@@ -15,6 +16,12 @@
 <script>
 export default {
   name: 'FormBox',
+
+  data () {
+    return {
+      enabled: this.isEnabled
+    }
+  },
 
   computed: {
     formattedType () {
@@ -39,6 +46,12 @@ export default {
     }
   },
 
+  watch: {
+    isEnabled (enabled) {
+      this.enabled = enabled
+    }
+  },
+
   props: {
     type: {
       type: String,
@@ -55,6 +68,14 @@ export default {
     isNarrow: {
       type: Boolean,
       default: true
+    },
+    isEnabled: {
+      type: Boolean,
+      default: true
+    },
+    toggleable: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -65,5 +86,10 @@ export default {
     pointer-events: none;
     opacity: 0.8;
     background: #f1f1f1;
+  }
+
+  .form-box-toggle {
+    position: absolute;
+    right: 26px;
   }
 </style>

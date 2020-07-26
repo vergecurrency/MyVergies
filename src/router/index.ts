@@ -7,6 +7,7 @@ import ReceiveView from '@/views/Wallet/Receive/ReceiveView.vue'
 import TransactionView from '@/views/Wallet/Transaction/TransactionView.vue'
 import WalletCreateView from '@/views/Wallet/Create/CreateView.vue'
 import WalletSetupView from '@/views/Wallet/Create/WalletSetupView.vue'
+import ImportWallet from '@/views/Wallet/Create/ImportWallet.vue'
 import WalletSettingsView from '@/views/Wallet/Settings/SettingsView.vue'
 import ExplorerView from '@/views/Explorer/ExplorerView.vue'
 import ContactsView from '@/views/Contacts/ContactsView.vue'
@@ -75,6 +76,14 @@ const router = new VueRouter({
       name: 'wallets.create.restore',
       component: WalletSetupView,
       props: true,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/wallets/create/import',
+      name: 'wallets.create.import',
+      component: ImportWallet,
       meta: {
         needsAuthentication: true
       }
