@@ -91,6 +91,10 @@ class AuthManager {
   public async changePin (pin: string): Promise<boolean> {
     Keytar.setCredentials(Keytar.appService, 'application', pin)
 
+    this.authenticated = true
+
+    Log.info('Changed PIN, authenticated')
+
     return true
   }
 

@@ -1,5 +1,3 @@
-import { app, ipcMain } from 'electron'
-
 export const isDevelopmentEnvironment = () =>
   process && process.env.NODE_ENV === 'development'
 
@@ -18,7 +16,3 @@ export default {
   isMacOSEnvironment,
   isWinOSEnvironment
 }
-
-ipcMain.on('get-version', async (event) => {
-  event.returnValue = app.getVersion()
-})

@@ -8,6 +8,7 @@ import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
 import ExportImportManager from '@/walletManager/ExportImportManager'
 import '@/utils/keytar/main'
+import '@/utils/ipcMainEvents'
 import * as Utils from '@/utils'
 import { eventConstants } from '@/utils/constants'
 
