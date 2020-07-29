@@ -1,0 +1,18 @@
+.box-with-pins > .box:not(:last-child) {
+  margin-bottom: 0;
+  border-bottom: none;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.box-with-pins > .box:not(:first-child) {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  .box-with-pins > .box[disabled] {
+    background-color: #4a4a4a;
+    color: #252525;
+  }
+}

@@ -118,17 +118,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .box-with-pins > .box:not(:last-child) {
-    margin-bottom: 0;
-    border-bottom: none;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-  }
-
-  .box-with-pins > .box:not(:first-child) {
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-  }
-</style>

@@ -1,0 +1,15 @@
+@media (prefers-color-scheme: dark) {
+  .table {
+    background-color: #2c2e30;
+    color: #ffffff;
+  }
+
+  .table thead td, .table thead th {
+    color: #ffffff;
+  }
+
+  .table td, .table th {
+    border: 1px solid #585858;
+    border-width: 0 0 1px;
+  }
+}
