@@ -38,7 +38,10 @@
             <div class="field-body">
               <div class="field is-expanded ">
                 <div class="field has-addons">
-<!--                  <p class="control">-->
+                  <p class="control">
+                    <a class="button is-static">
+                      XVG
+                    </a>
 <!--                    <span class="select">-->
 <!--                      <select>-->
 <!--                        <option>XVG</option>-->
@@ -47,7 +50,7 @@
 <!--                        <option>€</option>-->
 <!--                      </select>-->
 <!--                    </span>-->
-<!--                  </p>-->
+                  </p>
                   <p class="control is-expanded">
                     <input class="input" type="text" placeholder="Amount you want to send" v-model="value.amount">
                   </p>
