@@ -22,7 +22,7 @@ const en: LocaleDefinition = {
     welcomeToMyVergies: 'Welcome to MyVergies',
     createdBy: 'Created by <b>Swen van Zanten</b>',
     addAWallet: 'Add a wallet',
-    addAWalletDesc: You are able to add multiple wallets... this is awesome because I can think of a ton of reasons to have more than one!',s
+    addAWalletDesc: 'You are able to add multiple wallets... this is awesome because I can think of a ton of reasons to have more than one!',
     addWallet: 'Add wallet',
     changeThings: 'Change things',
     changeThingsDesc: 'Within the settings you\'re able to tweak MyVergies into the perfect XVG wallet companion!',
@@ -144,7 +144,7 @@ const en: LocaleDefinition = {
     fillInYourPaperKey: 'Fill in your paper key',
     fillInYourPaperKeyDesc: 'In order to restore your previously used wallet you need to fill in your wallets paper key. Only enter lowercase modern latin alphabet characters. No spaces or special characters.',
     confirmPaperKey: 'Confirm paper key',
-    invalidPaperkeySelected: 'The selected paper key incorrect and doesn\'t match the original one. Please try again!',
+    invalidPaperkeySelected: 'The selected paper key is incorrect and doesn\'t match the original one. Please try again!',
     passPhrase: 'Pass phrase',
     passPhraseDescription: 'Encrypting your paper key is an important safety measure. Make sure when restoring a wallet to use your previous passphrase.',
     setupPassphraseReq1: 'Min. 8 characters',
