@@ -28,13 +28,7 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    const walletConfig = JSON.parse(atob(encrytedWallet as string))
-    const mnemonic = new Mnemonic(walletConfig.paperkey)
-    const hdPrivateKey = mnemonic.toHDPrivateKey(walletConfig.passphrase, walletConfig.network)
-
-    walletConfig.walletPrivKey = hdPrivateKey.derive(0, true).privateKey.toString()
-
-    return walletConfig
+    return JSON.parse(atob(encrytedWallet as string))
   }))
 }
 

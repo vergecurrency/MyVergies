@@ -88,7 +88,7 @@ export default {
         this.$buefy.dialog.alert({
           message: error.toString(),
           onConfirm: () => {
-            // decide what to do.
+            // TODO: decide what to do.
           }
         })
       })
