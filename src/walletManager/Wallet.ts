@@ -5,6 +5,7 @@ import Balance, { BalanceAddress } from '@/walletManager/models/Balance'
 import Tx from '@/walletManager/models/Tx'
 import { TxProposal, TxProposalResponse } from '@/walletManager/models/TxProposal'
 import AddressInfo from '@/walletManager/models/AddressInfo'
+import SendMaxInfo from '@/walletManager/models/SendMaxInfo'
 
 export default class Wallet {
   protected vwc: Client
@@ -206,6 +207,18 @@ export default class Wallet {
 
       // Create a new address
       return this.createAddress()
+    })
+  }
+
+  public getSendMaxInfo (returnInputs: boolean = false): Promise<SendMaxInfo> {
+    return new Promise((resolve, reject) => {
+      this.vwc.getSendMaxInfo({ returnInputs }, (error: Error|null, info: SendMaxInfo) => {
+        if (error) {
+          return reject(error)
+        }
+
+        resolve(info)
+      })
     })
   }
 

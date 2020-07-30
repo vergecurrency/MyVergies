@@ -15,7 +15,7 @@
         <br/>
 
         <b-step-item :label="$i18n.t('send.fillForm')" :clickable="false">
-          <send-form v-model="transaction" @input="validateTransaction"/>
+          <send-form v-model="transaction" :wallet="wallet" @input="validateTransaction"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('send.confirm')" :clickable="false">
