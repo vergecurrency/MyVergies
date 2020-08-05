@@ -74,4 +74,4 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ### BEFORE CONTRIBUTING
 
-This repository is in alpha state and so it's not ready for feature pull requests.
+This repository is in beta state and so it's not ready for feature pull requests.
