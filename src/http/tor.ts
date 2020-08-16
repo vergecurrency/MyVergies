@@ -7,6 +7,7 @@ import { Socket } from 'net'
 import { readFileSync, chmodSync } from 'fs'
 import { TorController, torrc } from '@deadcanaries/granax'
 import * as ElectronUtils from 'electron-util'
+import Log from 'electron-log'
 
 const BIN_PATH: string = ElectronUtils.fixPathForAsarUnpack(path.join(__dirname, 'bin'))
 const LD_LIBRARY_PATH: string = path.join(
@@ -22,6 +23,8 @@ if (!ElectronUtils.is.windows) {
     'tor',
     'tor.real'
   ].forEach(file => chmodSync(path.join(BIN_PATH, 'Tor', file), 0o555))
+
+  Log.info('chmod tor files')
 }
 
 export default function (options: Object = {}, torrcOptions: Object = {}) {

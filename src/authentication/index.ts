@@ -2,8 +2,10 @@ import Vue, { PluginFunction } from 'vue'
 import VueRouter, { NavigationGuardNext, Route } from 'vue-router'
 import { BuefyNamespace } from 'buefy'
 import Log from 'electron-log'
+import SudoPrompt from 'sudo-prompt'
 import Keytar from '@/utils/keytar'
 import AuthenticationModal from '@/views/Authentication/AuthenticationModal.vue'
+import AddPinModal from '@/views/Settings/AddPinModal.vue'
 
 class AuthManager {
   protected authenticated: boolean = false
@@ -73,9 +75,29 @@ class AuthManager {
         canCancel: ['escape', 'outside'],
         onCancel: closeHandler,
         events: {
-          forgotPin () {
-            Log.info('forgot PIN')
+          resetPin () {
+            Log.info('user wants to reset PIN')
+
+            const options = {
+              name: 'MyVergies'
+            }
+
+            SudoPrompt.exec('echo hello', options, (error, stdout, stderr) => {
+              if (error) {
+                return Log.info('user didn\'t system authenticate for PIN reset')
+              }
+
+              Log.info('user did system authenticate for PIN reset')
+
+              manager.authenticationModalShown = false
+              manager.authenticated = false
+              modal.close()
+              manager.showPinResetModal().then(pinReset => {
+                resolve(pinReset)
+              })
+            })
           },
+
           authenticated () {
             manager.authenticationModalShown = false
             modal.close()
@@ -88,12 +110,35 @@ class AuthManager {
     })
   }
 
+  protected showPinResetModal (): Promise<boolean> {
+    Log.info('show PIN reset modal')
+
+    return new Promise((resolve) => {
+      this.$buefy.modal.open({
+        // @ts-ignore
+        component: AddPinModal,
+        parent: this.$parent,
+        hasModalCard: true,
+        trapFocus: true,
+        canCancel: ['escape', 'outside'],
+        onCancel () {
+          resolve(false)
+        },
+        events: {
+          close (reset: boolean) {
+            resolve(reset)
+          }
+        }
+      })
+    })
+  }
+
   public async changePin (pin: string): Promise<boolean> {
     Keytar.setCredentials(Keytar.appService, 'application', pin)
 
     this.authenticated = true
 
-    Log.info('Changed PIN, authenticated')
+    Log.info('changed PIN, authenticated')
 
     return true
   }
@@ -142,7 +187,11 @@ const authManagerPlugin: PluginFunction<any> = function (vue: typeof Vue, option
 
   vue.mixin({
     beforeCreate (): void {
-      vue.prototype.$authManager.injectVue(this)
+      if (!vue.prototype.$authManager.$parent) {
+        Log.info('inject Vue in auth manager')
+
+        vue.prototype.$authManager.injectVue(this)
+      }
     },
 
     computed: {

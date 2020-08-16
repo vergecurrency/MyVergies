@@ -46,7 +46,10 @@ const nl: LocaleDefinition = {
   unlock: {
     unlockYourWallet: 'Ontgrendel uw wallet',
     pin: 'PIN',
-    forgotPin: 'Ik ben mijn PIN vergeten'
+    forgotPin: 'Ik ben mijn PIN vergeten',
+    youForgotYourPin: 'Je bent je PIN vergeten?',
+    youForgotYourPinDesc: 'Dat is niet zo handig! Door het systeem netjes te vragen (door je zelf te authenticeren) om je huidige PIN te verlenen kun jij daarna een PIN reset uitvoeren. Zo krijg je weer netjes toegang tot je wallet.',
+    resetPin: 'Reset PIN'
   },
   wallet: {
     settings: 'Instellingen',

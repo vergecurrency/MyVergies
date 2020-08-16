@@ -7,29 +7,45 @@
         aria-label="close"
         @click="$emit('close')"
       />
-      <div class="columns has-text-centered">
-        <div class="column">
-          <img src="@/assets/headers/id-card@2x.png" class="id-card"/>
-          <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('unlock.unlockYourWallet')"/>
+
+      <div v-if="forgotPin">
+        <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('unlock.youForgotYourPin')"/>
+        <p v-html="$i18n.t('unlock.youForgotYourPinDesc')"/>
+        <br/>
+        <div class="columns">
+          <div class="column">
+            <b-button @click="forgotPin = false" v-html="$i18n.t('settings.cancel')">Cancel</b-button>
+          </div>
+          <div class="column is-narrow">
+            <b-button type="is-primary" @click="$emit('resetPin')" :label="$i18n.t('unlock.resetPin')"/>
+          </div>
         </div>
       </div>
-
-      <div class="box" :class="{'has-background-danger-light': wrongPin}">
-        <b-field
-          :type="{ 'is-danger': wrongPin }"
-        >
-          <div class="columns is-centered">
-            <div class="column is-two-thirds">
-              <pin-input @submit="authenticationSubmit" @changed="wrongPin = false"/>
-            </div>
+      <div v-else>
+        <div class="columns has-text-centered">
+          <div class="column">
+            <img src="@/assets/headers/id-card@2x.png" class="id-card"/>
+            <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('unlock.unlockYourWallet')"/>
           </div>
-        </b-field>
+        </div>
 
-        <b-field class="has-text-centered">
-          <p class="control">
-            <a class="button is-text" v-html="$i18n.t('unlock.forgotPin')" @click="$emit('forgotPin')"/>
-          </p>
-        </b-field>
+        <div class="box" :class="{'has-background-danger-light': wrongPin}">
+          <b-field
+            :type="{ 'is-danger': wrongPin }"
+          >
+            <div class="columns is-centered">
+              <div class="column is-two-thirds">
+                <pin-input @submit="authenticationSubmit" @changed="wrongPin = false"/>
+              </div>
+            </div>
+          </b-field>
+
+          <b-field class="has-text-centered">
+            <p class="control">
+              <a class="button is-text" v-html="$i18n.t('unlock.forgotPin')" @click="forgotPin = true"/>
+            </p>
+          </b-field>
+        </div>
       </div>
 
     </div>
@@ -38,12 +54,14 @@
 
 <script>
 import PinInput from '@/components/PinInput'
+
 export default {
   name: 'AuthenticationModal',
   components: { PinInput },
   data () {
     return {
-      wrongPin: false
+      wrongPin: false,
+      forgotPin: false
     }
   },
 

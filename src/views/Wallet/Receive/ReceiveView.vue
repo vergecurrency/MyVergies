@@ -55,6 +55,7 @@
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import QrcodeVue from 'qrcode.vue'
+import Log from 'electron-log'
 
 export default {
   name: 'receive-view',
@@ -94,20 +95,28 @@ export default {
     getAddress () {
       this.wallet.getAddress().then(addressInfo => {
         this.address = addressInfo.address
+
+        Log.info('got a wallet address')
       }).catch(e => {
         this.$buefy.dialog.alert({
           message: e.message
         })
+
+        Log.error('error while getting a wallet address', e)
       })
     },
 
     getNewAddress () {
       this.wallet.createAddress().then(addressInfo => {
         this.address = addressInfo.address
+
+        Log.info('got a new wallet address')
       }).catch(e => {
         this.$buefy.dialog.alert({
           message: e.message
         })
+
+        Log.error('error while getting a new wallet address', e)
       })
     },
 
@@ -118,6 +127,8 @@ export default {
         message: this.$i18n.t('receive.addressCopied'),
         type: 'is-success'
       })
+
+      Log.info('copied wallet address')
     }
   }
 }

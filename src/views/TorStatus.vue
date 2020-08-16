@@ -47,7 +47,9 @@ import Log from 'electron-log'
 
 export default {
   name: 'tor-status',
+
   components: { LoadingOnion, DisconnectedOnion, ConnectedOnion, ErrorOnion },
+
   data () {
     return {
       loading: true,
@@ -56,11 +58,13 @@ export default {
       torActivated: true
     }
   },
+
   mounted () {
     this.fetchIpAddress()
   },
+
   computed: {
-    connectionStatusName: function () {
+    connectionStatusName () {
       if (this.loading) {
         return this.$i18n.t('tor.status.loading')
       }
@@ -75,7 +79,8 @@ export default {
 
       return this.$i18n.t('tor.status.connected')
     },
-    connectionStatus: function () {
+
+    connectionStatus () {
       if (this.loading) {
         return 'loading'
       }
@@ -91,25 +96,31 @@ export default {
       return 'connected'
     }
   },
+
   methods: {
-    fetchIpAddress: function () {
+    fetchIpAddress () {
       this.error = null
       this.ip = null
       this.loading = true
+
       return fetch(constants.ipApi)
         .then(res => res.ok && res.json())
         .then(networkData => {
+          Log.warn('Fetched IP address')
+
           this.networkData = networkData
           this.loading = false
         })
         .catch(err => {
           Log.warn("Couldn't load ip data. Reason:", err)
+
           this.error = err
           this.networkData = null
           this.loading = false
         })
     },
-    changed: function () {
+
+    changed () {
       ipcRenderer.sendSync(eventConstants.toggleTor, { activate: this.torActivated })
       ipcRenderer.once(eventConstants.toggledTor, () => {
         this.fetchIpAddress()

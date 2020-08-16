@@ -46,7 +46,10 @@ const en: LocaleDefinition = {
   unlock: {
     unlockYourWallet: 'Unlock your wallet',
     pin: 'PIN',
-    forgotPin: 'I forgot my unlock PIN'
+    forgotPin: 'I forgot my unlock PIN',
+    youForgotYourPin: 'You forgot your PIN?',
+    youForgotYourPinDesc: 'Thats very unfortunate! By asking your system nicely (by authenticating yourself) to provide us the PIN and enable you to reset your PIN we can restore your access.',
+    resetPin: 'Reset PIN'
   },
   wallet: {
     settings: 'Settings',

@@ -45,6 +45,9 @@ export interface LocaleDefinition {
     unlockYourWallet: string
     pin: string
     forgotPin: string
+    youForgotYourPin: string
+    youForgotYourPinDesc: string
+    resetPin: string
   }
   wallet: {
     settings: string

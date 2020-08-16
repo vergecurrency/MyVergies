@@ -92,7 +92,7 @@ export default {
           return
         }
 
-        this.$emit('close')
+        this.$emit('close', true)
 
         this.$buefy.toast.open({
           message: this.$i18n.t('settings.pinAdded'),
