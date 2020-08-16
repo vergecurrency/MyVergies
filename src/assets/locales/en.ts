@@ -127,6 +127,11 @@ const en: LocaleDefinition = {
     addressCopied: 'Address Copied!'
   },
   createWallet: {
+    createAWallet: 'Create a Wallet ✨',
+    createAWalletDesc: 'Choose wisely! Do you have an existing wallet<br />from your iOS or Android device? Restore it here...<br />Or do you want to create a new wallet?',
+    createANewWallet: 'Create a new wallet',
+    restoreAnExistingWallet: 'Restore an existing wallet',
+    or: 'Or',
     createNewWallet: 'Create new wallet',
     restoreExistingWallet: 'Restore existing wallet',
     addYourFirstWallet: 'Add your first wallet',

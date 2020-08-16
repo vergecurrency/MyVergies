@@ -127,6 +127,11 @@ const nl: LocaleDefinition = {
     addressCopied: 'Adres gekopieerd!'
   },
   createWallet: {
+    createAWallet: 'Voeg een wallet toe ✨',
+    createAWalletDesc: 'Kies verstandig! Heb je een bestaande wallet<br />van je iOS of Android device? Herstel deze dan hier...<br />Of wil je een nieuwe wallet aanmaken?',
+    createANewWallet: 'Creëer een nieuwe wallet',
+    restoreAnExistingWallet: 'Herstel een bestaande wallet',
+    or: 'Of',
     createNewWallet: 'Nieuwe wallet aanmaken',
     restoreExistingWallet: 'Herstel bestaande wallet',
     addYourFirstWallet: 'Voeg je eerste wallet toe',

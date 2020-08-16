@@ -5,36 +5,32 @@
         <page-title>
           <img src="@/assets/headers/create-wallet@2x.png"/>
         </page-title>
-        <h1 class="is-size-1 has-text-grey is-family-handwritten">
-          Create a Wallet ✨
-        </h1>
-        <p>
-          Choose wisely! Do you have an existing wallet<br />
-          from your iOS or Android device? Restore it here...<br />
-          Or do you want to create a new wallet?
-        </p>
+        <h1 class="is-size-1 has-text-grey is-family-handwritten" v-html="$i18n.t('createWallet.createAWallet')"/>
+        <p v-html="$i18n.t('createWallet.createAWalletDesc')"/>
       </div>
     </div>
 
     <div class="columns is-centered has-text-centered">
       <div class="column is-narrow">
         <div class="buttons">
-          <router-link class="button is-primary" :to="{ name: 'wallets.create.new' }">
-            Create a new wallet
-          </router-link>
-          <router-link class="button is-success" :to="{ name: 'wallets.create.restore', params: { restore: true } }">
-            Restore an existing wallet
-          </router-link>
+          <router-link
+            class="button is-primary"
+            :to="{ name: 'wallets.create.new' }"
+            v-html="$i18n.t('createWallet.createANewWallet')"
+          />
+          <router-link
+            class="button is-success"
+            :to="{ name: 'wallets.create.restore', params: { restore: true } }"
+            v-html="$i18n.t('createWallet.restoreAnExistingWallet')"
+          />
         </div>
 
-        <span class="has-text-weight-bold">Or</span>
+        <span class="has-text-weight-bold" v-html="$i18n.t('createWallet.or')"/>
 
         <br/>
         <br/>
         <div class="buttons is-centered">
-          <router-link class="button" :to="{ name: 'wallets.create.import' }">
-            Import wallet
-          </router-link>
+          <router-link class="button" :to="{ name: 'wallets.create.import' }" v-html="$i18n.t('createWallet.importWallet')"/>
         </div>
       </div>
     </div>

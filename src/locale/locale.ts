@@ -125,6 +125,11 @@ export interface LocaleDefinition {
     addressCopied: string
   }
   createWallet: {
+    createAWallet: string
+    createAWalletDesc: string
+    createANewWallet: string
+    restoreAnExistingWallet: string
+    or: string
     createNewWallet: string
     restoreExistingWallet: string
     addYourFirstWallet: string
