@@ -57,8 +57,6 @@ export default {
     ipcRenderer.on('user-idle', () => {
       this.$authManager.lock()
     })
-
-    this.$router.push('wallets.create')
   }
 }
 </script>

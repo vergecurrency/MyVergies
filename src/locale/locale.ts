@@ -1,4 +1,5 @@
 export interface LocaleDefinition {
+  name: string
   main: {
     menu: {
       wallets: string
@@ -225,6 +226,7 @@ export interface LocaleDefinition {
     currency: string
     currencyDetails: string
     pin: string
+    pinDetails: string
     changePin: string
     lockAfter: string
     lockAfterDetails: string

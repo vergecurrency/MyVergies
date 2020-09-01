@@ -1,6 +1,7 @@
 import { LocaleDefinition } from '@/locale/locale'
 
 const nl: LocaleDefinition = {
+  name: 'Nederlands',
   main: {
     menu: {
       wallets: 'Wallets',
@@ -227,6 +228,7 @@ const nl: LocaleDefinition = {
     currency: 'Valuta',
     currencyDetails: 'Alle fiat prijzen zullen worden getoond in deze valuta',
     pin: 'PIN',
+    pinDetails: 'Beveilig MyVergies met een persoonlijke PIN code.',
     changePin: 'Verander PIN',
     lockAfter: 'Vergrendel na',
     lockAfterDetails: 'Vergrendel applicatie na de opgegeven tijd is verstreken',

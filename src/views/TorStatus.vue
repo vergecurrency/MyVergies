@@ -106,13 +106,13 @@ export default {
       return fetch(constants.ipApi)
         .then(res => res.ok && res.json())
         .then(networkData => {
-          Log.warn('Fetched IP address')
+          Log.info('Fetched IP address')
 
           this.networkData = networkData
           this.loading = false
         })
         .catch(err => {
-          Log.warn("Couldn't load ip data. Reason:", err)
+          Log.error("Couldn't load ip data. Reason:", err)
 
           this.error = err
           this.networkData = null

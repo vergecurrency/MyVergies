@@ -12,7 +12,7 @@
         <b-icon size="is-small" icon="cog" />
       </span>
     </router-link>
-    <router-link to="/help" class="button is-white is-not-draggable">
+    <router-link to="/" class="button is-white is-not-draggable">
       <span class="icon has-text-grey-dark">
         <b-icon size="is-small" icon="question-circle" />
       </span>

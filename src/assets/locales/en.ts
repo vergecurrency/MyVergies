@@ -1,6 +1,7 @@
 import { LocaleDefinition } from '@/locale/locale'
 
 const en: LocaleDefinition = {
+  name: 'English',
   main: {
     menu: {
       wallets: 'Wallets',
@@ -227,6 +228,7 @@ const en: LocaleDefinition = {
     currency: 'Currency',
     currencyDetails: 'All fiat prices will be displayed in this currency',
     pin: 'PIN',
+    pinDetails: 'Secure MyVergies with a personal PIN code.',
     changePin: 'Change PIN',
     lockAfter: 'Lock after',
     lockAfterDetails: 'Lock application after the given amount of time',

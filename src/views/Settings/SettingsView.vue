@@ -4,38 +4,39 @@
     <div class="box">
 
       <form-section :title="$i18n.t('settings.settings')" no-divider>
-        <b-field
-          horizontal
-          :label="$i18n.t('settings.language')"
-          message="Language, Taal, Idioma, Sprache, Langue, Língua, linguaggio, язык, 語言, 언어, لغة"
+        <form-box
+          :title="$i18n.t('settings.language')"
+          description="Language, Taal, Idioma, Sprache, Langue, Língua, linguaggio, язык, 語言, 언어, لغة"
+          :is-narrow="false"
         >
           <b-select v-model="language" expanded icon="globe">
-            <option v-for="(lang, i) in langs" :key="`Lang${i}`" :value="lang" v-html="lang"/>
+            <option v-for="(langName, lang) in langs" :key="`Lang${lang}`" :value="lang">
+              {{ langName }}
+            </option>
           </b-select>
-        </b-field>
+        </form-box>
 
-        <b-field horizontal :label="$i18n.t('settings.currency')" :message="$i18n.t('settings.currencyDetails')">
+        <form-box
+          :title="$i18n.t('settings.currency')"
+          :description="$i18n.t('settings.currencyDetails')"
+          :is-narrow="false"
+        >
           <b-select v-model="currency" expanded icon="money-bill">
-            <option v-for="(currency, i) in currencies" :key="`Currency${i}`" :value="currency" v-html="currency"/>
+            <option v-for="(currencyName, currency) in currencies" :key="`Currency${currency}`" :value="currency">
+              {{ currency }} - {{ currencyName }}
+            </option>
           </b-select>
-        </b-field>
+        </form-box>
       </form-section>
 
       <form-section :title="$i18n.t('settings.security')">
-        <b-field horizontal :label="$i18n.t('settings.pin')">
-          <b-button v-html="$i18n.t('settings.changePin')" type="is-light" @click="changePin"/>
-        </b-field>
-
-        <b-field
-          horizontal
-          :label="$i18n.t('settings.lockAfter')"
-          :message="$i18n.t('settings.lockAfterDetails')"
-          class="is-hidden"
+        <form-box
+          :title="$i18n.t('settings.pin')"
+          :description="$i18n.t('settings.pinDetails')"
+          type="is-warning"
         >
-          <b-select v-model="lockAfter" expanded icon="lock">
-            <option v-for="(lock, i) in locks" :key="`Currency${i}`" :value="i" v-html="lock"/>
-          </b-select>
-        </b-field>
+          <b-button v-html="$i18n.t('settings.changePin')" type="is-light" @click="changePin"/>
+        </form-box>
       </form-section>
 
       <form-section
@@ -55,29 +56,26 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import locales from '@/locale/locales'
+import { localeNames } from '@/locale/locales'
 import currencies from '@/utils/currencies'
 import NavigationHeader from '@/components/layout/NavigationHeader'
+import FormBox from '@/components/layout/FormBox'
 import FormSection from '@/components/layout/FormSection'
 import ChangePinModal from '@/views/Settings/ChangePinModal'
 import VersionBlock from '@/components/VersionBlock'
 
 export default {
   name: 'settings-view',
-  components: { VersionBlock, FormSection, NavigationHeader },
+
+  components: { FormBox, VersionBlock, FormSection, NavigationHeader },
+
   data () {
     return {
-      langs: Object.keys(locales),
-      currencies: currencies,
-      lockAfter: '5m',
-      locks: {
-        '5m': '5 Minutes',
-        '10m': '10 Minutes',
-        '20m': '20 Minutes',
-        '30m': '30 Minutes'
-      }
+      langs: localeNames,
+      currencies: currencies
     }
   },
+
   computed: {
     language: {
       get () {
@@ -98,6 +96,7 @@ export default {
       }
     }
   },
+
   methods: {
     ...mapGetters(['currentCurrencyCode', 'currentLanguageCode']),
     ...mapActions(['updateCurrency', 'updateLanguage']),

@@ -1,8 +1,8 @@
 import { LocaleDefinition } from '@/locale/locale'
 
 // @ts-ignore
-const it: LocaleDefinition = {
-  name: 'italiano'
+const sv: LocaleDefinition = {
+  name: 'svenska'
 }
 
-export default it
+export default sv
