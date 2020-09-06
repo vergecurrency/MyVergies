@@ -19,6 +19,7 @@
           :title="$i18n.t('walletSettings.name')"
           :description="$i18n.t('walletSettings.nameDesc')"
           :is-narrow="false"
+          grouped
         >
           <b-field
             :type="nameType"
@@ -35,6 +36,7 @@
           :title="$i18n.t('walletSettings.color')"
           :description="$i18n.t('walletSettings.colorDesc')"
           :is-narrow="false"
+          grouped
         >
           <b-select v-model="wallet.color" expanded @blur="save">
             <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>

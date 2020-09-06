@@ -1,5 +1,5 @@
 <template>
-  <div class="box" :class="formattedType">
+  <div class="box form-box" :class="[formattedType, isGrouped]">
     <b-switch v-if="toggleable" v-model="enabled" class="form-box-toggle"/>
     <div class="columns is-vcentered">
       <div class="column">
@@ -43,6 +43,10 @@ export default {
       return {
         'is-narrow': this.isNarrow
       }
+    },
+
+    isGrouped () {
+      return this.grouped ? 'is-grouped' : ''
     }
   },
 
@@ -76,6 +80,10 @@ export default {
     toggleable: {
       type: Boolean,
       default: false
+    },
+    grouped: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -86,6 +94,18 @@ export default {
     pointer-events: none;
     opacity: 0.8;
     background: #f1f1f1;
+  }
+
+  .form-box.is-grouped:not(:first-child) {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    clip-path: inset(0px -15px -15px -15px);
+  }
+
+  .form-box.is-grouped:not(:last-child) {
+    margin-bottom: -1px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
   }
 
   .form-box-toggle {

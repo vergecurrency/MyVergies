@@ -2,7 +2,9 @@
  <div class="form-section">
    <div v-if="!noDivider" class="navbar-divider"/>
    <h6 class="title is-6 has-text-grey-light" v-html="title"/>
-   <slot/>
+   <div>
+     <slot/>
+   </div>
  </div>
 </template>
 

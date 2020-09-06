@@ -122,6 +122,8 @@ export interface LocaleDefinition {
     newAddress: string
     previousAddresses: string
     yourReceiveAddress: string
+    qrCode: string
+    qrCodeDesc: string
     copy: string
     addressCopied: string
   }

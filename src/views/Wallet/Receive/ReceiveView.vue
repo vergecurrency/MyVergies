@@ -4,48 +4,44 @@
 
     <div class="box">
 
-        <b-tabs v-model="activeTab">
-          <b-tab-item :label="$i18n.t('receive.newAddress')" icon="star">
+      <form-section :title="$i18n.t('receive.newAddress')" no-divider>
+        <form-box
+          :title="$i18n.t('receive.yourReceiveAddress')"
+          :description="$i18n.t('receive.qrCodeDesc')"
+          :is-narrow="false"
+          grouped
+        >
+          <b-field v-if="address">
+            <b-notification :closable="false">
+              <span class="has-text-weght-bold">{{ address }}</span>
+            </b-notification>
+          </b-field>
+          <div v-else style="margin-bottom: 12px">
+            <b-skeleton animated height="64"></b-skeleton>
+          </div>
+          <div class="buttons" :style="{ justifyContent: 'flex-end' }">
+            <a class="button is-primary" @click="getNewAddress" v-html="$i18n.t('receive.newAddress')"/>
+            <a class="button is-primary" @click="copy" v-html="$i18n.t('receive.copy')"/>
+          </div>
+        </form-box>
 
-            <section class="section">
-              <div v-if="address" class="columns is-vcentered">
-                <div class="column is-narrow">
-                  <div class="qr-box has-shadow-dark">
-                    <qrcode-vue :value="address" size="200" level="H"/>
-                  </div>
-                </div>
-                <div class="column">
-                  <b-field :label="$i18n.t('receive.yourReceiveAddress')">
-                    <b-notification :closable="false">
-                      <span class="has-text-weght-bold">{{ address }}</span>
-                    </b-notification>
-                  </b-field>
-                  <div class="buttons">
-                    <a class="button is-primary" @click="getNewAddress" v-html="$i18n.t('receive.newAddress')"/>
-                    <a class="button is-primary" @click="copy" v-html="$i18n.t('receive.copy')"/>
-                  </div>
-                </div>
-              </div>
-              <div v-else>
-                <div class="columns is-vcentered">
-                  <div class="column is-narrow">
-                    <b-skeleton animated height="200" width="200"></b-skeleton>
-                  </div>
-                  <div class="column">
-                    <b-skeleton width="20%" animated></b-skeleton>
-                    <b-skeleton width="40%" animated></b-skeleton>
-                    <b-skeleton width="80%" animated></b-skeleton>
-                    <b-skeleton animated></b-skeleton>
-                  </div>
-                </div>
-              </div>
-            </section>
+        <form-box
+          :title="$i18n.t('receive.qrCode')"
+          :description="$i18n.t('receive.qrCodeDesc')"
+          grouped
+        >
+          <div v-if="address" class="qr-box has-shadow-dark">
+            <qrcode-vue :value="address" size="150" level="H"/>
+          </div>
+          <div v-else>
+            <b-skeleton animated height="150" width="150"></b-skeleton>
+          </div>
+        </form-box>
+      </form-section>
 
-          </b-tab-item>
-          <b-tab-item :label="$i18n.t('receive.previousAddresses')" icon="list">
-            <b-table :data="wallet.addresses" :columns="addressColumns"/>
-          </b-tab-item>
-        </b-tabs>
+      <form-section :title="$i18n.t('receive.previousAddresses')">
+        <b-table :data="wallet.addresses" :columns="addressColumns"/>
+      </form-section>
 
     </div>
 
@@ -56,10 +52,12 @@
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import QrcodeVue from 'qrcode.vue'
 import Log from 'electron-log'
+import FormSection from '@/components/layout/FormSection'
+import FormBox from '@/components/layout/FormBox'
 
 export default {
   name: 'receive-view',
-  components: { NavigationHeader, QrcodeVue },
+  components: { FormBox, FormSection, NavigationHeader, QrcodeVue },
   data () {
     return {
       activeTab: 0,
@@ -136,9 +134,9 @@ export default {
 
 <style scoped>
   .qr-box {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 5px;
   }
 </style>

@@ -124,6 +124,8 @@ const nl: LocaleDefinition = {
     newAddress: 'Nieuw adres',
     previousAddresses: 'Vorige adressen',
     yourReceiveAddress: 'Je ontvangst adres',
+    qrCode: 'QR code',
+    qrCodeDesc: 'Je kunt deze QR code scannen met iedere andere XVG wallet om je ontvangst adres over te nemen.',
     copy: 'Kopieer',
     addressCopied: 'Adres gekopieerd!'
   },
