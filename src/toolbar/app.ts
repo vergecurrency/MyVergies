@@ -1,4 +1,4 @@
-import { app, MenuItem, Menu, BrowserWindow } from 'electron'
+import { app, MenuItem, Menu, BrowserWindow, KeyboardEvent } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
@@ -10,8 +10,10 @@ const SubMenuItems: MenuItem[] = [
   new MenuItem({
     label: 'Settings',
     accelerator: 'CmdOrCtrl+,',
-    click (menuItem: MenuItem, browserWindow: BrowserWindow) {
-      return browserWindow.webContents.send('open-settings')
+    click (menuItem: MenuItem, browserWindow: BrowserWindow | undefined, event: KeyboardEvent) {
+      if (browserWindow) {
+        browserWindow.webContents.send('open-settings')
+      }
     }
   }),
   new MenuItem({

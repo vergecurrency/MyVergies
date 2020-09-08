@@ -120,7 +120,9 @@ export interface LocaleDefinition {
   receive: {
     receive: string
     newAddress: string
-    previousAddresses: string
+    addresses: string
+    unusedAddresses: string
+    addressesWithBalance: string
     yourReceiveAddress: string
     qrCode: string
     qrCodeDesc: string

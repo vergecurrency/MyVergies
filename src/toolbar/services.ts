@@ -1,11 +1,13 @@
-import { MenuItem, Menu, BrowserWindow } from 'electron'
+import { MenuItem, Menu, BrowserWindow, KeyboardEvent } from 'electron'
 
 const SubMenuItems: MenuItem[] = [
   new MenuItem({
     label: 'Lock application',
     accelerator: 'CmdOrCtrl+L',
-    click (menuItem: MenuItem, browserWindow: BrowserWindow) {
-      return browserWindow.webContents.send('lock-application')
+    click (menuItem: MenuItem, browserWindow: BrowserWindow | undefined, event: KeyboardEvent) {
+      if (browserWindow) {
+        browserWindow.webContents.send('lock-application')
+      }
     }
   }),
   new MenuItem({

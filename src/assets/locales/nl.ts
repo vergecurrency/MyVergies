@@ -122,7 +122,9 @@ const nl: LocaleDefinition = {
   receive: {
     receive: 'Ontvangen',
     newAddress: 'Nieuw adres',
-    previousAddresses: 'Vorige adressen',
+    addresses: 'Adressen',
+    unusedAddresses: 'Ongebruikte adressen',
+    addressesWithBalance: 'Adressen met saldo',
     yourReceiveAddress: 'Je ontvangst adres',
     qrCode: 'QR code',
     qrCodeDesc: 'Je kunt deze QR code scannen met iedere andere XVG wallet om je ontvangst adres over te nemen.',

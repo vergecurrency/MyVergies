@@ -39,8 +39,42 @@
         </form-box>
       </form-section>
 
-      <form-section :title="$i18n.t('receive.previousAddresses')">
-        <b-table :data="wallet.addresses" :columns="addressColumns"/>
+      <form-section :title="$i18n.t('receive.addresses')">
+        <div class="box has-background-warning-light">
+          <h6 class="is-6 title" v-html="$i18n.t('receive.unusedAddresses')"/>
+          <div class="box is-paddingless is-clipped">
+            <b-table :data="unusedAddresses">
+              <b-table-column field="address" label="Address" v-slot="{ row }">
+                {{ row.address }}
+              </b-table-column>
+
+              <b-table-column field="path" label="Path" sortable v-slot="{ row }">
+                {{ row.path }}
+              </b-table-column>
+
+              <b-table-column field="createdOn" label="Created on" sortable v-slot="{ row }">
+                {{ row.createdOn }}
+              </b-table-column>
+            </b-table>
+          </div>
+
+          <h6 class="is-6 title" v-html="$i18n.t('receive.addressesWithBalance')"/>
+          <div class="box is-paddingless is-clipped">
+            <b-table :data="addressesWithBalance">
+              <b-table-column field="address" label="Address" v-slot="{ row }">
+                {{ row.address }}
+              </b-table-column>
+
+              <b-table-column field="path" label="Path" sortable v-slot="{ row }">
+                {{ row.path }}
+              </b-table-column>
+
+              <b-table-column field="amount" label="Amount" sortable v-slot="{ row }">
+                {{ row.amount }}
+              </b-table-column>
+            </b-table>
+          </div>
+        </div>
       </form-section>
 
     </div>
@@ -54,34 +88,46 @@ import QrcodeVue from 'qrcode.vue'
 import Log from 'electron-log'
 import FormSection from '@/components/layout/FormSection'
 import FormBox from '@/components/layout/FormBox'
+import moment from 'moment'
 
 export default {
   name: 'receive-view',
+
   components: { FormBox, FormSection, NavigationHeader, QrcodeVue },
+
   data () {
     return {
       activeTab: 0,
-      address: null,
-      addressColumns: [
-        {
-          field: 'address',
-          label: 'Address'
-        },
-        {
-          field: 'path',
-          label: 'Path'
-        },
-        {
-          field: 'createdOn',
-          label: 'Created On'
-        }
-      ]
+      address: null
     }
   },
+
   props: {
     wallet: {
       type: Object,
       required: true
+    }
+  },
+
+  computed: {
+    unusedAddresses () {
+      return this.wallet.addresses.map(address => {
+        return {
+          address: address.address,
+          path: address.path.replace('m/', 'xpub/'),
+          createdOn: moment(address.createdOn * 1000).locale(this.$electron.remote.app.getLocale()).format('lll')
+        }
+      })
+    },
+
+    addressesWithBalance () {
+      return this.wallet.info.balance.byAddress.map(address => {
+        return {
+          address: address.address,
+          path: address.path.replace('m/', 'xpub/'),
+          amount: this.formatAmountFromSatoshis(address.amount, this.$electron.remote.app.getLocale())
+        }
+      })
     }
   },
 
