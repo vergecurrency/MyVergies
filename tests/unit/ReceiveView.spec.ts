@@ -17,6 +17,24 @@ test('should render correct contents', async () => {
       return new Promise(resolve => {
         resolve({ address })
       })
+    },
+    addresses: [
+      {
+        address: '1234',
+        path: 'm/1/2/3',
+        createdOn: 1234567890123
+      }
+    ],
+    info: {
+      balance: {
+        byAddress: [
+          {
+            address: '1234',
+            path: 'm/1/2/3',
+            amount: 1234567890
+          }
+        ]
+      }
     }
   }
 
@@ -28,6 +46,15 @@ test('should render correct contents', async () => {
     mocks: {
       $i18n: {
         t: (key: string) => key
+      },
+      $electron: {
+        remote: {
+          app: {
+            getLocale () {
+              return 'en'
+            }
+          }
+        }
       }
     }
   })

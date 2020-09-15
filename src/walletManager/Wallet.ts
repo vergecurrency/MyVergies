@@ -234,4 +234,12 @@ export default class Wallet {
       vwsApi: this.vwc.request.baseUrl
     }
   }
+
+  public getClient (): Client {
+    return this.vwc
+  }
+
+  public getCredentials (): Client.credentials {
+    return this.getClient().credentials
+  }
 }

@@ -94,6 +94,10 @@ export default class WalletManager {
     return walletConfig.passphrase
   }
 
+  public getDerivedXPrivKey (wallet: Wallet): Promise<object> {
+    return this.getWalletPassphrase(wallet).then(passphrase => wallet.getCredentials().getDerivedXPrivKey(passphrase))
+  }
+
   protected getClient (walletConfig: WalletConfigItem): Client {
     const vwc = new Client({
       baseUrl: walletConfig.vwsApi || constants.vwsApi,

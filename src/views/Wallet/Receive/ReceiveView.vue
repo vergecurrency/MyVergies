@@ -40,40 +40,58 @@
       </form-section>
 
       <form-section :title="$i18n.t('receive.addresses')">
-        <div class="box has-background-warning-light">
-          <h6 class="is-6 title" v-html="$i18n.t('receive.unusedAddresses')"/>
-          <div class="box is-paddingless is-clipped">
-            <b-table :data="unusedAddresses">
-              <b-table-column field="address" label="Address" v-slot="{ row }">
-                {{ row.address }}
-              </b-table-column>
-
-              <b-table-column field="path" label="Path" sortable v-slot="{ row }">
-                {{ row.path }}
-              </b-table-column>
-
-              <b-table-column field="createdOn" label="Created on" sortable v-slot="{ row }">
-                {{ row.createdOn }}
-              </b-table-column>
-            </b-table>
+        <div class="box is-paddingless is-clipped">
+          <div class="pt-4 pb-4 pl-4">
+            <h6 class="is-6 title" v-html="$i18n.t('receive.unusedAddresses')"/>
           </div>
 
-          <h6 class="is-6 title" v-html="$i18n.t('receive.addressesWithBalance')"/>
-          <div class="box is-paddingless is-clipped">
-            <b-table :data="addressesWithBalance">
-              <b-table-column field="address" label="Address" v-slot="{ row }">
-                {{ row.address }}
-              </b-table-column>
+          <b-table :data="unusedAddresses" narrowed>
+            <b-table-column field="address" label="Address" v-slot="{ row }" header-class="is-narrow">
+              <code>{{ row.address }}</code>
+            </b-table-column>
 
-              <b-table-column field="path" label="Path" sortable v-slot="{ row }">
-                {{ row.path }}
-              </b-table-column>
+            <b-table-column field="path" label="Path" sortable v-slot="{ row }">
+              {{ row.path.replace('m/', 'xpub/') }}
+            </b-table-column>
 
-              <b-table-column field="amount" label="Amount" sortable v-slot="{ row }">
-                {{ row.amount }}
-              </b-table-column>
-            </b-table>
+            <b-table-column
+              field="createdOn"
+              label="Created on"
+              sortable
+              v-slot="{ row }"
+              cell-class="has-text-right"
+              header-class="has-text-right"
+            >
+              {{ row.createdOn }}
+            </b-table-column>
+
+            <b-table-column header-class="is-narrow" v-slot="{ row }">
+              <b-button size="is-small" icon-left="ellipsis-v" @click="copyAddress(row)"/>
+            </b-table-column>
+          </b-table>
+
+          <div class="pt-4 pb-4 pl-4">
+            <h6 class="is-6 title" v-html="$i18n.t('receive.addressesWithBalance')"/>
           </div>
+
+          <b-table :data="addressesWithBalance" narrowed>
+            <b-table-column field="address" label="Address" v-slot="{ row }" header-class="is-narrow">
+              <code>{{ row.address }}</code>
+            </b-table-column>
+
+            <b-table-column field="path" label="Path" sortable v-slot="{ row }">
+              {{ row.path.replace('m/', 'xpub/') }}
+            </b-table-column>
+
+            <b-table-column field="amount" label="Amount" sortable v-slot="{ row }">
+              {{ formatAmountFromSatoshis(row.amount, $electron.remote.app.getLocale()) }}
+            </b-table-column>
+
+            <b-table-column header-class="is-narrow" v-slot="{ row }">
+              <b-button size="is-small" icon-left="ellipsis-v" @click="copyAddress(row)"/>
+            </b-table-column>
+          </b-table>
+
         </div>
       </form-section>
 
@@ -84,10 +102,11 @@
 
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
-import QrcodeVue from 'qrcode.vue'
-import Log from 'electron-log'
+import AddressCopyModal from '@/views/Wallet/Receive/AddressCopyModal'
 import FormSection from '@/components/layout/FormSection'
 import FormBox from '@/components/layout/FormBox'
+import QrcodeVue from 'qrcode.vue'
+import Log from 'electron-log'
 import moment from 'moment'
 
 export default {
@@ -98,7 +117,8 @@ export default {
   data () {
     return {
       activeTab: 0,
-      address: null
+      address: null,
+      isAddressOptionsModalActive: false
     }
   },
 
@@ -112,22 +132,14 @@ export default {
   computed: {
     unusedAddresses () {
       return this.wallet.addresses.map(address => {
-        return {
-          address: address.address,
-          path: address.path.replace('m/', 'xpub/'),
-          createdOn: moment(address.createdOn * 1000).locale(this.$electron.remote.app.getLocale()).format('lll')
-        }
+        address.createdOn = moment(address.createdOn * 1000).locale(this.$electron.remote.app.getLocale()).format('lll')
+
+        return address
       })
     },
 
     addressesWithBalance () {
-      return this.wallet.info.balance.byAddress.map(address => {
-        return {
-          address: address.address,
-          path: address.path.replace('m/', 'xpub/'),
-          amount: this.formatAmountFromSatoshis(address.amount, this.$electron.remote.app.getLocale())
-        }
-      })
+      return this.wallet.info.balance.byAddress
     }
   },
 
@@ -173,6 +185,27 @@ export default {
       })
 
       Log.info('copied wallet address')
+    },
+
+    async copyAddress (row) {
+      if (!this.isAuthenticated && !await this.$authManager.showAuthenticationModal()) {
+        return
+      }
+
+      const address = row
+      const bip44PrivateKey = (await this.$walletManager.getDerivedXPrivKey(this.wallet)).derive(address.path)
+      address.publicKey = bip44PrivateKey.publicKey.toString()
+      address.privateKey = bip44PrivateKey.privateKey.toWIF()
+
+      this.$buefy.modal.open({
+        component: AddressCopyModal,
+        parent: this,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          address
+        }
+      })
     }
   }
 }
