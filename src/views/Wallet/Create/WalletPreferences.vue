@@ -19,13 +19,13 @@
           <b-field :label="$i18n.t('createWallet.walletName')">
             <b-input
               :placeholder="$i18n.t('createWallet.enterYourWalletName')"
-              v-model="wallet.name"
+              v-model="name"
               maxlength="15"
             />
           </b-field>
 
           <b-field :label="$i18n.t('createWallet.walletColor')">
-            <b-select v-model="wallet.color" expanded>
+            <b-select v-model="color" expanded>
               <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
               <option value="red" v-html="$i18n.t('main.colors.red')"/>
               <option value="green" v-html="$i18n.t('main.colors.green')"/>
@@ -41,7 +41,7 @@
           <div class="box wallet-preferences__advanced__box" v-show="showAdvanced">
             <b-field v-if="!restore" :label="$i18n.t('createWallet.singleAddress')">
               <b-switch
-                v-model="wallet.singleAddress"
+                v-model="singleAddress"
               />
             </b-field>
 
@@ -50,7 +50,7 @@
                 ref="vwsApi"
                 type="url"
                 :use-html5-validation="true"
-                v-model="wallet.vwsApi"
+                v-model="vwsApi"
               />
             </b-field>
           </div>
@@ -80,11 +80,15 @@ export default {
   components: { WalletCard },
   data () {
     return {
-      showAdvanced: false
+      showAdvanced: false,
+      name: '',
+      color: 'blue',
+      singleAddress: false,
+      vwsApi: ''
     }
   },
   props: {
-    wallet: {
+    value: {
       type: Object,
       required: true
     },
@@ -94,6 +98,15 @@ export default {
     }
   },
   computed: {
+    wallet () {
+      return {
+        ...this.wallet,
+        name: this.name,
+        color: this.color,
+        singleAddress: this.singleAddress,
+        vwsApi: this.vwsApi
+      }
+    },
     nameLongEnough () {
       return this.wallet.name.length < 1 || this.wallet.name.length > 4
     },
@@ -107,12 +120,19 @@ export default {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
     }
   },
+  created () {
+    this.name = this.value.name
+    this.color = this.value.color
+    this.singleAddress = this.value.singleAddress
+    this.vwsApi = this.value.vwsApi
+  },
   methods: {
     proceed () {
       if (!this.preferencesAreValid) {
         return
       }
 
+      this.$emit('input', this.wallet)
       this.$emit('next')
     },
 

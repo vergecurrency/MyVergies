@@ -222,6 +222,18 @@ export default class Wallet {
     })
   }
 
+  public setName (name: string): void {
+    this.name = name
+  }
+
+  public setColor (color: string): void {
+    this.color = color
+  }
+
+  public setApiEndpoint (apiEndpoint: string): void {
+    this.vwc.request.baseUrl = apiEndpoint
+  }
+
   public getExportConfig (): object {
     return {
       name: this.name,

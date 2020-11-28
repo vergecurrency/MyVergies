@@ -147,7 +147,7 @@ export default {
     createWallet () {
       this.confirmed = true
 
-      this.$emit('createWallet')
+      this.$emit('create-wallet')
     },
 
     showTermsOfUse () {

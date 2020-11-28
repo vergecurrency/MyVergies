@@ -25,7 +25,7 @@
             :type="nameType"
           >
             <b-input
-              v-model="wallet.name"
+              v-model="name"
               maxlength="15"
               @blur="save"
             />
@@ -38,7 +38,7 @@
           :is-narrow="false"
           grouped
         >
-          <b-select v-model="wallet.color" expanded @blur="save">
+          <b-select v-model="color" expanded @blur="save">
             <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
             <option value="red" v-html="$i18n.t('main.colors.red')"/>
             <option value="green" v-html="$i18n.t('main.colors.green')"/>
@@ -57,7 +57,7 @@
           :is-narrow="false"
           type="is-info"
         >
-          <b-input v-model="wallet.vwc.request.baseUrl" @blur="save"/>
+          <b-input v-model="apiEndpoint" @blur="save"/>
         </form-box>
       </form-section>
 
@@ -123,7 +123,10 @@ export default {
 
   data () {
     return {
-      previousWalletName: this.wallet.name
+      previousWalletName: this.wallet.name,
+      name: '',
+      color: '',
+      apiEndpoint: ''
     }
   },
 
@@ -156,13 +159,23 @@ export default {
     }
   },
 
+  created () {
+    this.name = this.wallet.name
+    this.color = this.wallet.color
+    this.apiEndpoint = this.wallet.vwc.request.baseUrl
+  },
+
   methods: {
     save () {
       if (!this.preferencesAreValid) {
-        this.wallet.name = this.previousWalletName
+        this.name = this.previousWalletName
 
         return
       }
+
+      this.wallet.setName(this.name)
+      this.wallet.setColor(this.color)
+      this.wallet.setApiEndpoint(this.apiEndpoint)
 
       this.$walletManager.updateWallet(this.previousWalletName, this.wallet).then(wallet => {
         this.replaceWalletName({

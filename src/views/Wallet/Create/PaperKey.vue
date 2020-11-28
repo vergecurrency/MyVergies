@@ -74,7 +74,7 @@ import Mnemonic from 'bitcore-mnemonic'
 export default {
   name: 'PaperKey',
   props: {
-    wallet: {
+    value: {
       type: Object,
       required: true
     },
@@ -172,8 +172,10 @@ export default {
         return
       }
 
-      this.wallet.paperkey = this.paperkey.join(' ')
-
+      this.$emit('input', {
+        ...this.value,
+        paperkey: this.paperkey.join(' ')
+      })
       return this.$emit('next')
     },
 

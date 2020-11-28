@@ -69,7 +69,7 @@ export default {
   name: 'PassPhrase',
   components: { RequirementMarker },
   props: {
-    wallet: {
+    value: {
       type: Object,
       required: true
     }
@@ -119,8 +119,10 @@ export default {
         return
       }
 
-      this.wallet.passphrase = this.passphrase
-
+      this.$emit('input', {
+        ...this.value,
+        passphrase: this.passphrase
+      })
       this.$emit('next')
     },
 

@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="$emit('input', value)">
+  <form @submit.prevent="confirm">
 
     <div class="block">
       <h3 class="is-size-3 is-family-handwritten" v-html="$i18n.t('send.send')"/>
@@ -23,7 +23,7 @@
 <!--                    </a>-->
 <!--                  </p>-->
                   <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Recipient XVG address" v-model="value.toAddress">
+                    <input class="input" type="text" placeholder="Recipient XVG address" v-model="toAddress">
                   </p>
                 </div>
                 <div v-if="showHelp" class="help notification is-small" v-html="$i18n.t('send.recipientDetails')"/>
@@ -52,7 +52,7 @@
 <!--                    </span>-->
                   </p>
                   <p class="control is-expanded">
-                    <input class="input" type="text" placeholder="Amount you want to send" v-model="value.amount">
+                    <input class="input" type="text" placeholder="Amount you want to send" v-model="amount">
                   </p>
                   <p class="control">
                     <b-button :label="$i18n.t('send.sendMax')" @click="sendMax" :loading="loadingMax"/>
@@ -69,7 +69,7 @@
             </div>
             <div class="field-body">
               <div class="field is-expanded">
-                <input class="input" type="text" placeholder="Gift to Swen" v-model="value.message">
+                <input class="input" type="text" placeholder="Gift to Swen" v-model="message">
                 <div v-if="showHelp" class="help notification" v-html="$i18n.t('send.internalMemoDetails')"/>
               </div>
             </div>
@@ -90,7 +90,7 @@
     <div class="columns">
       <div class="column">
         <div class="buttons is-centered">
-          <a class="button is-light" v-html="$i18n.t('send.reset')"/>
+          <a class="button is-light" v-html="$i18n.t('send.reset')" @click="reset"/>
           <button type="submit" class="button is-primary" v-html="$i18n.t('send.confirm')"/>
         </div>
       </div>
@@ -118,17 +118,40 @@ export default {
     return {
       showHelp: false,
       showMemo: false,
-      loadingMax: false
+      loadingMax: false,
+      toAddress: '',
+      amount: '',
+      message: ''
     }
+  },
+  created () {
+    this.toAddress = this.value.toAddress
+    this.amount = this.value.amount
+    this.message = this.value.message
   },
   methods: {
     sendMax () {
       this.loadingMax = true
 
       this.wallet.getSendMaxInfo().then(info => {
-        this.value.amount = info.amount / constants.satoshiDivider
+        this.amount = info.amount / constants.satoshiDivider
         this.loadingMax = false
       })
+    },
+
+    confirm () {
+      this.$emit('input', {
+        ...this.value,
+        toAddress: this.toAddress,
+        amount: this.amount,
+        message: this.message
+      })
+    },
+
+    reset () {
+      this.toAddress = ''
+      this.amount = 0
+      this.message = ''
     }
   }
 }
