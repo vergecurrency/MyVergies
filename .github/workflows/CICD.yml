@@ -61,7 +61,7 @@ jobs:
           security set-key-partition-list -S apple-tool:,apple: -s -k ${{ secrets.CSC_KEY_PASSWORD }} buildagent.keychain
       - name: npm install and build
         run: |
-          npm install
+          npm ci
           npm run electron:build
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
