@@ -142,5 +142,9 @@ export default {
     .modal-card.is-modal-auth .box {
       background: #262729;
     }
+
+    .modal-card.is-modal-auth .box.has-background-danger-light {
+      background: #2f2626 !important;
+    }
   }
 </style>

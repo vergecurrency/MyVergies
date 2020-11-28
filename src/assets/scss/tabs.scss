@@ -1,0 +1,14 @@
+@media (prefers-color-scheme: dark) {
+  .tabs ul {
+    border-bottom-color: #3a3a3a;
+  }
+
+  .tabs li a {
+    border-bottom-color: #3a3a3a;
+    color: white;
+  }
+
+  .tabs a:hover {
+    color: #a5a5a5;
+  }
+}
