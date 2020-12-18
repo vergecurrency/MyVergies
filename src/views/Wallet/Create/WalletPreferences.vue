@@ -100,7 +100,7 @@ export default {
   computed: {
     wallet () {
       return {
-        ...this.wallet,
+        ...this.value,
         name: this.name,
         color: this.color,
         singleAddress: this.singleAddress,
