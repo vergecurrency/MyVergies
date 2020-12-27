@@ -91,7 +91,7 @@ export default {
 
 <style>
   .modal-card.is-modal-auth {
-    background: #f0f0f090;
+    background: #f0f0f0;
     backdrop-filter: brightness(150%) saturate(150%) blur(30px);
     padding: 30px;
   }
@@ -136,7 +136,7 @@ export default {
 
   @media (prefers-color-scheme: dark) {
     .modal-card.is-modal-auth {
-      background-color: #2c2e3090;
+      background-color: #2c2e30;
     }
 
     .modal-card.is-modal-auth .box {

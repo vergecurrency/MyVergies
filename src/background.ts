@@ -1,5 +1,4 @@
 import { app, protocol, nativeTheme, BrowserWindow, Menu, ipcMain, powerMonitor } from 'electron'
-import { autoUpdater } from 'electron-updater'
 import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-builder/lib'
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
@@ -9,6 +8,7 @@ import Tor from '@/http/tor'
 import ExportImportManager from '@/walletManager/ExportImportManager'
 import '@/utils/keytar/main'
 import '@/utils/ipcMainEvents'
+import AutoUpdater from '@/utils/autoUpdater'
 import * as Utils from '@/utils'
 import { eventConstants } from '@/utils/constants'
 
@@ -65,6 +65,8 @@ function createWindow () {
 
   mainWindowState.manage(win)
 
+  const autoUpdater = new AutoUpdater(win)
+
   activateTorProxy(win).then(() => {
     if (process.env.WEBPACK_DEV_SERVER_URL) {
     // Load the url of the dev server if in development mode
@@ -115,6 +117,12 @@ function createWindow () {
 
   // Register export save dialog events
   ExportImportManager.registerEvents(win)
+
+  if (Utils.isProductionEnvironment()) {
+    setInterval(() => {
+      autoUpdater.checkForUpdatesAndNotify()
+    }, 60000)
+  }
 
   return win
 }
@@ -208,17 +216,3 @@ if (Utils.isDevelopmentEnvironment()) {
 
 // Will be default from Electron >= 9; So remove at that version.
 app.allowRendererProcessReuse = true
-
-/**
- * Auto Updater
- */
-autoUpdater.logger = logger
-autoUpdater.allowPrerelease = true
-autoUpdater.autoDownload = true
-autoUpdater.autoInstallOnAppQuit = true
-
-app.on('ready', () => {
-  if (Utils.isProductionEnvironment()) {
-    autoUpdater.checkForUpdatesAndNotify()
-  }
-})

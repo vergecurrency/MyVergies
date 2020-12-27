@@ -46,7 +46,8 @@ import {
   faFileContract,
   faFileImport,
   faTimes,
-  faEllipsisV
+  faEllipsisV,
+  faArrowAltCircleUp
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -93,6 +94,7 @@ library.add(faFileContract)
 library.add(faFileImport)
 library.add(faTimes)
 library.add(faEllipsisV)
+library.add(faArrowAltCircleUp)
 
 Vue.use(Buefy, {
   defaultIconComponent: 'fa-icon',

@@ -1,5 +1,5 @@
 <template>
-  <div ref="header" class="navigation-header">
+  <div ref="header" class="navigation-header" :class="{ 'has-update-notification': hasUpdateNotification }">
     <div class="box">
       <div class="columns is-vcentered">
         <div v-if="back" class="column is-narrow">
@@ -38,7 +38,7 @@ export default {
 
   mounted () {
     const header = this.$refs.header
-    const sticky = header.offsetTop - 52
+    const sticky = header.offsetTop - this.hasUpdateNotification ? 101 : 52
 
     let appContentBox = null
     let parent = this.$parent
@@ -59,6 +59,16 @@ export default {
         this.$parent.$el.classList.remove('has-sticky')
       }
     }
+  },
+
+  computed: {
+    hasUpdateNotification () {
+      if (this.$root.$children[0]) {
+        return this.$root.$children[0].hasUpdateNotification ?? false
+      }
+
+      return false
+    }
   }
 }
 </script>
@@ -77,6 +87,10 @@ export default {
   top: 52px;
   margin: 0 -31px;
   z-index: 10;
+}
+
+.navigation-header.sticky.has-update-notification {
+  top: 101px;
 }
 
 .navigation-header.sticky .box {

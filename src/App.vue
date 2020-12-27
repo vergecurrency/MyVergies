@@ -5,11 +5,14 @@
         <IconListBar/>
       </template>
     </NavBar>
-    <div class="columns is-gapless app-content-container is-marginless">
-      <MainMenu class="column is-one-quarter" :wallets="wallets"/>
-      <ContentContainer>
-        <RouterView class="app-content-box-container"/>
-      </ContentContainer>
+    <div class="app-content-container is-marginless" :class="{'update-notification': hasUpdateNotification}">
+      <UpdateNotification v-if="hasUpdateNotification" />
+      <div class="columns is-gapless" style="height: 100%">
+        <MainMenu class="column is-one-quarter" :wallets="wallets"/>
+        <ContentContainer>
+          <RouterView class="app-content-box-container"/>
+        </ContentContainer>
+      </div>
     </div>
   </div>
 </template>
@@ -19,16 +22,24 @@ import NavBar from '@/components/layout/NavBar'
 import IconListBar from '@/components/layout/IconListBar'
 import MainMenu from '@/components/layout/MainMenu'
 import ContentContainer from '@/components/layout/ContentContainer'
+import UpdateNotification from '@/components/UpdateNotification'
 import { ipcRenderer } from 'electron'
 import AddPinModal from '@/views/Settings/AddPinModal'
 
 export default {
   name: 'my-vergies',
-  components: { ContentContainer, MainMenu, NavBar, IconListBar },
+  components: {
+    UpdateNotification,
+    ContentContainer,
+    MainMenu,
+    NavBar,
+    IconListBar
+  },
 
   data () {
     return {
-      wallets: this.$walletManager.wallets
+      wallets: this.$walletManager.wallets,
+      hasUpdateNotification: false
     }
   },
 
@@ -57,6 +68,10 @@ export default {
     ipcRenderer.on('user-idle', () => {
       this.$authManager.lock()
     })
+
+    ipcRenderer.on('update-available', () => {
+      this.hasUpdateNotification = true
+    })
   }
 }
 </script>
@@ -72,6 +87,10 @@ export default {
 
   .app-content-container {
     height: calc(100% - 53px);
+  }
+
+  .app-content-container.update-notification {
+    height: calc(100% - 101px);
   }
 
   .app-content-box-container {
