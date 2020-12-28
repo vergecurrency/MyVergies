@@ -173,6 +173,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['allWalletIdentifiers']),
     nameLongEnough () {
       return this.wallet.name.length < 1 || this.wallet.name.length > 4
     },
@@ -180,7 +181,7 @@ export default {
       return this.wallet.name.length <= 15
     },
     nameExists () {
-      return this.allWalletNames().includes(this.wallet.name)
+      return this.allWalletIdentifiers.includes(this.wallet.name)
     },
     preferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
@@ -209,8 +210,12 @@ export default {
         this.activeStep = 1
       }).catch(e => {
         this.$buefy.dialog.alert({
-          message: `Error thrown on importing wallet file: ${e.message}`
+          message: e.message
         })
+
+        this.importFile = null
+        this.wallet = null
+        this.createdWalletthis = null
       })
     },
 
@@ -220,7 +225,7 @@ export default {
       }
 
       this.$walletManager.addWallet(this.wallet).then(wallet => {
-        this.$store.dispatch('addWalletName', this.wallet.name)
+        this.$store.dispatch('addWalletIdentifier', wallet.identifier)
 
         this.createdWallet = wallet
         this.activeStep = 2
@@ -235,10 +240,8 @@ export default {
     },
 
     walletCreated (event) {
-      this.$router.push({ name: event.route, params: { walletName: this.wallet.name, wallet: this.createdWallet } })
-    },
-
-    ...mapGetters(['allWalletNames'])
+      this.$router.push({ name: event.route, params: { walletIdentifier: this.wallet.identifier, wallet: this.createdWallet } })
+    }
   }
 }
 </script>

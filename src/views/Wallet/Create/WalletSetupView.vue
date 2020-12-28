@@ -86,7 +86,7 @@ export default {
 
     createWallet () {
       this.$walletManager.addWallet(this.wallet).then(wallet => {
-        this.$store.dispatch('addWalletName', this.wallet.name)
+        this.$store.dispatch('addWalletIdentifier', wallet.identifier)
 
         this.createdWallet = wallet
       }).catch(error => {
@@ -100,7 +100,7 @@ export default {
     },
 
     walletCreated (event) {
-      this.$router.push({ name: event.route, params: { walletName: this.wallet.name, wallet: this.createdWallet } })
+      this.$router.push({ name: event.route, params: { walletIdentifier: this.wallet.identifier, wallet: this.createdWallet } })
     }
   }
 }

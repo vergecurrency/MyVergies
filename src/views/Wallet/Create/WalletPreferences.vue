@@ -98,6 +98,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['allWalletIdentifiers']),
     wallet () {
       return {
         ...this.value,
@@ -114,7 +115,7 @@ export default {
       return this.wallet.name.length <= 15
     },
     nameExists () {
-      return this.allWalletNames().includes(this.wallet.name)
+      return this.$walletManager.getWallets().map(wallet => wallet.name).includes(this.wallet.name)
     },
     preferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
@@ -134,9 +135,7 @@ export default {
 
       this.$emit('input', this.wallet)
       this.$emit('next')
-    },
-
-    ...mapGetters(['allWalletNames'])
+    }
   }
 }
 </script>

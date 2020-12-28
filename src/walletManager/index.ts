@@ -3,8 +3,6 @@ import WalletManager from '@/walletManager/WalletManager'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import Keytar from '@/utils/keytar'
 import { Store } from 'vuex'
-// @ts-ignore
-import Mnemonic from 'bitcore-mnemonic'
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
   vue.prototype.$walletManager = new WalletManager()
@@ -15,21 +13,61 @@ const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: a
 }
 
 const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
-  const names = store.getters.allWalletNames
+  await migrateOldWallets(store)
 
-  if (names.length === 0) {
+  const identifiers = store.getters.allWalletIdentifiers
+
+  if (identifiers.length === 0) {
     return []
   }
 
-  return Promise.all(names.map(async (name: string): Promise<WalletConfigItem> => {
-    const encrytedWallet = await Keytar.getCredentials(Keytar.walletService, name)
+  return Promise.all(identifiers.map(async (identifier: string): Promise<WalletConfigItem> => {
+    const encryptedWallet = await Keytar.getCredentials(Keytar.walletService, identifier)
 
-    if (encrytedWallet === undefined) {
+    if (encryptedWallet === undefined) {
+      throw Error(`Couldn't load wallet: ${identifier}`)
+    }
+
+    return JSON.parse(atob(encryptedWallet as string))
+  }))
+}
+
+/**
+ * Migrate the stored wallet names to wallet identifiers.
+ */
+const migrateOldWallets = async (store: Store<any>): Promise<any> => {
+  const names = store.getters.allWalletNames
+
+  return Promise.all(names.map(async (name: string): Promise<WalletConfigItem> => {
+    const encryptedWallet = await Keytar.getCredentials(Keytar.walletService, name)
+
+    if (encryptedWallet === undefined) {
       throw Error(`Couldn't load wallet: ${name}`)
     }
 
-    return JSON.parse(atob(encrytedWallet as string))
+    const wallet = JSON.parse(atob(encryptedWallet as string))
+    const identifier = generateWalletIdentifier()
+    wallet.identifier = identifier
+
+    // Remove old items
+    await store.dispatch('removeWalletName', wallet.name)
+    await Keytar.deleteCredentials(Keytar.walletService, wallet.name)
+
+    // Add new items
+    await store.dispatch('addWalletIdentifier', identifier)
+    await Keytar.setCredentials(Keytar.walletService, identifier, btoa(JSON.stringify(wallet)))
+
+    return wallet
   }))
+}
+
+const generateWalletIdentifier = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = Math.random() * 16 | 0
+    const v = c === 'x' ? r : (r & 0x3 | 0x8)
+
+    return v.toString(16)
+  })
 }
 
 export default walletManager

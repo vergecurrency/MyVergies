@@ -23,13 +23,13 @@ const router = new VueRouter({
       component: WelcomeView
     },
     {
-      path: '/wallets/:walletName',
+      path: '/wallets/:walletIdentifier',
       name: 'wallets',
       component: WalletView,
       props: true
     },
     {
-      path: '/wallets/:walletName/send',
+      path: '/wallets/:walletIdentifier/send',
       name: 'wallets.send',
       component: SendView,
       props: true,
@@ -38,19 +38,19 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/wallets/:walletName/receive',
+      path: '/wallets/:walletIdentifier/receive',
       name: 'wallets.receive',
       component: ReceiveView,
       props: true
     },
     {
-      path: '/wallets/:walletName/transactions/:txid',
+      path: '/wallets/:walletIdentifier/transactions/:txid',
       name: 'wallets.transactions',
       component: TransactionView,
       props: true
     },
     {
-      path: '/wallets/:walletName/settings',
+      path: '/wallets/:walletIdentifier/settings',
       name: 'wallets.settings',
       component: WalletSettingsView,
       props: true,

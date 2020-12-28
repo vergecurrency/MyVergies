@@ -1,6 +1,6 @@
 <template>
   <div>
-    <navigation-header :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}" :title="$i18n.t('receive.receive')"/>
+    <navigation-header :back="{ name: 'wallets', params: { walletIdentifier: wallet.identifier, wallet }}" :title="$i18n.t('receive.receive')"/>
 
     <div class="box is-paddingless">
       <b-tabs v-model="activeTab" :animated="false">

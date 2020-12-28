@@ -70,7 +70,7 @@ export default {
       return this.viewLocked ? null : {
         name: 'wallets',
         params: {
-          walletName: this.wallet.name,
+          walletIdentifier: this.wallet.identifier,
           wallet: this.wallet
         }
       }
@@ -146,7 +146,7 @@ export default {
       this.$router.push({
         name: event.route,
         params: {
-          walletName: this.wallet.name,
+          walletIdentifier: this.wallet.identifier,
           wallet: this.wallet,
           txid: this.transaction.txp.txid
         }

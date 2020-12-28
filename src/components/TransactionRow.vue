@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="{ name: 'wallets.transactions', params: { walletName: wallet.name, txid: transaction.txid, transaction, wallet }}">
+  <router-link :to="{ name: 'wallets.transactions', params: { walletIdentifier: wallet.identifier, txid: transaction.txid, transaction, wallet }}">
     <div class="transaction-container">
       <div class="transaction-icon">
         <b-icon v-if="transaction.action === 'received'" icon="plus-circle" type="is-success" class="fa-fw"/>

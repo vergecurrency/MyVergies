@@ -1,7 +1,7 @@
 <template>
   <div>
     <navigation-header
-      :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+      :back="{ name: 'wallets', params: { walletIdentifier: wallet.identifier, wallet }}"
       :title="$i18n.t('transaction.transaction')"
     />
 

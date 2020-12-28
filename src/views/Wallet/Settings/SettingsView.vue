@@ -1,13 +1,20 @@
 <template>
   <div>
     <navigation-header
-      :back="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+      :back="{ name: 'wallets', params: { walletIdentifier: wallet.identifier, wallet }}"
       :title="$i18n.t('walletSettings.walletSettings')"
     />
 
-    <div class="box">
+    <div class="box settings-hide-overlay">
 
-      <wallet-card :wallet="wallet"/>
+      <div class="wallet-header">
+        <wallet-card
+          :wallet="wallet"
+          :clickable="false"
+          cornerless
+          shadowless
+        />
+      </div>
 
       <br>
 
@@ -38,7 +45,7 @@
           :is-narrow="false"
           grouped
         >
-          <b-select v-model="color" expanded @blur="save">
+          <b-select v-model="color" expanded @input="save">
             <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
             <option value="red" v-html="$i18n.t('main.colors.red')"/>
             <option value="green" v-html="$i18n.t('main.colors.green')"/>
@@ -108,6 +115,16 @@
   </div>
 </template>
 
+<style>
+.settings-hide-overlay {
+  overflow: hidden;
+}
+
+.wallet-header {
+  margin: -20px -20px 0;
+}
+</style>
+
 <script>
 import NavigationHeader from '@/components/layout/NavigationHeader'
 import FormSection from '@/components/layout/FormSection'
@@ -138,18 +155,19 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['allWalletIdentifiers']),
     nameLongEnough () {
-      return this.wallet.name.length < 1 || this.wallet.name.length > 4
+      return this.name.length < 1 || this.name.length > 4
     },
     nameNotTooLong () {
-      return this.wallet.name.length <= 15
+      return this.name.length <= 15
     },
     nameExists () {
-      if (this.previousWalletName === this.wallet.name) {
+      if (this.previousWalletName === this.name) {
         return false
       }
 
-      return this.allWalletNames().includes(this.wallet.name)
+      return this.$walletManager.getWallets().map(wallet => wallet.name).includes(this.name)
     },
     preferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
@@ -177,12 +195,7 @@ export default {
       this.wallet.setColor(this.color)
       this.wallet.setApiEndpoint(this.apiEndpoint)
 
-      this.$walletManager.updateWallet(this.previousWalletName, this.wallet).then(wallet => {
-        this.replaceWalletName({
-          previous: this.previousWalletName,
-          new: this.wallet.name
-        })
-
+      this.$walletManager.updateWallet(this.wallet.identifier, this.wallet).then(wallet => {
         this.previousWalletName = this.wallet.name
       }).catch(e => {
         this.$buefy.dialog.alert(e.message)
@@ -221,7 +234,7 @@ export default {
     handleRemovingWallet () {
       this.$walletManager.removeWallet(this.wallet).then(succeeded => {
         if (succeeded) {
-          this.removeWalletName(this.wallet.name)
+          this.removeWalletIdentifier(this.wallet.identifier)
 
           this.$router.push({ name: 'wallets.create' })
 
@@ -233,8 +246,7 @@ export default {
       })
     },
 
-    ...mapActions(['removeWalletName', 'replaceWalletName']),
-    ...mapGetters(['allWalletNames'])
+    ...mapActions(['removeWalletIdentifier'])
   }
 }
 </script>

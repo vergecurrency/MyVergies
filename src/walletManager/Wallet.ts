@@ -9,13 +9,15 @@ import SendMaxInfo from '@/walletManager/models/SendMaxInfo'
 
 export default class Wallet {
   protected vwc: Client
+  public identifier: string
   public name?: string
   public color?: string
   public info?: Info
   public transactions: Tx[] = []
   public addresses: AddressInfo[] = []
 
-  constructor (name: string, color: string, vwc: Client) {
+  constructor (identifier: string, name: string, color: string, vwc: Client) {
+    this.identifier = identifier
     this.name = name
     this.color = color
     this.vwc = vwc
@@ -81,7 +83,7 @@ export default class Wallet {
     })
   }
 
-  public scan (name: string): Promise<boolean> {
+  public scan (): Promise<boolean> {
     return new Promise((resolve, reject) => {
       this.vwc.startScan({}, (error: Error|null) => {
         if (error) {

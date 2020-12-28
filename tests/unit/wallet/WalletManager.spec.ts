@@ -4,6 +4,7 @@ import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 let walletManager: WalletManager
 const STATIC_TEST_WALLETS: WalletConfigItem[] = [
   {
+    identifier: '12344',
     name: 'myWallet',
     color: '0x0fafa2',
     coin: 'xvg',
@@ -24,6 +25,6 @@ beforeEach(async () => {
 test('Wallet should be loaded after initialization', () => {
   expect(walletManager.getWallets()).toHaveLength(1)
 
-  const { color } = walletManager.getWallet('myWallet') || {}
+  const { color } = walletManager.getWallet('12344') || {}
   expect(color).toBe('0x0fafa2')
 })

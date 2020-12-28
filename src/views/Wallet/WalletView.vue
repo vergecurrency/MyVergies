@@ -11,7 +11,7 @@
         </div>
         <div class="column is-narrow">
           <router-link
-            :to="{ name: 'wallets.settings', params: { walletName: wallet.name, wallet }}"
+            :to="{ name: 'wallets.settings', params: { walletIdentifier: wallet.identifier, wallet }}"
             class="button is-light is-rounded"
           >
             <span class="icon has-text-grey-dark">
@@ -25,7 +25,7 @@
               <div class="column">
                 <div class="buttons">
                   <router-link
-                    :to="{ name: 'wallets.send', params: { walletName: wallet.name, wallet }}"
+                    :to="{ name: 'wallets.send', params: { walletIdentifier: wallet.identifier, wallet }}"
                     class="button is-primary"
                   >
                     <span class="icon">
@@ -34,7 +34,7 @@
                     <span v-html="$i18n.t('wallet.send')"/>
                   </router-link>
                   <router-link
-                    :to="{ name: 'wallets.receive', params: { walletName: wallet.name, wallet }}"
+                    :to="{ name: 'wallets.receive', params: { walletIdentifier: wallet.identifier, wallet }}"
                     class="button is-primary"
                   >
                     <span class="icon">

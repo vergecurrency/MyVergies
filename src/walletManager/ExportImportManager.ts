@@ -41,7 +41,14 @@ export default class ExportImportManager {
     let parsed = JSON.parse(content)
 
     if (!this.isWalletConfig(parsed)) {
-      parsed = sjcl.decrypt(await encryptionPassword(), content)
+      const password = await encryptionPassword()
+
+      try {
+        parsed = sjcl.decrypt(password, content)
+      } catch (e) {
+        throw Error('Wrong encryption password given!')
+      }
+
       parsed = JSON.parse(parsed)
     }
 

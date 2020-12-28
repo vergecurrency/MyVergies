@@ -1,5 +1,5 @@
 <template>
-  <div class="box form-box" :class="[formattedType, isGrouped]">
+  <div class="box form-box is-relative" :class="[formattedType, isGrouped]">
     <b-switch v-if="toggleable" v-model="enabled" class="form-box-toggle"/>
     <div class="columns is-vcentered">
       <div class="column">
@@ -110,6 +110,6 @@ export default {
 
   .form-box-toggle {
     position: absolute;
-    right: 26px;
+    right: 0;
   }
 </style>

@@ -19,7 +19,7 @@ export default class WalletManager {
     for (const walletConfig of this.config.wallets) {
       try {
         const vwc = this.getClient(walletConfig)
-        const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
+        const wallet = new Wallet(walletConfig.identifier, walletConfig.name, walletConfig.color, vwc)
         await wallet.open()
 
         this.wallets.push(wallet)
@@ -31,8 +31,8 @@ export default class WalletManager {
     this.startTicker()
   }
 
-  public getWallet (name: string): Wallet | undefined {
-    return this.wallets.find((wallet) => wallet.name === name)
+  public getWallet (identifier: string): Wallet | undefined {
+    return this.wallets.find((wallet) => wallet.identifier === identifier)
   }
 
   public getWallets (): Wallet[] {
@@ -41,7 +41,9 @@ export default class WalletManager {
 
   public async addWallet (walletConfig: WalletConfigItem) {
     const vwc = this.getClient(walletConfig)
-    const wallet = new Wallet(walletConfig.name, walletConfig.color, vwc)
+    const wallet = new Wallet(this.generateWalletIdentifier(), walletConfig.name, walletConfig.color, vwc)
+
+    walletConfig.identifier = wallet.identifier
 
     await wallet.create(walletConfig.name, walletConfig.name, 1, 1, {
       coin: walletConfig.coin,
@@ -49,7 +51,7 @@ export default class WalletManager {
       singleAddress: walletConfig.singleAddress
     })
     await wallet.open()
-    await Keytar.setCredentials(Keytar.walletService, walletConfig.name, btoa(JSON.stringify(walletConfig)))
+    await Keytar.setCredentials(Keytar.walletService, wallet.identifier, btoa(JSON.stringify(walletConfig)))
     this.wallets.push(wallet)
 
     this.restartTicker()
@@ -57,8 +59,8 @@ export default class WalletManager {
     return wallet
   }
 
-  public async updateWallet (name: string, wallet: Wallet): Promise<Wallet> {
-    const walletConfig = await this.getWalletConfig(name)
+  public async updateWallet (identifier: string, wallet: Wallet): Promise<Wallet> {
+    const walletConfig = await this.getWalletConfig(identifier)
     // @ts-ignore
     walletConfig.vwsApi = wallet.vwc.request.baseUrl
     walletConfig.name = wallet.name!
@@ -66,10 +68,10 @@ export default class WalletManager {
 
     const encryptedWallet = btoa(JSON.stringify(walletConfig))
 
-    await Keytar.setCredentials(Keytar.walletService, walletConfig.name, encryptedWallet)
+    await Keytar.setCredentials(Keytar.walletService, identifier, encryptedWallet)
 
-    if (name !== wallet.name) {
-      await Keytar.deleteCredentials(Keytar.walletService, name)
+    if (identifier !== wallet.identifier) {
+      await Keytar.deleteCredentials(Keytar.walletService, identifier)
     }
 
     this.restartTicker()
@@ -78,7 +80,7 @@ export default class WalletManager {
   }
 
   public async removeWallet (wallet: Wallet): Promise<boolean> {
-    const succeeded = await Keytar.deleteCredentials(Keytar.walletService, wallet.name!)
+    const succeeded = await Keytar.deleteCredentials(Keytar.walletService, wallet.identifier)
 
     if (succeeded) {
       this.wallets.splice(this.wallets.findIndex(w => w === wallet), 1)
@@ -89,7 +91,7 @@ export default class WalletManager {
 
   // TODO: function will only return passphrase when application unlocked.
   public async getWalletPassphrase (wallet: Wallet): Promise<string> {
-    const walletConfig = await this.getWalletConfig(wallet.name!)
+    const walletConfig = await this.getWalletConfig(wallet.identifier)
 
     return walletConfig.passphrase
   }
@@ -109,14 +111,23 @@ export default class WalletManager {
     return vwc
   }
 
-  protected async getWalletConfig (name: string): Promise<WalletConfigItem> {
-    const encrytedWallet = await Keytar.getCredentials(Keytar.walletService, name)
+  protected generateWalletIdentifier (): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0
+      const v = c === 'x' ? r : (r & 0x3 | 0x8)
 
-    if (encrytedWallet === undefined) {
-      throw Error(`Couldn't load wallet: ${name}`)
+      return v.toString(16)
+    })
+  }
+
+  protected async getWalletConfig (identifier: string): Promise<WalletConfigItem> {
+    const encryptedWallet = await Keytar.getCredentials(Keytar.walletService, identifier)
+
+    if (encryptedWallet === undefined) {
+      throw Error(`Couldn't load wallet: ${identifier}`)
     }
 
-    return JSON.parse(atob(encrytedWallet as string))
+    return JSON.parse(atob(encryptedWallet as string))
   }
 
   protected startTicker () {

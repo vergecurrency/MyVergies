@@ -14,11 +14,11 @@
                 <wallet-card-placeholder/>
               </router-link>
             </li>
-            <li v-else v-for="wallet in walletPlaceholders" :key="wallet.name">
+            <li v-else v-for="wallet in walletPlaceholders" :key="wallet.identifier">
               <a v-if="wallet.isLoading" class="menu-wallets-card"><wallet-card-skeleton/></a>
               <router-link
                 v-else
-                :to="{ name: 'wallets', params: { walletName: wallet.name, wallet }}"
+                :to="{ name: 'wallets', params: { walletIdentifier: wallet.identifier, wallet }}"
                 class="menu-wallets-card"
                 @click="selectedWallet = wallet"
               >
@@ -73,11 +73,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['allWalletNames']),
+    ...mapGetters(['allWalletIdentifiers']),
 
     walletPlaceholders () {
-      return this.allWalletNames.map(name => {
-        const wallet = this.wallets.find(wallet => wallet.name === name)
+      return this.allWalletIdentifiers.map(identifier => {
+        const wallet = this.wallets.find(wallet => wallet.identifier === identifier)
 
         if (wallet) {
           wallet.isLoading = false
@@ -85,14 +85,14 @@ export default {
         }
 
         return {
-          name,
+          identifier,
           isLoading: true
         }
       })
     },
 
     hasNoWallets () {
-      return this.allWalletNames.length === 0
+      return this.allWalletIdentifiers.length === 0
     }
   },
   mounted () {
