@@ -17,7 +17,7 @@ module.exports = {
         ],
         dmg: {
           sign: false,
-          icon: 'dist_electron/icons/dmg.icns',
+          icon: null,
           background: 'dist_electron/icons/background.png',
           contents: [
             {
