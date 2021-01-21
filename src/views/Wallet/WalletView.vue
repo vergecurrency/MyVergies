@@ -142,9 +142,16 @@ export default {
 }
 
 .wallet-header-background {
-  background: url('~@/assets/wallet-background-logo.svg') no-repeat right;
   grid-area: 1 / 1;
   mix-blend-mode: overlay;
+}
+
+.wallet-header-background.xvg {
+  background: url('~@/assets/coins/xvg.svg') no-repeat right;
+}
+
+.wallet-header-background.btc {
+  background: url('~@/assets/coins/btc.svg') no-repeat right;
 }
 
 .wallet-header-background-overlay-gradient {

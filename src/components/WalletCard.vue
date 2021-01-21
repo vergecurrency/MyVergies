@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClass">
-    <div class="wallet-menu-card-background"></div>
+    <div :class="['wallet-menu-card-background', wallet.info.wallet.coin]"></div>
     <div class="wallet-menu-card-content">
       <p class="is-size-6-1 is-family-handwritten is-capitalized">{{ wallet.name }}</p>
       <p
@@ -69,10 +69,17 @@ export default {
   }
 
   .wallet-menu-card-background {
-    background: url('~@/assets/wallet-background-logo.svg') no-repeat right;
     mix-blend-mode: overlay;
     height: 100%;
     opacity: 0.75;
+  }
+
+  .wallet-menu-card-background.xvg {
+    background: url('~@/assets/coins/xvg.svg') no-repeat right;
+  }
+
+  .wallet-menu-card-background.btc {
+    background: url('~@/assets/coins/btc.svg') no-repeat right;
   }
 
   .wallet-menu-card-background-blue {
