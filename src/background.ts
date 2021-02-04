@@ -3,6 +3,7 @@ import { createProtocol, installVueDevtools } from 'vue-cli-plugin-electron-buil
 import logger from 'electron-log'
 import ElectronWindowState from 'electron-window-state'
 import * as ElectronUtils from 'electron-util'
+import Installer from '@/setup/installer'
 import { generateMenuTemplate, dockTemplate } from '@/toolbar/menu'
 import Tor from '@/http/tor'
 import ExportImportManager from '@/walletManager/ExportImportManager'
@@ -11,6 +12,9 @@ import '@/utils/ipcMainEvents'
 import AutoUpdater from '@/utils/autoUpdater'
 import * as Utils from '@/utils'
 import { eventConstants } from '@/utils/constants'
+
+// Install MyVergies components
+Installer.install()
 
 logger.transports.file.level = 'debug'
 
@@ -147,8 +151,9 @@ app.on('activate', () => {
 })
 
 const startUpTorOnPort = (port: number) => {
-  const tor = Tor()
   return new Promise((resolve, reject) => {
+    const tor = Tor()
+
     tor.on('ready', async () => {
       tor.setConfig('SocksPort', `${port}`, () => {
         tor.getConfig('SocksPort', (_: any, result: any) => {
@@ -196,6 +201,14 @@ app.on('ready', async () => {
       event.returnValue = 'received'
       event.reply(eventConstants.toggledTor)
     })
+  }).catch(error => {
+    logger.error(error)
+
+    const window = createWindow()
+
+    setTimeout(() => window.webContents.send(eventConstants.torConnectionError, error), 1000)
+
+    deactivateTorProxy(window)
   })
 })
 

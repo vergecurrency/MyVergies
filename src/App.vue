@@ -25,6 +25,7 @@ import ContentContainer from '@/components/layout/ContentContainer'
 import UpdateNotification from '@/components/UpdateNotification'
 import { ipcRenderer } from 'electron'
 import AddPinModal from '@/views/Settings/AddPinModal'
+import { eventConstants } from '@/utils/constants'
 
 export default {
   name: 'my-vergies',
@@ -71,6 +72,13 @@ export default {
 
     ipcRenderer.on('update-available', () => {
       this.hasUpdateNotification = true
+    })
+
+    ipcRenderer.on(eventConstants.torConnectionError, (event, error) => {
+      this.$buefy.dialog.alert({
+        message: `Tor couldn't be started: <b>${error.message}</b>`,
+        type: 'is-danger'
+      })
     })
   }
 }

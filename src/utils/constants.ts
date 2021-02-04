@@ -1,6 +1,7 @@
 export const eventConstants = {
   toggleTor: 'TOGGLE_TOR',
-  toggledTor: 'TOR_TOGGLED'
+  toggledTor: 'TOR_TOGGLED',
+  torConnectionError: 'TOR_CONNECTION_ERROR'
 }
 
 export default {

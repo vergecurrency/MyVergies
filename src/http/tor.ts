@@ -4,28 +4,15 @@ import path from 'path'
 import { spawn, execFileSync } from 'child_process'
 import { platform } from 'os'
 import { Socket } from 'net'
-import { readFileSync, chmodSync } from 'fs'
+import fs from 'fs'
 import { TorController, torrc } from '@deadcanaries/granax'
-import * as ElectronUtils from 'electron-util'
 import Log from 'electron-log'
+import { app } from 'electron'
 
-const BIN_PATH: string = ElectronUtils.fixPathForAsarUnpack(path.join(__dirname, 'bin'))
+const BIN_PATH: string = path.join(app.getPath('appData'), 'MyVergies', 'bin')
 const LD_LIBRARY_PATH: string = path.join(
   BIN_PATH, 'tor-browser_en-US', 'Browser', 'TorBrowser', 'Tor'
 )
-
-if (!ElectronUtils.is.windows) {
-  [
-    'libcrypto.so.1.1',
-    'libevent-2.1.6.dylib',
-    'libevent-2.1.so.6',
-    'libssl.so.1.1',
-    'tor',
-    'tor.real'
-  ].forEach(file => chmodSync(path.join(BIN_PATH, 'Tor', file), 0o555))
-
-  Log.info('chmod tor files')
-}
 
 export default function (options: Object = {}, torrcOptions: Object = {}) {
   const socket: Socket = new Socket()
@@ -55,7 +42,7 @@ export default function (options: Object = {}, torrcOptions: Object = {}) {
     let port = null
 
     try {
-      port = parseInt(readFileSync(path.join(
+      port = parseInt(fs.readFileSync(path.join(
         dataDirectory,
         'control-port'
       )).toString().split(':')[1])
@@ -110,8 +97,7 @@ const getTor = function (platform: string): string {
       torpath = path.join(BIN_PATH, 'Browser', 'TorBrowser', 'Tor', 'tor.exe')
       break
     case 'darwin':
-      torpath = path.join(BIN_PATH, '.tbb.app', 'Contents', 'MacOS', 'Tor',
-        'tor.real')
+      torpath = path.join(BIN_PATH, '.tbb.app', 'Contents', 'MacOS', 'Tor', 'tor.real')
       break
     case 'android':
     case 'linux':
