@@ -17,7 +17,7 @@
             <b-button @click="forgotPin = false" v-html="$i18n.t('settings.cancel')">Cancel</b-button>
           </div>
           <div class="column is-narrow">
-            <b-button type="is-primary" @click="$emit('reset-pin')" :label="$i18n.t('unlock.resetPin')"/>
+            <b-button type="is-primary" @click="$emit('reset')" :label="$i18n.t('unlock.resetPin')"/>
           </div>
         </div>
       </div>

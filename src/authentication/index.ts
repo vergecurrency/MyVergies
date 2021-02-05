@@ -75,7 +75,7 @@ class AuthManager {
         canCancel: ['escape', 'outside'],
         onCancel: closeHandler,
         events: {
-          resetPin () {
+          reset () {
             Log.info('user wants to reset PIN')
 
             const options = {
