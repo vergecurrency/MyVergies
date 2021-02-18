@@ -2,7 +2,10 @@
   <div>
     <div class="box">
       <div :class="walletHeaderBoxClass">
-        <div class="wallet-header-background"/>
+        <div
+          class="wallet-header-background"
+          :style="{ backgroundImage: `url(${require(`@/assets/coins/${wallet.info.wallet.coin}.svg`)})` }"
+        />
         <div class="wallet-header-background-overlay-gradient"/>
         <div class="wallet-header-content">
           <div class="columns is-vcentered">
@@ -144,14 +147,8 @@ export default {
 .wallet-header-background {
   grid-area: 1 / 1;
   mix-blend-mode: overlay;
-}
-
-.wallet-header-background.xvg {
-  background: url('~@/assets/coins/xvg.svg') no-repeat right;
-}
-
-.wallet-header-background.btc {
-  background: url('~@/assets/coins/btc.svg') no-repeat right;
+  background-repeat: no-repeat;
+  background-position: right;
 }
 
 .wallet-header-background-overlay-gradient {

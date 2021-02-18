@@ -6,8 +6,9 @@ const nl: LocaleDefinition = {
     menu: {
       wallets: 'Wallets',
       add: 'Nieuwe wallet',
-      explorer: 'Explorer',
-      contacts: 'Contacten'
+      blockchain: 'Blockchain',
+      settings: 'Instellingen',
+      about: 'Over'
     },
     copiedSuccessfully: 'Yeah, succesvol gekopieerd!',
     colors: {

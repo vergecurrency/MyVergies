@@ -12,6 +12,6 @@ export default {
 
 <style>
   .header-image > img {
-    width: 380px;
+    width: 300px;
   }
 </style>

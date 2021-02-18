@@ -9,7 +9,7 @@ import WalletCreateView from '@/views/Wallet/Create/CreateView.vue'
 import WalletSetupView from '@/views/Wallet/Create/WalletSetupView.vue'
 import ImportWallet from '@/views/Wallet/Create/ImportWallet.vue'
 import WalletSettingsView from '@/views/Wallet/Settings/SettingsView.vue'
-import ExplorerView from '@/views/Explorer/ExplorerView.vue'
+import BlockchainView from '@/views/Blockchain/BlockchainView.vue'
 import ContactsView from '@/views/Contacts/ContactsView.vue'
 import SettingsView from '@/views/Settings/SettingsView.vue'
 
@@ -89,9 +89,9 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/explorer',
-      name: 'explorer',
-      component: ExplorerView
+      path: '/blockchain',
+      name: 'blockchain',
+      component: BlockchainView
     },
     {
       path: '/contacts',

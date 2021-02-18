@@ -4,8 +4,9 @@ export interface LocaleDefinition {
     menu: {
       wallets: string
       add: string
-      explorer: string
-      contacts: string
+      blockchain: string
+      settings: string
+      about: string
     }
     copiedSuccessfully: string
     colors: {

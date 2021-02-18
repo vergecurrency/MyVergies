@@ -147,6 +147,10 @@ app.on('activate', () => {
     createWindow()
   } else {
     win.show()
+    win.setTrafficLightPosition({
+      x: 12,
+      y: 36
+    })
   }
 })
 

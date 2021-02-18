@@ -6,8 +6,9 @@ const en: LocaleDefinition = {
     menu: {
       wallets: 'Wallets',
       add: 'Add new wallet',
-      explorer: 'Explorer',
-      contacts: 'Contacts'
+      blockchain: 'Blockchain',
+      settings: 'Settings',
+      about: 'About'
     },
     copiedSuccessfully: 'Yes, copied successfully!',
     colors: {
