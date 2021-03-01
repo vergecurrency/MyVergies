@@ -1,5 +1,9 @@
 <template>
   <div style="overflow-x: hidden; overflow-y: visible">
+    <div class="notification is-warning is-marginless is-radiusless">
+      <strong>MyVergies</strong> is currently still in <strong>BETA</strong> development. This means some features may not work 100%.
+    </div>
+
     <div class="is-grid has-background-gradient-purple">
       <div class="overlay diagonal-overlay"/>
       <div class="overlay has-background-white is-hidden-tablet is-hidden-desktop is-hidden-fullhd is-hidden-widescreen"/>
