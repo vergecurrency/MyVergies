@@ -2,7 +2,7 @@
   <b-navbar type="is-light">
     <template slot="brand">
       <b-navbar-item :to="{ path: '/' }" tag="nuxt-link">
-        <img src="@/assets/logo.svg" :alt="package.name" class="logo" />
+        <div class="navbar-item logo" :alt="package.name"></div>
       </b-navbar-item>
     </template>
     <template slot="start">
@@ -64,12 +64,22 @@ export default {
 
 <style>
 .logo {
+  background: url("~@/assets/logo.svg");
+  background-repeat: no-repeat;
+  background-position: center;
   width: 120px;
+  height: 50px;
 }
 
 @media screen and (min-width: 1024px) {
   .navbar.is-spaced {
     min-height: 5.25rem;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    background-image: url("~@/assets/logo-light.svg");
   }
 }
 </style>

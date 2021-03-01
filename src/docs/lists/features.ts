@@ -17,7 +17,7 @@ export default [
   {
     title: 'Import & Export',
     icon: 'export',
-    description: 'Easily import and export your wallets into MyVergies for some extra conformt.'
+    description: 'Easily import and export your wallets into MyVergies for some extra comfort.'
   },
   {
     title: 'Multiple Languages',

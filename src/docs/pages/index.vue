@@ -26,7 +26,8 @@
               </a>
             </div>
             <div class="column is-hidden-mobile is-four-fifths-tablet is-two-thirds-desktop is-half-fullhd">
-              <img src="@/assets/app-screenshot-s.png" class="image-overhang"/>
+              <img v-if="isDarkMode" src="@/assets/app-screenshot-dark.png" class="app-screenshot-overflow"/>
+              <img v-else src="@/assets/app-screenshot-light.png" class="app-screenshot-overflow"/>
             </div>
           </div>
         </div>
@@ -73,7 +74,8 @@ export default {
     return {
       package: pkg,
       os: null,
-      features: Features
+      features: Features,
+      isDarkMode: false
     }
   },
 
@@ -82,6 +84,13 @@ export default {
     if (navigator.appVersion.indexOf('Mac') !== -1) this.os = 'macOS'
     if (navigator.appVersion.indexOf('X11') !== -1) this.os = 'UNIX'
     if (navigator.appVersion.indexOf('Linux') !== -1) this.os = 'Linux'
+
+    // Set dark mode or not and listen for changes.
+    this.isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+      this.isDarkMode = e.matches
+    })
   },
 
   computed: {
@@ -110,7 +119,7 @@ export default {
   max-width: 200px;
 }
 
-.image-overhang {
+.app-screenshot-overflow {
   margin-bottom: -150px;
 }
 

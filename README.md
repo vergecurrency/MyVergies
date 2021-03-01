@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/vergecurrency/MyVergies/master/readme-header.png" alt="MyVergies Logo"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/vergecurrency/MyVergies/main/readme-header.png" alt="MyVergies Logo"></p>
 
 <p align="center">
   <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/workflows/CICD/badge.svg"></a>
@@ -51,7 +51,15 @@ npm run electron:serve
 npm test
 ```
 
-Please setup your own local VWS instance to test your changes against. You can checkout [the bitcore repository](https://github.com/vergecurrency/bitcore) and setup an instance [using docker](https://github.com/vergecurrency/bitcore/blob/master/Docker.md).
+Please setup your own local VWS instance to test your changes against. You can checkout [the bitcore repository](https://github.com/vergecurrency/bitcore) and setup an instance [using docker](https://github.com/vergecurrency/bitcore/blob/main/Docker.md).
+
+### Docs Website
+
+Running the website can be done using NuxtJS:
+
+```bash
+npm run nuxt:serve
+```
 
 ## Build With
 
