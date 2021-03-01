@@ -22,6 +22,14 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
+          <b-button
+            tag="a"
+            type="is-white"
+            class="has-text-grey-dark"
+            icon-left="gift"
+            label="Sponsor"
+            :href="package.funding.find(item => item.type === 'github').url"
+          />
           <a class="button is-white" :href="package.repository.url">
             <span class="icon has-text-grey-dark">
               <b-icon icon="github" />

@@ -1,42 +1,69 @@
 <template>
-  <div>
-
+  <div style="overflow-x: hidden; overflow-y: visible">
     <div class="is-grid has-background-gradient-purple">
       <div class="overlay diagonal-overlay"/>
+      <div class="overlay has-background-white is-hidden-tablet is-hidden-desktop is-hidden-fullhd is-hidden-widescreen"/>
       <section class="section overlay">
-        <div class="columns is-flex is-vcentered">
-          <div class="column is-half has-text-centered">
-            <div class="header-logo">
-              <img src="@/assets/headers/logo@2x.png"/>
+        <div>
+          <div class="columns is-flex is-vcentered">
+            <div class="column is-full-mobile is-two-fifths-tablet is-half-desktop is-half-fullhd has-text-centered">
+              <div class="header-logo">
+                <img src="@/assets/headers/logo@2x.png"/>
+              </div>
+              <h1 class="is-size-1 is-family-handwritten">
+                {{ package.name }}
+              </h1>
+              <h2 class="subtitle">
+                {{ package.description }}
+              </h2>
+              <a class="button is-success" :href="downloadLink">
+                <b-icon icon="download"/>
+                <span>Download ({{ os }})</span>
+              </a>
+              <a class="button is-dark" :href="package.repository.url">
+                <b-icon icon="github"/>
+                <span>GitHub</span>
+              </a>
             </div>
-            <h1 class="is-size-1 is-family-handwritten">
-              {{ package.name }}
-            </h1>
-            <h2 class="subtitle">
-              {{ package.description }}
-            </h2>
-            <button class="button is-success">
-              <b-icon icon="download"/>
-              <span>Download (macOS)</span>
-            </button>
-            <button class="button is-dark">
-              <b-icon icon="github"/>
-              <span>GitHub</span>
-            </button>
-          </div>
-          <div class="column is-half">
-            <img src="@/assets/app-screenshot-s.png" class="image-overhang"/>
+            <div class="column is-hidden-mobile is-four-fifths-tablet is-two-thirds-desktop is-half-fullhd">
+              <img src="@/assets/app-screenshot-s.png" class="image-overhang"/>
+            </div>
           </div>
         </div>
       </section>
     </div>
     <section class="section has-background-light">
-      Hello World
+      <div class="container">
+        <h2 class="title is-2">Features</h2>
+        <div class="columns is-multiline">
+          <div
+            class="column is-full-mobile is-half-tablet is-one-third-desktop"
+            v-for="feature in features"
+            :key="feature.title"
+          >
+            <div class="card">
+              <div class="card-content">
+                <div class="columns">
+                  <div class="column is-narrow">
+                    <b-icon :icon="feature.icon" type="is-success" />
+                  </div>
+                  <div class="column">
+                    <p class="title is-5">{{ feature.title }}</p>
+                    {{ feature.description }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
+import Features from '@/docs/lists/features.ts'
+
 const pkg = require('@/../package')
 
 export default {
@@ -44,7 +71,35 @@ export default {
 
   data () {
     return {
-      package: pkg
+      package: pkg,
+      os: null,
+      features: Features
+    }
+  },
+
+  created () {
+    if (navigator.appVersion.indexOf('Win') !== -1) this.os = 'Windows'
+    if (navigator.appVersion.indexOf('Mac') !== -1) this.os = 'macOS'
+    if (navigator.appVersion.indexOf('X11') !== -1) this.os = 'UNIX'
+    if (navigator.appVersion.indexOf('Linux') !== -1) this.os = 'Linux'
+  },
+
+  computed: {
+    downloadLink () {
+      const version = this.package.version
+      const baseUrl = `${this.package.repository.url.replace('.git', '')}/releases/download/v${version}`
+
+      switch (this.os) {
+        case 'macOS':
+          return `${baseUrl}/MyVergies-${this.package.version}.dmg`
+        case 'Windows':
+          return `${baseUrl}/MyVergies-Setup-${this.package.version}.exe`
+        case 'UNIX':
+        case 'Linux':
+          return `${baseUrl}/MyVergies-${this.package.version}.AppImage`
+        default:
+          return ''
+      }
     }
   }
 }
@@ -52,7 +107,7 @@ export default {
 
 <style scoped>
 .header-logo > img {
-  width: 200px;
+  max-width: 200px;
 }
 
 .image-overhang {

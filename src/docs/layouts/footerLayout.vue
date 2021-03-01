@@ -8,6 +8,7 @@
         Code available on
         <a :href="package.bugs.url">GitHub</a>.
       </p>
+      <p>XVG address: <strong>{{ package.funding.find(item => item.type === 'xvg').url }}</strong></p>
     </div>
   </footer>
 </template>

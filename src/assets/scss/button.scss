@@ -43,6 +43,15 @@
   box-shadow: 0px 2px 0px #9e9021;
 }
 
+.button.is-dark {
+  box-shadow: 0px 3px 0px #000000;
+}
+
+.button.is-dark:hover {
+  top: 1px;
+  box-shadow: 0px 2px 0px #000000;
+}
+
 @media (prefers-color-scheme: dark) {
   .button {
     background: #363636;

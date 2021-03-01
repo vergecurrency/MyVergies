@@ -1,4 +1,4 @@
-name: CICD
+name: Build, test and deploy MyVergies
 
 on: [push]
 

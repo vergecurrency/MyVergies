@@ -12,6 +12,9 @@ test('should render correct contents', () => {
     name: 'Main Account',
     color: 'blue',
     info: {
+      wallet: {
+        coin: 'test'
+      },
       balance: {
         totalAmount: 123000000
       }

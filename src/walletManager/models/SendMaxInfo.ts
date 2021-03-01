@@ -1,4 +1,4 @@
-import {UnspentOutput} from '@/walletManager/models/TxProposal'
+import { UnspentOutput } from '@/walletManager/models/TxProposal'
 
 export default interface SendMaxInfo {
   size: number
