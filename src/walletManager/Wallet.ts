@@ -102,9 +102,21 @@ export default class Wallet {
           return reject(error)
         }
 
-        this.transactions = txs
+        const txids: string[] = []
+        const filteredTxs: Tx[] = []
 
-        resolve(txs)
+        txs.forEach((tx: Tx) => {
+          if (txids.includes(tx.txid)) {
+            return
+          }
+
+          txids.push(tx.txid)
+          filteredTxs.push(tx)
+        })
+
+        this.transactions = filteredTxs
+
+        resolve(filteredTxs)
       })
     })
   }
