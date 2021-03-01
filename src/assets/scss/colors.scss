@@ -1,0 +1,24 @@
+.has-background-gradient-blue {
+  background: rgb(27,154,220);
+  background: linear-gradient(145deg, rgb(0, 30, 220) 0%, rgb(14, 149, 202) 20%, rgb(117, 240, 236) 70%);
+}
+
+.has-background-gradient-purple {
+  background: rgb(90,0,188);
+  background: linear-gradient(145deg, rgb(90, 0, 188) 50%, rgb(228, 62, 120) 100%);
+}
+
+.has-background-gradient-green {
+  background: rgb(27,138,117);
+  background: linear-gradient(145deg, rgb(0, 155, 94) 0%, rgb(217, 255, 51) 100%);
+}
+
+.has-background-gradient-orange {
+  background: rgb(188,76,0);
+  background: linear-gradient(145deg, rgb(188, 76, 0) 0%, rgb(254, 255, 29) 100%);
+}
+
+.has-background-gradient-red {
+  background: rgb(188,0,89);
+  background: linear-gradient(145deg, rgb(188, 0, 89) 0%, rgb(228, 181, 62) 100%);
+}

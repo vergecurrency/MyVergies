@@ -1,0 +1,9 @@
+@media (prefers-color-scheme: dark) {
+  body, html {
+    background-color: #2c2e30;
+  }
+
+  .has-background-light {
+    background-color: #131313 !important;
+  }
+}

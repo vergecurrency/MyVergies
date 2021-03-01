@@ -2,4 +2,8 @@
   .navbar-divider {
     background-color: darken($navbar-divider-background-color, 81%);
   }
+
+  .navbar.is-light {
+    background: #2c2e30;
+  }
 }

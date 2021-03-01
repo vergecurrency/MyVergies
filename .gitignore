@@ -31,5 +31,9 @@ yarn-error.log*
 !/dist_electron/notarize.js
 !/dist_electron/bin
 
+#Nuxt output
+/.nuxt
+/docs
+
 # yarn lock
 yarn.lock

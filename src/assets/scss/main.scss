@@ -9,10 +9,13 @@
 @import "~buefy/src/scss/buefy";
 
 // Additional styling
+@import "background";
 @import "box";
 @import "button";
+@import "colors";
 @import "common";
 @import "fonts";
+@import "footer";
 @import "form";
 @import "list";
 @import "message";
@@ -20,6 +23,7 @@
 @import "navbar";
 @import "notification";
 @import "pin";
+@import "section";
 @import "table";
 @import "tabs";
 @import "typography";
