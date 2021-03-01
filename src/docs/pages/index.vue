@@ -22,7 +22,7 @@
               </h2>
               <a class="button is-success" :href="downloadLink">
                 <b-icon icon="download"/>
-                <span>Download ({{ os }})</span>
+                <span>Download ({{ os }}) v{{ package.version }}</span>
               </a>
               <a class="button is-dark" :href="package.repository.url">
                 <b-icon icon="github"/>
