@@ -19,8 +19,8 @@
   },
   "funding": [
     {
-      "type" : "github",
-      "url" : "https://github.com/sponsors/SwenVanZanten"
+      "type": "github",
+      "url": "https://github.com/sponsors/SwenVanZanten"
     },
     {
       "type": "xvg",
@@ -48,6 +48,7 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.32",
     "@fortawesome/free-solid-svg-icons": "^5.15.1",
     "@fortawesome/vue-fontawesome": "^0.1.10",
+    "@nuxt/content": "^1.14.0",
     "axios": "^0.21.0",
     "bitcore-wallet-client-xvg": "^8.1.1",
     "buefy": "^0.9.4",

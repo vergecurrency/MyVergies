@@ -3,7 +3,12 @@
     <header-layout :pages="pages" />
 
     <section class="main-content">
-      <nuxt />
+      <div class="notification is-warning is-marginless is-radiusless">
+        <strong>MyVergies</strong> is currently still in <strong>BETA</strong> development. This means some features may not work 100%.
+      </div>
+      <slot>
+        <nuxt />
+      </slot>
     </section>
 
     <footer-layout />
@@ -21,9 +26,20 @@ export default {
     return {
       pages: [
         {
-          name: 'Home',
+          name: 'Overview',
           path: '/',
+          enabled: true,
+          exact: true
+        },
+        {
+          name: 'Documentation',
+          path: '/documentation',
           enabled: true
+        },
+        {
+          name: 'Release Notes',
+          path: '/release-notes',
+          enabled: false
         }
       ]
     }

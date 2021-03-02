@@ -55,9 +55,14 @@ module.exports = {
    ** Nuxt.js modules
    */
   modules: [
+    '@nuxt/content',
     // Doc: https://buefy.github.io/#/documentation
     ['nuxt-buefy', { css: false, materialDesignIcons: true }]
   ],
+
+  router: {
+    linkActiveClass: 'is-active'
+  },
 
   /*
    ** Build configuration

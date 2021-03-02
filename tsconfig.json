@@ -15,7 +15,9 @@
     "types": [
       "webpack-env",
       "chai",
-      "jest"
+      "jest",
+      "@nuxt/types",
+      "@nuxt/content"
     ],
     "paths": {
       "@/*": [

@@ -1,7 +1,7 @@
 <template>
   <b-navbar type="is-light">
     <template slot="brand">
-      <b-navbar-item :to="{ path: '/' }" tag="nuxt-link">
+      <b-navbar-item to="/" tag="nuxt-link" exact>
         <div class="navbar-item logo" :alt="package.name"></div>
       </b-navbar-item>
     </template>
@@ -11,8 +11,8 @@
           v-if="page.enabled"
           :key="page.name"
           :to="page.path"
-          :active="$route.path === page.path"
           tag="nuxt-link"
+          :exact="page.exact || false"
         >
           {{ page.name }}
         </b-navbar-item>

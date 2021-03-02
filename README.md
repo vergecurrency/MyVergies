@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/vergecurrency/MyVergies/main/readme-header.png" alt="MyVergies Logo"></p>
 
 <p align="center">
-  <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/workflows/CICD/badge.svg"></a>
+  <a href="https://github.com/vergecurrency/MyVergies/actions" target="_blank"><img src="https://github.com/vergecurrency/MyVergies/actions/workflows/application.yml/badge.svg"></a>
   <img src="https://img.shields.io/badge/status-beta-orange.svg">
   <img src="https://img.shields.io/badge/macOS-^10.14-blue.svg">
   <img src="https://img.shields.io/badge/Windows-^10-lightblue.svg">
