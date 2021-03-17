@@ -28,6 +28,8 @@ jobs:
           npm install
           npm run lint
           npm run test:unit:ci
+        env:
+          GRANAX_TOR_VERSION: 10.0.13
 
   build:
     runs-on: ${{ matrix.os }}
@@ -69,6 +71,7 @@ jobs:
           APPLE_ID_PASS: ${{ secrets.APPLE_ID_PASS }}
           APPLE_ASC_PROVIDER: ${{ secrets.APPLE_ASC_PROVIDER }}
           NOTARIZE: ${{ startsWith(github.ref, 'refs/tags/') }}
+          GRANAX_TOR_VERSION: 10.0.13
       - name: Cleanup artifacts
         if: startsWith(github.ref, 'refs/tags/')
         run: |

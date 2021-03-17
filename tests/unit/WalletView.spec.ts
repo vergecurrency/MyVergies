@@ -18,7 +18,8 @@ test('should render correct contents', () => {
       balance: {
         totalAmount: 123000000
       }
-    }
+    },
+    txProposals: []
   }
 
   const wrapper = shallowMount(WalletView, {
