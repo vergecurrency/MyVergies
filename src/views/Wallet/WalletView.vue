@@ -1,5 +1,24 @@
 <template>
   <div>
+
+    <b-notification
+      v-if="this.wallet.txProposals.length > 0"
+      type="is-warning"
+      icon="exclamation-triangle"
+      has-icon
+      :closable="false"
+    >
+      <div class="columns is-vcentered">
+        <div class="column">
+          <p class="has-text-weight-bold" v-html="$i18n.t('wallet.invalidBalance')"/>
+          <p v-html="$i18n.t('wallet.invalidBalanceDesc', { txps: this.wallet.txProposals.length })" />
+        </div>
+        <div class="column is-narrow">
+          <b-button label="Resolve issue" type="is-success" @click="resolveTxProposalIssues" />
+        </div>
+      </div>
+    </b-notification>
+
     <div class="box">
       <div :class="walletHeaderBoxClass">
         <div
@@ -13,17 +32,21 @@
               <p class="is-size-3 is-family-handwritten is-capitalized has-text-grey has-line-height-small">
                 {{ wallet.name }}
               </p>
-              <money class="is-size-3 has-text-weight-dark" :amount="wallet.info.balance.totalAmount || 0" crypto/>
-              <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.info.balance.totalAmount || 0" convert/>
+              <p>
+                <money class="is-size-3 has-text-weight-dark" :amount="wallet.info.balance.totalAmount || 0" crypto/>
+              </p>
+              <p>
+                <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.info.balance.totalAmount || 0" convert/>
+              </p>
             </div>
             <div class="column is-narrow">
               <router-link
                 :to="{ name: 'wallets.settings', params: { walletIdentifier: wallet.identifier, wallet }}"
                 class="button is-light is-rounded"
               >
-            <span class="icon has-text-grey-dark">
-              <b-icon icon="cog" size="is-small"/>
-            </span>
+                <span class="icon has-text-grey-dark">
+                  <b-icon icon="cog" size="is-small"/>
+                </span>
               </router-link>
             </div>
             <div class="column">
@@ -35,18 +58,18 @@
                         :to="{ name: 'wallets.send', params: { walletIdentifier: wallet.identifier, wallet }}"
                         class="button is-primary"
                       >
-                    <span class="icon">
-                        <b-icon icon="credit-card" size="is-small"/>
-                    </span>
+                        <span class="icon">
+                          <b-icon icon="credit-card" size="is-small"/>
+                        </span>
                         <span v-html="$i18n.t('wallet.send')"/>
                       </router-link>
                       <router-link
                         :to="{ name: 'wallets.receive', params: { walletIdentifier: wallet.identifier, wallet }}"
                         class="button is-primary"
                       >
-                    <span class="icon">
-                        <b-icon icon="hand-holding-usd" size="is-small"/>
-                    </span>
+                        <span class="icon">
+                          <b-icon icon="hand-holding-usd" size="is-small"/>
+                        </span>
                         <span v-html="$i18n.t('wallet.receive')"/>
                       </router-link>
                     </div>
@@ -58,6 +81,7 @@
         </div>
       </div>
     </div>
+
     <div v-if="hasTransactions" class="box is-paddingless is-clipped">
       <transaction-row
         v-for="transaction in transactions"
@@ -77,6 +101,7 @@
 <script>
 import TransactionRow from '@/components/TransactionRow'
 import Money from '@/components/labels/Money'
+import TxProposalsModal from '@/views/Wallet/TxProposalsModal'
 
 export default {
   name: 'wallet-view',
@@ -104,6 +129,18 @@ export default {
   methods: {
     editWallet () {
       this.$buefy.toast.open('Something happened')
+    },
+
+    resolveTxProposalIssues () {
+      this.$buefy.modal.open({
+        component: TxProposalsModal,
+        parent: this,
+        hasModalCard: true,
+        canCancel: ['escape', 'outside'],
+        props: {
+          wallet: this.wallet
+        }
+      })
     }
   }
 }

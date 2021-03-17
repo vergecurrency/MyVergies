@@ -33,14 +33,14 @@
             </li>
           </ul>
         </li>
-        <li>
+        <li class="is-hidden">
           <router-link
             class="is-size-4 has-text-weight-semibold"
             :to="{ name: 'blockchain' }"
             v-html="$i18n.t('main.menu.blockchain')"
           />
         </li>
-        <li>
+        <li class="is-hidden">
           <router-link
             class="is-size-4 has-text-weight-semibold"
             :to="{ name: 'settings' }"

@@ -136,6 +136,7 @@ export default class WalletManager {
         try {
           await wallet.status()
           await wallet.fetchTxHistory()
+          await wallet.getTxProposals()
         } catch (e) {
           Log.error(e.toString())
         }

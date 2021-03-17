@@ -15,6 +15,7 @@ export default class Wallet {
   public info?: Info
   public transactions: Tx[] = []
   public addresses: AddressInfo[] = []
+  public txProposals: TxProposalResponse[] = []
 
   constructor (identifier: string, name: string, color: string, vwc: Client) {
     this.identifier = identifier
@@ -125,6 +126,20 @@ export default class Wallet {
     return this.transactions
   }
 
+  public getTxProposals (): Promise<TxProposalResponse[]> {
+    return new Promise((resolve, reject) => {
+      this.vwc.getTxProposals((error: Error|null, txps: TxProposalResponse[]) => {
+        if (error) {
+          return reject(error)
+        }
+
+        this.txProposals = txps
+
+        resolve(txps)
+      })
+    })
+  }
+
   public createTxProposal (proposal: TxProposal): Promise<TxProposalResponse> {
     return new Promise((resolve, reject) => {
       this.vwc.createTxProposal(proposal, (error: Error|null, txp: TxProposalResponse) => {
@@ -169,6 +184,18 @@ export default class Wallet {
         }
 
         resolve(txp)
+      })
+    })
+  }
+
+  public removeTxProposal (proposal: TxProposalResponse): Promise<TxProposalResponse[]> {
+    return new Promise((resolve, reject) => {
+      this.vwc.removeTxProposal(proposal, (error: Error|null) => {
+        if (error) {
+          return reject(error)
+        }
+
+        return this.getTxProposals()
       })
     })
   }

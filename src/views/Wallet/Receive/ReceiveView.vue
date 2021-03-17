@@ -46,12 +46,52 @@
         <b-tab-item :label="$i18n.t('receive.addresses')">
           <div class="px-1 py-1">
             <form-section :title="$i18n.t('receive.addresses')" no-divider>
+              <form-box
+                :title="$i18n.t('receive.scanAddressesForBalance')"
+                :description="$i18n.t('receive.scanAddressesForBalanceDesc')"
+                type="is-info"
+              >
+                <b-button
+                  type="is-info"
+                  :label="$i18n.t('receive.scanAddressesForBalance')"
+                  @click="scan"
+                  :loading="scanning"
+                />
+              </form-box>
+            </form-section>
+
+            <form-section :title="$i18n.t('receive.addressesWithBalance')">
               <div class="box is-paddingless is-clipped">
-                <div class="pt-4 pb-4 pl-4">
-                  <h6 class="is-6 title" v-html="$i18n.t('receive.unusedAddresses')"/>
+
+                <b-table v-if="addressesWithBalance.length > 0" :data="addressesWithBalance" narrowed>
+                  <b-table-column field="address" label="Address" v-slot="{ row }" header-class="is-narrow">
+                    <code>{{ row.address }}</code>
+                  </b-table-column>
+
+                  <b-table-column field="path" label="Path" sortable v-slot="{ row }">
+                    {{ row.path.replace('m/', 'xpub/') }}
+                  </b-table-column>
+
+                  <b-table-column field="amount" label="Amount" sortable v-slot="{ row }">
+                    {{ formatAmountFromSatoshis(row.amount, $electron.remote.app.getLocale()) }}
+                  </b-table-column>
+
+                  <b-table-column header-class="is-narrow" v-slot="{ row }">
+                    <b-button size="is-small" icon-left="ellipsis-v" @click="copyAddress(row)"/>
+                  </b-table-column>
+                </b-table>
+
+                <div v-else class="p-5">
+                  <span v-html="$i18n.t('receive.noAddressesWithBalance')" />
                 </div>
 
-                <b-table :data="unusedAddresses" narrowed>
+              </div>
+            </form-section>
+
+            <form-section :title="$i18n.t('receive.unusedAddresses')">
+              <div class="box is-paddingless is-clipped">
+
+                <b-table v-if="unusedAddresses.length > 0" :data="unusedAddresses" narrowed>
                   <b-table-column field="address" label="Address" v-slot="{ row }" header-class="is-narrow">
                     <code>{{ row.address }}</code>
                   </b-table-column>
@@ -76,30 +116,13 @@
                   </b-table-column>
                 </b-table>
 
-                <div class="pt-4 pb-4 pl-4">
-                  <h6 class="is-6 title" v-html="$i18n.t('receive.addressesWithBalance')"/>
+                <div v-else class="p-5">
+                  <span v-html="$i18n.t('receive.noUnusedAddresses')" />
                 </div>
-
-                <b-table :data="addressesWithBalance" narrowed>
-                  <b-table-column field="address" label="Address" v-slot="{ row }" header-class="is-narrow">
-                    <code>{{ row.address }}</code>
-                  </b-table-column>
-
-                  <b-table-column field="path" label="Path" sortable v-slot="{ row }">
-                    {{ row.path.replace('m/', 'xpub/') }}
-                  </b-table-column>
-
-                  <b-table-column field="amount" label="Amount" sortable v-slot="{ row }">
-                    {{ formatAmountFromSatoshis(row.amount, $electron.remote.app.getLocale()) }}
-                  </b-table-column>
-
-                  <b-table-column header-class="is-narrow" v-slot="{ row }">
-                    <b-button size="is-small" icon-left="ellipsis-v" @click="copyAddress(row)"/>
-                  </b-table-column>
-                </b-table>
 
               </div>
             </form-section>
+
           </div>
         </b-tab-item>
       </b-tabs>
@@ -156,6 +179,24 @@ export default {
   },
 
   methods: {
+    scan () {
+      this.wallet.scan().then(scanStarted => {
+        this.$buefy.dialog.alert({
+          message: this.$i18n.t('receive.addressScanRequested'),
+          icon: 'info',
+          hasIcon: true
+        })
+
+        Log.info('wallet address scan requested')
+      }).catch(e => {
+        this.$buefy.dialog.alert({
+          message: e.message
+        })
+
+        Log.error('wallet address scan failed', e)
+      })
+    },
+
     getAddress () {
       this.wallet.getAddress().then(addressInfo => {
         this.address = addressInfo.address

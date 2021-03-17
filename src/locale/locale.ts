@@ -57,6 +57,13 @@ export interface LocaleDefinition {
     receive: string
     noTransactions: string
     noTransactionsDesc: string
+    invalidBalance: string
+    invalidBalanceDesc: string
+    transactionProposals: string
+    transactionProposalsDesc: string
+    done: string
+    confirmTxProposalRemoval: string
+    remove: string
   }
   transaction: {
     transaction: string
@@ -122,8 +129,13 @@ export interface LocaleDefinition {
     receive: string
     newAddress: string
     addresses: string
+    scanAddressesForBalance: string
+    scanAddressesForBalanceDesc: string
+    addressScanRequested: string
     unusedAddresses: string
+    noUnusedAddresses: string
     addressesWithBalance: string
+    noAddressesWithBalance: string
     yourReceiveAddress: string
     qrCode: string
     qrCodeDesc: string

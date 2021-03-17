@@ -42,12 +42,14 @@ import {
   faCopy,
   faListUl,
   faExclamationCircle,
+  faExclamationTriangle,
   faFolderOpen,
   faFileContract,
   faFileImport,
   faTimes,
   faEllipsisV,
-  faArrowAltCircleUp
+  faArrowAltCircleUp,
+  faTrash
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(faLock)
@@ -89,12 +91,14 @@ library.add(faEyeSlash)
 library.add(faCopy)
 library.add(faListUl)
 library.add(faExclamationCircle)
+library.add(faExclamationTriangle)
 library.add(faFolderOpen)
 library.add(faFileContract)
 library.add(faFileImport)
 library.add(faTimes)
 library.add(faEllipsisV)
 library.add(faArrowAltCircleUp)
+library.add(faTrash)
 
 Vue.use(Buefy, {
   defaultIconComponent: 'fa-icon',

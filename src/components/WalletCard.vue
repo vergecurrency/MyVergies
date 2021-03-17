@@ -9,8 +9,12 @@
         v-html="'a proper name'"
         style="opacity: 0.5"
       />
-      <Money class="is-size-5 has-text-weight-bold" :amount="wallet.info.balance.totalAmount || 0" crypto/>
-      <Money class="is-size-7" :amount="wallet.info.balance.totalAmount || 0" convert/>
+      <p>
+        <Money class="is-size-5 has-text-weight-bold" :amount="wallet.info.balance.totalAmount || 0" crypto/>
+      </p>
+      <p>
+        <Money class="is-size-7" :amount="wallet.info.balance.totalAmount || 0" convert/>
+      </p>
     </div>
   </div>
 </template>
