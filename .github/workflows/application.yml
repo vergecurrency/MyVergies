@@ -87,6 +87,6 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: 'dist_electron/**'
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

@@ -1,7 +1,7 @@
 {
   "name": "MyVergies",
   "description": "An electron-vue Verge Currency desktop wallet with Tor built in",
-  "version": "0.6.1",
+  "version": "1.0.0",
   "license": "MIT",
   "private": true,
   "author": {
