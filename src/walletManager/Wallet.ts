@@ -128,7 +128,9 @@ export default class Wallet {
 
   public getTxProposals (): Promise<TxProposalResponse[]> {
     return new Promise((resolve, reject) => {
-      this.vwc.getTxProposals((error: Error|null, txps: TxProposalResponse[]) => {
+      this.vwc.getTxProposals({
+        doNotVerify: true
+      }, (error: Error|null, txps: TxProposalResponse[]) => {
         if (error) {
           return reject(error)
         }

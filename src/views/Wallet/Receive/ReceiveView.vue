@@ -55,7 +55,6 @@
                   type="is-info"
                   :label="$i18n.t('receive.scanAddressesForBalance')"
                   @click="scan"
-                  :loading="scanning"
                 />
               </form-box>
             </form-section>
