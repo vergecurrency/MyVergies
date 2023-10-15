@@ -64,7 +64,7 @@ npm run nuxt:serve
 ## Build With
 
 * [Node.js/NPM] (https://github.com/nodesource/distributions) Node.js (tested with node.js 18) & NPM (node package manager - tested with 9.8) are required to install Vue.js
-* [Vue.js](https://github.com/vuejs/vue) - Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web
+* [Vue.js](https://github.com/vuejs/vue) - tested with 5.0.8, Vue.js is a progressive, incrementally-adoptable JavaScript framework for building UI on the web
 * [Electron](https://github.com/github/electron) - Build cross-platform desktop apps with JavaScript, HTML, and CSS
 * [Vue CLI Plugin Electron Builder](https://github.com/nklayman/vue-cli-plugin-electron-builder) - A Vue Cli 3/4 plugin for Electron with no required configuration
 * [Tor](https://www.torproject.org) - The intergration of Tor makes sure your transactions are private
