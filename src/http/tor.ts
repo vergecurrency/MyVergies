@@ -5,7 +5,7 @@ import { spawn, execFileSync } from 'child_process'
 import { platform } from 'os'
 import { Socket } from 'net'
 import fs from 'fs'
-import { TorController, torrc } from '@deadcanaries/granax'
+import { TorController, torrc } from '@rohamgames/granax'
 import Log from 'electron-log'
 import { app } from 'electron'
 
