@@ -26,7 +26,7 @@ jobs:
       - name: Install dependencies
         run: npm install
         env:
-          GRANAX_TOR_VERSION: 10.0.15
+          GRANAX_TOR_VERSION: 13.0.10
 
       - name: Generate
         run: npm run nuxt:generate
