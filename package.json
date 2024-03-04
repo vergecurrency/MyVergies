@@ -92,7 +92,7 @@
     "@vue/eslint-config-standard": "^5.1.2",
     "@vue/eslint-config-typescript": "^5.1.0",
     "@vue/test-utils": "^1.1.1",
-    "app-builder-lib": "^22.10.4",
+    "app-builder-lib": "^24.13.1",
     "babel-core": "^7.0.0-bridge.0",
     "chai": "^4.2.0",
     "cypress": "^6.0.0",
