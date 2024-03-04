@@ -1516,25 +1516,26 @@
       "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==",
       "dev": true
     },
-    "node_modules/@deadcanaries/granax": {
-      "version": "3.2.5",
-      "resolved": "https://registry.npmjs.org/@deadcanaries/granax/-/granax-3.2.5.tgz",
-      "integrity": "sha512-umsEYedNQWLSlkDnGynR8bY0pVWq2hKN1JLtV9Jit7srYHqdo+XIEsUNejq1nNBiX83WhUZVe4gOqvg8ovdMMQ==",
+    "node_modules/@rohamgames/granax": {
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/@rohamgames/granax/-/granax-3.3.5.tgz",
+      "integrity": "sha512-yhUTzUflSzqMBU7Ig0+R8tXJDX11uFHffmp589oU/lZSOOcFxTiaQliEetaiNGWJHZd+2DU+TZn6tNCwfU2REA==",
+      "hasInstallScript": true,
       "dependencies": {
-        "async": "^2.3.0",
-        "latest-torbrowser-version": "^2.0.2",
-        "merge": "^1.2.1",
-        "mkdirp": "^0.5.1",
+        "async": "^2.6.3",
+        "latest-torbrowser-version": "^2.0.3",
+        "merge": "^2.1.1",
+        "mkdirp": "^0.5.5",
         "mv": "^2.1.1",
-        "ncp": "^2.0.0",
         "progress": "^2.0.3",
-        "rimraf": "^2.6.3"
+        "rimraf": "^2.7.1"
       },
       "engines": {
         "node": ">=8.9.0"
       },
       "optionalDependencies": {
-        "7zip": "0.0.6"
+        "7zip": "0.0.6",
+        "ncp": "^2.0.0"
       }
     },
     "node_modules/@develar/schema-utils": {
@@ -39815,20 +39816,20 @@
         }
       }
     },
-    "@deadcanaries/granax": {
-      "version": "3.2.5",
-      "resolved": "https://registry.npmjs.org/@deadcanaries/granax/-/granax-3.2.5.tgz",
-      "integrity": "sha512-umsEYedNQWLSlkDnGynR8bY0pVWq2hKN1JLtV9Jit7srYHqdo+XIEsUNejq1nNBiX83WhUZVe4gOqvg8ovdMMQ==",
+    "@rohamgames/granax": {
+      "version": "3.3.5",
+      "resolved": "https://registry.npmjs.org/@rohamgames/granax/-/granax-3.3.5.tgz",
+      "integrity": "sha512-yhUTzUflSzqMBU7Ig0+R8tXJDX11uFHffmp589oU/lZSOOcFxTiaQliEetaiNGWJHZd+2DU+TZn6tNCwfU2REA==",
       "requires": {
         "7zip": "0.0.6",
-        "async": "^2.3.0",
-        "latest-torbrowser-version": "^2.0.2",
-        "merge": "^1.2.1",
-        "mkdirp": "^0.5.1",
+        "async": "^2.6.3",
+        "latest-torbrowser-version": "^2.0.3",
+        "merge": "^2.1.1",
+        "mkdirp": "^0.5.5",
         "mv": "^2.1.1",
         "ncp": "^2.0.0",
         "progress": "^2.0.3",
-        "rimraf": "^2.6.3"
+        "rimraf": "^2.7.1"
       }
     },
     "@develar/schema-utils": {
