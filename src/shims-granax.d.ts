@@ -1,1 +1,1 @@
-declare module '@deadcanaries/granax'
+declare module '@rohamgames/granax'
