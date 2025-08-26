@@ -4,7 +4,8 @@ on: [push]
 
 jobs:
   test:
-    runs-on: macos-latest
+    # macOS Intel runner so Node 13 is available
+    runs-on: macos-13
 
     strategy:
       matrix:
@@ -17,15 +18,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-
-      # Cache node_modules (kept your original style)
-      - name: Cache node modules
-        uses: actions/cache@v4
-        with:
-          path: node_modules
-          key: ${{ runner.os }}-node${{ matrix.node-version }}-${{ hashFiles('**/package-lock.json', '**/npm-shrinkwrap.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node${{ matrix.node-version }}-
+          cache: 'npm'
 
       - name: npm install, lint and test
         run: |
@@ -40,7 +33,8 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        # Pin mac to Intel; others can stay latest
+        os: [macos-13, windows-latest, ubuntu-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -49,6 +43,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 13.x
+          cache: 'npm'
 
       - name: Cache node modules
         uses: actions/cache@v4
