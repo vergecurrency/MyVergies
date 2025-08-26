@@ -15,7 +15,7 @@ This desktop wallet provides an easy and secure wallet on your personal computer
 
 ## Features:
 
-* Sending and receiving XVG
+* Sending and receiving $XVG coins
 * Store addresses in an address book
 * Tor integrated
 * Price statistics in different fiat currencies
