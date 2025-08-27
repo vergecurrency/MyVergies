@@ -31,7 +31,7 @@
         "electron-log": "^4.3.0",
         "electron-updater": "^4.3.5",
         "electron-window-state": "^5.0.3",
-        "granax": "git+https://github.com/justinvforvendetta/granax.git",
+        "granax": "github:justinvforvendetta/granax.git#main",
         "keytar": "^5.6.0",
         "moment": "^2.29.1",
         "node-loader": "^0.6.0",
@@ -71,7 +71,7 @@
         "babel-core": "^7.0.0-bridge.0",
         "chai": "^4.2.0",
         "cypress": "^6.0.0",
-        "electron": "^22.3.25",
+        "electron": "^28.3.2",
         "electron-builder": "^22.10.4",
         "electron-notarize": "^0.3.0",
         "electron-util": "^0.14.2",
@@ -17800,14 +17800,14 @@
       }
     },
     "node_modules/electron": {
-      "version": "22.3.25",
-      "resolved": "https://registry.npmjs.org/electron/-/electron-22.3.25.tgz",
-      "integrity": "sha512-AjrP7bebMs/IPsgmyowptbA7jycTkrJC7jLZTb5JoH30PkBC6pZx/7XQ0aDok82SsmSiF4UJDOg+HoLrEBiqmg==",
+      "version": "28.3.2",
+      "resolved": "https://registry.npmjs.org/electron/-/electron-28.3.2.tgz",
+      "integrity": "sha512-bmrQpdncbYNTArlg4n+qsASoXy3eeCELxeRmwUS52RNgvio1gGx5FLCwf8d4R+TsxwfkDWOaWbW0taIKheivKA==",
       "dev": true,
       "hasInstallScript": true,
       "dependencies": {
         "@electron/get": "^2.0.0",
-        "@types/node": "^16.11.26",
+        "@types/node": "^18.11.18",
         "extract-zip": "^2.0.1"
       },
       "bin": {
@@ -19427,10 +19427,13 @@
       }
     },
     "node_modules/electron/node_modules/@types/node": {
-      "version": "16.18.3",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.3.tgz",
-      "integrity": "sha512-jh6m0QUhIRcZpNv7Z/rpN+ZWXOicUUQbSoWks7Htkbb9IjFQj4kzcX/xFCkjstCj5flMsN8FiSvt+q+Tcs4Llg==",
-      "dev": true
+      "version": "18.19.123",
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.123.tgz",
+      "integrity": "sha512-K7DIaHnh0mzVxreCR9qwgNxp3MH9dltPNIEddW9MYUlcKAzm+3grKNSTe2vCJHI1FaLpvpL5JGJrz1UZDKYvDg==",
+      "dev": true,
+      "dependencies": {
+        "undici-types": "~5.26.4"
+      }
     },
     "node_modules/electron/node_modules/extract-zip": {
       "version": "2.0.1",
@@ -19466,6 +19469,12 @@
       "funding": {
         "url": "https://github.com/sponsors/sindresorhus"
       }
+    },
+    "node_modules/electron/node_modules/undici-types": {
+      "version": "5.26.5",
+      "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
+      "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==",
+      "dev": true
     },
     "node_modules/elegant-spinner": {
       "version": "1.0.1",
@@ -59108,21 +59117,24 @@
       "dev": true
     },
     "electron": {
-      "version": "22.3.25",
-      "resolved": "https://registry.npmjs.org/electron/-/electron-22.3.25.tgz",
-      "integrity": "sha512-AjrP7bebMs/IPsgmyowptbA7jycTkrJC7jLZTb5JoH30PkBC6pZx/7XQ0aDok82SsmSiF4UJDOg+HoLrEBiqmg==",
+      "version": "28.3.2",
+      "resolved": "https://registry.npmjs.org/electron/-/electron-28.3.2.tgz",
+      "integrity": "sha512-bmrQpdncbYNTArlg4n+qsASoXy3eeCELxeRmwUS52RNgvio1gGx5FLCwf8d4R+TsxwfkDWOaWbW0taIKheivKA==",
       "dev": true,
       "requires": {
         "@electron/get": "^2.0.0",
-        "@types/node": "^16.11.26",
+        "@types/node": "^18.11.18",
         "extract-zip": "^2.0.1"
       },
       "dependencies": {
         "@types/node": {
-          "version": "16.18.3",
-          "resolved": "https://registry.npmjs.org/@types/node/-/node-16.18.3.tgz",
-          "integrity": "sha512-jh6m0QUhIRcZpNv7Z/rpN+ZWXOicUUQbSoWks7Htkbb9IjFQj4kzcX/xFCkjstCj5flMsN8FiSvt+q+Tcs4Llg==",
-          "dev": true
+          "version": "18.19.123",
+          "resolved": "https://registry.npmjs.org/@types/node/-/node-18.19.123.tgz",
+          "integrity": "sha512-K7DIaHnh0mzVxreCR9qwgNxp3MH9dltPNIEddW9MYUlcKAzm+3grKNSTe2vCJHI1FaLpvpL5JGJrz1UZDKYvDg==",
+          "dev": true,
+          "requires": {
+            "undici-types": "~5.26.4"
+          }
         },
         "extract-zip": {
           "version": "2.0.1",
@@ -59144,6 +59156,12 @@
           "requires": {
             "pump": "^3.0.0"
           }
+        },
+        "undici-types": {
+          "version": "5.26.5",
+          "resolved": "https://registry.npmjs.org/undici-types/-/undici-types-5.26.5.tgz",
+          "integrity": "sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==",
+          "dev": true
         }
       }
     },
@@ -62902,7 +62920,7 @@
     },
     "granax": {
       "version": "git+ssh://git@github.com/justinvforvendetta/granax.git#839a0ad758d9a3ae8f731b921f11bdb763c11e7f",
-      "from": "granax@git+https://github.com/justinvforvendetta/granax.git",
+      "from": "granax@github:justinvforvendetta/granax.git#main",
       "requires": {
         "7zip": "0.0.6",
         "async": "^2.6.3",
