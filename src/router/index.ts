@@ -13,6 +13,7 @@ import BlockchainView from '@/views/Blockchain/BlockchainView.vue'
 import ContactsView from '@/views/Contacts/ContactsView.vue'
 import SettingsView from '@/views/Settings/SettingsView.vue'
 import VwsServerSettingsView from '@/views/Settings/VwsServerSettingsView.vue'
+import ElectrumServerSettingsView from '@/views/Settings/ElectrumServerSettingsView.vue'
 import TradeView from '@/views/TradeView.vue'
 import GamesView from '@/views/GamesView.vue'
 
@@ -111,6 +112,14 @@ const router = new VueRouter({
       path: '/settings/wallet-service',
       name: 'settings.wallet-service',
       component: VwsServerSettingsView,
+      meta: {
+        needsAuthentication: true
+      }
+    },
+    {
+      path: '/settings/electrumx',
+      name: 'settings.electrumx',
+      component: ElectrumServerSettingsView,
       meta: {
         needsAuthentication: true
       }

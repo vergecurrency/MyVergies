@@ -15,6 +15,7 @@ export interface LocaleDefinition {
     }
     copiedSuccessfully: string
     colors: {
+      retrowave: string
       blue: string
       red: string
       green: string
@@ -289,6 +290,7 @@ export interface LocaleDefinition {
     serviceUrlDesc: string
     credentials: string
     paperKey: string
+    seedphrase: string
     passphrase: string
     passphraseDesc: string
     showPassphrase: string

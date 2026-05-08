@@ -457,3 +457,98 @@ jobs:
           name: macos-notarized
           path: notarize_input/*.dmg
           if-no-files-found: error
+
+  publish-release:
+    name: Publish Release
+    runs-on: ubuntu-24.04
+    if: startsWith(github.ref, 'refs/tags/')
+    needs:
+      - linux-build
+      - windows-build
+      - macos-notarize
+    permissions:
+      contents: write
+    steps:
+      - name: Download Linux artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: linux-build
+          path: release-assets/linux
+
+      - name: Download Windows artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: windows-build
+          path: release-assets/windows
+
+      - name: Download notarized macOS artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: macos-notarized
+          path: release-assets/macos
+
+      - name: Prepare release assets and checksums
+        id: release_assets
+        run: |
+          set -euo pipefail
+
+          VERSION_TAG="${GITHUB_REF_NAME}"
+          WINDOWS_ASSET="$(find release-assets/windows -maxdepth 1 -type f -name '*.exe' | head -n1)"
+          LINUX_ASSET="$(find release-assets/linux -maxdepth 1 -type f -name '*.AppImage' | head -n1)"
+          MACOS_ASSET="$(find release-assets/macos -maxdepth 1 -type f -name '*.dmg' | head -n1)"
+
+          if [ -z "${WINDOWS_ASSET:-}" ] || [ -z "${LINUX_ASSET:-}" ] || [ -z "${MACOS_ASSET:-}" ]; then
+            echo "Missing one or more expected release binaries"
+            find release-assets -maxdepth 3 -type f | sort
+            exit 1
+          fi
+
+          WINDOWS_FILE="$(basename "$WINDOWS_ASSET")"
+          LINUX_FILE="$(basename "$LINUX_ASSET")"
+          MACOS_FILE="$(basename "$MACOS_ASSET")"
+
+          WINDOWS_SHA="$(sha256sum "$WINDOWS_ASSET" | awk '{print $1}')"
+          LINUX_SHA="$(sha256sum "$LINUX_ASSET" | awk '{print $1}')"
+          MACOS_SHA="$(sha256sum "$MACOS_ASSET" | awk '{print $1}')"
+
+          cat > release-notes.md <<EOF
+          # VergeSlim ${VERSION_TAG}
+
+          Official release binaries for ${VERSION_TAG}.
+
+          ## Downloads
+
+          - Windows: \`${WINDOWS_FILE}\`
+          - Linux: \`${LINUX_FILE}\`
+          - macOS: \`${MACOS_FILE}\`
+
+          ## SHA256
+
+          \`\`\`text
+          ${WINDOWS_SHA}  ${WINDOWS_FILE}
+          ${LINUX_SHA}  ${LINUX_FILE}
+          ${MACOS_SHA}  ${MACOS_FILE}
+          \`\`\`
+          EOF
+
+          {
+            echo "windows_asset=${WINDOWS_ASSET}"
+            echo "linux_asset=${LINUX_ASSET}"
+            echo "macos_asset=${MACOS_ASSET}"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Create or update GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: VergeSlim ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: |
+            ${{ steps.release_assets.outputs.windows_asset }}
+            ${{ steps.release_assets.outputs.linux_asset }}
+            ${{ steps.release_assets.outputs.macos_asset }}
+          fail_on_unmatched_files: true
+          generate_release_notes: false
+          append_body: false
+          draft: false
+          prerelease: false
+          make_latest: true

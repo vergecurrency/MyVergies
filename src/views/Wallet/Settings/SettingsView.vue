@@ -46,7 +46,8 @@
           grouped
         >
           <b-select v-model="color" expanded @input="save">
-            <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
+            <option value="retrowave" selected v-html="$i18n.t('main.colors.retrowave')"/>
+            <option value="blue" v-html="$i18n.t('main.colors.blue')"/>
             <option value="red" v-html="$i18n.t('main.colors.red')"/>
             <option value="green" v-html="$i18n.t('main.colors.green')"/>
             <option value="purple" v-html="$i18n.t('main.colors.purple')"/>
@@ -56,6 +57,7 @@
       </form-section>
 
       <form-section
+        v-if="!isElectrumxWallet"
         :title="$i18n.t('walletSettings.service')"
       >
         <form-box
@@ -74,18 +76,23 @@
         :title="$i18n.t('walletSettings.credentials')"
       >
         <form-box
-          :title="$i18n.t('walletSettings.paperKey')"
-          :description="$i18n.t('createWallet.aPaperKeyDescription')"
+          :title="$i18n.t('walletSettings.seedphrase')"
+          :description="seedphraseDescription"
           :is-narrow="false"
         >
-          <credential-box :credential="wallet.vwc.credentials.mnemonic"/>
+          <credential-box :credential="displayMnemonic"/>
         </form-box>
 
         <form-box
           :title="$i18n.t('walletSettings.passphrase')"
-          :description="$i18n.t('walletSettings.passphraseDesc')"
+          :description="passphraseDescription"
         >
-          <b-button v-html="$i18n.t('walletSettings.showPassphrase')" type="is-primary" @click="showPassphrase"/>
+          <b-button
+            v-if="!isElectrumxWallet"
+            v-html="$i18n.t('walletSettings.showPassphrase')"
+            type="is-primary"
+            @click="showPassphrase"
+          />
         </form-box>
 
         <form-box
@@ -173,13 +180,37 @@ export default {
       return this.$walletManager.getWallets().map(wallet => wallet.name).includes(this.name)
     },
     apiEndpointValid () {
-      return isValidVwsApiUrl(this.apiEndpoint)
+      return this.isElectrumxWallet || isValidVwsApiUrl(this.apiEndpoint)
     },
     namePreferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists
     },
     preferencesAreValid () {
       return this.namePreferencesAreValid && this.apiEndpointValid
+    },
+    isElectrumxWallet () {
+      return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.backend === 'electrumx'
+    },
+    displayMnemonic () {
+      if (this.isElectrumxWallet && this.wallet.getWalletConfig) {
+        return this.wallet.getWalletConfig().paperkey
+      }
+
+      return this.wallet.vwc.credentials.mnemonic
+    },
+    seedphraseDescription () {
+      if (this.isElectrumxWallet) {
+        return 'This wallet uses a BIP39 seedphrase on the ElectrumX path. Keep the words in order and offline.'
+      }
+
+      return 'This legacy wallet uses a seedphrase together with its legacy passphrase. Keep both secure if you still need to restore it.'
+    },
+    passphraseDescription () {
+      if (this.isElectrumxWallet) {
+        return 'Legacy 12-word MyVergies/iOS wallets used an extra wallet passphrase. This ElectrumX wallet does not use that legacy passphrase anymore.'
+      }
+
+      return 'Legacy 12-word MyVergies/iOS wallets use this passphrase alongside the seedphrase. You still need both pieces to restore that older wallet type.'
     },
     nameType () {
       return this.namePreferencesAreValid ? '' : 'is-danger'
@@ -189,7 +220,9 @@ export default {
   created () {
     this.name = this.wallet.name
     this.color = this.wallet.color
-    this.apiEndpoint = resolveVwsApiUrl(this.wallet.vwc.request.baseUrl)
+    this.apiEndpoint = this.isElectrumxWallet
+      ? this.wallet.getWalletConfig().electrumServer
+      : resolveVwsApiUrl(this.wallet.vwc.request.baseUrl)
   },
 
   methods: {
@@ -204,10 +237,13 @@ export default {
         return
       }
 
-      this.apiEndpoint = resolveVwsApiUrl(this.apiEndpoint)
       this.wallet.setName(this.name)
       this.wallet.setColor(this.color)
-      this.wallet.setApiEndpoint(this.apiEndpoint)
+
+      if (!this.isElectrumxWallet) {
+        this.apiEndpoint = resolveVwsApiUrl(this.apiEndpoint)
+        this.wallet.setApiEndpoint(this.apiEndpoint)
+      }
 
       this.$walletManager.updateWallet(this.wallet.identifier, this.wallet).then(wallet => {
         this.previousWalletName = this.wallet.name

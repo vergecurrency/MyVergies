@@ -14,6 +14,14 @@
 </template>
 
 <style scoped>
+.modal-card-body {
+  color: var(--rv-text);
+}
+
+.modal-card-body p {
+  color: var(--rv-text);
+}
+
 .list-option {
   display: flex;
   padding: 1em;

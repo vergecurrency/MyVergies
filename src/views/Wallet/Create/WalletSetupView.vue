@@ -22,16 +22,18 @@
           <paper-key v-model="wallet" @next="next" :restore="restore"/>
         </b-step-item>
 
-        <b-step-item :label="$i18n.t('createWallet.passPhrase')" :clickable="false">
+        <b-step-item v-if="!skipLegacyPassphraseStep" :label="$i18n.t('createWallet.passPhrase')" :clickable="false">
           <pass-phrase v-model="wallet" @next="next"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('createWallet.createWallet')" :clickable="false">
           <create
-            :wallet="createdWallet"
+            :wallet="createdWallet || wallet"
+            :restore="restore"
             :done="createdWallet !== null"
             @create-wallet="createWallet"
             @next="walletCreated"
+            @update-wallet="wallet = $event"
           />
         </b-step-item>
 
@@ -49,6 +51,7 @@ import PassPhrase from '@/views/Wallet/Create/PassPhrase'
 import Create from '@/views/Wallet/Create/Create'
 import { mapGetters } from 'vuex'
 import { getDefaultVwsApiUrl, resolveVwsApiUrl } from '@/utils/vwsApi'
+import { serializeElectrumServer } from '@/utils/electrumServers'
 
 export default {
   name: 'WalletSetupView',
@@ -58,13 +61,16 @@ export default {
       activeStep: 0,
       wallet: {
         name: '',
-        color: 'blue',
+        color: 'retrowave',
+        backend: 'electrumx',
         coin: 'xvg',
         network: 'livenet',
         paperkey: '',
         passphrase: '',
+        mnemonicPassphrase: '',
         singleAddress: false,
         vwsApi: getDefaultVwsApiUrl(),
+        electrumServer: '',
         info: {
           balance: {
             totalAmount: 12300000000
@@ -81,13 +87,23 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['currentVwsApi'])
+    ...mapGetters(['currentElectrumServer', 'currentVwsApi']),
+    skipLegacyPassphraseStep () {
+      return this.wallet.backend === 'electrumx'
+    }
   },
   created () {
     this.wallet.vwsApi = resolveVwsApiUrl(this.currentVwsApi)
+    this.wallet.electrumServer = serializeElectrumServer(this.currentElectrumServer)
   },
   methods: {
     next () {
+      if (this.skipLegacyPassphraseStep && this.activeStep === 1) {
+        this.wallet.passphrase = ''
+        this.activeStep += 2
+        return
+      }
+
       this.activeStep++
     },
 

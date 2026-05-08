@@ -23,7 +23,7 @@
       <div :class="walletHeaderBoxClass">
         <div
           class="wallet-header-background"
-          :style="{ backgroundImage: `url(${require(`@/assets/coins/${wallet.info.wallet.coin}.svg`)})` }"
+          :style="{ backgroundImage: `url(${require(`@/assets/coins/${walletCoin}.svg`)})` }"
         />
         <div class="wallet-header-grid"/>
         <div class="wallet-header-horizon"/>
@@ -35,11 +35,16 @@
                 {{ wallet.name }}
               </p>
               <p>
-                <money class="is-size-3 has-text-weight-dark" :amount="wallet.info.balance.totalAmount || 0" crypto/>
+                <money class="is-size-3 has-text-weight-dark" :amount="walletTotalAmount" crypto/>
               </p>
               <p>
-                <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="wallet.info.balance.totalAmount || 0" convert/>
+                <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="walletTotalAmount" convert/>
               </p>
+              <div v-if="isElectrumxWallet" class="wallet-electrum-status">
+                <span :class="['wallet-electrum-status-light', electrumStatusClass]"></span>
+                <span class="wallet-electrum-status-label">{{ electrumStatusLabel }}</span>
+                <span class="wallet-electrum-server">{{ electrumServerLabel }}</span>
+              </div>
             </div>
             <div class="column is-narrow">
               <router-link
@@ -57,6 +62,7 @@
                   <div class="column">
                     <div class="buttons">
                       <router-link
+                        v-if="supportsSending"
                         :to="{ name: 'wallets.send', params: { walletIdentifier: wallet.identifier, wallet }}"
                         class="button is-primary is-cta wallet-action-button"
                       >
@@ -83,6 +89,14 @@
         </div>
       </div>
     </div>
+
+    <b-notification
+      v-if="!supportsSending"
+      type="is-info"
+      :closable="false"
+    >
+      This ElectrumX wallet is in compatibility mode. Receive and balance lookup are available now; send support is coming next.
+    </b-notification>
 
     <div v-if="hasTransactions" class="box is-paddingless is-clipped wallet-transaction-list">
       <transaction-row
@@ -126,6 +140,36 @@ export default {
         'wallet-header-box',
         'wallet-header-box-background-' + this.wallet.color
       ].join(' ')
+    },
+    supportsSending () {
+      return !this.wallet.info || !this.wallet.info.wallet || this.wallet.info.wallet.supportsSending !== false
+    },
+    isElectrumxWallet () {
+      return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.backend === 'electrumx'
+    },
+    electrumServerLabel () {
+      return this.isElectrumxWallet && this.wallet.info.wallet.electrumServer
+        ? this.wallet.info.wallet.electrumServer
+        : ''
+    },
+    electrumStatusClass () {
+      return this.electrumConnected ? 'is-connected' : 'is-disconnected'
+    },
+    electrumStatusLabel () {
+      return this.electrumConnected ? 'ElectrumX connected' : 'ElectrumX disconnected'
+    },
+    electrumConnected () {
+      return !!(this.isElectrumxWallet && this.wallet.info.wallet.electrumConnected)
+    },
+    walletCoin () {
+      return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.coin
+        ? this.wallet.info.wallet.coin
+        : 'xvg'
+    },
+    walletTotalAmount () {
+      return this.wallet && this.wallet.info && this.wallet.info.balance
+        ? this.wallet.info.balance.totalAmount || 0
+        : 0
     }
   },
   methods: {
@@ -163,6 +207,10 @@ export default {
 
 .wallet-header-box-background-blue {
   background: linear-gradient(135deg, #2025ff 0%, #0bc4ff 50%, #9cfcff 100%);
+}
+
+.wallet-header-box-background-retrowave {
+  background: linear-gradient(135deg, #14052d 0%, #6c18ff 38%, #ff2f92 72%, #ffd166 100%);
 }
 
 .wallet-header-box-background-purple {
@@ -232,6 +280,43 @@ export default {
 .wallet-header-title {
   letter-spacing: 0.12em;
   text-shadow: 0 0 18px rgba(83, 243, 255, 0.14);
+}
+
+.wallet-electrum-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  flex-wrap: wrap;
+  color: var(--rv-text-soft);
+  font-size: 0.92rem;
+}
+
+.wallet-electrum-status-light {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  box-shadow: 0 0 12px currentColor;
+}
+
+.wallet-electrum-status-light.is-connected {
+  background: #24dc8f;
+  color: #24dc8f;
+}
+
+.wallet-electrum-status-light.is-disconnected {
+  background: #ff5ba4;
+  color: #ff5ba4;
+}
+
+.wallet-electrum-status-label {
+  font-weight: 600;
+  color: var(--rv-text);
+}
+
+.wallet-electrum-server {
+  color: var(--rv-text-soft);
+  opacity: 0.92;
 }
 
 .wallet-settings-button {

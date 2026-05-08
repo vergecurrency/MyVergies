@@ -282,6 +282,7 @@ export default class Wallet {
     return {
       name: this.name,
       color: this.color,
+      backend: 'vws',
       coin: this.info!.wallet.coin,
       network: this.info!.wallet.network,
       paperkey: this.vwc.credentials.mnemonic,

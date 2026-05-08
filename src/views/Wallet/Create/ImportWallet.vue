@@ -73,7 +73,8 @@
                 <td class="has-text-weight-bold" v-html="$i18n.t('createWallet.walletColor')"/>
                 <td>
                   <b-select v-model="wallet.color" expanded>
-                    <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
+                    <option value="retrowave" selected v-html="$i18n.t('main.colors.retrowave')"/>
+                    <option value="blue" v-html="$i18n.t('main.colors.blue')"/>
                     <option value="red" v-html="$i18n.t('main.colors.red')"/>
                     <option value="green" v-html="$i18n.t('main.colors.green')"/>
                     <option value="purple" v-html="$i18n.t('main.colors.purple')"/>
