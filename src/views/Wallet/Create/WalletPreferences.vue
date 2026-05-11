@@ -26,11 +26,19 @@
 
           <b-field :label="$i18n.t('createWallet.walletColor')">
             <b-select v-model="color" expanded>
-              <option value="blue" selected v-html="$i18n.t('main.colors.blue')"/>
+              <option value="retrowave" selected v-html="$i18n.t('main.colors.retrowave')"/>
+              <option value="blue" v-html="$i18n.t('main.colors.blue')"/>
               <option value="red" v-html="$i18n.t('main.colors.red')"/>
               <option value="green" v-html="$i18n.t('main.colors.green')"/>
               <option value="purple" v-html="$i18n.t('main.colors.purple')"/>
               <option value="orange" v-html="$i18n.t('main.colors.orange')"/>
+            </b-select>
+          </b-field>
+
+          <b-field v-if="restore" label="Restore mode">
+            <b-select v-model="backend" expanded>
+              <option value="electrumx">Verge XVR/Android+Meta-compatible 18-word seedphrase</option>
+              <option value="vws">Legacy MyVergies/iOS 12-words seedphrase + passphrase</option>
             </b-select>
           </b-field>
 
@@ -45,13 +53,17 @@
               />
             </b-field>
 
-            <b-field :label="$i18n.t('createWallet.serviceURL')" :type="vwsApiValid ? '' : 'is-danger'">
+            <b-field v-if="backend !== 'electrumx'" :label="$i18n.t('createWallet.serviceURL')" :type="vwsApiValid ? '' : 'is-danger'">
               <b-input
                 ref="vwsApi"
                 type="url"
                 :use-html5-validation="true"
                 v-model="vwsApi"
               />
+            </b-field>
+
+            <b-field v-else label="ElectrumX server">
+              <b-input :value="electrumServer" expanded disabled />
             </b-field>
           </div>
 
@@ -62,7 +74,7 @@
         <b-button
           native-type="submit"
           icon-left="edit"
-          :label="$i18n.t('createWallet.writeDownPaperKey')"
+          :label="restore ? 'Continue to recovery phrase' : 'Next: Create Seedphrase + Wallet'"
           type="is-primary"
           :disabled="!preferencesAreValid"
         />
@@ -75,6 +87,7 @@
 import WalletCard from '@/components/WalletCard'
 import { mapGetters } from 'vuex'
 import { isValidVwsApiUrl, resolveVwsApiUrl } from '@/utils/vwsApi'
+import { serializeElectrumServer } from '@/utils/electrumServers'
 
 export default {
   name: 'WalletPreferences',
@@ -83,9 +96,11 @@ export default {
     return {
       showAdvanced: false,
       name: '',
-      color: 'blue',
+      color: 'retrowave',
+      backend: 'vws',
       singleAddress: false,
-      vwsApi: ''
+      vwsApi: '',
+      electrumServer: ''
     }
   },
   props: {
@@ -99,14 +114,16 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['allWalletIdentifiers']),
+    ...mapGetters(['allWalletIdentifiers', 'currentElectrumServer']),
     wallet () {
       return {
         ...this.value,
         name: this.name,
         color: this.color,
+        backend: this.backend,
         singleAddress: this.singleAddress,
-        vwsApi: this.vwsApi
+        vwsApi: this.vwsApi,
+        electrumServer: this.electrumServer
       }
     },
     nameLongEnough () {
@@ -119,7 +136,7 @@ export default {
       return this.$walletManager.getWallets().map(wallet => wallet.name).includes(this.wallet.name)
     },
     vwsApiValid () {
-      return isValidVwsApiUrl(this.vwsApi)
+      return this.backend === 'electrumx' || isValidVwsApiUrl(this.vwsApi)
     },
     preferencesAreValid () {
       return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists && this.vwsApiValid
@@ -128,8 +145,10 @@ export default {
   created () {
     this.name = this.value.name
     this.color = this.value.color
+    this.backend = this.value.backend || 'vws'
     this.singleAddress = this.value.singleAddress
     this.vwsApi = resolveVwsApiUrl(this.value.vwsApi)
+    this.electrumServer = this.value.electrumServer || serializeElectrumServer(this.currentElectrumServer)
   },
   methods: {
     proceed () {
@@ -137,7 +156,9 @@ export default {
         return
       }
 
-      this.vwsApi = resolveVwsApiUrl(this.vwsApi)
+      if (this.backend !== 'electrumx') {
+        this.vwsApi = resolveVwsApiUrl(this.vwsApi)
+      }
       this.$emit('input', this.wallet)
       this.$emit('next')
     }

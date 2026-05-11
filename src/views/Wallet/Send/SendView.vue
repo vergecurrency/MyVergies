@@ -69,6 +69,9 @@ export default {
     }
   },
   computed: {
+    supportsSending () {
+      return !this.wallet.info || !this.wallet.info.wallet || this.wallet.info.wallet.supportsSending !== false
+    },
     backLink () {
       return this.viewLocked ? null : {
         name: 'wallets',
@@ -95,8 +98,11 @@ export default {
         this.transaction.txp = txp
         this.activeStep = 1
       }).catch(e => {
+        const key = `send.errors.${e.message}`
+        const translatedMessage = this.$i18n.te(key) ? this.$i18n.t(key) : e.message
+
         this.$buefy.dialog.alert({
-          message: this.$i18n.t(`send.errors.${e.message}`)
+          message: translatedMessage
         })
       })
     },
@@ -108,7 +114,13 @@ export default {
       this.wallet.publishTxProposal(this.transaction.txp).then(async txp => {
         this.$refs.sendingView.animate()
 
-        const passphrase = await this.$walletManager.getWalletPassphrase(this.wallet)
+        const isElectrumxWallet = this.wallet &&
+          this.wallet.info &&
+          this.wallet.info.wallet &&
+          this.wallet.info.wallet.backend === 'electrumx'
+        const passphrase = isElectrumxWallet
+          ? ''
+          : await this.$walletManager.getWalletPassphrase(this.wallet)
 
         return this.wallet.signTxProposal(txp, passphrase)
       }).then(txp => {

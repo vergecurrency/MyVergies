@@ -9,11 +9,20 @@
     </div>
 
     <div v-if="!confirmed && !skipConfirmation">
+      <b-field v-if="showStaticAddressOption" class="box">
+        <b-switch v-model="localSingleAddress" @input="updateSingleAddress">
+          <span class="has-text-weight-semibold">Use a static receive address</span>
+        </b-switch>
+        <p class="help create-static-address-help">
+          Keep your restored ElectrumX wallet on one receive address instead of rotating to the next unused address.
+        </p>
+      </b-field>
+
       <b-field class="box">
         <b-switch
           v-model="agreedTerm1"
         >
-          <span v-html="$i18n.t('createWallet.createTerm1')"/>
+          <span v-html="createTerm1Text"/>
         </b-switch>
       </b-field>
       <b-field class="box">
@@ -125,6 +134,11 @@ export default {
     wallet: {
       type: Object,
       default: null
+    },
+
+    restore: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -133,17 +147,44 @@ export default {
       agreedTerm1: false,
       agreedTerm2: false,
       agreedTerm3: false,
-      confirmed: false
+      confirmed: false,
+      localSingleAddress: false
     }
   },
 
   computed: {
+    showStaticAddressOption () {
+      return this.restore && this.wallet && this.wallet.backend === 'electrumx'
+    },
+    createTerm1Text () {
+      if (this.wallet && this.wallet.backend === 'electrumx') {
+        return 'I understand that the only way to restore this wallet is by providing the <b>18-word recovery phrase</b> and the optional <b>BIP39 seed passphrase</b> if I set one. If these credentials are lost, there is no recovery path.'
+      }
+
+      return this.$i18n.t('createWallet.createTerm1')
+    },
     isConfirmed () {
       return (this.agreedTerm1 && this.agreedTerm2 && this.agreedTerm3) || this.skipConfirmation
     }
   },
 
+  watch: {
+    wallet: {
+      immediate: true,
+      handler (wallet) {
+        this.localSingleAddress = wallet && wallet.singleAddress === true
+      }
+    }
+  },
+
   methods: {
+    updateSingleAddress (singleAddress) {
+      this.$emit('update-wallet', {
+        ...this.wallet,
+        singleAddress
+      })
+    },
+
     createWallet () {
       this.confirmed = true
 
@@ -190,5 +231,9 @@ export default {
   .notification .wallet-created {
     flex-direction: column;
     align-items: center;
+  }
+
+  .create-static-address-help {
+    margin-top: 0.5rem;
   }
 </style>

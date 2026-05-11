@@ -169,7 +169,9 @@ export default {
     },
 
     addressesWithBalance () {
-      return this.wallet.info.balance.byAddress
+      return this.wallet && this.wallet.info && this.wallet.info.balance
+        ? this.wallet.info.balance.byAddress
+        : []
     }
   },
 

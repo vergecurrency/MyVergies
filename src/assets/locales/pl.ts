@@ -12,6 +12,7 @@ const pl: LocaleDefinition = {
     },
     copiedSuccessfully: 'Skopiowano pomyślnie!',
     colors: {
+      retrowave: 'Retrowave',
       blue: 'Niebieski',
       red: 'Czerwony',
       green: 'Zielony',

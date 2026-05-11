@@ -1,6 +1,6 @@
 <template>
     <div :class="containerClass">
-      <div :class="['wallet-menu-card-background', wallet.info.wallet.coin]"></div>
+      <div :class="['wallet-menu-card-background', walletCoin]"></div>
       <div class="wallet-menu-card-content">
       <p class="is-size-6-1 is-family-display is-capitalized wallet-menu-card-title">{{ wallet.name }}</p>
       <p
@@ -10,10 +10,10 @@
         style="opacity: 0.5"
       />
       <p>
-        <Money class="is-size-6 has-text-weight-bold" :amount="wallet.info.balance.totalAmount || 0" crypto/>
+        <Money class="is-size-6 has-text-weight-bold" :amount="walletTotalAmount" crypto/>
       </p>
       <p>
-        <Money class="is-size-7" :amount="wallet.info.balance.totalAmount || 0" convert/>
+        <Money class="is-size-7" :amount="walletTotalAmount" convert/>
       </p>
     </div>
   </div>
@@ -52,6 +52,16 @@ export default {
         this.shadowless ? 'is-shadowless' : '',
         this.cornerless ? 'is-cornerless' : ''
       ].join(' ')
+    },
+    walletCoin () {
+      return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.coin
+        ? this.wallet.info.wallet.coin
+        : 'xvg'
+    },
+    walletTotalAmount () {
+      return this.wallet && this.wallet.info && this.wallet.info.balance
+        ? this.wallet.info.balance.totalAmount || 0
+        : 0
     }
   }
 }
@@ -121,6 +131,15 @@ export default {
   .wallet-menu-card-background-blue {
     background: linear-gradient(135deg, #2025ff 0%, #0bc4ff 46%, #9cfcff 100%);
     box-shadow: 0 18px 38px rgba(32, 37, 255, 0.28), 0 0 32px rgba(11, 196, 255, 0.18);
+  }
+
+  .wallet-menu-card-background-retrowave {
+    background: linear-gradient(135deg, #1a093e 0%, #7a1cff 34%, #ff2f92 68%, #ffd166 100%);
+    box-shadow: 0 18px 38px rgba(122, 28, 255, 0.32), 0 0 34px rgba(255, 47, 146, 0.22);
+  }
+
+  .wallet-menu-card-background-retrowave.is-clickable:hover {
+    box-shadow: 0 22px 44px rgba(122, 28, 255, 0.36), 0 0 38px rgba(255, 47, 146, 0.28);
   }
 
   .wallet-menu-card-background-blue.is-clickable:hover {

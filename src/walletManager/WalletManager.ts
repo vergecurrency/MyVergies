@@ -3,9 +3,11 @@ import Client from 'bitcore-wallet-client-xvg'
 import axios from 'axios'
 import Log from 'electron-log'
 import Wallet from '@/walletManager/Wallet'
+import ElectrumXWallet from '@/walletManager/ElectrumXWallet'
 import ManagerConfig, { WalletConfigItem } from '@/walletManager/ManagerConfig'
 import Keytar from '@/utils/keytar'
 import { resolveVwsApiUrl } from '@/utils/vwsApi'
+import { ElectrumServerConfig } from '@/utils/electrumServers'
 import Timeout = NodeJS.Timeout
 
 const STARTUP_CLIENT_TIMEOUT_MS = 10000
@@ -21,11 +23,16 @@ export default class WalletManager {
   protected ticker?: Timeout
   protected initialHydrationTimer?: Timeout
   protected statusReporter?: (phase: string) => void
+  protected torEnabled: boolean = true
 
-  public readonly wallets: Wallet[] = []
+  public readonly wallets: Array<Wallet | ElectrumXWallet> = []
 
   public setStatusReporter (statusReporter: (phase: string) => void) {
     this.statusReporter = statusReporter
+  }
+
+  public setTorEnabled (enabled: boolean) {
+    this.torEnabled = enabled
   }
 
   public async boot (config: ManagerConfig) {
@@ -45,27 +52,18 @@ export default class WalletManager {
     this.startTicker()
   }
 
-  public getWallet (identifier: string): Wallet | undefined {
+  public getWallet (identifier: string): Wallet | ElectrumXWallet | undefined {
     return this.wallets.find((wallet) => wallet.identifier === identifier)
   }
 
-  public getWallets (): Wallet[] {
+  public getWallets (): Array<Wallet | ElectrumXWallet> {
     return this.wallets
   }
 
   public async addWallet (walletConfig: WalletConfigItem) {
-    const vwc = this.getClient(walletConfig)
-    const wallet = new Wallet(this.generateWalletIdentifier(), walletConfig.name, walletConfig.color, vwc)
-
-    walletConfig.identifier = wallet.identifier
-
-    await wallet.create(walletConfig.name, walletConfig.name, 1, 1, {
-      coin: walletConfig.coin,
-      network: walletConfig.network,
-      singleAddress: walletConfig.singleAddress
-    })
-    await wallet.open()
-    await Keytar.setCredentials(Keytar.walletService, wallet.identifier, btoa(JSON.stringify(walletConfig)))
+    walletConfig.identifier = this.generateWalletIdentifier()
+    const wallet = await this.createWalletInstance(walletConfig)
+    await this.persistWalletConfig(wallet.identifier, wallet instanceof ElectrumXWallet ? wallet.getWalletConfig() : walletConfig)
     this.wallets.push(wallet)
 
     this.restartTicker()
@@ -73,12 +71,16 @@ export default class WalletManager {
     return wallet
   }
 
-  public async updateWallet (identifier: string, wallet: Wallet): Promise<Wallet> {
+  public async updateWallet (identifier: string, wallet: Wallet | ElectrumXWallet): Promise<Wallet | ElectrumXWallet> {
     const walletConfig = await this.getWalletConfig(identifier)
-    // @ts-ignore
-    walletConfig.vwsApi = wallet.vwc.request.baseUrl
-    walletConfig.name = wallet.name!
-    walletConfig.color = wallet.color!
+    if (wallet instanceof Wallet) {
+      // @ts-ignore
+      walletConfig.vwsApi = wallet.vwc.request.baseUrl
+      walletConfig.name = wallet.name!
+      walletConfig.color = wallet.color!
+    } else {
+      Object.assign(walletConfig, wallet.getWalletConfig())
+    }
 
     const encryptedWallet = btoa(JSON.stringify(walletConfig))
 
@@ -93,7 +95,7 @@ export default class WalletManager {
     return wallet
   }
 
-  public async removeWallet (wallet: Wallet): Promise<boolean> {
+  public async removeWallet (wallet: Wallet | ElectrumXWallet): Promise<boolean> {
     const succeeded = await Keytar.deleteCredentials(Keytar.walletService, wallet.identifier)
 
     if (succeeded) {
@@ -104,14 +106,38 @@ export default class WalletManager {
   }
 
   // TODO: function will only return passphrase when application unlocked.
-  public async getWalletPassphrase (wallet: Wallet): Promise<string> {
+  public async getWalletPassphrase (wallet: Wallet | ElectrumXWallet): Promise<string> {
     const walletConfig = await this.getWalletConfig(wallet.identifier)
 
     return walletConfig.passphrase
   }
 
-  public getDerivedXPrivKey (wallet: Wallet): Promise<object> {
-    return this.getWalletPassphrase(wallet).then(passphrase => wallet.getCredentials().getDerivedXPrivKey(passphrase))
+  public async reconnectElectrumWallets (server: ElectrumServerConfig): Promise<number> {
+    let updatedWallets = 0
+
+    for (const wallet of this.wallets) {
+      if (!(wallet instanceof ElectrumXWallet)) {
+        continue
+      }
+
+      wallet.setElectrumServer(server)
+      await wallet.status()
+      await this.persistWalletConfig(wallet.identifier, wallet.getWalletConfig())
+      wallet.acknowledgeConfigPersisted()
+      updatedWallets++
+    }
+
+    this.restartTicker()
+
+    return updatedWallets
+  }
+
+  public getDerivedXPrivKey (wallet: Wallet | ElectrumXWallet): Promise<object> {
+    if (wallet instanceof Wallet) {
+      return this.getWalletPassphrase(wallet).then(passphrase => wallet.getCredentials().getDerivedXPrivKey(passphrase))
+    }
+
+    return Promise.resolve(wallet.getAccountPrivateKey())
   }
 
   protected getClient (walletConfig: WalletConfigItem): Client {
@@ -126,7 +152,16 @@ export default class WalletManager {
     return vwc
   }
 
-  protected async initializeWallet (walletConfig: WalletConfigItem): Promise<Wallet> {
+  protected async initializeWallet (walletConfig: WalletConfigItem): Promise<Wallet | ElectrumXWallet> {
+    if (walletConfig.backend === 'electrumx') {
+      const wallet = new ElectrumXWallet(walletConfig, ElectrumXWallet.resolveServerConfig(walletConfig), this.torEnabled)
+      this.retryStartupOperation(`connect wallet "${walletConfig.name}"`, () => wallet.open())
+        .catch((error) => {
+          Log.warn(`ElectrumX wallet "${walletConfig.name}" will stay queued for later sync: ${error}`)
+        })
+      return wallet
+    }
+
     const vwc = this.getClient(walletConfig)
     const wallet = new Wallet(walletConfig.identifier, walletConfig.name, walletConfig.color, vwc)
 
@@ -137,6 +172,25 @@ export default class WalletManager {
 
     this.setClientTimeout(vwc, STEADY_STATE_CLIENT_TIMEOUT_MS)
 
+    return wallet
+  }
+
+  protected async createWalletInstance (walletConfig: WalletConfigItem): Promise<Wallet | ElectrumXWallet> {
+    if (walletConfig.backend === 'electrumx') {
+      const wallet = new ElectrumXWallet(walletConfig, ElectrumXWallet.resolveServerConfig(walletConfig), this.torEnabled)
+      await wallet.create()
+      return wallet
+    }
+
+    const vwc = this.getClient(walletConfig)
+    const wallet = new Wallet(walletConfig.identifier, walletConfig.name, walletConfig.color, vwc)
+
+    await wallet.create(walletConfig.name, walletConfig.name, 1, 1, {
+      coin: walletConfig.coin,
+      network: walletConfig.network,
+      singleAddress: walletConfig.singleAddress
+    })
+    await wallet.open()
     return wallet
   }
 
@@ -159,6 +213,10 @@ export default class WalletManager {
     return JSON.parse(atob(encryptedWallet as string))
   }
 
+  protected async persistWalletConfig (identifier: string, walletConfig: WalletConfigItem): Promise<void> {
+    await Keytar.setCredentials(Keytar.walletService, identifier, btoa(JSON.stringify(walletConfig)))
+  }
+
   protected startTicker () {
     const fetch = async (includeTransactions = true) => {
       if (this.wallets.length === 0) {
@@ -171,11 +229,15 @@ export default class WalletManager {
       for (const wallet of this.wallets) {
         try {
           await wallet.status()
+          if (wallet instanceof ElectrumXWallet && wallet.hasPendingConfigChanges()) {
+            await this.persistWalletConfig(wallet.identifier, wallet.getWalletConfig())
+            wallet.acknowledgeConfigPersisted()
+          }
           if (includeTransactions) {
-            await Promise.allSettled([
+            Promise.allSettled([
               wallet.fetchTxHistory(),
               wallet.getTxProposals()
-            ])
+            ]).catch(error => Log.error(error.toString()))
           }
         } catch (e) {
           Log.error(e.toString())

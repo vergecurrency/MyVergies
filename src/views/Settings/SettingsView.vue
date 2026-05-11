@@ -52,6 +52,20 @@
             v-html="$i18n.t('settings.manageWalletService')"
           />
         </form-box>
+
+        <form-box
+          title="ElectrumX"
+          description="Manage the ElectrumX servers used for mobile-compatible restore wallets."
+          :is-narrow="false"
+          type="is-info"
+        >
+          <router-link
+            class="button is-primary is-cta"
+            :to="{ name: 'settings.electrumx' }"
+          >
+            Manage ElectrumX servers
+          </router-link>
+        </form-box>
       </form-section>
 
     </div>

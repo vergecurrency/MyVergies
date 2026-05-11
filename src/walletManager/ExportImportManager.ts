@@ -1,5 +1,6 @@
 import electron from 'electron'
 import Wallet from '@/walletManager/Wallet'
+import ElectrumXWallet from '@/walletManager/ElectrumXWallet'
 // @ts-ignore
 import sjcl from 'sjcl'
 import fs from 'fs'
@@ -20,7 +21,7 @@ export default class ExportImportManager {
   }
 
   public async exportWallet (
-    wallet: Wallet,
+    wallet: Wallet | ElectrumXWallet,
     passphrase: string,
     encryptionPassword: string|null = null
   ): Promise<boolean> {
@@ -55,7 +56,7 @@ export default class ExportImportManager {
     return parsed
   }
 
-  protected getExportContent (wallet: Wallet, passphrase: string, encryptionPassword: string|null = null) {
+  protected getExportContent (wallet: Wallet | ElectrumXWallet, passphrase: string, encryptionPassword: string|null = null) {
     let walletConfig = JSON.stringify({ ...wallet.getExportConfig(), passphrase })
 
     if (encryptionPassword) {
@@ -82,8 +83,10 @@ export default class ExportImportManager {
       'network' in content &&
       'paperkey' in content &&
       'passphrase' in content &&
-      'walletPrivKey' in content &&
       'singleAddress' in content &&
-      'vwsApi' in content
+      (
+        ('walletPrivKey' in content && 'vwsApi' in content) ||
+        ('backend' in content && content.backend === 'electrumx' && 'electrumServer' in content)
+      )
   }
 }

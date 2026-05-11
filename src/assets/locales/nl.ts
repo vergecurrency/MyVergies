@@ -17,6 +17,7 @@ const nl: LocaleDefinition = {
     },
     copiedSuccessfully: 'Yeah, succesvol gekopieerd!',
     colors: {
+      retrowave: 'Retrowave',
       blue: 'Blauw',
       red: 'Rood',
       green: 'Groen',

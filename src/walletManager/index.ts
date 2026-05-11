@@ -5,12 +5,14 @@ import Keytar from '@/utils/keytar'
 import { resolveVwsApiUrl } from '@/utils/vwsApi'
 import { Store } from 'vuex'
 import { ensureTorProxyState } from '@/utils/torStartup'
+import { serializeElectrumServer } from '@/utils/electrumServers'
 
 const walletManager: PluginFunction<any> = function (vue: typeof Vue, options: any): void {
   const manager = new WalletManager()
   manager.setStatusReporter((phase: string) => {
     options.store.dispatch('updateWalletStatus', phase)
   })
+  manager.setTorEnabled(Boolean(options.store.getters.isTorEnabled))
   vue.prototype.$walletManager = manager
 
   options.store.dispatch('updateWalletStatus', 'connecting')
@@ -60,7 +62,10 @@ const loadWallets = async (store: Store<any>): Promise<WalletConfigItem[]> => {
     }
 
     const wallet = JSON.parse(atob(encryptedWallet as string))
+    wallet.backend = wallet.backend || 'vws'
     wallet.vwsApi = resolveVwsApiUrl(wallet.vwsApi || store.getters.currentVwsApi)
+    wallet.mnemonicPassphrase = wallet.mnemonicPassphrase || ''
+    wallet.electrumServer = wallet.electrumServer || serializeElectrumServer(store.getters.currentElectrumServer)
 
     return wallet
   }))
@@ -82,7 +87,10 @@ const migrateOldWallets = async (store: Store<any>): Promise<any> => {
     const wallet = JSON.parse(atob(encryptedWallet as string))
     const identifier = generateWalletIdentifier()
     wallet.identifier = identifier
+    wallet.backend = wallet.backend || 'vws'
     wallet.vwsApi = resolveVwsApiUrl(wallet.vwsApi || store.getters.currentVwsApi)
+    wallet.mnemonicPassphrase = wallet.mnemonicPassphrase || ''
+    wallet.electrumServer = wallet.electrumServer || serializeElectrumServer(store.getters.currentElectrumServer)
 
     // Remove old items
     await store.dispatch('removeWalletName', wallet.name)
