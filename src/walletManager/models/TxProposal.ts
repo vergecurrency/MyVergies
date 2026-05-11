@@ -50,7 +50,8 @@ export interface UnspentOutput {
   confirmations: number
   satoshis: number
   scriptPubKey: string
-  txID: string
+  txid: string
+  txID?: string
   vout: number
   publicKeys: string[]
   path: string

@@ -32,6 +32,7 @@ const ADDRESS_GAP_LIMIT = 20
 const MAX_ADDRESS_SCAN = 200
 const ADDRESS_SCAN_BATCH_SIZE = 8
 const FALLBACK_FEE_PER_KB = constants.feePerKb
+const MIN_TX_FEE = constants.feePerKb
 const MAX_FEE_PER_KB = 1000000
 const DUST_AMOUNT = 546
 const ATOMIC_UNITS_PER_COIN = constants.satoshiDivider
@@ -191,6 +192,7 @@ export default class ElectrumXWallet {
 
     const txp: TxProposalResponse & Record<string, any> = {
       createdOn: Math.floor(Date.now() / 1000),
+      timestamp: Math.floor(Date.now() / 1000),
       coin: this.walletConfig.coin,
       id: `electrumx-${Date.now()}-${Math.random().toString(16).slice(2, 10)}`,
       network: this.walletConfig.network,
@@ -602,6 +604,7 @@ export default class ElectrumXWallet {
       confirmations: entry.height > 0 ? 1 : 0,
       satoshis: Number(entry.value || 0),
       scriptPubKey: Bitcore.Script.buildPublicKeyHashOut(address.address).toHex(),
+      txid: entry.txHash,
       txID: entry.txHash,
       vout: entry.vout,
       publicKeys: address.publicKeys,
@@ -659,7 +662,7 @@ export default class ElectrumXWallet {
 
   protected calculateFee (inputsCount: number, outputsCount: number, feePerKb: number): number {
     const size = this.estimateTxSize(inputsCount, outputsCount)
-    return Math.max(Math.ceil((size * feePerKb) / 1000), 1)
+    return Math.max(Math.ceil((size * feePerKb) / 1000), MIN_TX_FEE, 1)
   }
 
   protected async getNextChangeAddress (): Promise<AddressInfo> {
