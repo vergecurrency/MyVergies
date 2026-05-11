@@ -71,7 +71,11 @@ export default {
     },
 
     copyToClipboad (value) {
-      this.$electron.clipboard.writeText(value, 'selection')
+      this.$electron.clipboard.writeText(value)
+
+      if (process.platform === 'linux') {
+        this.$electron.clipboard.writeText(value, 'selection')
+      }
 
       this.$buefy.toast.open({
         message: this.$i18n.t('receive.addressCopied'),
