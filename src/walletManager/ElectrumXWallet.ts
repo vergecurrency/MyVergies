@@ -362,6 +362,17 @@ export default class ElectrumXWallet {
     this.walletConfig.color = color
   }
 
+  public setSingleAddress (singleAddress: boolean): void {
+    this.walletConfig.singleAddress = singleAddress === true
+    this.hasScannedAddressSpace = false
+
+    if (this.info && this.info.wallet) {
+      this.info.wallet.singleAddress = this.walletConfig.singleAddress === true
+    }
+
+    this.markConfigDirty()
+  }
+
   public setElectrumServer (server: ElectrumServerConfig): void {
     this.client = new ElectrumXClient(server, this.useTor)
     this.hasScannedAddressSpace = false

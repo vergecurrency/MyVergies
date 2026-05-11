@@ -54,6 +54,18 @@
             <option value="orange" v-html="$i18n.t('main.colors.orange')"/>
           </b-select>
         </form-box>
+
+        <form-box
+          v-if="isElectrumxWallet"
+          title="Receive address behavior"
+          description="Keep this ElectrumX wallet on one static receive address, or turn it off to rotate to the next unused address."
+          :is-narrow="false"
+          grouped
+        >
+          <b-switch v-model="singleAddress" @input="save">
+            Use static receive address
+          </b-switch>
+        </form-box>
       </form-section>
 
       <form-section
@@ -153,7 +165,8 @@ export default {
       previousWalletName: this.wallet.name,
       name: '',
       color: '',
-      apiEndpoint: ''
+      apiEndpoint: '',
+      singleAddress: false
     }
   },
 
@@ -220,6 +233,9 @@ export default {
   created () {
     this.name = this.wallet.name
     this.color = this.wallet.color
+    this.singleAddress = this.wallet.info && this.wallet.info.wallet
+      ? this.wallet.info.wallet.singleAddress === true
+      : false
     this.apiEndpoint = this.isElectrumxWallet
       ? this.wallet.getWalletConfig().electrumServer
       : resolveVwsApiUrl(this.wallet.vwc.request.baseUrl)
@@ -240,7 +256,9 @@ export default {
       this.wallet.setName(this.name)
       this.wallet.setColor(this.color)
 
-      if (!this.isElectrumxWallet) {
+      if (this.isElectrumxWallet) {
+        this.wallet.setSingleAddress(this.singleAddress)
+      } else {
         this.apiEndpoint = resolveVwsApiUrl(this.apiEndpoint)
         this.wallet.setApiEndpoint(this.apiEndpoint)
       }
