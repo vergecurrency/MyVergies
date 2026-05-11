@@ -68,7 +68,7 @@ export default {
         paperkey: '',
         passphrase: '',
         mnemonicPassphrase: '',
-        singleAddress: false,
+        singleAddress: true,
         vwsApi: getDefaultVwsApiUrl(),
         electrumServer: '',
         info: {
