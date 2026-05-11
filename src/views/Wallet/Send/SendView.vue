@@ -15,7 +15,7 @@
         <br/>
 
         <b-step-item :label="$i18n.t('send.fillForm')" :clickable="false">
-          <send-form v-model="transaction" :wallet="wallet" @input="validateTransaction"/>
+          <send-form v-model="transaction" :wallet="wallet" :preparing="preparingTransaction" @input="validateTransaction"/>
         </b-step-item>
 
         <b-step-item :label="$i18n.t('send.confirm')" :clickable="false">
@@ -50,6 +50,7 @@ export default {
   data () {
     return {
       viewLocked: false,
+      preparingTransaction: false,
       activeStep: 0,
       transaction: {
         toAddress: '',
@@ -84,6 +85,8 @@ export default {
   },
   methods: {
     validateTransaction () {
+      this.preparingTransaction = true
+
       const options = {
         outputs: [
           {
@@ -104,6 +107,8 @@ export default {
         this.$buefy.dialog.alert({
           message: translatedMessage
         })
+      }).finally(() => {
+        this.preparingTransaction = false
       })
     },
 
@@ -156,6 +161,7 @@ export default {
         message: '',
         txp: null
       }
+      this.preparingTransaction = false
     },
 
     goTo (event) {

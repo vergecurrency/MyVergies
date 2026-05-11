@@ -118,8 +118,8 @@
           <button
             type="submit"
             class="button is-primary"
-            :disabled="resolvingRecipient"
-            v-html="$i18n.t('send.confirm')"
+            :disabled="resolvingRecipient || preparing"
+            v-html="preparing ? 'Preparing...' : $i18n.t('send.confirm')"
           />
         </div>
       </div>
@@ -143,6 +143,10 @@ export default {
     wallet: {
       type: Object,
       required: true
+    },
+    preparing: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
