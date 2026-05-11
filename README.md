@@ -4,7 +4,6 @@
 
 <p align="center">
   <a href="https://github.com/vergecurrency/VergeSlim/actions" target="_blank"><img src="https://github.com/vergecurrency/VergeSlim/actions/workflows/ci.yml/badge.svg"></a>
-  <img src="https://img.shields.io/badge/status-beta-orange.svg">
   <img src="https://img.shields.io/badge/macOS-15+-blue.svg">
   <img src="https://img.shields.io/badge/Windows-^10-lightblue.svg">
   <img src="https://img.shields.io/badge/Ubuntu-24.04-orange.svg">
