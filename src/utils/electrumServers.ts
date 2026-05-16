@@ -23,6 +23,14 @@ const DEFAULT_ELECTRUM_SERVERS: ElectrumServerConfig[] = [
     port: 50002,
     protocol: 'ssl',
     source: 'default'
+  },
+  {
+    id: 'electrumx-Tor',
+    label: 'electrumx-Tor',
+    host: 'j24ru5qhxuzw3iq6kxhwpxdg4ulzipziflbxsysmo6znsv4i4vaiqmid.onion',
+    port: 50001,
+    protocol: 'tcp',
+    source: 'default'
   }
 ]
 
