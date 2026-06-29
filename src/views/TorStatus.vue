@@ -117,22 +117,6 @@ export default {
       return new Promise(resolve => setTimeout(resolve, ms))
     },
 
-    async waitForWalletStartupWindow () {
-      if (!this.torActivated) {
-        return
-      }
-
-      const maxAttempts = 60
-
-      for (let attempt = 0; attempt < maxAttempts; attempt++) {
-        if (this.$store.getters.walletStatusPhase !== 'connecting') {
-          return
-        }
-
-        await this.delay(500)
-      }
-    },
-
     async applyTorState () {
       try {
         this.syncTorPhase()
@@ -146,10 +130,13 @@ export default {
           return
         }
 
-        await waitForPrimaryApiReady()
-        await this.waitForWalletStartupWindow()
+        this.error = null
+        this.loading = false
+        this.syncTorPhase()
 
-        return this.fetchIpAddress()
+        waitForPrimaryApiReady()
+          .then(() => this.fetchIpAddress(false))
+          .catch(err => Log.warn("Couldn't refresh tor network info. Reason:", err))
       } catch (err) {
         Log.error("Couldn't apply tor state. Reason:", err)
         this.error = err
@@ -159,11 +146,13 @@ export default {
       }
     },
 
-    async fetchIpAddress () {
+    async fetchIpAddress (setLoading = true) {
       this.error = null
       this.ip = null
-      this.loading = true
-      this.syncTorPhase()
+      if (setLoading) {
+        this.loading = true
+        this.syncTorPhase()
+      }
 
       const maxAttempts = 6
       const retryDelayMs = 7000

@@ -22,6 +22,7 @@ const pl: LocaleDefinition = {
     status: {
       bootstrappingTor: 'Uruchamianie Tor',
       bootstrappingTorDetail: 'Negocjowanie bezpiecznego obwodu',
+      bootstrappingTorBridgeDetail: 'Direct Tor did not bootstrap; retrying with Lyrebird bridges',
       verifyingTorRoute: 'Weryfikacja trasy Tor',
       verifyingTorRouteDetail: 'Dane portfela sa juz zaladowane, trwa sprawdzanie wyjscia Tor',
       torBootstrapped: 'Tor gotowy',

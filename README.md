@@ -4,6 +4,7 @@
 
 <p align="center">
   <a href="https://github.com/vergecurrency/VergeSlim/actions" target="_blank"><img src="https://github.com/vergecurrency/VergeSlim/actions/workflows/ci.yml/badge.svg"></a>
+  <img src="https://img.shields.io/badge/status-beta-orange.svg">
   <img src="https://img.shields.io/badge/macOS-15+-blue.svg">
   <img src="https://img.shields.io/badge/Windows-^10-lightblue.svg">
   <img src="https://img.shields.io/badge/Ubuntu-24.04-orange.svg">
@@ -101,6 +102,10 @@ Please setup your own local VWS instance to test your changes against. You can c
 This repository includes platform Tor binaries under `public/bin/Tor`.
 
 Please do not replace Tor with a system binary for normal development. The app is configured to use the repository-provided Tor assets in packaged builds and during runtime install.
+
+Lyrebird pluggable transport binaries are bundled under `public/bin/Tor/pluggable_transports/<platform>`. During runtime install, the current platform binary is copied to `Tor/pluggable_transports/lyrebird` or `lyrebird.exe`. If direct Tor startup fails, Verge Slim retries Tor with Lyrebird bridges from `pt_config.json`.
+
+Bridge fallback can be overridden without rebuilding by setting `VERGESLIM_TOR_BRIDGE_TYPE` or `VERGESLIM_TOR_BRIDGES`. Multiple bridge lines in `VERGESLIM_TOR_BRIDGES` can be separated by newlines or `;;`.
 
 ### Docs Website
 

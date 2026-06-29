@@ -1,6 +1,7 @@
 export const eventConstants = {
   toggleTor: 'TOGGLE_TOR',
   toggledTor: 'TOR_TOGGLED',
+  torStartupPhase: 'TOR_STARTUP_PHASE',
   torConnectionError: 'TOR_CONNECTION_ERROR',
   getTorNetworkInfo: 'GET_TOR_NETWORK_INFO',
   resolveUnstoppableDomain: 'RESOLVE_UNSTOPPABLE_DOMAIN',

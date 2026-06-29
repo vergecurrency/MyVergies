@@ -72,6 +72,12 @@ export default {
       this.$authManager.lock()
     })
 
+    ipcRenderer.on(eventConstants.torStartupPhase, (_event, payload) => {
+      if (payload && payload.phase) {
+        this.$store.dispatch('updateTorStatus', payload.phase)
+      }
+    })
+
     ipcRenderer.on('update-available', () => {
       this.hasUpdateNotification = true
     })

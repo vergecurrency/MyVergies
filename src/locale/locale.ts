@@ -25,6 +25,7 @@ export interface LocaleDefinition {
     status: {
       bootstrappingTor: string
       bootstrappingTorDetail: string
+      bootstrappingTorBridgeDetail: string
       verifyingTorRoute: string
       verifyingTorRouteDetail: string
       torBootstrapped: string

@@ -123,6 +123,13 @@ export default {
       return this.hasLoadedWallets && this.walletStatusPhase === 'ready' && this.torStatusPhase !== 'connected'
     },
 
+    isTorStarting () {
+      return this.isTorEnabled &&
+        this.torStatusPhase !== 'connected' &&
+        this.torStatusPhase !== 'disconnected' &&
+        this.torStatusPhase !== 'error'
+    },
+
     statusTitle () {
       if (!this.isTorEnabled || this.torStatusPhase === 'disconnected') {
         return this.$i18n.t('main.status.torDisabled')
@@ -130,6 +137,10 @@ export default {
 
       if (this.torStatusPhase === 'error') {
         return this.$i18n.t('main.status.torError')
+      }
+
+      if (this.isTorStarting) {
+        return this.$i18n.t('main.status.bootstrappingTor')
       }
 
       if (this.isWalletConnecting) {
@@ -164,6 +175,14 @@ export default {
         return this.$i18n.t('main.status.torErrorDetail')
       }
 
+      if (this.torStatusPhase === 'bridging') {
+        return this.$i18n.t('main.status.bootstrappingTorBridgeDetail')
+      }
+
+      if (this.isTorStarting) {
+        return this.$i18n.t('main.status.bootstrappingTorDetail')
+      }
+
       if (this.isWalletConnecting) {
         return this.$i18n.t('main.status.connectingWalletDetail')
       }
@@ -194,6 +213,14 @@ export default {
 
       if (this.torStatusPhase === 'error') {
         return 'is-danger'
+      }
+
+      if (this.torStatusPhase === 'bridging') {
+        return 'is-verifying'
+      }
+
+      if (this.isTorStarting) {
+        return 'is-bootstrapping'
       }
 
       if (this.isWalletConnecting) {

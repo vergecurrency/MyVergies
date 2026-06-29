@@ -27,6 +27,7 @@ const nl: LocaleDefinition = {
     status: {
       bootstrappingTor: 'Tor wordt opgestart',
       bootstrappingTorDetail: 'Beveiligde route wordt opgebouwd',
+      bootstrappingTorBridgeDetail: 'Directe Tor-start lukte niet; opnieuw proberen met Lyrebird-bridges',
       verifyingTorRoute: 'Tor-route wordt geverifieerd',
       verifyingTorRouteDetail: 'Walletgegevens zijn al geladen terwijl de Tor-exitcheck afrondt',
       torBootstrapped: 'Tor staat klaar',
