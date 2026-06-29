@@ -35,7 +35,10 @@ const TOR_HTTP_TUNNEL_PORT = 9998
 const LEGACY_USER_DATA_DIRECTORY = path.join(app.getPath('appData'), 'MyVergies')
 const TOR_BIN_PATH = path.join(app.getPath('appData'), 'MyVergies', 'bin', 'Tor')
 const TOR_DATA_DIRECTORY = path.join(app.getPath('appData'), 'MyVergies', 'tor-data')
+const TOR_BRIDGE_DATA_DIRECTORY = path.join(app.getPath('appData'), 'MyVergies', 'tor-data-bridges')
 const TOR_DATA_LOCK_FILE = path.join(TOR_DATA_DIRECTORY, 'lock')
+const TOR_BRIDGE_DATA_LOCK_FILE = path.join(TOR_BRIDGE_DATA_DIRECTORY, 'lock')
+const TOR_PT_CONFIG_PATH = path.join(TOR_BIN_PATH, 'pluggable_transports', 'pt_config.json')
 let torController: any = null
 let torStartupPromise: Promise<void> | null = null
 const MAIN_WINDOW_BASE_WIDTH = 1030
@@ -297,6 +300,29 @@ const waitForTorCircuit = async (window: BrowserWindow, maxAttempts = 8, delayMs
   throw new Error('Tor circuit did not become ready in time')
 }
 
+const waitForTorBootstrap = async (controller: any, maxAttempts = 12, delayMs = 5000) => {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      const bootstrapStatus = await getTorInfo(controller, 'status/bootstrap-phase')
+
+      if (bootstrapStatus.includes('PROGRESS=100') || bootstrapStatus.includes('SUMMARY="Done"')) {
+        logger.info('Tor bootstrap is complete')
+        return
+      }
+
+      logger.info(`Waiting for Tor bootstrap (${attempt}/${maxAttempts}): ${bootstrapStatus}`)
+    } catch (error) {
+      logger.warn('Tor bootstrap status lookup failed:', error)
+    }
+
+    if (attempt < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, delayMs))
+    }
+  }
+
+  throw new Error('Tor bootstrap did not complete in time')
+}
+
 const getTorBinaryPath = () => {
   if (process.platform === 'darwin') {
     return path.join(TOR_BIN_PATH, 'tor.real')
@@ -356,14 +382,30 @@ const notifyTorStartupError = (error: Error) => {
   }, 1000)
 }
 
+const stopTorController = () => {
+  if (torController && torController.process && !torController.process.killed) {
+    torController.process.kill()
+  }
+
+  torController = null
+}
+
 const clearStaleTorLock = () => {
-  if (!fs.existsSync(TOR_DATA_LOCK_FILE)) {
+  return clearStaleLockFile(TOR_DATA_LOCK_FILE)
+}
+
+const clearStaleTorBridgeLock = () => {
+  return clearStaleLockFile(TOR_BRIDGE_DATA_LOCK_FILE)
+}
+
+const clearStaleLockFile = (lockFile: string) => {
+  if (!fs.existsSync(lockFile)) {
     return false
   }
 
   try {
-    fs.unlinkSync(TOR_DATA_LOCK_FILE)
-    logger.warn(`Removed stale Tor data lock: ${TOR_DATA_LOCK_FILE}`)
+    fs.unlinkSync(lockFile)
+    logger.warn(`Removed stale Tor data lock: ${lockFile}`)
     return true
   } catch (error) {
     logger.warn('Failed to remove stale Tor data lock:', error)
@@ -371,11 +413,88 @@ const clearStaleTorLock = () => {
   }
 }
 
+const readLyrebirdPtConfig = () => {
+  try {
+    if (!fs.existsSync(TOR_PT_CONFIG_PATH)) {
+      logger.warn(`Lyrebird transport config not found: ${TOR_PT_CONFIG_PATH}`)
+      return null
+    }
+
+    return JSON.parse(fs.readFileSync(TOR_PT_CONFIG_PATH, 'utf8'))
+  } catch (error) {
+    logger.warn('Failed to read Lyrebird transport config:', error)
+    return null
+  }
+}
+
+const getEnvironmentBridgeLines = () => {
+  const bridgeLines = process.env.VERGESLIM_TOR_BRIDGES || ''
+
+  return bridgeLines
+    .split(/\r?\n|;;/)
+    .map(bridgeLine => bridgeLine.trim())
+    .filter(Boolean)
+}
+
+const stripTorrcKeyword = (line: string, keyword: string) => {
+  const normalizedLine = String(line || '').trim()
+  const prefix = `${keyword} `
+
+  return normalizedLine.startsWith(prefix)
+    ? normalizedLine.slice(prefix.length)
+    : normalizedLine
+}
+
+const getLyrebirdTransportOptions = () => {
+  const ptConfig = readLyrebirdPtConfig()
+  if (!ptConfig || typeof ptConfig !== 'object') {
+    return []
+  }
+
+  const requestedBridgeType = process.env.VERGESLIM_TOR_BRIDGE_TYPE || ptConfig.recommendedDefault || 'obfs4'
+  const environmentBridgeLines = getEnvironmentBridgeLines()
+  const bridgeLines = environmentBridgeLines.length > 0
+    ? environmentBridgeLines
+    : ((ptConfig.bridges && ptConfig.bridges[requestedBridgeType]) || [])
+
+  if (!Array.isArray(bridgeLines) || bridgeLines.length === 0) {
+    logger.warn(`No Lyrebird bridge lines configured for bridge type: ${requestedBridgeType}`)
+    return []
+  }
+
+  const firstBridgeTransport = stripTorrcKeyword(String(bridgeLines[0] || ''), 'Bridge').split(/\s+/)[0]
+  const pluginKey = firstBridgeTransport === 'snowflake' ? 'snowflake' : 'lyrebird'
+  const lyrebirdPluginConfig = ptConfig.pluggableTransports && ptConfig.pluggableTransports[pluginKey]
+  if (!lyrebirdPluginConfig) {
+    logger.warn(`Lyrebird ClientTransportPlugin config is missing for ${pluginKey}`)
+    return []
+  }
+
+  const transportPath = './Tor/pluggable_transports/'
+  const transportPlugin = stripTorrcKeyword(
+    String(lyrebirdPluginConfig).replace(/\$\{pt_path\}/g, transportPath),
+    'ClientTransportPlugin'
+  )
+
+  logger.info(`Starting Tor with Lyrebird bridges: type=${requestedBridgeType}, count=${bridgeLines.length}`)
+
+  return [
+    {
+      ClientTransportPlugin: transportPlugin,
+      UseBridges: '1'
+    },
+    ...bridgeLines.map(bridgeLine => ({
+      Bridge: stripTorrcKeyword(bridgeLine, 'Bridge')
+    }))
+  ]
+}
+
 const ensureTorStarted = () => {
   if (!torStartupPromise) {
-    const startTor = () => startUpTorOnPort(TOR_SOCKS_PORT)
-      .then(port => {
-        logger.info(`TorSocks listening on ${port}!`)
+    const startTor = (useLyrebirdBridges = false) => startUpTorOnPort(TOR_SOCKS_PORT, useLyrebirdBridges)
+      .then(async port => {
+        await waitForTorBootstrap(torController)
+        logger.info(`TorSocks listening on ${port}${useLyrebirdBridges ? ' via Lyrebird bridges' : ''}!`)
       })
 
     torStartupPromise = startTor()
@@ -388,6 +507,22 @@ const ensureTorStarted = () => {
         }
 
         throw error
+      })
+      .catch(async (error: Error) => {
+        logger.warn(`Direct Tor startup failed; retrying with Lyrebird bridges: ${error.message}`)
+        stopTorController()
+
+        return startTor(true)
+          .catch(async (bridgeError: Error) => {
+            const isLockStartupFailure = bridgeError.message.includes('Tor exited with code 1')
+
+            if (isLockStartupFailure && clearStaleTorBridgeLock()) {
+              logger.warn('Retrying Lyrebird Tor startup after clearing stale data lock')
+              return startTor(true)
+            }
+
+            throw bridgeError
+          })
       })
       .catch(async (error: Error) => {
         logger.error(error)
@@ -663,13 +798,25 @@ app.on('activate', () => {
   }
 })
 
-const startUpTorOnPort = (port: number) => {
+const startUpTorOnPort = (port: number, useLyrebirdBridges = false) => {
   return new Promise((resolve, reject) => {
-    const tor = Tor({}, {
-      DataDirectory: TOR_DATA_DIRECTORY,
-      SocksPort: `${port}`,
-      HTTPTunnelPort: `${TOR_HTTP_TUNNEL_PORT}`
-    })
+    const bridgeTransportOptions = useLyrebirdBridges ? getLyrebirdTransportOptions() : []
+    if (useLyrebirdBridges && bridgeTransportOptions.length === 0) {
+      reject(new Error('Lyrebird bridge configuration is unavailable'))
+      return
+    }
+
+    const torrcOptions = [
+      {
+        DataDirectory: useLyrebirdBridges ? TOR_BRIDGE_DATA_DIRECTORY : TOR_DATA_DIRECTORY,
+        SocksPort: `${port}`,
+        HTTPTunnelPort: `${TOR_HTTP_TUNNEL_PORT}`
+      },
+      ...bridgeTransportOptions
+    ]
+
+    const tor = Tor({}, torrcOptions)
+
     torController = tor
 
     tor.on('ready', async () => {

@@ -11,11 +11,19 @@ const TOR_PATH: string = path.join(BIN_PATH, 'Tor')
 type BinaryFormat = 'elf' | 'macho' | 'pe' | 'other'
 
 const linuxExecutableFiles = [
-  'tor'
+  'tor',
+  path.join('pluggable_transports', 'lyrebird')
 ]
 
 const macExecutableFiles = [
-  'tor.real'
+  'tor.real',
+  path.join('pluggable_transports', 'lyrebird')
+]
+
+const lyrebirdPlatformSourceDirectories = [
+  'linux-x86_64',
+  'macos-x86_64',
+  'windows-x86_64'
 ]
 
 const getBundledTorPath = (): string | null => {
@@ -78,6 +86,14 @@ class TorInstaller implements InstallerInterface {
   }
 
   private shouldCopyFileForPlatform (sourcePath: string, relativePath: string): boolean {
+    const relativePathParts = relativePath.split(path.sep)
+    if (
+      relativePathParts[0] === 'pluggable_transports' &&
+      lyrebirdPlatformSourceDirectories.includes(relativePathParts[1])
+    ) {
+      return false
+    }
+
     if (ElectronUtils.is.windows) {
       return true
     }
@@ -121,16 +137,66 @@ class TorInstaller implements InstallerInterface {
     this.removeFileIfExists(path.join(TOR_PATH, 'PluggableTransports', 'obfs4proxy.exe'))
     this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'conjure-client'))
     this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'conjure-client.exe'))
-    this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'lyrebird'))
-    this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'lyrebird.exe'))
     this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'README.CONJURE.md'))
-    this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'pt_config.json'))
 
     // Keep only platform-relevant main Tor binary executable.
     if (process.platform === 'linux') {
       this.removeFileIfExists(path.join(TOR_PATH, 'tor.real'))
+      this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'lyrebird.exe'))
     } else if (process.platform === 'darwin') {
       this.removeFileIfExists(path.join(TOR_PATH, 'tor'))
+      this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'lyrebird.exe'))
+    } else if (process.platform === 'win32') {
+      this.removeFileIfExists(path.join(TOR_PATH, 'pluggable_transports', 'lyrebird'))
+    }
+  }
+
+  private getLyrebirdSourceDirectory (): string | null {
+    if (process.platform === 'linux') {
+      return 'linux-x86_64'
+    }
+
+    if (process.platform === 'darwin') {
+      return 'macos-x86_64'
+    }
+
+    if (process.platform === 'win32') {
+      return 'windows-x86_64'
+    }
+
+    return null
+  }
+
+  private syncLyrebirdBinary (source: string): void {
+    const lyrebirdSourceDirectory = this.getLyrebirdSourceDirectory()
+    if (!lyrebirdSourceDirectory) {
+      return
+    }
+
+    const lyrebirdFileName = ElectronUtils.is.windows ? 'lyrebird.exe' : 'lyrebird'
+    const sourcePath = path.join(source, 'pluggable_transports', lyrebirdSourceDirectory, lyrebirdFileName)
+    const destinationDirectory = path.join(TOR_PATH, 'pluggable_transports')
+    const destinationPath = path.join(destinationDirectory, lyrebirdFileName)
+
+    if (!fs.existsSync(sourcePath)) {
+      Log.warn(`Tor installation: Lyrebird binary missing for ${process.platform}: ${sourcePath}`)
+      return
+    }
+
+    this.ensureFolder(destinationDirectory)
+
+    let shouldCopy = !fs.existsSync(destinationPath)
+    if (!shouldCopy) {
+      shouldCopy = !this.fileContentIsEqual(sourcePath, destinationPath)
+    }
+
+    if (shouldCopy) {
+      if (fs.existsSync(destinationPath) && !ElectronUtils.is.windows) {
+        fs.chmodSync(destinationPath, 0o755)
+      }
+
+      fs.copyFileSync(sourcePath, destinationPath)
+      Log.info(`Tor installation: Lyrebird binary copied: ${lyrebirdFileName}`)
     }
   }
 
@@ -142,6 +208,10 @@ class TorInstaller implements InstallerInterface {
       const sourcePath = path.join(source, entry.name)
       const destinationPath = path.join(destination, entry.name)
       const relativePath = path.relative(source, sourcePath)
+
+      if (entry.isDirectory() && lyrebirdPlatformSourceDirectories.includes(entry.name)) {
+        return
+      }
 
       if (entry.isDirectory()) {
         this.ensureFolder(destinationPath)
@@ -190,6 +260,7 @@ class TorInstaller implements InstallerInterface {
     this.ensureFolder(TOR_PATH)
     this.removeIncompatiblePlatformFiles()
     this.syncFiles(bundledTorPath, TOR_PATH)
+    this.syncLyrebirdBinary(bundledTorPath)
 
     if (!ElectronUtils.is.windows) {
       const executableFiles = ElectronUtils.is.macos ? macExecutableFiles : linuxExecutableFiles
