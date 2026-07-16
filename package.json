@@ -79,6 +79,7 @@
   },
   "overrides": {
     "@babel/traverse": "^7.29.0",
+    "deasync": "0.1.31",
     "url-parse": "^1.5.10"
   },
   "devDependencies": {

@@ -42,6 +42,18 @@
             </b-select>
           </b-field>
 
+          <div
+            v-if="restore && backend === 'vws'"
+            class="notification wallet-preferences__vws-status"
+            :class="[vwsStatusClass, { 'wallet-preferences__vws-status--online': vwsStatus === 'online' }]"
+          >
+            <b-icon :icon="vwsStatusIcon" :class="{ 'fa-pulse': vwsStatus === 'checking' }" />
+            <div>
+              <strong>{{ vwsStatusTitle }}</strong>
+              <p>{{ vwsStatusMessage }}</p>
+            </div>
+          </div>
+
           <b-field>
             <b-switch v-model="showAdvanced"><span v-html="$i18n.t('createWallet.advanced')"/></b-switch>
           </b-field>
@@ -86,7 +98,7 @@
 <script>
 import WalletCard from '@/components/WalletCard'
 import { mapGetters } from 'vuex'
-import { isValidVwsApiUrl, resolveVwsApiUrl } from '@/utils/vwsApi'
+import { checkVwsApiReady, isValidVwsApiUrl, resolveVwsApiUrl } from '@/utils/vwsApi'
 import { serializeElectrumServer } from '@/utils/electrumServers'
 
 export default {
@@ -100,7 +112,10 @@ export default {
       backend: 'vws',
       singleAddress: false,
       vwsApi: '',
-      electrumServer: ''
+      electrumServer: '',
+      vwsStatus: 'idle',
+      vwsCheckSequence: 0,
+      vwsCheckTimer: null
     }
   },
   props: {
@@ -139,7 +154,38 @@ export default {
       return this.backend === 'electrumx' || isValidVwsApiUrl(this.vwsApi)
     },
     preferencesAreValid () {
-      return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists && this.vwsApiValid
+      const vwsReady = !this.restore || this.backend !== 'vws' || this.vwsStatus === 'online'
+      return this.wallet.name !== '' && this.nameLongEnough && this.nameNotTooLong && !this.nameExists && this.vwsApiValid && vwsReady
+    },
+    vwsStatusClass () {
+      return {
+        'is-info': this.vwsStatus === 'checking',
+        'is-success': this.vwsStatus === 'online',
+        'is-warning': this.vwsStatus === 'offline' || this.vwsStatus === 'idle'
+      }
+    },
+    vwsStatusIcon () {
+      if (this.vwsStatus === 'checking') return 'circle-notch'
+      if (this.vwsStatus === 'online') return 'check-circle'
+      return 'exclamation-triangle'
+    },
+    vwsStatusTitle () {
+      if (this.vwsStatus === 'checking') return 'Checking wallet server...'
+      if (this.vwsStatus === 'online') return 'Wallet server online'
+      return 'This server appears offline'
+    },
+    vwsStatusMessage () {
+      if (this.vwsStatus === 'checking') return `Contacting ${this.vwsApi}`
+      if (this.vwsStatus === 'online') return 'The legacy MyVergies wallet service is online and ready.'
+      return 'The legacy wallet cannot be restored until the VWS server responds successfully.'
+    }
+  },
+  watch: {
+    backend () {
+      this.scheduleVwsReadinessCheck(0)
+    },
+    vwsApi () {
+      this.scheduleVwsReadinessCheck()
     }
   },
   created () {
@@ -149,8 +195,31 @@ export default {
     this.singleAddress = this.value.singleAddress
     this.vwsApi = resolveVwsApiUrl(this.value.vwsApi)
     this.electrumServer = this.value.electrumServer || serializeElectrumServer(this.currentElectrumServer)
+    this.scheduleVwsReadinessCheck(0)
+  },
+  beforeDestroy () {
+    if (this.vwsCheckTimer) clearTimeout(this.vwsCheckTimer)
   },
   methods: {
+    scheduleVwsReadinessCheck (delay = 400) {
+      if (this.vwsCheckTimer) clearTimeout(this.vwsCheckTimer)
+
+      if (!this.restore || this.backend !== 'vws') {
+        this.vwsStatus = 'idle'
+        return
+      }
+
+      this.vwsStatus = 'checking'
+      this.vwsCheckTimer = setTimeout(() => this.checkVwsReadiness(), delay)
+    },
+    async checkVwsReadiness () {
+      const sequence = ++this.vwsCheckSequence
+      const ready = await checkVwsApiReady(this.vwsApi)
+
+      if (sequence === this.vwsCheckSequence && this.restore && this.backend === 'vws') {
+        this.vwsStatus = ready ? 'online' : 'offline'
+      }
+    },
     proceed () {
       if (!this.preferencesAreValid) {
         return
@@ -181,5 +250,19 @@ export default {
 }
 .wallet-preferences__advanced__box {
   margin: 0 -20px;
+}
+.wallet-preferences__vws-status {
+  align-items: center;
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.wallet-preferences__vws-status p {
+  margin-top: 0.15rem;
+}
+.wallet-preferences__vws-status--online .icon,
+.wallet-preferences__vws-status--online p {
+  color: #257953;
 }
 </style>

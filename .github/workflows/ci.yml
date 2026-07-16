@@ -23,7 +23,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 24.x
           cache: npm
           cache-dependency-path: npm-shrinkwrap.json
 
@@ -44,7 +44,7 @@ jobs:
           sudo apt-get install -y pkg-config libsecret-1-dev
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Ensure Electron binary is installed
         run: node node_modules/electron/install.js
@@ -72,7 +72,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 24.x
           cache: npm
           cache-dependency-path: npm-shrinkwrap.json
 
@@ -93,7 +93,7 @@ jobs:
           sudo apt-get install -y pkg-config libsecret-1-dev
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
 
       - name: Ensure Electron binary is installed
         run: node node_modules/electron/install.js
@@ -121,7 +121,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18.x
+          node-version: 24.x
           architecture: x64
           cache: npm
           cache-dependency-path: npm-shrinkwrap.json
@@ -138,7 +138,7 @@ jobs:
             ${{ runner.os }}-${{ runner.arch }}-electron-tools-macos-
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --ignore-scripts
         env:
           npm_config_arch: x64
           npm_config_target_arch: x64

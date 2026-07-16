@@ -10823,14 +10823,6 @@
       "integrity": "sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==",
       "dev": true
     },
-    "node_modules/buffer-json": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/buffer-json/-/buffer-json-2.0.0.tgz",
-      "integrity": "sha512-+jjPFVqyfF1esi9fvfUs3NqM0pH1ziZ36VP4hmA/y/Ssfo/5w5xHKfTw9BwQjoJ1w/oVtpLomqwUHKdefGyuHw==",
-      "dev": true,
-      "optional": true,
-      "peer": true
-    },
     "node_modules/buffer-xor": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz",
@@ -11047,25 +11039,6 @@
       },
       "engines": {
         "node": ">=0.10.0"
-      }
-    },
-    "node_modules/cache-loader": {
-      "version": "4.1.0",
-      "resolved": "https://registry.npmjs.org/cache-loader/-/cache-loader-4.1.0.tgz",
-      "integrity": "sha512-ftOayxve0PwKzBF/GLsZNC9fJBXl8lkZE3TOsjkboHfVHVkL39iUEs1FO07A33mizmci5Dudt38UZrrYXDtbhw==",
-      "dev": true,
-      "optional": true,
-      "peer": true,
-      "dependencies": {
-        "buffer-json": "^2.0.0",
-        "find-cache-dir": "^3.0.0",
-        "loader-utils": "^1.2.3",
-        "mkdirp": "^0.5.1",
-        "neo-async": "^2.6.1",
-        "schema-utils": "^2.0.0"
-      },
-      "engines": {
-        "node": ">= 8.9.0"
       }
     },
     "node_modules/cacheable-request": {
@@ -13562,10 +13535,12 @@
       "dev": true
     },
     "node_modules/deasync": {
-      "version": "0.1.21",
-      "resolved": "https://registry.npmjs.org/deasync/-/deasync-0.1.21.tgz",
-      "integrity": "sha512-kUmM8Y+PZpMpQ+B4AuOW9k2Pfx/mSupJtxOsLzmnHY2WqZUYRFccFn2RhzPAqt3Xb+sorK/badW2D4zNzqZz5w==",
+      "version": "0.1.31",
+      "resolved": "https://registry.npmjs.org/deasync/-/deasync-0.1.31.tgz",
+      "integrity": "sha512-/6/cXqkw4LPqBVK6H0Y3L4zT7yI3pxykxPXErQ2tDCw0LJyThWL5VpBCpUOWX0vPq2OnF1pzcXvlNnvCiOQJuA==",
       "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
       "dependencies": {
         "bindings": "^1.5.0",
         "node-addon-api": "^1.7.1"
@@ -37519,14 +37494,6 @@
       "integrity": "sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==",
       "dev": true
     },
-    "buffer-json": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/buffer-json/-/buffer-json-2.0.0.tgz",
-      "integrity": "sha512-+jjPFVqyfF1esi9fvfUs3NqM0pH1ziZ36VP4hmA/y/Ssfo/5w5xHKfTw9BwQjoJ1w/oVtpLomqwUHKdefGyuHw==",
-      "dev": true,
-      "optional": true,
-      "peer": true
-    },
     "buffer-xor": {
       "version": "1.0.3",
       "resolved": "https://registry.npmjs.org/buffer-xor/-/buffer-xor-1.0.3.tgz",
@@ -37707,22 +37674,6 @@
         "to-object-path": "^0.3.0",
         "union-value": "^1.0.0",
         "unset-value": "^1.0.0"
-      }
-    },
-    "cache-loader": {
-      "version": "4.1.0",
-      "resolved": "https://registry.npmjs.org/cache-loader/-/cache-loader-4.1.0.tgz",
-      "integrity": "sha512-ftOayxve0PwKzBF/GLsZNC9fJBXl8lkZE3TOsjkboHfVHVkL39iUEs1FO07A33mizmci5Dudt38UZrrYXDtbhw==",
-      "dev": true,
-      "optional": true,
-      "peer": true,
-      "requires": {
-        "buffer-json": "^2.0.0",
-        "find-cache-dir": "^3.0.0",
-        "loader-utils": "^1.2.3",
-        "mkdirp": "^0.5.1",
-        "neo-async": "^2.6.1",
-        "schema-utils": "^2.0.0"
       }
     },
     "cacheable-request": {
@@ -39653,9 +39604,9 @@
       "dev": true
     },
     "deasync": {
-      "version": "0.1.21",
-      "resolved": "https://registry.npmjs.org/deasync/-/deasync-0.1.21.tgz",
-      "integrity": "sha512-kUmM8Y+PZpMpQ+B4AuOW9k2Pfx/mSupJtxOsLzmnHY2WqZUYRFccFn2RhzPAqt3Xb+sorK/badW2D4zNzqZz5w==",
+      "version": "0.1.31",
+      "resolved": "https://registry.npmjs.org/deasync/-/deasync-0.1.31.tgz",
+      "integrity": "sha512-/6/cXqkw4LPqBVK6H0Y3L4zT7yI3pxykxPXErQ2tDCw0LJyThWL5VpBCpUOWX0vPq2OnF1pzcXvlNnvCiOQJuA==",
       "dev": true,
       "requires": {
         "bindings": "^1.5.0",
@@ -50969,7 +50920,7 @@
       "requires": {
         "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
         "chalk": "^2.1.0",
-        "deasync": "^0.1.15",
+        "deasync": "0.1.31",
         "extract-from-css": "^0.4.4",
         "find-babel-config": "^1.1.0",
         "js-beautify": "^1.6.14",
