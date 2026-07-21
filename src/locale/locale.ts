@@ -183,6 +183,7 @@ export interface LocaleDefinition {
       'Insufficient funds': string
       'BADREQUEST: Invalid amount': string
       'Amount below dust threshold': string
+      MEMPOOL_CONFLICT?: string
       INVALID_WEB3_DOMAIN?: string
       UNSTOPPABLE_DOMAIN_NOT_FOUND?: string
       UNSTOPPABLE_DOMAIN_MISSING_XVG_ADDRESS?: string

@@ -143,10 +143,60 @@ export default {
         this.viewLocked = false
         this.activeStep = 3
       }).catch(e => {
-        this.$buefy.dialog.alert({
-          message: e.message
-        })
+        this.handleSendFailure(e)
       })
+    },
+
+    async handleSendFailure (error) {
+      const message = this.getSendErrorMessage(error)
+
+      if (this.isMempoolConflict(error)) {
+        await this.cleanupConflictingProposal()
+        this.transaction.txp = null
+        this.activeStep = 0
+      }
+
+      this.viewLocked = false
+
+      this.$buefy.dialog.alert({
+        message
+      })
+    },
+
+    getSendErrorMessage (error) {
+      const message = error && error.message ? error.message : String(error)
+
+      if (this.isMempoolConflict(error)) {
+        return this.$i18n.t('send.errors.MEMPOOL_CONFLICT')
+      }
+
+      return message
+    },
+
+    isMempoolConflict (error) {
+      const message = error && error.message ? error.message : String(error)
+
+      return /txn-mempool-conflict|code 18/i.test(message)
+    },
+
+    async cleanupConflictingProposal () {
+      const txp = this.transaction.txp
+
+      try {
+        if (txp && this.wallet.removeTxProposal) {
+          await this.wallet.removeTxProposal(txp)
+        }
+      } catch (e) {
+        // The proposal may already be gone after a broadcast conflict. Continue with refresh.
+      }
+
+      const refreshTasks = [
+        this.wallet.status && this.wallet.status(),
+        this.wallet.fetchTxHistory && this.wallet.fetchTxHistory(),
+        this.wallet.getTxProposals && this.wallet.getTxProposals()
+      ].filter(Boolean)
+
+      await Promise.allSettled(refreshTasks)
     },
 
     reset () {

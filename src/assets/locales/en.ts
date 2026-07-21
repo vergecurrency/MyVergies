@@ -189,6 +189,7 @@ const en: LocaleDefinition = {
       'Only single-recipient sends are currently supported.': 'ElectrumX sending currently supports one recipient per transaction.',
       'The transaction amount must be greater than zero.': 'The transaction amount must be greater than zero.',
       'Signed transaction payload missing.': 'The signed transaction payload is missing.',
+      MEMPOOL_CONFLICT: 'The wallet service rejected this transaction because one of its inputs is already in another pending transaction. The wallet was refreshed and the stale proposal was removed. Please try sending again.',
       INVALID_WEB3_DOMAIN: 'The provided Web3 domain is invalid.',
       UNSTOPPABLE_DOMAIN_NOT_FOUND: 'The Web3 domain could not be found.',
       UNSTOPPABLE_DOMAIN_MISSING_XVG_ADDRESS: 'This Web3 domain does not have an XVG address record.',

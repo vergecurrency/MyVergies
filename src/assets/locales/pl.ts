@@ -185,6 +185,7 @@ const pl: LocaleDefinition = {
       'Insufficient funds': 'Niewystarczające środki na koncie',
       'BADREQUEST: Invalid amount': 'Podana kwota jest nieprawidłowa',
       'Amount below dust threshold': 'Kwota jest poniżej progu minimalnego (dust)',
+      MEMPOOL_CONFLICT: 'The wallet service rejected this transaction because one of its inputs is already in another pending transaction. The wallet was refreshed and the stale proposal was removed. Please try sending again.',
       INVALID_WEB3_DOMAIN: 'Podana domena Web3 jest nieprawidłowa.',
       UNSTOPPABLE_DOMAIN_NOT_FOUND: 'Nie znaleziono domeny Web3.',
       UNSTOPPABLE_DOMAIN_MISSING_XVG_ADDRESS: 'Ta domena Web3 nie ma rekordu adresu XVG.',

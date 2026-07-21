@@ -185,6 +185,7 @@ const nl: LocaleDefinition = {
       'Insufficient funds': 'Onvoldoende saldo voor het opgegeven bedrag',
       'BADREQUEST: Invalid amount': 'Het opgegeven bedrag is ongeldig',
       'Amount below dust threshold': 'Het opgegeven bedrag is te laag',
+      MEMPOOL_CONFLICT: 'The wallet service rejected this transaction because one of its inputs is already in another pending transaction. The wallet was refreshed and the stale proposal was removed. Please try sending again.',
       INVALID_WEB3_DOMAIN: 'Het opgegeven Web3-domein is ongeldig.',
       UNSTOPPABLE_DOMAIN_NOT_FOUND: 'Het Web3-domein kon niet worden gevonden.',
       UNSTOPPABLE_DOMAIN_MISSING_XVG_ADDRESS: 'Dit Web3-domein heeft geen XVG-adresrecord.',

@@ -198,7 +198,7 @@ export default class Wallet {
           return reject(error)
         }
 
-        return this.getTxProposals()
+        this.getTxProposals().then(resolve).catch(reject)
       })
     })
   }
