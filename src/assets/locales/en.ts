@@ -149,7 +149,7 @@ const en: LocaleDefinition = {
     sending: 'Sending',
     sent: 'Sent',
     recipient: 'Recipient',
-    recipientPlaceholder: 'Recipient XVG address or Web3 domain',
+    recipientPlaceholder: 'Recipient XVG address or Web3 domain (sunerok.wallet)',
     recipientDetails: 'Insert a valid XVG address, stealth address, or supported Web3 domain',
     resolveRecipient: 'Resolve',
     recipientResolved: 'Resolved <b>{domain}</b> to an XVG address.',
