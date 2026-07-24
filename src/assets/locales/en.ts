@@ -117,6 +117,7 @@ const en: LocaleDefinition = {
     noTransactionsDesc: 'Received transactions can be found here',
     invalidBalance: 'Invalid Balance',
     invalidBalanceDesc: '{txps} Failed transaction proposal(s) found',
+    showAddressBalances: 'Show address balances',
     transactionProposals: 'Transaction Proposals',
     transactionProposalsDesc: 'All transaction proposals that failed during a transaction sequence are listed below. You can try to send a transaction again or destroy the transaction in order to release the funds.',
     done: 'Done',

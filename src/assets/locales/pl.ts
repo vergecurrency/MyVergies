@@ -117,6 +117,7 @@ const pl: LocaleDefinition = {
     noTransactionsDesc: 'Otrzymane transakcje pojawią się tutaj',
     invalidBalance: 'Nieprawidłowe saldo',
     invalidBalanceDesc: 'Znaleziono {txps} nieudanych propozycji transakcji',
+    showAddressBalances: 'Show address balances',
     transactionProposals: 'Propozycje transakcji',
     transactionProposalsDesc: 'Poniżej znajdują się propozycje, które zawiodły. Możesz spróbować wysłać je ponownie lub je usunąć, aby odblokować środki.',
     done: 'Gotowe',

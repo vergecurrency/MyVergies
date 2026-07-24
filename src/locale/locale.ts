@@ -115,6 +115,7 @@ export interface LocaleDefinition {
     noTransactionsDesc: string
     invalidBalance: string
     invalidBalanceDesc: string
+    showAddressBalances?: string
     transactionProposals: string
     transactionProposalsDesc: string
     done: string

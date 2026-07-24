@@ -117,6 +117,7 @@ const nl: LocaleDefinition = {
     noTransactionsDesc: 'Ontvangen transacties zullen hier worden weergegeven',
     invalidBalance: 'Ongeldig saldo',
     invalidBalanceDesc: '{txps} Gefaalde transactie voorstel(len) gevonden',
+    showAddressBalances: 'Show address balances',
     transactionProposals: 'Transactievoorstellen',
     transactionProposalsDesc: 'Alle transactievoorstellen die mislukt zijn tijdens een transactie, worden hieronder weergegeven. U moet ze handmatig verwijderen om het saldo vrij te geven.',
     done: 'Klaar',

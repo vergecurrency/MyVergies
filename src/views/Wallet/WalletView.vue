@@ -40,6 +40,14 @@
               <p>
                 <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="walletTotalAmount" convert/>
               </p>
+              <b-switch
+                v-if="hasAddressBalances"
+                v-model="showAddressBalances"
+                size="is-small"
+                class="wallet-address-balance-toggle"
+              >
+                {{ $i18n.t('wallet.showAddressBalances') }}
+              </b-switch>
               <div v-if="isElectrumxWallet" class="wallet-electrum-status">
                 <span :class="['wallet-electrum-status-light', electrumStatusClass]"></span>
                 <span class="wallet-electrum-status-label">{{ electrumStatusLabel }}</span>
@@ -90,6 +98,20 @@
       </div>
     </div>
 
+    <div v-if="showAddressBalances && hasAddressBalances" class="box is-paddingless is-clipped wallet-address-balances">
+      <div
+        v-for="entry in addressesWithBalance"
+        :key="entry.address"
+        class="wallet-address-balance-row"
+      >
+        <code class="wallet-address-balance-address">{{ entry.address }}</code>
+        <div class="wallet-address-balance-amount">
+          <money :amount="entry.amount" crypto/>
+          <span class="wallet-address-balance-path">{{ formatAddressPath(entry.path) }}</span>
+        </div>
+      </div>
+    </div>
+
     <b-notification
       v-if="!supportsSending"
       type="is-info"
@@ -122,6 +144,11 @@ import TxProposalsModal from '@/views/Wallet/TxProposalsModal'
 export default {
   name: 'wallet-view',
   components: { TransactionRow, Money },
+  data () {
+    return {
+      showAddressBalances: false
+    }
+  },
   props: {
     wallet: {
       type: Object,
@@ -170,6 +197,14 @@ export default {
       return this.wallet && this.wallet.info && this.wallet.info.balance
         ? this.wallet.info.balance.totalAmount || 0
         : 0
+    },
+    addressesWithBalance () {
+      return this.wallet && this.wallet.info && this.wallet.info.balance && this.wallet.info.balance.byAddress
+        ? this.wallet.info.balance.byAddress.filter(entry => entry.amount > 0)
+        : []
+    },
+    hasAddressBalances () {
+      return this.addressesWithBalance.length > 0
     }
   },
   methods: {
@@ -187,6 +222,10 @@ export default {
           wallet: this.wallet
         }
       })
+    },
+
+    formatAddressPath (path) {
+      return path ? path.replace('m/', 'xpub/') : ''
     }
   }
 }
@@ -319,6 +358,48 @@ export default {
   opacity: 0.92;
 }
 
+.wallet-address-balance-toggle {
+  display: inline-flex;
+  margin-top: 0.65rem;
+  color: var(--rv-text-soft);
+}
+
+.wallet-address-balances {
+  border-color: rgba(83, 243, 255, 0.16);
+}
+
+.wallet-address-balance-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(83, 243, 255, 0.12);
+}
+
+.wallet-address-balance-row:last-child {
+  border-bottom: none;
+}
+
+.wallet-address-balance-address {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: rgba(83, 243, 255, 0.08);
+  color: var(--rv-text);
+}
+
+.wallet-address-balance-amount {
+  margin-left: auto;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.wallet-address-balance-path {
+  display: block;
+  color: var(--rv-text-muted);
+  font-size: 0.78rem;
+}
+
 .wallet-settings-button {
   min-width: 46px;
 }
@@ -365,6 +446,16 @@ export default {
 
   .wallet-header-actions .buttons {
     justify-content: flex-start;
+  }
+
+  .wallet-address-balance-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .wallet-address-balance-amount {
+    margin-left: 0;
+    text-align: left;
   }
 }
 </style>
