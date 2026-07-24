@@ -14,6 +14,7 @@ export default class Wallet {
   public name?: string
   public color?: string
   public info?: Info
+  public connectionStatus: 'connecting' | 'connected' | 'disconnected' = 'connecting'
   public transactions: Tx[] = []
   public addresses: AddressInfo[] = []
   public txProposals: TxProposalResponse[] = []
@@ -46,13 +47,17 @@ export default class Wallet {
   }
 
   public open (): Promise<Info> {
+    this.connectionStatus = 'connecting'
+
     return new Promise((resolve, reject) => {
       this.vwc.openWallet((error: Error, info: Info) => {
         if (error) {
+          this.connectionStatus = 'disconnected'
           return reject(error)
         }
 
         this.info = info
+        this.connectionStatus = 'connected'
 
         resolve(info)
       })
@@ -60,13 +65,17 @@ export default class Wallet {
   }
 
   public status (): Promise<Info> {
+    this.connectionStatus = 'connecting'
+
     return new Promise((resolve, reject) => {
       this.vwc.getStatus({ includeExtendedInfo: true }, (error: Error, info: Info) => {
         if (error) {
+          this.connectionStatus = 'disconnected'
           return reject(error)
         }
 
         this.info = info
+        this.connectionStatus = 'connected'
 
         resolve(info)
       })

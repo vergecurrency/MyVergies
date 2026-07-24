@@ -11,6 +11,7 @@ test('should render correct contents', () => {
   const wallet = {
     name: 'Main Account',
     color: 'blue',
+    connectionStatus: 'connected',
     info: {
       wallet: {
         coin: 'test'
@@ -38,12 +39,16 @@ test('should render correct contents', () => {
   })
 
   expect(wrapper.text()).toContain(wallet.name)
+  expect(wrapper.text()).toContain('VWS API')
+  expect(wrapper.text()).toContain('Connected')
+  expect(wrapper.find('.wallet-vws-status-value').classes()).toContain('is-connected')
 })
 
 test('can reveal per-address balances', async () => {
   const wallet = {
     name: 'Main Account',
     color: 'blue',
+    connectionStatus: 'connected',
     info: {
       wallet: {
         coin: 'test'
@@ -89,4 +94,78 @@ test('can reveal per-address balances', async () => {
 
   expect(wrapper.text()).toContain('D8tF73Fd56BgsGGxe9ZQP4v3amU4cMxyMT')
   expect(wrapper.text()).toContain('xpub/0/0')
+})
+
+test('renders disconnected vws api status', () => {
+  const wallet = {
+    name: 'Main Account',
+    color: 'blue',
+    connectionStatus: 'disconnected',
+    info: {
+      wallet: {
+        coin: 'test'
+      },
+      balance: {
+        totalAmount: 123000000,
+        byAddress: []
+      }
+    },
+    txProposals: []
+  }
+
+  const wrapper = shallowMount(WalletView, {
+    localVue,
+    propsData: {
+      wallet
+    },
+    mocks: {
+      $i18n: {
+        t (key: string) {
+          return key
+        }
+      }
+    }
+  })
+
+  expect(wrapper.text()).toContain('VWS API')
+  expect(wrapper.text()).toContain('Disconnected')
+  expect(wrapper.find('.wallet-vws-status-value').classes()).toContain('is-disconnected')
+})
+
+test('keeps vws api status off electrumx wallets', () => {
+  const wallet = {
+    name: 'Main Account',
+    color: 'blue',
+    connectionStatus: 'connected',
+    info: {
+      wallet: {
+        backend: 'electrumx',
+        coin: 'test',
+        electrumConnected: true,
+        electrumServer: 'electrum.example:50002'
+      },
+      balance: {
+        totalAmount: 123000000,
+        byAddress: []
+      }
+    },
+    txProposals: []
+  }
+
+  const wrapper = shallowMount(WalletView, {
+    localVue,
+    propsData: {
+      wallet
+    },
+    mocks: {
+      $i18n: {
+        t (key: string) {
+          return key
+        }
+      }
+    }
+  })
+
+  expect(wrapper.text()).not.toContain('VWS API')
+  expect(wrapper.text()).toContain('ElectrumX connected')
 })

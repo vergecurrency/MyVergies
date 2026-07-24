@@ -40,6 +40,10 @@
               <p>
                 <money class="is-size-6 has-text-grey has-text-weight-semibold has-line-height-small" :amount="walletTotalAmount" convert/>
               </p>
+              <div v-if="isVwsWallet" class="wallet-vws-status">
+                <span class="wallet-vws-status-label">VWS API</span>
+                <span :class="['wallet-vws-status-value', vwsStatusClass]">{{ vwsStatusLabel }}</span>
+              </div>
               <b-switch
                 v-if="hasAddressBalances"
                 v-model="showAddressBalances"
@@ -173,6 +177,28 @@ export default {
     },
     isElectrumxWallet () {
       return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.backend === 'electrumx'
+    },
+    isVwsWallet () {
+      return !this.isElectrumxWallet
+    },
+    vwsStatus () {
+      return this.wallet && this.wallet.connectionStatus
+        ? this.wallet.connectionStatus
+        : 'connecting'
+    },
+    vwsStatusClass () {
+      return `is-${this.vwsStatus}`
+    },
+    vwsStatusLabel () {
+      switch (this.vwsStatus) {
+        case 'connected':
+          return 'Connected'
+        case 'disconnected':
+          return 'Disconnected'
+        case 'connecting':
+        default:
+          return 'Connecting'
+      }
     },
     electrumServerLabel () {
       return this.isElectrumxWallet && this.wallet.info.wallet.electrumServer
@@ -358,6 +384,44 @@ export default {
   opacity: 0.92;
 }
 
+.wallet-vws-status {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-top: 0.65rem;
+  flex-wrap: wrap;
+  font-size: 0.92rem;
+}
+
+.wallet-vws-status-label {
+  color: var(--rv-text-soft);
+  font-weight: 600;
+}
+
+.wallet-vws-status-value {
+  font-weight: 700;
+}
+
+.wallet-vws-status-value.is-connected {
+  color: #24dc8f;
+  text-shadow: 0 0 12px rgba(36, 220, 143, 0.2);
+}
+
+.wallet-vws-status-value.is-disconnected {
+  color: #ff5ba4;
+  text-shadow: 0 0 12px rgba(255, 91, 164, 0.2);
+}
+
+.wallet-vws-status-value.is-connecting {
+  color: #fff;
+  background: linear-gradient(90deg, #53f3ff 0%, #ff2f92 42%, #ffd166 72%, #53f3ff 100%);
+  background-size: 240% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: wallet-vws-status-gradient 1.6s linear infinite;
+}
+
 .wallet-address-balance-toggle {
   display: inline-flex;
   margin-top: 0.65rem;
@@ -456,6 +520,16 @@ export default {
   .wallet-address-balance-amount {
     margin-left: 0;
     text-align: left;
+  }
+}
+
+@keyframes wallet-vws-status-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 240% 50%;
   }
 }
 </style>
