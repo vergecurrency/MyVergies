@@ -74,7 +74,10 @@
         <div class="columns is-vcentered is-gapless">
           <div class="column is-10">
             <p class="has-text-weight-semibold" v-html="$i18n.t('transaction.txid')"/>
-            <p class="has-text-txid" v-html="transaction.txid"/>
+            <button id="copy-txid" class="has-text-txid" type="button" @click="copyTxid">
+              <span>{{ transaction.txid }}</span>
+              <b-icon icon="copy" size="is-small"/>
+            </button>
           </div>
           <div class="column has-text-right">
             <a id="show-txid-details" class="button is-rounded is-small" @click="showTxidDetails">
@@ -199,6 +202,10 @@ export default {
 
     showTxidDetails () {
       this.$electron.shell.openExternal(`${constants.explorer}/tx/${this.transaction.txid}`)
+    },
+
+    copyTxid () {
+      this.$electron.clipboard.writeText(this.transaction.txid)
     }
   }
 }
@@ -206,8 +213,23 @@ export default {
 
 <style scoped>
   .has-text-txid {
-    text-overflow: ellipsis;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    max-width: 100%;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .has-text-txid span {
+    min-width: 0;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .is-title-transaction-details {
