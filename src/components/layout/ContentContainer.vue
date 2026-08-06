@@ -8,6 +8,9 @@
         <router-link class="quick-nav-link" :to="{ name: 'games' }">
           {{ $i18n.t('main.quickNav.games') }}
         </router-link>
+        <router-link class="quick-nav-link" :to="{ name: 'verginals' }">
+          {{ $i18n.t('main.quickNav.verginals') }}
+        </router-link>
         <router-link class="quick-nav-link" :to="{ name: 'trade' }">
           {{ $i18n.t('main.quickNav.trade') }}
         </router-link>

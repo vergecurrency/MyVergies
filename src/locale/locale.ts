@@ -11,6 +11,7 @@ export interface LocaleDefinition {
     quickNav: {
       overview: string
       games: string
+      verginals: string
       trade: string
     }
     copiedSuccessfully: string

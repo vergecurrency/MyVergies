@@ -13,6 +13,7 @@ const nl: LocaleDefinition = {
     quickNav: {
       overview: 'Overzicht',
       games: 'Games',
+      verginals: 'Verginals',
       trade: 'Trade'
     },
     copiedSuccessfully: 'Yeah, succesvol gekopieerd!',

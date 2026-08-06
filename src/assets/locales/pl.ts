@@ -42,6 +42,7 @@ const pl: LocaleDefinition = {
     quickNav: {
       overview: 'Przeglad',
       games: 'Gry',
+      verginals: 'Verginals',
       trade: 'Trade'
     },
     version: 'wersja'

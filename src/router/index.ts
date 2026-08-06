@@ -16,6 +16,7 @@ import VwsServerSettingsView from '@/views/Settings/VwsServerSettingsView.vue'
 import ElectrumServerSettingsView from '@/views/Settings/ElectrumServerSettingsView.vue'
 import TradeView from '@/views/TradeView.vue'
 import GamesView from '@/views/GamesView.vue'
+import VerginalsView from '@/views/VerginalsView.vue'
 
 Vue.use(VueRouter)
 
@@ -133,6 +134,11 @@ const router = new VueRouter({
       path: '/games',
       name: 'games',
       component: GamesView
+    },
+    {
+      path: '/verginals',
+      name: 'verginals',
+      component: VerginalsView
     },
     {
       path: '*',

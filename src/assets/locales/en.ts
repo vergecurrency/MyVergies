@@ -13,6 +13,7 @@ const en: LocaleDefinition = {
     quickNav: {
       overview: 'Overview',
       games: 'Games',
+      verginals: 'Verginals',
       trade: 'Trade'
     },
     copiedSuccessfully: 'Yes, copied successfully!',
