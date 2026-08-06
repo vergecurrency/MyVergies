@@ -46,6 +46,8 @@ import {
   faFolderOpen,
   faFileContract,
   faFileImport,
+  faImages,
+  faSyncAlt,
   faTimes,
   faEllipsisV,
   faArrowAltCircleUp,
@@ -95,6 +97,8 @@ library.add(faExclamationTriangle)
 library.add(faFolderOpen)
 library.add(faFileContract)
 library.add(faFileImport)
+library.add(faImages)
+library.add(faSyncAlt)
 library.add(faTimes)
 library.add(faEllipsisV)
 library.add(faArrowAltCircleUp)

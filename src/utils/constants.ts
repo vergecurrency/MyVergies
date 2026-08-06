@@ -15,6 +15,7 @@ export default {
   priceApi: 'https://api.vergecurrency.network/price/api/v1/price',
   ipApi: 'https://api.vergecurrency.network/price/api/v1/ip',
   vwsApi: 'https://api.vergecurrency.network/vws/api',
+  verginalsApi: 'https://verginals.com',
   bnApi: 'https://api.vergecurrency.network/node/api',
   explorer: 'https://verge-blockchain.info',
   termsOfUse: 'https://vergecurrency.com/wallets/terms',
