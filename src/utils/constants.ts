@@ -13,6 +13,8 @@ export const eventConstants = {
 
 export default {
   priceApi: 'https://api.vergecurrency.network/price/api/v1/price',
+  coinGeckoPriceApi: 'https://api.coingecko.com/api/v3/simple/price',
+  coinMarketCapPriceApi: 'https://pro-api.coinmarketcap.com/trial-pro-api/v1/cryptocurrency/listings/latest',
   ipApi: 'https://api.vergecurrency.network/price/api/v1/ip',
   vwsApi: 'https://api.vergecurrency.network/vws/api',
   bnApi: 'https://api.vergecurrency.network/node/api',
