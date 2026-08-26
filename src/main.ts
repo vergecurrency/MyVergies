@@ -13,6 +13,9 @@ import constants from './utils/constants'
 import walletManager from '@/walletManager'
 import authManager from '@/authentication'
 import { ensureTorProxyState, markPrimaryApiReady } from '@/utils/torStartup'
+import { fetchXvgPrice } from '@/utils/priceApi'
+
+const PRICE_REFRESH_INTERVAL_MS = 60000
 
 Vue.use(walletManager, { store })
 Vue.use(authManager)
@@ -31,11 +34,10 @@ new Vue({
   methods: {
     ...mapActions(['updatePriceRate']),
     loadData () {
-      return axios.get(`${constants.priceApi}/${this.currentCurrencyCode}`)
-        .then(response => {
-          // @ts-ignore
-          this.updatePriceRate(response.data.price)
-        })
+      return fetchXvgPrice(this.currentCurrencyCode).then(price => {
+        // @ts-ignore
+        this.updatePriceRate(price)
+      })
     }
   },
   async mounted () {
@@ -47,7 +49,7 @@ new Vue({
 
     setInterval(() => {
       this.loadData().catch(() => undefined)
-    }, 30000)
+    }, PRICE_REFRESH_INTERVAL_MS)
 
     this.loadData().catch(() => undefined)
 
