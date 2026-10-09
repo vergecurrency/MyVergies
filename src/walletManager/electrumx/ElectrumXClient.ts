@@ -54,7 +54,7 @@ export interface ElectrumTransaction {
   vout: ElectrumTransactionVout[]
 }
 
-const REQUEST_SPACING_MS = 250
+const REQUEST_SPACING_MS = 75
 const CONNECTION_TIMEOUT_MS = 12000
 const REQUEST_TIMEOUT_MS = 45000
 
@@ -66,7 +66,7 @@ interface PendingElectrumRequest {
 }
 
 export default class ElectrumXClient {
-  protected static requestQueue: Promise<void> = Promise.resolve()
+  protected static requestQueues: Map<string, Promise<void>> = new Map()
   protected server: ElectrumServerConfig
   protected requestCounter: number
   protected useTor: boolean
@@ -141,12 +141,13 @@ export default class ElectrumXClient {
   }
 
   protected async queueRequest<T> (task: () => Promise<T>): Promise<T> {
-    const previous = ElectrumXClient.requestQueue
+    const queueKey = this.getQueueKey()
+    const previous = ElectrumXClient.requestQueues.get(queueKey) || Promise.resolve()
     let releaseQueue: () => void = () => {}
 
-    ElectrumXClient.requestQueue = new Promise(resolve => {
+    ElectrumXClient.requestQueues.set(queueKey, new Promise(resolve => {
       releaseQueue = resolve
-    })
+    }))
 
     await previous
 
@@ -155,6 +156,10 @@ export default class ElectrumXClient {
     } finally {
       setTimeout(releaseQueue, REQUEST_SPACING_MS)
     }
+  }
+
+  protected getQueueKey (): string {
+    return `${this.server.protocol}:${this.server.host}:${this.server.port}`
   }
 
   protected toScriptHash (address: string): string {

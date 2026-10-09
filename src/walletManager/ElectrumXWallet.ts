@@ -31,7 +31,7 @@ import WalletUtils from 'bitcore-wallet-client-xvg/lib/common/utils'
 
 const ADDRESS_GAP_LIMIT = 20
 const MAX_ADDRESS_SCAN = 200
-const ADDRESS_SCAN_BATCH_SIZE = 2
+const ADDRESS_SCAN_BATCH_SIZE = 6
 const FALLBACK_FEE_PER_KB = constants.feePerKb
 const MIN_TX_FEE = constants.feePerKb
 const MAX_FEE_PER_KB = 1000000
@@ -520,15 +520,47 @@ export default class ElectrumXWallet {
 
     this.transactions = []
 
-    for (const entry of Array.from(historyMap.values())) {
+    const historyEntries = Array.from(historyMap.values())
+      .sort((left, right) => {
+        if (left.height === right.height) {
+          return left.txHash.localeCompare(right.txHash)
+        }
+
+        if (left.height <= 0) {
+          return -1
+        }
+
+        if (right.height <= 0) {
+          return 1
+        }
+
+        return right.height - left.height
+      })
+
+    for (const entry of historyEntries) {
       try {
-        const transaction = await this.buildTransaction(entry, walletAddressSet, addressByValue)
+        const transactionDetails = await this.getTransactionDetails(entry.txHash)
+        const provisionalTransaction = this.buildProvisionalTransaction(entry, transactionDetails, walletAddressSet, addressByValue)
+
+        if (provisionalTransaction) {
+          nextTransactions.push(provisionalTransaction)
+          this.transactions = [...nextTransactions].sort((left, right) => right.time - left.time)
+        }
+
+        const transaction = await this.buildTransaction(entry, walletAddressSet, addressByValue, transactionDetails)
 
         if (!transaction) {
           continue
         }
 
-        nextTransactions.push(transaction)
+        const existingIndex = nextTransactions.findIndex(existing => existing.txid === transaction.txid)
+
+        if (existingIndex >= 0) {
+          nextTransactions.splice(existingIndex, 1, transaction)
+        } else {
+          nextTransactions.push(transaction)
+        }
+
         this.transactions = [...nextTransactions].sort((left, right) => right.time - left.time)
       } catch (error) {
         Log.warn(`Unable to build ElectrumX transaction ${entry.txHash}: ${String(error)}`)
@@ -758,9 +790,10 @@ export default class ElectrumXWallet {
   protected async buildTransaction (
     entry: ElectrumHistoryEntry,
     walletAddressSet: Set<string>,
-    addressByValue: Map<string, AddressInfo>
+    addressByValue: Map<string, AddressInfo>,
+    transactionDetails?: ElectrumTransaction
   ): Promise<Tx | null> {
-    const transaction = await this.getTransactionDetails(entry.txHash)
+    const transaction = transactionDetails || await this.getTransactionDetails(entry.txHash)
     const outputBreakdown = this.getTransactionOutputBreakdown(transaction, walletAddressSet)
     const inputBreakdown = await this.getTransactionInputBreakdown(transaction, walletAddressSet)
     const confirmations = Number(transaction.confirmations || (entry.height > 0 ? 1 : 0))
@@ -779,6 +812,37 @@ export default class ElectrumXWallet {
       confirmations,
       blockheight: entry.height,
       fees: inputBreakdown.fee,
+      time,
+      size: Number(transaction.size || 0),
+      action,
+      amount,
+      outputs: this.resolveDisplayOutputs(action, outputBreakdown, addressByValue),
+      createdOn: time
+    }
+  }
+
+  protected buildProvisionalTransaction (
+    entry: ElectrumHistoryEntry,
+    transaction: ElectrumTransaction,
+    walletAddressSet: Set<string>,
+    addressByValue: Map<string, AddressInfo>
+  ): Tx | null {
+    const outputBreakdown = this.getTransactionOutputBreakdown(transaction, walletAddressSet)
+    const confirmations = Number(transaction.confirmations || (entry.height > 0 ? 1 : 0))
+    const action = confirmations > 0 ? 'received' : 'receiving'
+    const amount = outputBreakdown.walletValue
+    const time = Number(transaction.blocktime || transaction.time || Math.floor(Date.now() / 1000))
+
+    if (amount <= 0) {
+      return null
+    }
+
+    return {
+      id: transaction.txid,
+      txid: transaction.txid,
+      confirmations,
+      blockheight: entry.height,
+      fees: 0,
       time,
       size: Number(transaction.size || 0),
       action,
