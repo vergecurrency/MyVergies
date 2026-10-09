@@ -50,6 +50,10 @@ export default class ElectrumXWallet {
   protected configDirty: boolean
   protected refreshPromise: Promise<Info> | null
   protected txHistoryPromise: Promise<Tx[]> | null
+  protected txClassificationPromise: Promise<void> | null
+  protected subscribedAddresses: Set<string>
+  protected subscriptionRefreshTimer: NodeJS.Timeout | null
+  protected subscriptionStartTimer: NodeJS.Timeout | null
   public identifier: string
   public name?: string
   public color?: string
@@ -72,6 +76,10 @@ export default class ElectrumXWallet {
     this.configDirty = false
     this.refreshPromise = null
     this.txHistoryPromise = null
+    this.txClassificationPromise = null
+    this.subscribedAddresses = new Set()
+    this.subscriptionRefreshTimer = null
+    this.subscriptionStartTimer = null
     this.client = new ElectrumXClient(normalizeElectrumServer(server), useTor)
     this.info = {
       name: this.name || walletConfig.name,
@@ -106,7 +114,7 @@ export default class ElectrumXWallet {
   }
 
   public async status (): Promise<Info> {
-    if (this.txHistoryPromise && this.info?.wallet.electrumConnected) {
+    if (this.isSyncingTransactions() && this.info?.wallet.electrumConnected) {
       this.setElectrumConnectionState(true, true)
       return this.info
     }
@@ -139,7 +147,7 @@ export default class ElectrumXWallet {
     this.txHistoryPromise = this.fetchTxHistoryInternal()
       .finally(() => {
         this.txHistoryPromise = null
-        if (this.info?.wallet.electrumConnected) {
+        if (this.info?.wallet.electrumConnected && !this.txClassificationPromise) {
           this.setElectrumConnectionState(true, false)
         }
       })
@@ -288,6 +296,7 @@ export default class ElectrumXWallet {
         this.addresses.unshift(staticAddress)
       }
 
+      this.subscribeToAddressChanges([staticAddress])
       return staticAddress
     }
 
@@ -298,6 +307,7 @@ export default class ElectrumXWallet {
       nextExternalIndex: this.nextExternalIndex
     })
     this.addresses.unshift(addressInfo)
+    this.subscribeToAddressChanges([addressInfo])
     return addressInfo
   }
 
@@ -374,6 +384,8 @@ export default class ElectrumXWallet {
   public setElectrumServer (server: ElectrumServerConfig): void {
     this.client = new ElectrumXClient(server, this.useTor)
     this.hasScannedAddressSpace = false
+    this.subscribedAddresses.clear()
+    this.clearSubscriptionStartTimer()
     this.walletConfig.electrumServer = serializeElectrumServer(server)
     this.setElectrumConnectionState(false)
     this.markConfigDirty()
@@ -486,6 +498,7 @@ export default class ElectrumXWallet {
         }
       }
 
+      this.scheduleAddressSubscriptions(activeAddresses)
       return this.info
     } catch (error) {
       this.setElectrumConnectionState(false)
@@ -517,6 +530,7 @@ export default class ElectrumXWallet {
     }
 
     const nextTransactions: Tx[] = []
+    const transactionDetailsByHash = new Map<string, ElectrumTransaction>()
 
     this.transactions = []
 
@@ -537,37 +551,79 @@ export default class ElectrumXWallet {
         return right.height - left.height
       })
 
-    for (const entry of historyEntries) {
+    await Promise.all(historyEntries.map(async entry => {
       try {
         const transactionDetails = await this.getTransactionDetails(entry.txHash)
+        transactionDetailsByHash.set(entry.txHash, transactionDetails)
         const provisionalTransaction = this.buildProvisionalTransaction(entry, transactionDetails, walletAddressSet, addressByValue)
 
         if (provisionalTransaction) {
           nextTransactions.push(provisionalTransaction)
           this.transactions = [...nextTransactions].sort((left, right) => right.time - left.time)
         }
-
-        const transaction = await this.buildTransaction(entry, walletAddressSet, addressByValue, transactionDetails)
-
-        if (!transaction) {
-          continue
-        }
-
-        const existingIndex = nextTransactions.findIndex(existing => existing.txid === transaction.txid)
-
-        if (existingIndex >= 0) {
-          nextTransactions.splice(existingIndex, 1, transaction)
-        } else {
-          nextTransactions.push(transaction)
-        }
-
-        this.transactions = [...nextTransactions].sort((left, right) => right.time - left.time)
       } catch (error) {
-        Log.warn(`Unable to build ElectrumX transaction ${entry.txHash}: ${String(error)}`)
+        Log.warn(`Unable to load ElectrumX transaction ${entry.txHash}: ${String(error)}`)
       }
-    }
+    }))
+
+    this.startTransactionClassification(historyEntries, walletAddressSet, addressByValue, transactionDetailsByHash)
+    this.scheduleAddressSubscriptions(walletAddresses)
 
     return this.transactions
+  }
+
+  protected startTransactionClassification (
+    historyEntries: ElectrumHistoryEntry[],
+    walletAddressSet: Set<string>,
+    addressByValue: Map<string, AddressInfo>,
+    transactionDetailsByHash: Map<string, ElectrumTransaction>
+  ): void {
+    if (this.txClassificationPromise) {
+      return
+    }
+
+    this.txClassificationPromise = this.classifyTransactions(historyEntries, walletAddressSet, addressByValue, transactionDetailsByHash)
+      .catch(error => {
+        Log.warn(`Unable to complete ElectrumX transaction classification: ${String(error)}`)
+      })
+      .finally(() => {
+        this.txClassificationPromise = null
+        if (this.info?.wallet.electrumConnected && !this.txHistoryPromise) {
+          this.setElectrumConnectionState(true, false)
+        }
+      })
+  }
+
+  protected async classifyTransactions (
+    historyEntries: ElectrumHistoryEntry[],
+    walletAddressSet: Set<string>,
+    addressByValue: Map<string, AddressInfo>,
+    transactionDetailsByHash: Map<string, ElectrumTransaction>
+  ): Promise<void> {
+    for (const entry of historyEntries) {
+      try {
+        const transaction = await this.buildTransaction(
+          entry,
+          walletAddressSet,
+          addressByValue,
+          transactionDetailsByHash.get(entry.txHash)
+        )
+
+        const existingTransactions = this.transactions.filter(existing => existing.txid !== entry.txHash)
+
+        if (transaction) {
+          existingTransactions.push(transaction)
+        }
+
+        this.transactions = existingTransactions.sort((left, right) => right.time - left.time)
+      } catch (error) {
+        Log.warn(`Unable to classify ElectrumX transaction ${entry.txHash}: ${String(error)}`)
+      }
+    }
+  }
+
+  protected isSyncingTransactions (): boolean {
+    return Boolean(this.txHistoryPromise || this.txClassificationPromise)
   }
 
   protected setElectrumConnectionState (connected: boolean, syncing: boolean = false): void {
@@ -622,6 +678,57 @@ export default class ElectrumXWallet {
     }
 
     return activeAddresses
+  }
+
+  protected scheduleAddressSubscriptions (addresses: AddressInfo[]): void {
+    this.clearSubscriptionStartTimer()
+
+    this.subscriptionStartTimer = setTimeout(() => {
+      this.subscriptionStartTimer = null
+      this.subscribeToAddressChanges(addresses)
+    }, 3000)
+  }
+
+  protected clearSubscriptionStartTimer (): void {
+    if (this.subscriptionStartTimer) {
+      clearTimeout(this.subscriptionStartTimer)
+      this.subscriptionStartTimer = null
+    }
+  }
+
+  protected subscribeToAddressChanges (addresses: AddressInfo[]): void {
+    addresses.forEach((address, index) => {
+      if (this.subscribedAddresses.has(address.address)) {
+        return
+      }
+
+      this.subscribedAddresses.add(address.address)
+      setTimeout(() => {
+        this.client.subscribeAddress(address.address, changedAddress => {
+          this.handleSubscribedAddressChange(changedAddress)
+        }).catch(error => {
+          this.subscribedAddresses.delete(address.address)
+          Log.warn(`Unable to subscribe ElectrumX address ${address.address}: ${String(error)}`)
+        })
+      }, index * 150)
+    })
+  }
+
+  protected handleSubscribedAddressChange (address: string): void {
+    Log.info(`ElectrumX subscription changed for ${address}`)
+
+    if (this.subscriptionRefreshTimer) {
+      clearTimeout(this.subscriptionRefreshTimer)
+    }
+
+    this.subscriptionRefreshTimer = setTimeout(() => {
+      this.subscriptionRefreshTimer = null
+      this.refreshWalletState()
+        .then(() => this.fetchTxHistory())
+        .catch(error => {
+          Log.warn(`Unable to refresh ElectrumX wallet after subscription update: ${String(error)}`)
+        })
+    }, 1000)
   }
 
   protected async discoverAddresses (change: 0 | 1): Promise<AddressInfo[]> {

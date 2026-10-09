@@ -54,7 +54,7 @@ export interface ElectrumTransaction {
   vout: ElectrumTransactionVout[]
 }
 
-const REQUEST_SPACING_MS = 75
+const MAX_IN_FLIGHT_REQUESTS = 4
 const CONNECTION_TIMEOUT_MS = 12000
 const REQUEST_TIMEOUT_MS = 45000
 
@@ -65,8 +65,15 @@ interface PendingElectrumRequest {
   timeout: NodeJS.Timeout
 }
 
+interface ElectrumRequestQueue {
+  active: number
+  waiting: Array<() => void>
+}
+
+type ElectrumSubscriptionHandler = (address: string, status: string | null) => void
+
 export default class ElectrumXClient {
-  protected static requestQueues: Map<string, Promise<void>> = new Map()
+  protected static requestQueues: Map<string, ElectrumRequestQueue> = new Map()
   protected server: ElectrumServerConfig
   protected requestCounter: number
   protected useTor: boolean
@@ -74,6 +81,11 @@ export default class ElectrumXClient {
   protected connectPromise: Promise<net.Socket | tls.TLSSocket> | null
   protected responseBuffer: string
   protected pendingRequests: Map<number, PendingElectrumRequest>
+  protected subscriptionHandlers: Map<string, Set<ElectrumSubscriptionHandler>>
+  protected subscriptionStatuses: Map<string, string | null>
+  protected subscriptionAddresses: Map<string, string>
+  protected activeSubscriptions: Set<string>
+  protected subscriptionRequests: Map<string, Promise<void>>
 
   constructor (server: ElectrumServerConfig, useTor: boolean = true) {
     this.server = server
@@ -83,6 +95,11 @@ export default class ElectrumXClient {
     this.connectPromise = null
     this.responseBuffer = ''
     this.pendingRequests = new Map()
+    this.subscriptionHandlers = new Map()
+    this.subscriptionStatuses = new Map()
+    this.subscriptionAddresses = new Map()
+    this.activeSubscriptions = new Set()
+    this.subscriptionRequests = new Map()
   }
 
   public async ping (): Promise<string> {
@@ -140,26 +157,85 @@ export default class ElectrumXClient {
     return this.request<string>('blockchain.transaction.broadcast', [rawTransaction])
   }
 
+  public async subscribeAddress (
+    address: string,
+    handler: ElectrumSubscriptionHandler
+  ): Promise<() => void> {
+    const scriptHash = this.toScriptHash(address)
+    const handlers = this.subscriptionHandlers.get(scriptHash) || new Set<ElectrumSubscriptionHandler>()
+    handlers.add(handler)
+    this.subscriptionHandlers.set(scriptHash, handlers)
+    this.subscriptionAddresses.set(scriptHash, address)
+
+    await this.ensureSubscription(scriptHash)
+
+    return () => {
+      const currentHandlers = this.subscriptionHandlers.get(scriptHash)
+
+      if (!currentHandlers) {
+        return
+      }
+
+      currentHandlers.delete(handler)
+
+      if (currentHandlers.size === 0) {
+        this.subscriptionHandlers.delete(scriptHash)
+      }
+    }
+  }
+
   protected async queueRequest<T> (task: () => Promise<T>): Promise<T> {
-    const queueKey = this.getQueueKey()
-    const previous = ElectrumXClient.requestQueues.get(queueKey) || Promise.resolve()
-    let releaseQueue: () => void = () => {}
-
-    ElectrumXClient.requestQueues.set(queueKey, new Promise(resolve => {
-      releaseQueue = resolve
-    }))
-
-    await previous
+    const queue = this.getRequestQueue()
+    await this.acquireRequestSlot(queue)
 
     try {
       return await task()
     } finally {
-      setTimeout(releaseQueue, REQUEST_SPACING_MS)
+      this.releaseRequestSlot(queue)
     }
   }
 
   protected getQueueKey (): string {
     return `${this.server.protocol}:${this.server.host}:${this.server.port}`
+  }
+
+  protected getRequestQueue (): ElectrumRequestQueue {
+    const queueKey = this.getQueueKey()
+    const existing = ElectrumXClient.requestQueues.get(queueKey)
+
+    if (existing) {
+      return existing
+    }
+
+    const queue = {
+      active: 0,
+      waiting: []
+    }
+
+    ElectrumXClient.requestQueues.set(queueKey, queue)
+    return queue
+  }
+
+  protected async acquireRequestSlot (queue: ElectrumRequestQueue): Promise<void> {
+    if (queue.active < MAX_IN_FLIGHT_REQUESTS) {
+      queue.active++
+      return
+    }
+
+    await new Promise<void>(resolve => {
+      queue.waiting.push(resolve)
+    })
+  }
+
+  protected releaseRequestSlot (queue: ElectrumRequestQueue): void {
+    const next = queue.waiting.shift()
+
+    if (next) {
+      next()
+      return
+    }
+
+    queue.active = Math.max(queue.active - 1, 0)
   }
 
   protected toScriptHash (address: string): string {
@@ -170,6 +246,30 @@ export default class ElectrumXClient {
 
   protected async request<T> (method: string, params: any[] = []): Promise<T> {
     return this.queueRequest(() => this.performRequest<T>(method, params))
+  }
+
+  protected async ensureSubscription (scriptHash: string): Promise<void> {
+    if (this.activeSubscriptions.has(scriptHash)) {
+      return
+    }
+
+    const pendingRequest = this.subscriptionRequests.get(scriptHash)
+
+    if (pendingRequest) {
+      return pendingRequest
+    }
+
+    const request = this.request<string | null>('blockchain.scripthash.subscribe', [scriptHash])
+      .then(status => {
+        this.subscriptionStatuses.set(scriptHash, status)
+        this.activeSubscriptions.add(scriptHash)
+      })
+      .finally(() => {
+        this.subscriptionRequests.delete(scriptHash)
+      })
+
+    this.subscriptionRequests.set(scriptHash, request)
+    return request
   }
 
   protected async performRequest<T> (method: string, params: any[] = []): Promise<T> {
@@ -223,6 +323,7 @@ export default class ElectrumXClient {
         this.connectPromise = null
         Log.info(`ElectrumX connected ${this.server.host}:${this.server.port} (${this.server.protocol})`)
         await this.identifyClient(socket)
+        await this.restoreSubscriptions()
         return socket
       })
       .catch(error => {
@@ -236,6 +337,17 @@ export default class ElectrumXClient {
   protected async identifyClient (socket: net.Socket | tls.TLSSocket): Promise<void> {
     await this.sendSocketRequest(socket, 'server.version', ['VergeSlim', '1.4'])
     Log.info(`ElectrumX identified client with ${this.server.host}:${this.server.port}`)
+  }
+
+  protected async restoreSubscriptions (): Promise<void> {
+    const scriptHashes = Array.from(this.subscriptionHandlers.keys())
+
+    if (scriptHashes.length === 0) {
+      return
+    }
+
+    await Promise.all(scriptHashes.map(scriptHash => this.ensureSubscription(scriptHash)))
+    Log.info(`ElectrumX restored ${scriptHashes.length} subscriptions with ${this.server.host}:${this.server.port}`)
   }
 
   protected bindPersistentSocket (socket: net.Socket | tls.TLSSocket): void {
@@ -276,6 +388,11 @@ export default class ElectrumXClient {
         return
       }
 
+      if (parsed.method === 'blockchain.scripthash.subscribe') {
+        this.handleSubscriptionNotification(parsed.params || [])
+        continue
+      }
+
       const pending = this.pendingRequests.get(Number(parsed.id))
 
       if (!pending) {
@@ -296,6 +413,34 @@ export default class ElectrumXClient {
     }
   }
 
+  protected handleSubscriptionNotification (params: any[]): void {
+    const scriptHash = String(params[0] || '')
+    const status = params.length > 1 && params[1] !== undefined && params[1] !== null
+      ? String(params[1])
+      : null
+
+    if (!scriptHash || !this.subscriptionHandlers.has(scriptHash)) {
+      return
+    }
+
+    const previousStatus = this.subscriptionStatuses.get(scriptHash)
+    this.subscriptionStatuses.set(scriptHash, status)
+
+    if (previousStatus === status) {
+      return
+    }
+
+    const address = this.subscriptionAddresses.get(scriptHash) || scriptHash
+
+    for (const handler of this.subscriptionHandlers.get(scriptHash) || []) {
+      try {
+        handler(address, status)
+      } catch (error) {
+        Log.warn(`ElectrumX subscription handler failed for ${address}: ${String(error)}`)
+      }
+    }
+  }
+
   protected dropSocket (error: Error): void {
     if (!this.socket && this.pendingRequests.size === 0) {
       return
@@ -304,6 +449,9 @@ export default class ElectrumXClient {
     const socket = this.socket
     this.socket = null
     this.responseBuffer = ''
+    this.activeSubscriptions.clear()
+    this.subscriptionStatuses.clear()
+    this.subscriptionRequests.clear()
 
     if (socket) {
       socket.removeAllListeners()
