@@ -379,7 +379,7 @@ const getTorVersion = () => new Promise((resolve) => {
     }
 
     const output = `${stdout}\n${stderr}`
-    const match = output.match(/Tor version ([^\s]+)\./i)
+    const match = output.match(/Tor version\s+([0-9]+(?:\.[0-9]+){2,3})/i)
     resolve(match ? match[1] : 'Unknown')
   })
 })
