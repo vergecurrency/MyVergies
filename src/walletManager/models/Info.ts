@@ -10,6 +10,7 @@ export default interface Info {
     singleAddress: boolean
     supportsSending?: boolean
     electrumConnected?: boolean
+    electrumSyncing?: boolean
     electrumServer?: string
   }
 }

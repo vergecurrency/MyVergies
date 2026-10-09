@@ -15,6 +15,9 @@
       <p>
         <Money class="is-size-7" :amount="walletTotalAmount" convert/>
       </p>
+      <p v-if="isElectrumxWallet" :class="['wallet-menu-card-status', electrumStatusClass]">
+        {{ electrumStatusLabel }}
+      </p>
     </div>
   </div>
 </template>
@@ -62,6 +65,23 @@ export default {
       return this.wallet && this.wallet.info && this.wallet.info.balance
         ? this.wallet.info.balance.totalAmount || 0
         : 0
+    },
+    isElectrumxWallet () {
+      return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.backend === 'electrumx'
+    },
+    electrumStatusClass () {
+      if (this.wallet.info.wallet.electrumSyncing) {
+        return 'is-syncing'
+      }
+
+      return this.wallet.info.wallet.electrumConnected ? 'is-connected' : 'is-disconnected'
+    },
+    electrumStatusLabel () {
+      if (this.wallet.info.wallet.electrumSyncing) {
+        return 'Connected - retrieving wallet info'
+      }
+
+      return this.wallet.info.wallet.electrumConnected ? 'ElectrumX connected' : 'ElectrumX disconnected'
     }
   }
 }
@@ -207,5 +227,25 @@ export default {
   .wallet-menu-card-title {
     letter-spacing: 0.1em;
     text-shadow: 0 0 16px rgba(83, 243, 255, 0.16);
+  }
+
+  .wallet-menu-card-status {
+    margin-top: 0.18rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.24);
+  }
+
+  .wallet-menu-card-status.is-connected {
+    color: #74ffbe;
+  }
+
+  .wallet-menu-card-status.is-syncing {
+    color: #ffe28f;
+  }
+
+  .wallet-menu-card-status.is-disconnected {
+    color: #ff9cc7;
   }
 </style>

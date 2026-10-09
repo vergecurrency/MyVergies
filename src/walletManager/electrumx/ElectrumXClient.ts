@@ -1,6 +1,7 @@
 import crypto from 'crypto'
 import net from 'net'
 import tls from 'tls'
+import Log from 'electron-log'
 // @ts-ignore
 import Bitcore from 'bitcore-lib'
 import { ElectrumServerConfig } from '@/utils/electrumServers'
@@ -53,25 +54,40 @@ export interface ElectrumTransaction {
   vout: ElectrumTransactionVout[]
 }
 
+const REQUEST_SPACING_MS = 250
+const CONNECTION_TIMEOUT_MS = 12000
+const REQUEST_TIMEOUT_MS = 45000
+
+interface PendingElectrumRequest {
+  method: string
+  resolve: (value: any) => void
+  reject: (error: Error) => void
+  timeout: NodeJS.Timeout
+}
+
 export default class ElectrumXClient {
+  protected static requestQueue: Promise<void> = Promise.resolve()
   protected server: ElectrumServerConfig
   protected requestCounter: number
   protected useTor: boolean
+  protected socket: net.Socket | tls.TLSSocket | null
+  protected connectPromise: Promise<net.Socket | tls.TLSSocket> | null
+  protected responseBuffer: string
+  protected pendingRequests: Map<number, PendingElectrumRequest>
 
   constructor (server: ElectrumServerConfig, useTor: boolean = true) {
     this.server = server
     this.requestCounter = 0
     this.useTor = useTor
+    this.socket = null
+    this.connectPromise = null
+    this.responseBuffer = ''
+    this.pendingRequests = new Map()
   }
 
   public async ping (): Promise<string> {
-    const result = await this.request<any>('server.version', ['VergeSlim', '1.4'])
-
-    if (Array.isArray(result)) {
-      return result.join(' / ')
-    }
-
-    return String(result || 'unknown')
+    await this.request<any>('server.ping', [])
+    return 'ok'
   }
 
   public getServer (): ElectrumServerConfig {
@@ -124,6 +140,23 @@ export default class ElectrumXClient {
     return this.request<string>('blockchain.transaction.broadcast', [rawTransaction])
   }
 
+  protected async queueRequest<T> (task: () => Promise<T>): Promise<T> {
+    const previous = ElectrumXClient.requestQueue
+    let releaseQueue: () => void = () => {}
+
+    ElectrumXClient.requestQueue = new Promise(resolve => {
+      releaseQueue = resolve
+    })
+
+    await previous
+
+    try {
+      return await task()
+    } finally {
+      setTimeout(releaseQueue, REQUEST_SPACING_MS)
+    }
+  }
+
   protected toScriptHash (address: string): string {
     const script = Bitcore.Script.buildPublicKeyHashOut(address).toBuffer()
     const digest = crypto.createHash('sha256').update(script).digest()
@@ -131,113 +164,160 @@ export default class ElectrumXClient {
   }
 
   protected async request<T> (method: string, params: any[] = []): Promise<T> {
+    return this.queueRequest(() => this.performRequest<T>(method, params))
+  }
+
+  protected async performRequest<T> (method: string, params: any[] = []): Promise<T> {
+    Log.info(`ElectrumX request ${method} -> ${this.server.host}:${this.server.port} (${this.server.protocol})`)
+
+    const socket = await this.ensureSocket()
+
+    return this.sendSocketRequest<T>(socket, method, params)
+  }
+
+  protected sendSocketRequest<T> (socket: net.Socket | tls.TLSSocket, method: string, params: any[] = []): Promise<T> {
     const id = ++this.requestCounter
-    const helloId = method === 'server.version' ? null : ++this.requestCounter
     const payload = JSON.stringify({ jsonrpc: '2.0', id, method, params }) + '\n'
-    const helloPayload = helloId === null
-      ? ''
-      : JSON.stringify({
-        jsonrpc: '2.0',
-        id: helloId,
-        method: 'server.version',
-        params: ['VergeSlim', '1.4']
-      }) + '\n'
 
     return new Promise<T>((resolve, reject) => {
-      let socket: net.Socket | tls.TLSSocket | null = null
-      let responseBuffer = ''
-      let settled = false
+      const timeout = setTimeout(() => {
+        this.pendingRequests.delete(id)
+        reject(new Error(`ElectrumX request timed out: ${method}`))
+      }, REQUEST_TIMEOUT_MS)
 
-      const finalize = (handler: () => void) => {
-        if (settled) {
-          return
+      this.pendingRequests.set(id, {
+        method,
+        resolve,
+        reject,
+        timeout
+      })
+
+      socket.write(payload, error => {
+        if (error) {
+          this.pendingRequests.delete(id)
+          clearTimeout(timeout)
+          reject(error)
         }
-
-        settled = true
-        if (socket) {
-          socket.removeAllListeners()
-          socket.destroy()
-        }
-        handler()
-      }
-
-      const bindSocket = (boundSocket: net.Socket | tls.TLSSocket) => {
-        socket = boundSocket
-        socket.setTimeout(12000)
-
-        socket.on('data', chunk => {
-          responseBuffer += chunk.toString()
-          const lines = responseBuffer.split('\n')
-          responseBuffer = lines.pop() || ''
-
-          for (const line of lines) {
-            if (!line.trim()) {
-              continue
-            }
-
-            try {
-              const parsed = JSON.parse(line)
-
-              if (parsed.id !== id) {
-                if (helloId !== null && parsed.id === helloId) {
-                  if (parsed.error) {
-                    finalize(() => reject(new Error(parsed.error.message || 'ElectrumX server rejected client identification')))
-                  }
-                  continue
-                }
-
-                continue
-              }
-
-              if (parsed.error) {
-                finalize(() => reject(new Error(parsed.error.message || `ElectrumX ${method} failed`)))
-                return
-              }
-
-              finalize(() => resolve(parsed.result as T))
-              return
-            } catch (error) {
-              finalize(() => reject(error))
-              return
-            }
-          }
-        })
-
-        socket.on('timeout', () => {
-          finalize(() => reject(new Error(`ElectrumX request timed out: ${method}`)))
-        })
-
-        socket.on('error', error => {
-          finalize(() => reject(error))
-        })
-
-        socket.on('end', () => {
-          if (!settled) {
-            finalize(() => reject(new Error(`ElectrumX connection ended before reply: ${method}`)))
-          }
-        })
-      }
-
-      this.createSocket().then(createdSocket => {
-        bindSocket(createdSocket)
-
-        if (!socket) {
-          finalize(() => reject(new Error('ElectrumX socket was not created')))
-          return
-        }
-
-        if (helloPayload) {
-          socket.write(helloPayload)
-        }
-
-        socket.write(payload)
-      }).catch(error => {
-        finalize(() => reject(error))
       })
     })
   }
 
+  protected async ensureSocket (): Promise<net.Socket | tls.TLSSocket> {
+    if (this.socket && !this.socket.destroyed) {
+      return this.socket
+    }
+
+    if (this.connectPromise) {
+      return this.connectPromise
+    }
+
+    this.connectPromise = this.createSocket()
+      .then(async socket => {
+        this.bindPersistentSocket(socket)
+        this.socket = socket
+        this.connectPromise = null
+        Log.info(`ElectrumX connected ${this.server.host}:${this.server.port} (${this.server.protocol})`)
+        await this.identifyClient(socket)
+        return socket
+      })
+      .catch(error => {
+        this.connectPromise = null
+        throw error
+      })
+
+    return this.connectPromise
+  }
+
+  protected async identifyClient (socket: net.Socket | tls.TLSSocket): Promise<void> {
+    await this.sendSocketRequest(socket, 'server.version', ['VergeSlim', '1.4'])
+    Log.info(`ElectrumX identified client with ${this.server.host}:${this.server.port}`)
+  }
+
+  protected bindPersistentSocket (socket: net.Socket | tls.TLSSocket): void {
+    this.responseBuffer = ''
+    socket.setTimeout(60000)
+
+    socket.on('data', chunk => this.handleSocketData(chunk))
+    socket.on('timeout', () => {
+      this.dropSocket(new Error(`ElectrumX connection timed out: ${this.server.host}:${this.server.port}`))
+    })
+    socket.on('error', error => {
+      this.dropSocket(error)
+    })
+    socket.on('end', () => {
+      this.dropSocket(new Error(`ElectrumX connection ended: ${this.server.host}:${this.server.port}`))
+    })
+    socket.on('close', () => {
+      this.dropSocket(new Error(`ElectrumX connection closed: ${this.server.host}:${this.server.port}`))
+    })
+  }
+
+  protected handleSocketData (chunk: Buffer): void {
+    this.responseBuffer += chunk.toString()
+    const lines = this.responseBuffer.split('\n')
+    this.responseBuffer = lines.pop() || ''
+
+    for (const line of lines) {
+      if (!line.trim()) {
+        continue
+      }
+
+      let parsed: any
+
+      try {
+        parsed = JSON.parse(line)
+      } catch (error) {
+        this.dropSocket(error as Error)
+        return
+      }
+
+      const pending = this.pendingRequests.get(Number(parsed.id))
+
+      if (!pending) {
+        continue
+      }
+
+      this.pendingRequests.delete(Number(parsed.id))
+      clearTimeout(pending.timeout)
+
+      if (parsed.error) {
+        Log.warn(`ElectrumX request ${pending.method} rejected by ${this.server.host}:${this.server.port}: ${parsed.error.message || 'unknown error'}`)
+        pending.reject(new Error(parsed.error.message || `ElectrumX ${pending.method} failed`))
+        continue
+      }
+
+      Log.info(`ElectrumX request ${pending.method} completed`)
+      pending.resolve(parsed.result)
+    }
+  }
+
+  protected dropSocket (error: Error): void {
+    if (!this.socket && this.pendingRequests.size === 0) {
+      return
+    }
+
+    const socket = this.socket
+    this.socket = null
+    this.responseBuffer = ''
+
+    if (socket) {
+      socket.removeAllListeners()
+      socket.destroy()
+    }
+
+    for (const pending of this.pendingRequests.values()) {
+      clearTimeout(pending.timeout)
+      pending.reject(error)
+    }
+
+    this.pendingRequests.clear()
+  }
+
   protected async createSocket (): Promise<net.Socket | tls.TLSSocket> {
+    return this.withTimeout(this.openSocket(), CONNECTION_TIMEOUT_MS, `ElectrumX connection timed out: ${this.server.host}:${this.server.port}`)
+  }
+
+  protected async openSocket (): Promise<net.Socket | tls.TLSSocket> {
     const baseSocket = this.useTor
       ? await connectViaTorSocks(this.server.host, this.server.port)
       : await this.connectDirect()
@@ -283,5 +363,25 @@ export default class ElectrumXClient {
       socket.once('connect', onConnect)
       socket.once('error', onError)
     })
+  }
+
+  protected async withTimeout<T> (promise: Promise<T>, timeoutMs: number, message: string): Promise<T> {
+    let timeout: NodeJS.Timeout | null = null
+
+    try {
+      return await Promise.race([
+        promise,
+        new Promise<T>((resolve, reject) => {
+          if (resolve === null) {
+            return
+          }
+          timeout = setTimeout(() => reject(new Error(message)), timeoutMs)
+        })
+      ])
+    } finally {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
   }
 }

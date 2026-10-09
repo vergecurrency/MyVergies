@@ -42,7 +42,7 @@ module.exports = {
   },
   win: {
     icon: 'dist_electron/icons/icon.ico',
-    signAndEditExecutable: false,
+    signExecutable: false,
     target: [
       {
         target: 'nsis',

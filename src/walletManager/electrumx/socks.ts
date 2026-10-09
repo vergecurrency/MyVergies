@@ -20,6 +20,7 @@ const readOnce = (socket: net.Socket) => new Promise<Buffer>((resolve, reject) =
     socket.removeListener('error', onError)
     socket.removeListener('close', onClose)
     socket.removeListener('end', onEnd)
+    socket.removeListener('timeout', onTimeout)
   }
 
   const onData = (chunk: Buffer) => {
@@ -42,10 +43,16 @@ const readOnce = (socket: net.Socket) => new Promise<Buffer>((resolve, reject) =
     reject(new Error('SOCKS connection ended unexpectedly'))
   }
 
+  const onTimeout = () => {
+    cleanup()
+    reject(new Error('SOCKS connection timed out'))
+  }
+
   socket.once('data', onData)
   socket.once('error', onError)
   socket.once('close', onClose)
   socket.once('end', onEnd)
+  socket.once('timeout', onTimeout)
 })
 
 export const connectViaTorSocks = async (host: string, port: number): Promise<net.Socket> => {
@@ -60,6 +67,7 @@ export const connectViaTorSocks = async (host: string, port: number): Promise<ne
     const cleanup = () => {
       socket.removeListener('connect', onConnect)
       socket.removeListener('error', onError)
+      socket.removeListener('timeout', onTimeout)
     }
 
     const onConnect = () => {
@@ -72,8 +80,14 @@ export const connectViaTorSocks = async (host: string, port: number): Promise<ne
       reject(error)
     }
 
+    const onTimeout = () => {
+      cleanup()
+      reject(new Error('Timed out connecting to Tor SOCKS proxy'))
+    }
+
     socket.once('connect', onConnect)
     socket.once('error', onError)
+    socket.once('timeout', onTimeout)
   })
 
   try {

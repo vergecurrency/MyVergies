@@ -22,10 +22,15 @@ export default class WalletManager {
   protected config?: ManagerConfig
   protected ticker?: Timeout
   protected initialHydrationTimer?: Timeout
+  protected syncPromise: Promise<void> | null
   protected statusReporter?: (phase: string) => void
   protected torEnabled: boolean = true
 
   public readonly wallets: Array<Wallet | ElectrumXWallet> = []
+
+  constructor () {
+    this.syncPromise = null
+  }
 
   public setStatusReporter (statusReporter: (phase: string) => void) {
     this.statusReporter = statusReporter
@@ -155,6 +160,7 @@ export default class WalletManager {
   protected async initializeWallet (walletConfig: WalletConfigItem): Promise<Wallet | ElectrumXWallet> {
     if (walletConfig.backend === 'electrumx') {
       const wallet = new ElectrumXWallet(walletConfig, ElectrumXWallet.resolveServerConfig(walletConfig), this.torEnabled)
+      Log.info(`Starting ElectrumX wallet "${walletConfig.name}"`)
       this.retryStartupOperation(`connect wallet "${walletConfig.name}"`, () => wallet.open())
         .catch((error) => {
           Log.warn(`ElectrumX wallet "${walletConfig.name}" will stay queued for later sync: ${error}`)
@@ -222,32 +228,16 @@ export default class WalletManager {
 
   protected startTicker () {
     const fetch = async (includeTransactions = true) => {
-      if (this.wallets.length === 0) {
-        this.reportWalletStatus('ready')
-        return
+      if (this.syncPromise) {
+        return this.syncPromise
       }
 
-      this.reportWalletStatus('syncing')
+      this.syncPromise = this.fetchWallets(includeTransactions)
+        .finally(() => {
+          this.syncPromise = null
+        })
 
-      for (const wallet of this.wallets) {
-        try {
-          await wallet.status()
-          if (wallet instanceof ElectrumXWallet && wallet.hasPendingConfigChanges()) {
-            await this.persistWalletConfig(wallet.identifier, wallet.getWalletConfig())
-            wallet.acknowledgeConfigPersisted()
-          }
-          if (includeTransactions) {
-            Promise.allSettled([
-              wallet.fetchTxHistory(),
-              wallet.getTxProposals()
-            ]).catch(error => Log.error(String(error)))
-          }
-        } catch (e) {
-          Log.error(String(e))
-        }
-      }
-
-      this.reportWalletStatus('ready')
+      return this.syncPromise
     }
 
     this.initialHydrationTimer = setTimeout(() => {
@@ -257,6 +247,35 @@ export default class WalletManager {
     this.ticker = setInterval(() => {
       fetch(true).catch(error => Log.error(error.toString()))
     }, 30000)
+  }
+
+  protected async fetchWallets (includeTransactions = true): Promise<void> {
+    if (this.wallets.length === 0) {
+      this.reportWalletStatus('ready')
+      return
+    }
+
+    this.reportWalletStatus('syncing')
+
+    for (const wallet of this.wallets) {
+      try {
+        await wallet.status()
+        if (wallet instanceof ElectrumXWallet && wallet.hasPendingConfigChanges()) {
+          await this.persistWalletConfig(wallet.identifier, wallet.getWalletConfig())
+          wallet.acknowledgeConfigPersisted()
+        }
+        if (includeTransactions) {
+          await Promise.allSettled([
+            wallet.fetchTxHistory(),
+            wallet.getTxProposals()
+          ])
+        }
+      } catch (e) {
+        Log.error(String(e))
+      }
+    }
+
+    this.reportWalletStatus('ready')
   }
 
   protected stopTicker () {

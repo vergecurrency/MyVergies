@@ -54,8 +54,10 @@
               </b-switch>
               <div v-if="isElectrumxWallet" class="wallet-electrum-status">
                 <span :class="['wallet-electrum-status-light', electrumStatusClass]"></span>
-                <span class="wallet-electrum-status-label">{{ electrumStatusLabel }}</span>
-                <span class="wallet-electrum-server">{{ electrumServerLabel }}</span>
+                <span class="wallet-electrum-status-copy">
+                  <span class="wallet-electrum-status-label">{{ electrumStatusLabel }}</span>
+                  <span class="wallet-electrum-server">{{ electrumServerLabel }}</span>
+                </span>
               </div>
             </div>
             <div class="column is-narrow">
@@ -206,13 +208,24 @@ export default {
         : ''
     },
     electrumStatusClass () {
+      if (this.electrumSyncing) {
+        return 'is-syncing'
+      }
+
       return this.electrumConnected ? 'is-connected' : 'is-disconnected'
     },
     electrumStatusLabel () {
+      if (this.electrumSyncing) {
+        return 'ElectrumX connected - retrieving wallet info'
+      }
+
       return this.electrumConnected ? 'ElectrumX connected' : 'ElectrumX disconnected'
     },
     electrumConnected () {
       return !!(this.isElectrumxWallet && this.wallet.info.wallet.electrumConnected)
+    },
+    electrumSyncing () {
+      return !!(this.isElectrumxWallet && this.wallet.info.wallet.electrumSyncing)
     },
     walletCoin () {
       return this.wallet && this.wallet.info && this.wallet.info.wallet && this.wallet.info.wallet.coin
@@ -348,13 +361,15 @@ export default {
 }
 
 .wallet-electrum-status {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 0.7rem minmax(0, 1fr);
+  align-items: start;
   gap: 0.5rem;
   margin-top: 0.65rem;
-  flex-wrap: wrap;
   color: var(--rv-text-soft);
   font-size: 0.92rem;
+  line-height: 1.18;
+  max-width: 17rem;
 }
 
 .wallet-electrum-status-light {
@@ -369,19 +384,27 @@ export default {
   color: #24dc8f;
 }
 
+.wallet-electrum-status-light.is-syncing {
+  background: #ffd166;
+  color: #ffd166;
+}
+
 .wallet-electrum-status-light.is-disconnected {
   background: #ff5ba4;
   color: #ff5ba4;
 }
 
 .wallet-electrum-status-label {
+  display: block;
   font-weight: 600;
   color: var(--rv-text);
 }
 
 .wallet-electrum-server {
+  display: block;
   color: var(--rv-text-soft);
   opacity: 0.92;
+  overflow-wrap: anywhere;
 }
 
 .wallet-vws-status {

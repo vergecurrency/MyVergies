@@ -1,6 +1,7 @@
 import Info from '@/walletManager/models/Info'
 import Balance, { BalanceAddress } from '@/walletManager/models/Balance'
 import Tx from '@/walletManager/models/Tx'
+import Log from 'electron-log'
 import AddressInfo from '@/walletManager/models/AddressInfo'
 import SendMaxInfo from '@/walletManager/models/SendMaxInfo'
 import { TxProposal, TxProposalResponse, UnspentOutput } from '@/walletManager/models/TxProposal'
@@ -30,7 +31,7 @@ import WalletUtils from 'bitcore-wallet-client-xvg/lib/common/utils'
 
 const ADDRESS_GAP_LIMIT = 20
 const MAX_ADDRESS_SCAN = 200
-const ADDRESS_SCAN_BATCH_SIZE = 8
+const ADDRESS_SCAN_BATCH_SIZE = 2
 const FALLBACK_FEE_PER_KB = constants.feePerKb
 const MIN_TX_FEE = constants.feePerKb
 const MAX_FEE_PER_KB = 1000000
@@ -47,6 +48,8 @@ export default class ElectrumXWallet {
   protected transactionDetails: Map<string, ElectrumTransaction>
   protected utxoCache: UnspentOutput[]
   protected configDirty: boolean
+  protected refreshPromise: Promise<Info> | null
+  protected txHistoryPromise: Promise<Tx[]> | null
   public identifier: string
   public name?: string
   public color?: string
@@ -67,6 +70,8 @@ export default class ElectrumXWallet {
     this.transactionDetails = new Map()
     this.utxoCache = []
     this.configDirty = false
+    this.refreshPromise = null
+    this.txHistoryPromise = null
     this.client = new ElectrumXClient(normalizeElectrumServer(server), useTor)
     this.info = {
       name: this.name || walletConfig.name,
@@ -86,6 +91,7 @@ export default class ElectrumXWallet {
         singleAddress: walletConfig.singleAddress === true,
         supportsSending: true,
         electrumConnected: false,
+        electrumSyncing: false,
         electrumServer: this.getElectrumServerLabel()
       }
     }
@@ -100,6 +106,11 @@ export default class ElectrumXWallet {
   }
 
   public async status (): Promise<Info> {
+    if (this.txHistoryPromise && this.info?.wallet.electrumConnected) {
+      this.setElectrumConnectionState(true, true)
+      return this.info
+    }
+
     return this.refreshWalletState()
   }
 
@@ -121,32 +132,19 @@ export default class ElectrumXWallet {
   }
 
   public async fetchTxHistory (): Promise<Tx[]> {
-    const walletAddresses = await this.ensureAddressSpace()
-    const addressByValue = new Map(walletAddresses.map(address => [address.address, address]))
-    const walletAddressSet = new Set(walletAddresses.map(address => address.address))
-    const historyMap = new Map<string, ElectrumHistoryEntry>()
-
-    const historyResults = await Promise.all(walletAddresses.map(async address => ({
-      address,
-      historyEntries: await this.client.getHistory(address.address)
-    })))
-
-    for (const result of historyResults) {
-      for (const entry of result.historyEntries) {
-        const current = historyMap.get(entry.txHash)
-
-        if (!current || current.height < entry.height) {
-          historyMap.set(entry.txHash, entry)
-        }
-      }
+    if (this.txHistoryPromise) {
+      return this.txHistoryPromise
     }
 
-    const txs = await Promise.all(Array.from(historyMap.values()).map(entry => this.buildTransaction(entry, walletAddressSet, addressByValue)))
-    this.transactions = txs
-      .filter((transaction): transaction is Tx => transaction !== null)
-      .sort((left, right) => right.time - left.time)
+    this.txHistoryPromise = this.fetchTxHistoryInternal()
+      .finally(() => {
+        this.txHistoryPromise = null
+        if (this.info?.wallet.electrumConnected) {
+          this.setElectrumConnectionState(true, false)
+        }
+      })
 
-    return this.transactions
+    return this.txHistoryPromise
   }
 
   public getTxHistory (): Tx[] {
@@ -421,7 +419,23 @@ export default class ElectrumXWallet {
   }
 
   protected async refreshWalletState (): Promise<Info> {
+    if (this.refreshPromise) {
+      return this.refreshPromise
+    }
+
+    this.refreshPromise = this.refreshWalletStateInternal()
+      .finally(() => {
+        this.refreshPromise = null
+      })
+
+    return this.refreshPromise
+  }
+
+  protected async refreshWalletStateInternal (): Promise<Info> {
     try {
+      await this.client.ping()
+      this.setElectrumConnectionState(true, true)
+
       const activeAddresses = await this.ensureAddressSpace()
 
       const balanceByAddress = await Promise.all(activeAddresses.map(async address => {
@@ -467,6 +481,7 @@ export default class ElectrumXWallet {
           singleAddress: this.walletConfig.singleAddress === true,
           supportsSending: true,
           electrumConnected: true,
+          electrumSyncing: false,
           electrumServer: this.getElectrumServerLabel()
         }
       }
@@ -478,7 +493,52 @@ export default class ElectrumXWallet {
     }
   }
 
-  protected setElectrumConnectionState (connected: boolean): void {
+  protected async fetchTxHistoryInternal (): Promise<Tx[]> {
+    this.setElectrumConnectionState(true, true)
+
+    const walletAddresses = await this.ensureAddressSpace()
+    const addressByValue = new Map(walletAddresses.map(address => [address.address, address]))
+    const walletAddressSet = new Set(walletAddresses.map(address => address.address))
+    const historyMap = new Map<string, ElectrumHistoryEntry>()
+
+    const historyResults = await Promise.all(walletAddresses.map(async address => ({
+      address,
+      historyEntries: await this.client.getHistory(address.address)
+    })))
+
+    for (const result of historyResults) {
+      for (const entry of result.historyEntries) {
+        const current = historyMap.get(entry.txHash)
+
+        if (!current || current.height < entry.height) {
+          historyMap.set(entry.txHash, entry)
+        }
+      }
+    }
+
+    const nextTransactions: Tx[] = []
+
+    this.transactions = []
+
+    for (const entry of Array.from(historyMap.values())) {
+      try {
+        const transaction = await this.buildTransaction(entry, walletAddressSet, addressByValue)
+
+        if (!transaction) {
+          continue
+        }
+
+        nextTransactions.push(transaction)
+        this.transactions = [...nextTransactions].sort((left, right) => right.time - left.time)
+      } catch (error) {
+        Log.warn(`Unable to build ElectrumX transaction ${entry.txHash}: ${String(error)}`)
+      }
+    }
+
+    return this.transactions
+  }
+
+  protected setElectrumConnectionState (connected: boolean, syncing: boolean = false): void {
     const currentBalance = this.info?.balance || {
       totalAmount: 0,
       lockedAmount: 0,
@@ -499,6 +559,7 @@ export default class ElectrumXWallet {
         singleAddress: this.walletConfig.singleAddress === true,
         supportsSending: true,
         electrumConnected: connected,
+        electrumSyncing: connected && syncing,
         electrumServer: this.getElectrumServerLabel()
       }
     }
